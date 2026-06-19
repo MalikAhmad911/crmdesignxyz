@@ -327,37 +327,49 @@ export function Footer() {
     "The fine print": ["Privacy", "Terms", "Don't sell my info"],
   };
   return (
-    <footer className="mx-auto max-w-7xl px-5 lg:px-8 pb-10">
-      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
-        <h3 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
-          A simple way to run your service business without missing leads.
-        </h3>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Get in touch <ArrowRight /></a>
+    <footer>
+      <div className="mx-auto max-w-7xl px-5 lg:px-8 pb-10">
+        <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
+          <h3 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
+            A simple way to run your service business without missing leads.
+          </h3>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
+            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Get in touch <ArrowRight /></a>
+          </div>
+          <div className="mt-10 flex gap-3 text-[color:var(--color-muted)]">
+            <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><LinkedIn /></a>
+            <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><YouTube /></a>
+            <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><Slack /></a>
+            <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><XSocial /></a>
+          </div>
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 border-t border-[color:var(--color-border-soft)] pt-10">
+            {Object.entries(cols).map(([h, items]) => (
+              <div key={h}>
+                <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-4">{h}</p>
+                <ul className="space-y-2.5">
+                  {items.map((i) => (
+                    <li key={i}><a href="#" className="text-sm text-[color:var(--color-heading)] hover:text-[color:var(--color-brand)]">{i}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 pt-6 border-t border-[color:var(--color-border-soft)] flex flex-wrap justify-between gap-3 text-xs text-[color:var(--color-muted)]">
+            <span className="font-display text-base text-[color:var(--color-heading)]">revenue<span className="text-[color:var(--color-brand)]">.sol</span></span>
+            <span>© Revenue Sol 2026 — Made for the folks running local service shops.</span>
+          </div>
         </div>
-        <div className="mt-10 flex gap-3 text-[color:var(--color-muted)]">
-          <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><LinkedIn /></a>
-          <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><YouTube /></a>
-          <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><Slack /></a>
-          <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><XSocial /></a>
-        </div>
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 border-t border-[color:var(--color-border-soft)] pt-10">
-          {Object.entries(cols).map(([h, items]) => (
-            <div key={h}>
-              <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-4">{h}</p>
-              <ul className="space-y-2.5">
-                {items.map((i) => (
-                  <li key={i}><a href="#" className="text-sm text-[color:var(--color-heading)] hover:text-[color:var(--color-brand)]">{i}</a></li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10 pt-6 border-t border-[color:var(--color-border-soft)] flex flex-wrap justify-between gap-3 text-xs text-[color:var(--color-muted)]">
-          <span className="font-display text-base text-[color:var(--color-heading)]">revenue<span className="text-[color:var(--color-brand)]">.sol</span></span>
-          <span>© Revenue Sol 2026 — Made for the folks running local service shops.</span>
-        </div>
+      </div>
+
+      {/* Giant brand mark */}
+      <div className="select-none" style={{ background: "yellow" }}>
+        <p
+          className="font-display font-medium whitespace-nowrap"
+          style={{ fontSize: "clamp(8rem, 22vw, 24rem)", lineHeight: 0.8, letterSpacing: "-0.04em", color: "red" }}
+        >
+          Revenue Sol
+        </p>
       </div>
     </footer>
   );
