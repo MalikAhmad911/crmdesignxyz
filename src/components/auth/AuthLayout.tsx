@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 /* ---------- Shared visual chrome ---------- */
 
@@ -18,74 +18,112 @@ export function AuthShell({
   );
 }
 
-/* ---------- LEFT: editorial brand panel with live mock ---------- */
+/* ---------- LEFT: premium brand panel ---------- */
 
 function BrandPanel() {
   return (
-    <aside className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-[#0B0B0C] text-[color:var(--color-bg)] p-10 xl:p-14">
-      {/* layered backgrounds */}
+    <aside className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-[#070708] text-white p-10 xl:p-14">
+      {/* Aurora gradient background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute -top-40 -left-20 h-[600px] w-[600px] rounded-full blur-[100px] opacity-30"
+          style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute top-1/2 -right-20 h-[500px] w-[500px] rounded-full blur-[90px] opacity-20"
+          style={{ background: "radial-gradient(circle, #a855f7 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute -bottom-20 left-1/3 h-[400px] w-[400px] rounded-full blur-[80px] opacity-15"
+          style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)" }}
+        />
+      </div>
+
+      {/* Subtle grid overlay */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(to right,#F4F1EC 1px,transparent 1px),linear-gradient(to bottom,#F4F1EC 1px,transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full blur-3xl opacity-25"
-        style={{ background: "radial-gradient(circle,#EAE5DA 0%,transparent 60%)" }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-32 -right-24 h-[420px] w-[420px] rounded-full blur-3xl opacity-20"
-        style={{ background: "radial-gradient(circle,#F4F1EC 0%,transparent 65%)" }}
-      />
-      {/* noise */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")",
+            "linear-gradient(to right, rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
         }}
       />
 
-      {/* top */}
+      {/* Noise texture */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.025] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")",
+        }}
+      />
+
+      {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between">
-        <Link to="/" className="font-display text-2xl font-semibold tracking-tight">
-          revenue<span className="opacity-60">.sol</span>
+        <Link to="/" className="font-display text-xl font-semibold tracking-tight text-white">
+          revenue<span className="text-white/40">.sol</span>
         </Link>
-        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] opacity-60">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Live · 12 calls answered
+        <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.2em] text-white/50">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+          Live system active
         </div>
       </div>
 
-      {/* headline */}
-      <div className="relative z-10 max-w-lg">
-        <p className="text-[11px] uppercase tracking-[0.28em] opacity-60 mb-5">
-          The operator OS for service shops
-        </p>
-        <h2 className="font-display text-[44px] xl:text-[56px] leading-[1.02] tracking-tight !text-[color:var(--color-bg)]">
-          We answer the call.{" "}
-          <em className="italic font-normal opacity-80">You run the shop.</em>
-        </h2>
-        <p className="mt-5 text-[15px] opacity-70 max-w-md leading-relaxed">
-          A quiet dispatcher that never sleeps — picks up every call, replies in seconds,
-          and books jobs straight onto your calendar.
-        </p>
+      {/* Main content */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center">
+        <div className="max-w-lg">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-1.5 mb-6">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">The Operator OS for Service Shops</span>
+          </div>
+
+          <h2 className="font-display text-[42px] xl:text-[52px] leading-[1.05] tracking-tight text-white mb-5">
+            Never miss a
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-blue-300">
+              customer call
+            </span>{" "}
+            again.
+          </h2>
+
+          <p className="text-[15px] text-white/55 leading-relaxed max-w-md mb-10">
+            AI answers every ring, texts back in seconds, and books jobs straight to your calendar — while you focus on the work that matters.
+          </p>
+
+          {/* Stats row */}
+          <div className="flex items-center gap-8 mb-10">
+            {[
+              { value: "42%", label: "More bookings" },
+              { value: "< 3s", label: "Avg. response" },
+              { value: "24/7", label: "Always on" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <div className="font-display text-2xl font-semibold text-white">{stat.value}</div>
+                <div className="text-[11px] text-white/40 uppercase tracking-wider mt-0.5">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Floating dashboard mockup */}
+        <DashboardMockup />
       </div>
 
-      {/* live mock card */}
-      <LiveCallCard />
-
-      {/* footer */}
-      <div className="relative z-10 flex items-center justify-between text-xs opacity-60">
-        <div className="flex items-center gap-4">
-          <span>SOC 2 ready</span>
-          <span className="h-1 w-1 rounded-full bg-current" />
-          <span>HIPAA aware</span>
-          <span className="h-1 w-1 rounded-full bg-current" />
-          <span>Made in Austin</span>
+      {/* Bottom bar */}
+      <div className="relative z-10 flex items-center justify-between text-[11px] text-white/30">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5">
+            <ShieldIcon /> SOC 2 Ready
+          </span>
+          <span className="h-1 w-1 rounded-full bg-white/20" />
+          <span className="inline-flex items-center gap-1.5">
+            <LockSmallIcon /> HIPAA Aware
+          </span>
+          <span className="h-1 w-1 rounded-full bg-white/20" />
+          <span>Made in Austin, TX</span>
         </div>
         <span>© Revenue Sol 2026</span>
       </div>
@@ -93,66 +131,93 @@ function BrandPanel() {
   );
 }
 
-function LiveCallCard() {
-  const [tick, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 2200);
-    return () => clearInterval(id);
-  }, []);
-
-  const calls = useMemo(
-    () => [
-      { name: "Jordan P.", reason: "AC not cooling", win: "Booked Tue 9:00am" },
-      { name: "Maya S.",  reason: "Water heater leak", win: "Booked today 4:30pm" },
-      { name: "Devon K.", reason: "Quote: roof patch", win: "Estimate sent" },
-      { name: "Priya R.", reason: "Recurring cleaning", win: "Added to route" },
-    ],
-    []
-  );
-  const current = calls[tick % calls.length];
-
+function DashboardMockup() {
   return (
-    <div className="relative z-10 w-full max-w-md">
-      <div className="relative rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)]">
-        {/* floating stat */}
-        <div className="absolute -top-3 -right-3 rounded-full bg-emerald-400/90 text-[#0B0B0C] text-[11px] font-semibold px-3 py-1 shadow-lg">
-          +42% bookings
-        </div>
-
-        <div className="flex items-center justify-between text-xs opacity-70">
+    <div className="relative w-full max-w-md mt-2">
+      {/* Main card */}
+      <div className="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-5 shadow-2xl">
+        {/* Card header */}
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Inbound call · just now
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <PhoneIcon />
+            </div>
+            <div>
+              <div className="text-[13px] font-medium text-white">Inbound Calls</div>
+              <div className="text-[10px] text-white/40">Today, Jun 19</div>
+            </div>
           </div>
-          <span>0:14</span>
-        </div>
-
-        <div key={tick} className="mt-4 flex items-center gap-3 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div className="h-11 w-11 rounded-full bg-[color:var(--color-tint)] grid place-items-center text-[#0B0B0C] font-semibold">
-            {current.name.split(" ")[0][0]}
-          </div>
-          <div className="min-w-0">
-            <div className="font-medium truncate">{current.name}</div>
-            <div className="text-xs opacity-70 truncate">{current.reason}</div>
+          <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">
+            <span className="h-1 w-1 rounded-full bg-emerald-400" />
+            +12% vs yesterday
           </div>
         </div>
 
-        <div className="mt-4 rounded-2xl bg-black/30 border border-white/5 p-3 text-sm leading-relaxed">
-          <span className="opacity-60">Agent:</span>{" "}
-          “Thanks for calling Reyes HVAC — I can get a tech to you today. What time works best?”
+        {/* Mini chart bars */}
+        <div className="flex items-end gap-1.5 h-16 mb-4">
+          {[35, 55, 42, 78, 62, 88, 95, 70, 58, 82, 90, 75].map((h, i) => (
+            <div
+              key={i}
+              className="flex-1 rounded-t-sm bg-gradient-to-t from-indigo-500/40 to-purple-400/60"
+              style={{ height: `${h}%`, opacity: i >= 9 ? 1 : 0.4 + (i * 0.05) }}
+            />
+          ))}
         </div>
 
-        <div key={`w-${tick}`} className="mt-4 flex items-center justify-between text-xs animate-in fade-in duration-700">
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-400/15 text-emerald-300 px-3 py-1">
-            <Check /> {current.win}
-          </span>
-          <span className="opacity-60">Calendar synced</span>
+        {/* Recent activity items */}
+        <div className="space-y-2.5">
+          {[
+            { name: "Jordan P.", time: "2 min ago", status: "Booked", statusColor: "text-emerald-400 bg-emerald-400/10" },
+            { name: "Maya S.", time: "8 min ago", status: "Quoted", statusColor: "text-amber-400 bg-amber-400/10" },
+            { name: "Devon K.", time: "15 min ago", status: "Booked", statusColor: "text-emerald-400 bg-emerald-400/10" },
+          ].map((item) => (
+            <div key={item.name} className="flex items-center justify-between py-2 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+              <div className="flex items-center gap-2.5">
+                <div className="h-7 w-7 rounded-full bg-gradient-to-br from-indigo-400/30 to-purple-400/30 flex items-center justify-center text-[10px] font-medium text-white/80">
+                  {item.name[0]}
+                </div>
+                <div>
+                  <div className="text-[12px] text-white/80">{item.name}</div>
+                  <div className="text-[10px] text-white/30">{item.time}</div>
+                </div>
+              </div>
+              <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${item.statusColor}`}>
+                {item.status}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* ghost card behind */}
-      <div className="absolute -z-10 inset-0 translate-x-3 translate-y-3 rounded-3xl border border-white/5 bg-white/[0.02]" />
+      {/* Ghost cards behind */}
+      <div className="absolute -z-10 inset-0 translate-x-4 translate-y-4 rounded-2xl border border-white/[0.04] bg-white/[0.015]" />
+      <div className="absolute -z-20 inset-0 translate-x-8 translate-y-8 rounded-2xl border border-white/[0.02] bg-white/[0.01]" />
     </div>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
+
+function LockSmallIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
   );
 }
 
