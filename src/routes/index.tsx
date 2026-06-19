@@ -44,7 +44,7 @@ function Page() {
           ]}
           stat="2x"
           statLabel="Sample pilot doubled their booked-job rate (illustrative)"
-          panelColor="#EEF0FF"
+          panelColor="#EAE5DA"
           mock={<InboxMock />}
         />
 
@@ -59,7 +59,7 @@ function Page() {
           ]}
           stat="3x"
           statLabel="Sample shop tripled after-hours capture (illustrative)"
-          panelColor="#7C3AED"
+          panelColor="#EAE5DA"
           mock={<AgentMock />}
         />
 
@@ -73,7 +73,7 @@ function Page() {
           ]}
           stat="3M+"
           statLabel="Sample customers automated monitoring across 3M+ records (illustrative)"
-          panelColor="#00D4FF"
+          panelColor="#EAE5DA"
           mock={<AudienceMock />}
         />
 

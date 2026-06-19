@@ -4,7 +4,7 @@ import { HeroBackground } from "./HeroBackground";
 export function Nav() {
   const links = ["Product", "Use Cases", "Solutions", "Resources", "Company", "Pricing"];
   return (
-    <header className="sticky top-0 z-50 bg-[color:var(--color-bg)]/85 backdrop-blur border-b border-[color:var(--color-border-soft)]">
+    <header className="sticky top-0 z-50 bg-[color:var(--color-bg)] border-b border-[color:var(--color-border-soft)]">
       <div className="mx-auto max-w-7xl px-5 lg:px-8 h-16 flex items-center gap-6">
         <a href="#" className="font-display text-xl font-semibold text-[color:var(--color-heading)] tracking-tight shrink-0">
           revenue<span className="text-[color:var(--color-brand)]">.sol</span>
