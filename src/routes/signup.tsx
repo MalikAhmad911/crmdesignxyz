@@ -1,5 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { AuthLayout, SocialButtons, FieldDivider, Field, PrimaryButton } from "@/components/auth/AuthLayout";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  AuthShell, Heading, SocialButtons, Divider, Field, PrimaryButton,
+  PasswordStrength, TrustRow,
+  MailIcon, LockIcon, UserIcon, BuildingIcon,
+} from "@/components/auth/AuthLayout";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -12,38 +17,38 @@ export const Route = createFileRoute("/signup")({
 });
 
 function SignUpPage() {
+  const [password, setPassword] = useState("");
   return (
-    <AuthLayout
-      side="signup"
-      title="Start your 14‑day trial."
-      subtitle="No credit card required. Cancel anytime. Set up in under 10 minutes."
-    >
+    <AuthShell side="signup">
+      <Heading
+        title="Start your 14‑day trial."
+        subtitle="No credit card. Set up in under 10 minutes. Cancel anytime."
+      />
       <SocialButtons />
-      <FieldDivider label="or sign up with email" />
+      <Divider label="or with email" />
       <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="First name" placeholder="Alex" autoComplete="given-name" />
-          <Field label="Last name" placeholder="Morgan" autoComplete="family-name" />
+          <Field label="First name" placeholder="Alex" autoComplete="given-name" icon={<UserIcon />} />
+          <Field label="Last name" placeholder="Morgan" autoComplete="family-name" icon={<UserIcon />} />
         </div>
-        <Field label="Business name" placeholder="Reyes HVAC" autoComplete="organization" />
-        <Field label="Work email" type="email" placeholder="you@yourcompany.com" autoComplete="email" />
-        <Field label="Password" type="password" placeholder="At least 8 characters" autoComplete="new-password" />
+        <Field label="Business name" placeholder="Reyes HVAC" autoComplete="organization" icon={<BuildingIcon />} />
+        <Field label="Work email" type="email" placeholder="you@yourcompany.com" autoComplete="email" icon={<MailIcon />} />
+        <div>
+          <Field
+            label="Create password"
+            autoComplete="new-password"
+            placeholder="At least 8 characters"
+            icon={<LockIcon />}
+            reveal
+            value={password}
+            onChange={setPassword}
+          />
+          <PasswordStrength value={password} />
+        </div>
 
         <PrimaryButton>Create my account</PrimaryButton>
-
-        <div className="grid grid-cols-3 gap-3 pt-2 text-center text-[11px] text-[color:var(--color-muted)]">
-          <div className="rounded-lg border border-[color:var(--color-border-soft)] py-2">No credit card</div>
-          <div className="rounded-lg border border-[color:var(--color-border-soft)] py-2">14‑day trial</div>
-          <div className="rounded-lg border border-[color:var(--color-border-soft)] py-2">Cancel anytime</div>
-        </div>
+        <TrustRow />
       </form>
-
-      <p className="mt-6 text-sm text-[color:var(--color-muted)] lg:hidden">
-        Already have an account?{" "}
-        <Link to="/signin" className="text-[color:var(--color-heading)] underline underline-offset-4">
-          Log in
-        </Link>
-      </p>
-    </AuthLayout>
+    </AuthShell>
   );
 }
