@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { setAccount } from "@/lib/account-store";
 import {
   AuthShell, Heading, SocialButtons, Divider, Field, PrimaryButton,
   PasswordStrength, TrustRow,

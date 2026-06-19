@@ -1,0 +1,302 @@
+import { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
+
+export function OnboardingShell({
+  step,
+  total,
+  children,
+  side,
+}: {
+  step: number;
+  total: number;
+  children: ReactNode;
+  side: ReactNode;
+}) {
+  const pct = Math.round((step / total) * 100);
+  return (
+    <div className="min-h-dvh bg-[color:var(--color-bg)] text-[color:var(--color-heading)]">
+      {/* Top bar */}
+      <header className="sticky top-0 z-20 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/85 backdrop-blur">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+          <Link to="/" className="font-display text-lg font-semibold tracking-tight">
+            Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
+          </Link>
+          <div className="flex items-center gap-3 text-xs text-[color:var(--color-muted)]">
+            <span className="hidden sm:inline">Step {step} of {total}</span>
+            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-[color:var(--color-tint)] sm:w-40">
+              <div
+                className="h-full rounded-full bg-[color:var(--color-heading)] transition-all duration-500"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+            <Link to="/signin" className="hidden text-[color:var(--color-heading)] underline-offset-4 hover:underline sm:inline">
+              Save & exit
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-16">
+        <section className="min-w-0">{children}</section>
+        <aside className="hidden lg:block">
+          <div className="sticky top-24">{side}</div>
+        </aside>
+      </main>
+    </div>
+  );
+}
+
+export function StepHeading({ eyebrow, title, sub }: { eyebrow?: string; title: string; sub?: string }) {
+  return (
+    <div className="mb-8 max-w-xl">
+      {eyebrow && (
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+          {eyebrow}
+        </p>
+      )}
+      <h1 className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[color:var(--color-heading)] sm:text-4xl md:text-[2.75rem]">
+        {title}
+      </h1>
+      {sub && <p className="mt-4 text-[15px] leading-relaxed text-[color:var(--color-body)]">{sub}</p>}
+    </div>
+  );
+}
+
+export function NavRow({
+  onBack,
+  onNext,
+  nextLabel = "Next",
+  disabled,
+}: {
+  onBack?: () => void;
+  onNext: () => void;
+  nextLabel?: string;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="mt-10 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"
+          >
+            ← Back
+          </button>
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={onNext}
+        disabled={disabled}
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[color:var(--color-heading)] px-7 text-sm font-medium text-[color:var(--color-bg)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        {nextLabel}
+        <span aria-hidden>→</span>
+      </button>
+    </div>
+  );
+}
+
+export function TextField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  hint,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  type?: string;
+  hint?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-medium text-[color:var(--color-heading)]">{label}</span>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="h-12 w-full rounded-2xl border border-[color:var(--color-border-soft)] bg-white px-4 text-[15px] text-[color:var(--color-heading)] placeholder:text-[color:var(--color-muted)] outline-none transition focus:border-[color:var(--color-heading)] focus:ring-4 focus:ring-black/5"
+      />
+      {hint && <span className="mt-1.5 block text-xs text-[color:var(--color-muted)]">{hint}</span>}
+    </label>
+  );
+}
+
+export function SelectField({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-medium text-[color:var(--color-heading)]">{label}</span>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-12 w-full appearance-none rounded-2xl border border-[color:var(--color-border-soft)] bg-white px-4 pr-10 text-[15px] text-[color:var(--color-heading)] outline-none focus:border-[color:var(--color-heading)] focus:ring-4 focus:ring-black/5"
+        >
+          <option value="" disabled>Select one…</option>
+          {options.map((o) => (
+            <option key={o} value={o}>{o}</option>
+          ))}
+        </select>
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[color:var(--color-muted)]">▾</span>
+      </div>
+    </label>
+  );
+}
+
+export function ChoiceGrid({
+  options,
+  value,
+  onChange,
+  columns = 1,
+}: {
+  options: string[];
+  value: string;
+  onChange: (v: string) => void;
+  columns?: 1 | 2 | 3;
+}) {
+  const cls =
+    columns === 3
+      ? "grid grid-cols-2 sm:grid-cols-3 gap-3"
+      : columns === 2
+      ? "grid grid-cols-1 sm:grid-cols-2 gap-3"
+      : "grid grid-cols-1 gap-3";
+  return (
+    <div className={cls}>
+      {options.map((opt) => {
+        const selected = value === opt;
+        return (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange(opt)}
+            className={[
+              "group flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 text-left text-[15px] transition",
+              selected
+                ? "border-[color:var(--color-heading)] bg-[color:var(--color-heading)] text-[color:var(--color-bg)] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+                : "border-[color:var(--color-border-soft)] bg-white text-[color:var(--color-heading)] hover:border-[color:var(--color-heading)]/40 hover:bg-[color:var(--color-tint)]/40",
+            ].join(" ")}
+          >
+            <span className="font-medium">{opt}</span>
+            <span
+              className={[
+                "grid h-5 w-5 shrink-0 place-items-center rounded-full border",
+                selected
+                  ? "border-[color:var(--color-bg)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)]"
+                  : "border-[color:var(--color-border-soft)] text-transparent group-hover:border-[color:var(--color-heading)]/40",
+              ].join(" ")}
+            >
+              ✓
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export function MultiChoice({
+  options,
+  values,
+  onToggle,
+}: {
+  options: string[];
+  values: string[];
+  onToggle: (v: string) => void;
+}) {
+  return (
+    <div className="grid gap-3">
+      {options.map((opt) => {
+        const selected = values.includes(opt);
+        return (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onToggle(opt)}
+            className={[
+              "flex items-center gap-3 rounded-2xl border px-5 py-4 text-left text-[15px] transition",
+              selected
+                ? "border-[color:var(--color-heading)] bg-[color:var(--color-heading)] text-[color:var(--color-bg)]"
+                : "border-[color:var(--color-border-soft)] bg-white text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]/40",
+            ].join(" ")}
+          >
+            <span
+              className={[
+                "grid h-5 w-5 shrink-0 place-items-center rounded-md border",
+                selected
+                  ? "border-[color:var(--color-bg)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)]"
+                  : "border-[color:var(--color-border-soft)]",
+              ].join(" ")}
+            >
+              {selected ? "✓" : ""}
+            </span>
+            <span className="font-medium">{opt}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------- Side panels ---------- */
+
+export function SidePoster({
+  badge,
+  stat,
+  statSub,
+  quote,
+  author,
+  role,
+}: {
+  badge: string;
+  stat: string;
+  statSub: string;
+  quote: string;
+  author: string;
+  role: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-[2rem] border border-[color:var(--color-border-soft)] bg-[color:var(--color-heading)] p-8 text-[color:var(--color-bg)]">
+      <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-white/70">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {badge}
+      </span>
+      <div className="mt-8">
+        <p className="font-display text-6xl font-medium leading-none tracking-tight">{stat}</p>
+        <p className="mt-2 text-sm text-white/60">{statSub}</p>
+      </div>
+      <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+        <p className="font-display text-lg leading-snug text-white/90">“{quote}”</p>
+        <div className="mt-4 flex items-center gap-3">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-sm font-medium">
+            {author.charAt(0)}
+          </div>
+          <div className="text-xs">
+            <p className="font-medium text-white">{author}</p>
+            <p className="text-white/55">{role}</p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-8 grid grid-cols-3 gap-3 text-[10px] uppercase tracking-[0.18em] text-white/45">
+        <span>SOC 2 ready</span>
+        <span>HIPAA aware</span>
+        <span>Made in Austin</span>
+      </div>
+    </div>
+  );
+}
