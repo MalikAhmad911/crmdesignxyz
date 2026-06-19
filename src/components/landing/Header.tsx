@@ -96,17 +96,59 @@ export function Stars() {
 }
 
 export function IntegrationsStrip() {
-  // Real brand logos via simpleicons CDN (monochrome, brand-slug based)
-  const rowA = [
-    "google", "microsoft", "anthropic", "openai", "zapier", "slack", "notion",
-    "hubspot", "salesforce", "stripe", "quickbooks", "intuit", "twilio", "ringcentral",
-    "shopify", "airtable", "figma", "linear", "asana", "monday", "clickup",
+  // Real brand logos via Clearbit Logo API (domain-based, full color) with favicon fallback
+  const rowA: Brand[] = [
+    { name: "Google", domain: "google.com" },
+    { name: "Microsoft", domain: "microsoft.com" },
+    { name: "Anthropic", domain: "anthropic.com" },
+    { name: "OpenAI", domain: "openai.com" },
+    { name: "ChatGPT", domain: "chatgpt.com" },
+    { name: "Zapier", domain: "zapier.com" },
+    { name: "Slack", domain: "slack.com" },
+    { name: "Notion", domain: "notion.so" },
+    { name: "HubSpot", domain: "hubspot.com" },
+    { name: "Salesforce", domain: "salesforce.com" },
+    { name: "Stripe", domain: "stripe.com" },
+    { name: "QuickBooks", domain: "quickbooks.intuit.com" },
+    { name: "Intuit", domain: "intuit.com" },
+    { name: "Twilio", domain: "twilio.com" },
+    { name: "RingCentral", domain: "ringcentral.com" },
+    { name: "Shopify", domain: "shopify.com" },
+    { name: "Airtable", domain: "airtable.com" },
+    { name: "Figma", domain: "figma.com" },
+    { name: "Linear", domain: "linear.app" },
+    { name: "Asana", domain: "asana.com" },
+    { name: "Monday", domain: "monday.com" },
+    { name: "ClickUp", domain: "clickup.com" },
+    { name: "Clay", domain: "clay.com" },
+    { name: "GoHighLevel", domain: "gohighlevel.com" },
   ];
-  const rowB = [
-    "calendly", "gmail", "googlecalendar", "googlemaps", "googledrive", "googlesheets",
-    "amazonaws", "cloudflare", "vercel", "supabase", "github", "gitlab", "discord",
-    "zendesk", "intercom", "mailchimp", "sendgrid", "twilio", "meta", "linkedin",
-    "instagram", "whatsapp", "tiktok", "youtube",
+  const rowB: Brand[] = [
+    { name: "Calendly", domain: "calendly.com" },
+    { name: "Gmail", domain: "gmail.com" },
+    { name: "Google Calendar", domain: "calendar.google.com" },
+    { name: "Google Maps", domain: "maps.google.com" },
+    { name: "Google Drive", domain: "drive.google.com" },
+    { name: "Google Sheets", domain: "sheets.google.com" },
+    { name: "AWS", domain: "aws.amazon.com" },
+    { name: "Cloudflare", domain: "cloudflare.com" },
+    { name: "Vercel", domain: "vercel.com" },
+    { name: "Supabase", domain: "supabase.com" },
+    { name: "GitHub", domain: "github.com" },
+    { name: "GitLab", domain: "gitlab.com" },
+    { name: "Discord", domain: "discord.com" },
+    { name: "Zendesk", domain: "zendesk.com" },
+    { name: "Intercom", domain: "intercom.com" },
+    { name: "Mailchimp", domain: "mailchimp.com" },
+    { name: "SendGrid", domain: "sendgrid.com" },
+    { name: "Meta", domain: "meta.com" },
+    { name: "LinkedIn", domain: "linkedin.com" },
+    { name: "Instagram", domain: "instagram.com" },
+    { name: "WhatsApp", domain: "whatsapp.com" },
+    { name: "TikTok", domain: "tiktok.com" },
+    { name: "YouTube", domain: "youtube.com" },
+    { name: "Dropbox", domain: "dropbox.com" },
+    { name: "Zoom", domain: "zoom.us" },
   ];
 
   return (
@@ -124,32 +166,46 @@ export function IntegrationsStrip() {
   );
 }
 
-function Marquee({ items, duration, reverse = false }: { items: string[]; duration: number; reverse?: boolean }) {
-  // Duplicate the list so the loop is seamless
+type Brand = { name: string; domain: string };
+
+function Marquee({ items, duration, reverse = false }: { items: Brand[]; duration: number; reverse?: boolean }) {
   const loop = [...items, ...items];
   return (
     <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
       <div
-        className="flex w-max gap-8 sm:gap-12 lg:gap-16 items-center"
+        className="flex w-max gap-10 sm:gap-14 lg:gap-20 items-center"
         style={{
           animation: `marquee ${duration}s linear infinite`,
           animationDirection: reverse ? "reverse" : "normal",
         }}
       >
-        {loop.map((slug, i) => (
+        {loop.map((b, i) => (
           <a
-            key={`${slug}-${i}`}
+            key={`${b.domain}-${i}`}
             href="#"
-            title={slug}
-            className="shrink-0 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition"
+            title={b.name}
+            className="shrink-0 inline-flex items-center gap-2 opacity-90 hover:opacity-100 transition"
           >
             <img
-              src={`https://cdn.simpleicons.org/${slug}/0F0F10`}
-              alt={slug}
+              src={`https://logo.clearbit.com/${b.domain}`}
+              alt={b.name}
               loading="lazy"
-              className="h-7 sm:h-8 lg:h-9 w-auto block"
-              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              width={36}
+              height={36}
+              className="h-7 w-7 sm:h-8 sm:w-8 lg:h-9 lg:w-9 object-contain block"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                if (!img.dataset.fallback) {
+                  img.dataset.fallback = "1";
+                  img.src = `https://www.google.com/s2/favicons?domain=${b.domain}&sz=128`;
+                } else {
+                  img.style.display = "none";
+                }
+              }}
             />
+            <span className="text-sm sm:text-base font-medium text-[color:var(--color-ink)] whitespace-nowrap">
+              {b.name}
+            </span>
           </a>
         ))}
       </div>
