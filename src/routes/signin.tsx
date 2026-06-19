@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   AuthShell, Heading, SocialButtons, Divider, Field, PrimaryButton,
   MailIcon, LockIcon,
 } from "@/components/auth/AuthLayout";
+import { getAccount } from "@/lib/account-store";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
@@ -15,6 +16,12 @@ export const Route = createFileRoute("/signin")({
 });
 
 function SignInPage() {
+  const navigate = useNavigate();
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const acc = getAccount();
+    navigate({ to: acc.onboardingComplete ? "/dashboard" : "/onboarding" });
+  };
   return (
     <AuthShell side="signin">
       <Heading
@@ -23,7 +30,7 @@ function SignInPage() {
       />
       <SocialButtons />
       <Divider />
-      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-4" onSubmit={submit}>
         <Field
           label="Work email"
           type="email"
