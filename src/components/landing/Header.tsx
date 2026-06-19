@@ -96,21 +96,64 @@ export function Stars() {
 }
 
 export function IntegrationsStrip() {
-  const items = ["Twilio", "Stripe", "QuickBooks", "Google", "RingCentral", "HubSpot", "Salesforce", "Zapier", "Slack", "Gmail"];
+  // Real brand logos via simpleicons CDN (monochrome, brand-slug based)
+  const rowA = [
+    "google", "microsoft", "anthropic", "openai", "zapier", "slack", "notion",
+    "hubspot", "salesforce", "stripe", "quickbooks", "intuit", "twilio", "ringcentral",
+    "shopify", "airtable", "figma", "linear", "asana", "monday", "clickup",
+  ];
+  const rowB = [
+    "calendly", "gmail", "googlecalendar", "googlemaps", "googledrive", "googlesheets",
+    "amazonaws", "cloudflare", "vercel", "supabase", "github", "gitlab", "discord",
+    "zendesk", "intercom", "mailchimp", "sendgrid", "twilio", "meta", "linkedin",
+    "instagram", "whatsapp", "tiktok", "youtube",
+  ];
+
   return (
-    <section className="border-y border-[color:var(--color-border-soft)] bg-white">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 py-10">
-        <p className="text-center text-xs tracking-[0.18em] uppercase text-[color:var(--color-muted)] mb-6">
-          Integrations
+    <section className="border-y border-[color:var(--color-border-soft)] bg-white overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8 pt-8 sm:pt-10 pb-2">
+        <p className="text-center text-[11px] sm:text-xs tracking-[0.22em] uppercase text-[color:var(--color-muted)]">
+          Plays nicely with 1,000+ tools your team already uses
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-8 gap-y-6 items-center">
-          {items.map((n) => (
-            <div key={n} className="text-center font-display text-xl text-[color:var(--color-heading)]/70">
-              {n}
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className="space-y-4 sm:space-y-6 py-6 sm:py-10">
+        <Marquee items={rowA} duration={60} />
+        <Marquee items={rowB} duration={75} reverse />
       </div>
     </section>
+  );
+}
+
+function Marquee({ items, duration, reverse = false }: { items: string[]; duration: number; reverse?: boolean }) {
+  // Duplicate the list so the loop is seamless
+  const loop = [...items, ...items];
+  return (
+    <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
+      <div
+        className="flex w-max gap-8 sm:gap-12 lg:gap-16 items-center"
+        style={{
+          animation: `marquee ${duration}s linear infinite`,
+          animationDirection: reverse ? "reverse" : "normal",
+        }}
+      >
+        {loop.map((slug, i) => (
+          <a
+            key={`${slug}-${i}`}
+            href="#"
+            title={slug}
+            className="shrink-0 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition"
+          >
+            <img
+              src={`https://cdn.simpleicons.org/${slug}/0F0F10`}
+              alt={slug}
+              loading="lazy"
+              className="h-7 sm:h-8 lg:h-9 w-auto block"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+            />
+          </a>
+        ))}
+      </div>
+      <style>{`@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
+    </div>
   );
 }
