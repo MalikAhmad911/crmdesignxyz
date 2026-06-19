@@ -18,7 +18,20 @@ export const Route = createFileRoute("/signup")({
 });
 
 function SignUpPage() {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [company, setCompany] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName || !email || password.length < 8) return;
+    setAccount({ firstName, lastName, company, plan: "trial", trialDaysLeft: 14 });
+    navigate({ to: "/onboarding" });
+  };
+
   return (
     <AuthShell side="signup">
       <Heading
@@ -27,13 +40,13 @@ function SignUpPage() {
       />
       <SocialButtons />
       <Divider label="or with email" />
-      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-4" onSubmit={submit}>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="First name" placeholder="Alex" autoComplete="given-name" icon={<UserIcon />} />
-          <Field label="Last name" placeholder="Morgan" autoComplete="family-name" icon={<UserIcon />} />
+          <Field label="First name" placeholder="Alex" autoComplete="given-name" icon={<UserIcon />} value={firstName} onChange={setFirstName} />
+          <Field label="Last name" placeholder="Morgan" autoComplete="family-name" icon={<UserIcon />} value={lastName} onChange={setLastName} />
         </div>
-        <Field label="Business name" placeholder="Reyes HVAC" autoComplete="organization" icon={<BuildingIcon />} />
-        <Field label="Work email" type="email" placeholder="you@yourcompany.com" autoComplete="email" icon={<MailIcon />} />
+        <Field label="Business name" placeholder="Reyes HVAC" autoComplete="organization" icon={<BuildingIcon />} value={company} onChange={setCompany} />
+        <Field label="Work email" type="email" placeholder="you@yourcompany.com" autoComplete="email" icon={<MailIcon />} value={email} onChange={setEmail} />
         <div>
           <Field
             label="Create password"
