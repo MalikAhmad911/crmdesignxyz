@@ -329,8 +329,8 @@ export function Footer() {
   return (
     <footer>
       <div className="mx-auto max-w-7xl px-5 lg:px-8 pb-10">
-        <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
-          <h3 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
+        <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-6 sm:p-8 lg:p-14">
+          <h3 className="font-display text-2xl sm:text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
             A simple way to run your service business without missing leads.
           </h3>
           <div className="mt-8 flex flex-wrap gap-3">
