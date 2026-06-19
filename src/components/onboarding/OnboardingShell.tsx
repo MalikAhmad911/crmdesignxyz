@@ -74,7 +74,7 @@ export function NavRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="mt-10 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         {onBack && (
           <button
