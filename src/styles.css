@@ -22,42 +22,44 @@
   --font-display: "EB Garamond", ui-serif, Georgia, serif;
   --font-hero: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-bg: #F6F9FC;
-  --color-surface: #FFFFFF;
-  --color-border-soft: #E6EBF1;
-  --color-tint: #EEF0FF;
+  /* Single flat background + single accent */
+  --color-bg: #F4F1EC;
+  --color-surface: #F4F1EC;
+  --color-border-soft: #E5DFD3;
+  --color-tint: #EAE5DA;
   --color-cream: #F4F1EC;
 
-  --color-heading: #0A2540;
-  --color-body: #425466;
-  --color-muted: #697386;
+  --color-heading: #0F0F10;
+  --color-body: #3B3A36;
+  --color-muted: #6B645A;
 
-  --color-brand: #635BFF;
-  --color-brand-hover: #4F46E5;
-  --color-violet: #7C3AED;
-  --color-cyan: #00D4FF;
-  --color-sky: #0A84FF;
+  /* Single accent — ink black for everything */
+  --color-brand: #0F0F10;
+  --color-brand-hover: #000000;
+  --color-violet: #0F0F10;
+  --color-cyan: #0F0F10;
+  --color-sky: #0F0F10;
 
-  /* shadcn passthroughs (kept minimal, mapped to palette) */
-  --color-background: #F6F9FC;
-  --color-foreground: #0A2540;
-  --color-card: #FFFFFF;
-  --color-card-foreground: #0A2540;
-  --color-popover: #FFFFFF;
-  --color-popover-foreground: #0A2540;
-  --color-primary: #635BFF;
-  --color-primary-foreground: #FFFFFF;
-  --color-secondary: #EEF0FF;
-  --color-secondary-foreground: #0A2540;
-  --color-muted-bg: #EEF0FF;
-  --color-muted-foreground: #697386;
-  --color-accent: #EEF0FF;
-  --color-accent-foreground: #0A2540;
-  --color-destructive: #7C3AED;
-  --color-destructive-foreground: #FFFFFF;
-  --color-border: #E6EBF1;
-  --color-input: #E6EBF1;
-  --color-ring: #635BFF;
+  /* shadcn passthroughs */
+  --color-background: #F4F1EC;
+  --color-foreground: #0F0F10;
+  --color-card: #F4F1EC;
+  --color-card-foreground: #0F0F10;
+  --color-popover: #F4F1EC;
+  --color-popover-foreground: #0F0F10;
+  --color-primary: #0F0F10;
+  --color-primary-foreground: #F4F1EC;
+  --color-secondary: #EAE5DA;
+  --color-secondary-foreground: #0F0F10;
+  --color-muted-bg: #EAE5DA;
+  --color-muted-foreground: #6B645A;
+  --color-accent: #EAE5DA;
+  --color-accent-foreground: #0F0F10;
+  --color-destructive: #0F0F10;
+  --color-destructive-foreground: #F4F1EC;
+  --color-border: #E5DFD3;
+  --color-input: #E5DFD3;
+  --color-ring: #0F0F10;
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;

@@ -142,17 +142,18 @@ export function CentralPlatform() {
         {/* Inline SVG "toolbox" illustration */}
         <div className="relative aspect-square max-w-md mx-auto w-full">
           <svg viewBox="0 0 400 400" className="w-full h-full">
-            <rect x="60" y="120" width="280" height="220" rx="32" fill="#635BFF" />
-            <rect x="60" y="120" width="280" height="60" rx="32" fill="#4F46E5" />
-            <rect x="170" y="80" width="60" height="60" rx="16" fill="#4F46E5" />
-            <rect x="100" y="200" width="80" height="80" rx="18" fill="#FFFFFF" />
-            <rect x="200" y="200" width="80" height="80" rx="18" fill="#00D4FF" />
-            <rect x="100" y="290" width="80" height="40" rx="14" fill="#7C3AED" />
-            <rect x="200" y="290" width="80" height="40" rx="14" fill="#FFFFFF" />
-            <circle cx="140" cy="240" r="14" fill="#635BFF" />
-            <circle cx="240" cy="240" r="14" fill="#FFFFFF" />
-            <circle cx="320" cy="100" r="22" fill="#7C3AED" />
-            <circle cx="70" cy="80" r="14" fill="#0A84FF" />
+            <rect x="60" y="120" width="280" height="220" rx="32" fill="#0F0F10" />
+
+            <rect x="60" y="120" width="280" height="60" rx="32" fill="#0F0F10" />
+            <rect x="170" y="80" width="60" height="60" rx="16" fill="#0F0F10" />
+            <rect x="100" y="200" width="80" height="80" rx="18" fill="#F4F1EC" />
+            <rect x="200" y="200" width="80" height="80" rx="18" fill="#EAE5DA" />
+            <rect x="100" y="290" width="80" height="40" rx="14" fill="#F4F1EC" />
+            <rect x="200" y="290" width="80" height="40" rx="14" fill="#EAE5DA" />
+            <circle cx="140" cy="240" r="14" fill="#0F0F10" />
+            <circle cx="240" cy="240" r="14" fill="#F4F1EC" />
+            <circle cx="320" cy="100" r="22" fill="#0F0F10" />
+            <circle cx="70" cy="80" r="14" fill="#0F0F10" />
           </svg>
         </div>
       </div>
@@ -225,16 +226,14 @@ export function QuoteCarousel() {
 export function FinalCta() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8 pb-24">
-      <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center" style={{ background: "#0A2540" }}>
-        <div aria-hidden className="absolute -top-20 -left-20 w-96 h-96 rounded-full blur-3xl opacity-50" style={{ background: "#635BFF" }} />
-        <div aria-hidden className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full blur-3xl opacity-40" style={{ background: "#7C3AED" }} />
-        <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-white leading-[1.05] tracking-tight">
+      <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
+        <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
           Turn your growth ideas<br />into reality today
         </h2>
-        <p className="relative mt-5 text-white/70">Start for free. No credit card required.</p>
+        <p className="relative mt-5 text-[color:var(--color-muted)]">Start for free. No credit card required.</p>
         <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Start building for free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Get a demo <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Start building for free <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Get a demo <ArrowRight /></a>
         </div>
       </div>
     </section>
