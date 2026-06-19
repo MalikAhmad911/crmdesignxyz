@@ -10,18 +10,14 @@ import { useMemo, useState, type ReactNode } from "react";
 /* ---------- Shared visual chrome ---------- */
 
 export function AuthShell({
-  mode,
-  onSwitch,
   children,
 }: {
-  mode: "signin" | "signup";
-  onSwitch?: (mode: "signin" | "signup") => void;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-screen bg-[color:var(--color-bg)] flex flex-col lg:grid lg:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.15fr_1fr]">
       <BrandPanel />
-      <FormPanel mode={mode} onSwitch={onSwitch}>{children}</FormPanel>
+      <FormPanel>{children}</FormPanel>
     </div>
   );
 }
@@ -180,12 +176,7 @@ function BrandPanel() {
 
 
 
-function FormPanel({ mode, onSwitch, children }: { mode: "signin" | "signup"; onSwitch?: (mode: "signin" | "signup") => void; children: ReactNode }) {
-  const navigate = useNavigate();
-  const switchTo = (m: "signin" | "signup") => {
-    if (onSwitch) onSwitch(m);
-    else navigate({ to: m === "signin" ? "/signin" : "/signup" });
-  };
+function FormPanel({ children }: { children: ReactNode }) {
   return (
     <main className="flex flex-col min-h-screen lg:min-h-0">
       {/* mobile header */}
@@ -210,30 +201,6 @@ function FormPanel({ mode, onSwitch, children }: { mode: "signin" | "signup"; on
 
       <div className="flex-1 flex items-center justify-center px-5 sm:px-8 py-10 lg:py-12">
         <div className="w-full max-w-[440px]">
-          {/* segmented switch */}
-          <div className="inline-flex p-1 rounded-full bg-[color:var(--color-tint)] border border-[color:var(--color-border-soft)] mb-8">
-            <button
-              onClick={() => switchTo("signin")}
-              className={`px-5 py-2 text-sm font-medium rounded-full transition ${
-                mode === "signin"
-                  ? "bg-[color:var(--color-brand)] text-white shadow-sm"
-                  : "text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]"
-              }`}
-            >
-              Log in
-            </button>
-            <button
-              onClick={() => switchTo("signup")}
-              className={`px-5 py-2 text-sm font-medium rounded-full transition ${
-                mode === "signup"
-                  ? "bg-[color:var(--color-brand)] text-white shadow-sm"
-                  : "text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]"
-              }`}
-            >
-              Create account
-            </button>
-          </div>
-
           {children}
 
           <p className="mt-8 text-xs text-[color:var(--color-muted)] leading-relaxed">
