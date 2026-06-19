@@ -357,7 +357,7 @@ export function Footer() {
           </div>
           <div className="mt-10 pt-6 border-t border-[color:var(--color-border-soft)] flex flex-wrap justify-between gap-3 text-xs text-[color:var(--color-muted)]">
             <span className="font-display text-base text-[color:var(--color-heading)]">revenue<span className="text-[color:var(--color-brand)]">.sol</span></span>
-            <span>© Revenue Sol 2026 — Made for the folks running local service shops.</span>
+            <span>Powered by Infinite Rankers LLC</span>
           </div>
         </div>
       </div>
