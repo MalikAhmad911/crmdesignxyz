@@ -22,7 +22,7 @@ export function FeatureRow({
   panelColor: string;
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20 lg:py-28">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${reverse ? "lg:[&>*:first-child]:order-2" : ""}`}>
         <div>
           {eyebrow && <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">{eyebrow}</p>}
@@ -61,7 +61,7 @@ export function FeatureRow({
 
 export function SectionBreak() {
   return (
-    <section className="mx-auto max-w-5xl px-5 lg:px-8 py-24 text-center">
+    <section className="mx-auto max-w-5xl px-5 lg:px-8 text-center">
       <h2 className="font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
         Knowing what's going on is one thing.{" "}
         <span className="relative inline-block italic">
