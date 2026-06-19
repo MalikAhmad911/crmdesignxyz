@@ -37,7 +37,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <HeroBackground />
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 lg:pt-32 pb-16 sm:pb-24 text-center relative">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-20 pb-10 sm:pb-16 text-center relative">
 
         <h1
           className="relative font-[family-name:var(--font-hero)] font-extrabold tracking-[-0.035em] text-[#0F0F10] text-[36px] leading-[1.05] sm:text-[52px] md:text-[68px] lg:text-[84px]"
