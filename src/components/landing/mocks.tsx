@@ -9,7 +9,7 @@ export function InboxMock() {
     { name: "Dan W.", channel: "Review", msg: "★★★★★ Great service", time: "1h" },
   ];
   return (
-    <div className="rounded-2xl bg-white shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)] overflow-hidden">
+    <div className="rounded-2xl bg-white border border-[color:var(--color-border-soft)] overflow-hidden">
       <div className="px-4 py-3 border-b border-[color:var(--color-border-soft)] flex items-center gap-2">
         <span className="w-2.5 h-2.5 rounded-full bg-[color:var(--color-border-soft)]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[color:var(--color-border-soft)]" />
@@ -40,7 +40,7 @@ export function InboxMock() {
 export function AgentMock() {
   return (
     <div className="space-y-3">
-      <div className="rounded-2xl bg-white p-4 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)]">
+      <div className="rounded-2xl bg-white p-4 border border-[color:var(--color-border-soft)]">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-7 h-7 rounded-full bg-[color:var(--color-brand)] grid place-items-center text-white text-xs font-bold">AI</div>
           <span className="text-xs text-[color:var(--color-muted)]">Picks up your phone</span>
@@ -50,7 +50,7 @@ export function AgentMock() {
       <div className="ml-10 rounded-2xl bg-[color:var(--color-tint)] p-4">
         <p className="text-sm text-[color:var(--color-heading)]">10am, please.</p>
       </div>
-      <div className="rounded-2xl bg-white p-4 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)] flex items-center gap-3">
+      <div className="rounded-2xl bg-white p-4 border border-[color:var(--color-border-soft)] flex items-center gap-3">
         <span className="w-8 h-8 grid place-items-center rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] text-sm">✓</span>
         <div>
           <p className="text-sm font-semibold text-[color:var(--color-heading)]">Booked · Tuesday at 10:00 AM</p>
@@ -69,7 +69,7 @@ export function AudienceMock() {
     { label: "Due for their next tune-up", n: 117, color: "var(--color-sky)" },
   ];
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)]">
+    <div className="rounded-2xl bg-white p-5 border border-[color:var(--color-border-soft)]">
       <p className="text-xs text-[color:var(--color-muted)] mb-4">Customer lists that update themselves</p>
       <div className="space-y-3">
         {segs.map((s) => (
@@ -93,7 +93,7 @@ export function FormattingMock() {
     ["APPLE", "Apple"],
   ];
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)]">
+    <div className="rounded-2xl bg-white p-5 border border-[color:var(--color-border-soft)]">
       <div className="grid grid-cols-2 text-xs text-[color:var(--color-muted)] pb-2 border-b border-[color:var(--color-border-soft)]">
         <span>How it came in</span><span>Cleaned up</span>
       </div>
@@ -118,7 +118,7 @@ export function ConditionalMock() {
       <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-[color:var(--color-tint)] text-xs text-[color:var(--color-brand)] font-mono">
         {`!{{Email}} && {{Role}}?.includes("manager")`}
       </div>
-      <div className="rounded-2xl bg-white p-5 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)]">
+      <div className="rounded-2xl bg-white p-5 border border-[color:var(--color-border-soft)]">
         {rows.map((r, i) => (
           <div key={i} className="grid grid-cols-3 py-2.5 text-sm border-b border-[color:var(--color-border-soft)] last:border-0">
             <span className="text-[color:var(--color-muted)] truncate">{r[0]}</span>
@@ -141,7 +141,7 @@ export function DestinationsMock() {
     "Kick off a Zap to do anything else",
   ];
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)] space-y-2">
+    <div className="rounded-2xl bg-white p-5 border border-[color:var(--color-border-soft)] space-y-2">
       {acts.map((a) => (
         <div key={a} className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-[color:var(--color-border-soft)]">
           <span className="w-7 h-7 rounded-md bg-[color:var(--color-tint)] grid place-items-center text-[color:var(--color-brand)] text-xs">→</span>

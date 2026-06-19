@@ -41,7 +41,7 @@ export function FeatureRow({
               </li>
             ))}
           </ul>
-          <div className="mt-8 inline-flex items-center gap-4 px-5 py-4 rounded-2xl bg-white border border-[color:var(--color-border-soft)] shadow-[0_8px_30px_-12px_rgba(10,37,64,0.08)]">
+          <div className="mt-8 inline-flex items-center gap-4 px-5 py-4 rounded-2xl bg-white border border-[color:var(--color-border-soft)]">
             <span className="font-display text-4xl text-[color:var(--color-brand)]">{stat}</span>
             <span className="text-sm text-[color:var(--color-body)] max-w-[220px]">{statLabel}</span>
           </div>
