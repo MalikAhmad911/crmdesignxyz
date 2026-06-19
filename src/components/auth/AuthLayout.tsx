@@ -65,7 +65,7 @@ function BrandPanel() {
         <p className="text-[11px] uppercase tracking-[0.28em] opacity-60 mb-5">
           The operator OS for service shops
         </p>
-        <h2 className="font-display text-[44px] xl:text-[56px] leading-[1.02] tracking-tight">
+        <h2 className="font-display text-[44px] xl:text-[56px] leading-[1.02] tracking-tight !text-[color:var(--color-bg)]">
           We answer the call.{" "}
           <em className="italic font-normal opacity-80">You run the shop.</em>
         </h2>
