@@ -34,37 +34,49 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <HeroBackground />
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 pt-20 pb-24 text-center relative">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 lg:pt-28 pb-16 sm:pb-24 text-center relative">
+        <span className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[color:var(--color-border-soft)] bg-white/70 backdrop-blur text-[11px] sm:text-xs text-[color:var(--color-heading)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-brand)]" />
+          AI CRM for local service businesses
+        </span>
 
-
-        <h1 className="relative font-display text-[44px] leading-[1.05] sm:text-6xl lg:text-7xl font-medium text-[color:var(--color-heading)] tracking-tight">
-          Run your service business<br />
-          <span className="italic text-[color:var(--color-brand)]">with unique data</span> — and<br />
-          the AI to act on it
+        <h1 className="relative mt-5 font-display font-medium text-[color:var(--color-heading)] tracking-tight text-[34px] leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl">
+          <span className="block">Run your service business</span>
+          <span className="block">
+            <span className="italic text-[color:var(--color-brand)]">with unique data</span>
+            <span className="hidden sm:inline"> — and</span>
+          </span>
+          <span className="block">the AI to act on it</span>
         </h1>
-        <p className="relative mt-7 max-w-2xl mx-auto text-lg text-[color:var(--color-body)]">
-          Bring AI employees, customer enrichment, and intent signals together — and turn every call, text, and form into a booked job.
+
+        <p className="relative mt-5 sm:mt-7 mx-auto max-w-xl sm:max-w-2xl text-base sm:text-lg text-[color:var(--color-body)] px-2">
+          Bring AI employees, customer enrichment, and intent signals together — turn every call, text, and form into a booked job.
         </p>
-        <div className="relative mt-9 flex justify-center">
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)] shadow-[0_10px_30px_-10px_rgba(99,91,255,0.6)]">
+
+        <div className="relative mt-7 sm:mt-9 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3">
+          <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)] shadow-[0_10px_30px_-10px_rgba(99,91,255,0.6)] transition">
             Start building for free <ArrowRight />
+          </a>
+          <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/80 backdrop-blur border border-[color:var(--color-border-soft)] text-sm font-medium text-[color:var(--color-heading)] hover:bg-white transition">
+            Get a demo
           </a>
         </div>
 
-        <div className="relative mt-20">
-          <p className="text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase">
-            Trusted by thousands of local service businesses · Built with care
+        <div className="relative mt-14 sm:mt-20">
+          <p className="text-[10px] sm:text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase px-4">
+            Trusted by thousands of local service businesses
           </p>
-          <div className="mt-5 flex flex-wrap justify-center items-center gap-3">
-            <Chip><Star className="text-[color:var(--color-brand)]" /> 4.9 <Stars /></Chip>
-            <Chip>👥 10K+ Operator community</Chip>
-            <Chip>💬 5.0 <Stars /></Chip>
+          <div className="mt-4 sm:mt-5 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+            <Chip><Star className="text-[color:var(--color-brand)]" /> 4.9 <span className="hidden sm:inline-flex"><Stars /></span></Chip>
+            <Chip>👥 10K+ community</Chip>
+            <Chip>💬 5.0 <span className="hidden sm:inline-flex"><Stars /></span></Chip>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
