@@ -85,18 +85,18 @@ function DashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-muted)]">Friday · June 19</p>
-            <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">Friday · June 19</p>
+            <h1 className="font-display text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">
               Good morning, {firstName}.
             </h1>
-            <p className="mt-1 text-[15px] text-[color:var(--color-body)]">Your operator answered 12 calls overnight. 4 turned into booked jobs.</p>
+            <p className="mt-1 text-[14px] text-[color:var(--color-body)] sm:text-[15px]">Your operator answered 12 calls overnight. 4 turned into booked jobs.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="h-10 rounded-full bg-[color:var(--color-heading)] px-5 text-sm font-medium text-[color:var(--color-bg)] hover:bg-black">+ New job</button>
-            <button className="h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white px-5 text-sm font-medium hover:bg-[color:var(--color-tint)]">+ Quote</button>
+            <button className="h-10 flex-1 rounded-full bg-[color:var(--color-heading)] px-5 text-sm font-medium text-[color:var(--color-bg)] hover:bg-black sm:flex-none">+ New job</button>
+            <button className="h-10 flex-1 rounded-full border border-[color:var(--color-border-soft)] bg-white px-5 text-sm font-medium hover:bg-[color:var(--color-tint)] sm:flex-none">+ Quote</button>
           </div>
         </div>
 
