@@ -276,20 +276,20 @@ export function QuoteCarousel() {
   const visible = quotes.slice(i, i + 3).concat(quotes.slice(0, Math.max(0, i + 3 - quotes.length))).slice(0, 3);
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="flex items-end justify-between mb-8">
-        <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 mb-6 sm:mb-8">
+        <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight min-w-0">
           What owners are telling us
         </h2>
-        <div className="flex gap-2">
-          <button onClick={() => setI((p) => (p - 1 + quotes.length) % quotes.length)} className="w-10 h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronLeft /></button>
-          <button onClick={() => setI((p) => (p + 1) % quotes.length)} className="w-10 h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronRight /></button>
+        <div className="flex gap-2 shrink-0">
+          <button aria-label="Previous" onClick={() => setI((p) => (p - 1 + quotes.length) % quotes.length)} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronLeft /></button>
+          <button aria-label="Next" onClick={() => setI((p) => (p + 1) % quotes.length)} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronRight /></button>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {visible.map((q, idx) => (
-          <div key={idx} className="rounded-3xl p-7 bg-white border border-[color:var(--color-border-soft)]">
-            <p className="font-display text-xl text-[color:var(--color-heading)] leading-snug">"{q.text}"</p>
-            <p className="mt-6 text-sm">
+          <div key={idx} className="rounded-3xl p-5 sm:p-7 bg-white border border-[color:var(--color-border-soft)]">
+            <p className="font-display text-lg sm:text-xl text-[color:var(--color-heading)] leading-snug">"{q.text}"</p>
+            <p className="mt-5 sm:mt-6 text-sm">
               <span className="font-semibold text-[color:var(--color-heading)]">{q.who}</span>
               <span className="text-[color:var(--color-muted)]"> · {q.role}</span>
             </p>
