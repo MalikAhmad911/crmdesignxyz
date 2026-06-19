@@ -126,15 +126,15 @@ export function UseCases() {
 export function CentralPlatform() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 items-center">
         <div>
-          <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
             One tool instead of six. One bill instead of six.
           </h2>
-          <p className="mt-5 text-[color:var(--color-body)] max-w-xl">
+          <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] max-w-xl">
             Most shops we meet are paying for a CRM, a receptionist service, a texting tool, a review app, and a couple of automations holding it all together. Revenue Sol does the lot — and you're up and running the same day.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-6 sm:mt-7 flex flex-wrap gap-3">
             <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">See how it works <ArrowRight /></a>
             <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Show me a demo <ArrowRight /></a>
           </div>
