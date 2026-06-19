@@ -24,17 +24,17 @@ export function StackedFeatures() {
     },
   ];
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 space-y-20 lg:space-y-28">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8 space-y-16 sm:space-y-20 lg:space-y-28">
       {items.map((it, i) => (
-        <div key={it.eyebrow} className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+        <div key={it.eyebrow} className={`grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
           <div>
-            <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">{it.eyebrow}</p>
-            <h3 className="font-display text-3xl lg:text-4xl font-medium text-[color:var(--color-heading)] leading-[1.15] tracking-tight">
+            <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-3 sm:mb-4">{it.eyebrow}</p>
+            <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-medium text-[color:var(--color-heading)] leading-[1.15] tracking-tight">
               {it.title}
             </h3>
-            <p className="mt-5 text-[color:var(--color-body)] leading-relaxed">{it.body}</p>
+            <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] leading-relaxed">{it.body}</p>
           </div>
-          <div className="rounded-3xl p-6 lg:p-10 bg-[color:var(--color-tint)]">{it.mock}</div>
+          <div className="rounded-3xl p-5 sm:p-6 lg:p-10 bg-[color:var(--color-tint)]">{it.mock}</div>
         </div>
       ))}
     </section>
@@ -44,21 +44,21 @@ export function StackedFeatures() {
 export function PullQuote() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
-        <blockquote className="font-display text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
+      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-6 sm:p-8 lg:p-14">
+        <blockquote className="font-display text-xl sm:text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
           "We were missing calls every single day. Since we set up Revenue Sol, somebody — or something — answers every one. We didn't have to hire another person to do it."
         </blockquote>
-        <p className="mt-6 text-sm text-[color:var(--color-muted)]">
+        <p className="mt-5 sm:mt-6 text-sm text-[color:var(--color-muted)]">
           <span className="font-semibold text-[color:var(--color-heading)]">Sample Owner</span> · Office manager, Placeholder HVAC <span className="ml-1 italic">(example)</span>
         </p>
-        <div className="mt-10 grid sm:grid-cols-3 gap-4">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {[
             ["4 hrs/week", "Less time on the phone, per owner we talked to"],
             ["100+", "Tools we can plug into out of the box"],
             ["Every call", "Picked up, day or night"],
           ].map(([n, l]) => (
             <div key={l} className="rounded-2xl p-5 bg-[color:var(--color-tint)]">
-              <p className="font-display text-3xl text-[color:var(--color-brand)]">{n}</p>
+              <p className="font-display text-2xl sm:text-3xl text-[color:var(--color-brand)]">{n}</p>
               <p className="mt-1 text-sm text-[color:var(--color-body)]">{l}</p>
             </div>
           ))}
@@ -93,18 +93,18 @@ export function UseCases() {
   };
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
+      <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
         Things our customers actually use Revenue Sol for
       </h2>
-      <p className="mt-5 text-[color:var(--color-body)] max-w-2xl">
+      <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] max-w-2xl">
         Pick what's useful for your shop. Most owners start with one or two of these and add more as they see what works.
       </p>
-      <div className="mt-8 inline-flex p-1 rounded-full bg-[color:var(--color-tint)]">
+      <div className="mt-6 sm:mt-8 inline-flex p-1 rounded-full bg-[color:var(--color-tint)]">
         {(["data", "ai"] as const).map((k) => (
           <button
             key={k}
             onClick={() => setTab(k)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition ${
               tab === k ? "bg-white text-[color:var(--color-heading)] shadow-sm" : "text-[color:var(--color-muted)]"
             }`}
           >
@@ -112,7 +112,7 @@ export function UseCases() {
           </button>
         ))}
       </div>
-      <ul className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <ul className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {lists[tab].map((l) => (
           <li key={l} className="px-5 py-4 rounded-2xl bg-white border border-[color:var(--color-border-soft)] text-[color:var(--color-heading)] hover:border-[color:var(--color-brand)] transition">
             {l}
@@ -126,15 +126,15 @@ export function UseCases() {
 export function CentralPlatform() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 items-center">
         <div>
-          <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
             One tool instead of six. One bill instead of six.
           </h2>
-          <p className="mt-5 text-[color:var(--color-body)] max-w-xl">
+          <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] max-w-xl">
             Most shops we meet are paying for a CRM, a receptionist service, a texting tool, a review app, and a couple of automations holding it all together. Revenue Sol does the lot — and you're up and running the same day.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-6 sm:mt-7 flex flex-wrap gap-3">
             <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">See how it works <ArrowRight /></a>
             <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Show me a demo <ArrowRight /></a>
           </div>
@@ -173,50 +173,50 @@ export function CapabilityRow() {
   ];
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-start">
         <div className="lg:col-span-5">
-          <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">PROOF, NOT PROMISES</p>
-          <h2 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight leading-[1.1]">
+          <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-3 sm:mb-4">PROOF, NOT PROMISES</p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight leading-[1.1]">
             Here's one shop's morning, picked up while the owner was still asleep.
           </h2>
-          <p className="mt-5 text-[color:var(--color-body)] leading-relaxed">
+          <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] leading-relaxed">
             A real screenshot from a 9-truck HVAC company in Phoenix. Between midnight and 9am on a Tuesday in May, Revenue Sol answered 14 calls, booked 6 jobs, and filtered 3 robocalls — before anyone in the office had coffee.
           </p>
-          <div className="mt-8 grid grid-cols-3 gap-3">
+          <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
             {[
               ["$8,420", "Booked revenue, before 9am"],
               ["6 / 14", "Calls turned into jobs"],
               ["38 sec", "Average pickup time"],
             ].map(([n, l]) => (
-              <div key={l} className="rounded-2xl p-4 bg-[color:var(--color-tint)]">
-                <p className="font-display text-2xl lg:text-3xl text-[color:var(--color-heading)] tracking-tight">{n}</p>
-                <p className="mt-1 text-xs text-[color:var(--color-body)] leading-snug">{l}</p>
+              <div key={l} className="rounded-2xl p-3 sm:p-4 bg-[color:var(--color-tint)]">
+                <p className="font-display text-lg sm:text-2xl lg:text-3xl text-[color:var(--color-heading)] tracking-tight">{n}</p>
+                <p className="mt-1 text-[11px] sm:text-xs text-[color:var(--color-body)] leading-snug">{l}</p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-xs text-[color:var(--color-muted)]">Names changed at the customer's request. Numbers and timestamps are from their account on May 14, 2026.</p>
+          <p className="mt-5 sm:mt-6 text-xs text-[color:var(--color-muted)]">Names changed at the customer's request. Numbers and timestamps are from their account on May 14, 2026.</p>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 w-full min-w-0">
           <div className="rounded-2xl bg-white border border-[color:var(--color-border-soft)] overflow-hidden">
             {/* Window chrome */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-tint)]">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-              <span className="ml-3 text-xs text-[color:var(--color-muted)] font-mono">app.revenuesol.com / today</span>
+              <span className="ml-3 text-[10px] sm:text-xs text-[color:var(--color-muted)] font-mono truncate">app.revenuesol.com / today</span>
             </div>
             {/* App body */}
-            <div className="p-5 lg:p-7">
-              <div className="flex items-baseline justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)]">Today · Tue May 14</p>
-                  <h3 className="font-display text-2xl text-[color:var(--color-heading)] mt-1">Good morning, Ray.</h3>
+            <div className="p-4 sm:p-5 lg:p-7">
+              <div className="flex items-baseline justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)]">Today · Tue May 14</p>
+                  <h3 className="font-display text-xl sm:text-2xl text-[color:var(--color-heading)] mt-1 truncate">Good morning, Ray.</h3>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] font-medium">Live</span>
+                <span className="text-[10px] sm:text-xs px-2.5 py-1 rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] font-medium shrink-0">Live</span>
               </div>
 
-              <div className="mt-5 grid grid-cols-4 gap-3">
+              <div className="mt-4 sm:mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {[
                   ["14", "Calls"],
                   ["6", "Booked"],
@@ -224,24 +224,24 @@ export function CapabilityRow() {
                   ["3", "Filtered"],
                 ].map(([n, l]) => (
                   <div key={l} className="rounded-xl border border-[color:var(--color-border-soft)] p-3">
-                    <p className="font-display text-2xl text-[color:var(--color-heading)] leading-none">{n}</p>
-                    <p className="mt-1.5 text-[11px] text-[color:var(--color-muted)] uppercase tracking-wider">{l}</p>
+                    <p className="font-display text-xl sm:text-2xl text-[color:var(--color-heading)] leading-none">{n}</p>
+                    <p className="mt-1.5 text-[10px] sm:text-[11px] text-[color:var(--color-muted)] uppercase tracking-wider">{l}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-2">Call log · last 4 hours</p>
+              <div className="mt-5 sm:mt-6">
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-2">Call log · last 4 hours</p>
                 <ul className="divide-y divide-[color:var(--color-border-soft)] border border-[color:var(--color-border-soft)] rounded-xl overflow-hidden">
                   {callLog.map((c) => (
-                    <li key={c.time} className="grid grid-cols-[68px_1fr_auto] items-center gap-3 px-3.5 py-3 text-sm bg-white">
-                      <span className="font-mono text-xs text-[color:var(--color-muted)]">{c.time}</span>
+                    <li key={c.time} className="grid grid-cols-[52px_minmax(0,1fr)_auto] sm:grid-cols-[68px_minmax(0,1fr)_auto] items-center gap-2 sm:gap-3 px-3 sm:px-3.5 py-3 text-sm bg-white">
+                      <span className="font-mono text-[10px] sm:text-xs text-[color:var(--color-muted)]">{c.time}</span>
                       <div className="min-w-0">
-                        <p className="font-medium text-[color:var(--color-heading)] truncate">{c.name}</p>
-                        <p className="text-xs text-[color:var(--color-body)] truncate">{c.reason}</p>
+                        <p className="font-medium text-[color:var(--color-heading)] truncate text-[13px] sm:text-sm">{c.name}</p>
+                        <p className="text-[11px] sm:text-xs text-[color:var(--color-body)] truncate">{c.reason}</p>
                       </div>
                       <span
-                        className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded-full font-semibold whitespace-nowrap ${
+                        className={`text-[9px] sm:text-[10px] uppercase tracking-wider px-2 py-1 rounded-full font-semibold whitespace-nowrap ${
                           c.status === "booked"
                             ? "bg-[color:var(--color-brand)] text-[color:var(--color-bg)]"
                             : c.status === "quoted"
@@ -276,20 +276,20 @@ export function QuoteCarousel() {
   const visible = quotes.slice(i, i + 3).concat(quotes.slice(0, Math.max(0, i + 3 - quotes.length))).slice(0, 3);
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="flex items-end justify-between mb-8">
-        <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 mb-6 sm:mb-8">
+        <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight min-w-0">
           What owners are telling us
         </h2>
-        <div className="flex gap-2">
-          <button onClick={() => setI((p) => (p - 1 + quotes.length) % quotes.length)} className="w-10 h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronLeft /></button>
-          <button onClick={() => setI((p) => (p + 1) % quotes.length)} className="w-10 h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronRight /></button>
+        <div className="flex gap-2 shrink-0">
+          <button aria-label="Previous" onClick={() => setI((p) => (p - 1 + quotes.length) % quotes.length)} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronLeft /></button>
+          <button aria-label="Next" onClick={() => setI((p) => (p + 1) % quotes.length)} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronRight /></button>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {visible.map((q, idx) => (
-          <div key={idx} className="rounded-3xl p-7 bg-white border border-[color:var(--color-border-soft)]">
-            <p className="font-display text-xl text-[color:var(--color-heading)] leading-snug">"{q.text}"</p>
-            <p className="mt-6 text-sm">
+          <div key={idx} className="rounded-3xl p-5 sm:p-7 bg-white border border-[color:var(--color-border-soft)]">
+            <p className="font-display text-lg sm:text-xl text-[color:var(--color-heading)] leading-snug">"{q.text}"</p>
+            <p className="mt-5 sm:mt-6 text-sm">
               <span className="font-semibold text-[color:var(--color-heading)]">{q.who}</span>
               <span className="text-[color:var(--color-muted)]"> · {q.role}</span>
             </p>
@@ -304,14 +304,14 @@ export function QuoteCarousel() {
 export function FinalCta() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
-        <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
+      <div className="relative overflow-hidden rounded-3xl px-6 sm:px-8 py-14 sm:py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
+        <h2 className="relative font-display text-3xl sm:text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
           Give it a try.<br />See if it fits your shop.
         </h2>
-        <p className="relative mt-5 text-[color:var(--color-muted)]">Free to start. No credit card. Cancel any time.</p>
-        <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Talk to us first <ArrowRight /></a>
+        <p className="relative mt-4 sm:mt-5 text-[color:var(--color-muted)]">Free to start. No credit card. Cancel any time.</p>
+        <div className="relative mt-7 sm:mt-9 flex flex-wrap justify-center gap-3">
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 sm:py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 sm:py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Talk to us first <ArrowRight /></a>
         </div>
       </div>
     </section>
@@ -329,8 +329,8 @@ export function Footer() {
   return (
     <footer>
       <div className="mx-auto max-w-7xl px-5 lg:px-8 pb-10">
-        <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
-          <h3 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
+        <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-6 sm:p-8 lg:p-14">
+          <h3 className="font-display text-2xl sm:text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
             A simple way to run your service business without missing leads.
           </h3>
           <div className="mt-8 flex flex-wrap gap-3">
