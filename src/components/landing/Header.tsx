@@ -17,12 +17,12 @@ export function Nav() {
           ))}
         </nav>
         <div className="hidden xl:flex items-center gap-2 justify-self-end">
-          <a href="/signin" className="text-sm text-[color:var(--color-body)] px-3 py-2 hover:text-[color:var(--color-heading)] whitespace-nowrap">Log in</a>
+          <a href="/auth" className="text-sm text-[color:var(--color-body)] px-3 py-2 hover:text-[color:var(--color-heading)] whitespace-nowrap">Log in</a>
           <a href="#" className="text-sm px-3.5 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-white text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)] whitespace-nowrap">Get a demo</a>
-          <a href="/signup" className="text-sm px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free trial</a>
+          <a href="/auth" className="text-sm px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free trial</a>
         </div>
         <div className="flex items-center gap-2 justify-self-end xl:hidden">
-          <a href="/signup" className="hidden sm:inline-flex text-xs sm:text-sm px-3 sm:px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free</a>
+          <a href="/auth" className="hidden sm:inline-flex text-xs sm:text-sm px-3 sm:px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free</a>
           <button aria-label="Menu" className="p-2 text-[color:var(--color-heading)] shrink-0"><Menu /></button>
         </div>
       </div>
