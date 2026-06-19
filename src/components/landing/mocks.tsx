@@ -63,14 +63,14 @@ export function AgentMock() {
 
 export function AudienceMock() {
   const segs = [
-    { label: "Missed calls last 24h", n: 12, color: "var(--color-brand)" },
-    { label: "Quote requested, no follow-up", n: 38, color: "var(--color-violet)" },
-    { label: "5★ review — upsell ready", n: 64, color: "var(--color-cyan)" },
-    { label: "Recurring HVAC tune-up due", n: 117, color: "var(--color-sky)" },
+    { label: "Missed calls today", n: 12, color: "var(--color-brand)" },
+    { label: "Asked for a quote, never heard back", n: 38, color: "var(--color-violet)" },
+    { label: "Loved you 5★ — ask for a referral", n: 64, color: "var(--color-cyan)" },
+    { label: "Due for their next tune-up", n: 117, color: "var(--color-sky)" },
   ];
   return (
     <div className="rounded-2xl bg-white p-5 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)]">
-      <p className="text-xs text-[color:var(--color-muted)] mb-4">Dynamic audiences</p>
+      <p className="text-xs text-[color:var(--color-muted)] mb-4">Customer lists that update themselves</p>
       <div className="space-y-3">
         {segs.map((s) => (
           <div key={s.label} className="flex items-center gap-3 p-3 rounded-xl border border-[color:var(--color-border-soft)]">
