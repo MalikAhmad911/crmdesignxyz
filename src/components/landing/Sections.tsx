@@ -93,18 +93,18 @@ export function UseCases() {
   };
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
+      <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
         Things our customers actually use Revenue Sol for
       </h2>
-      <p className="mt-5 text-[color:var(--color-body)] max-w-2xl">
+      <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] max-w-2xl">
         Pick what's useful for your shop. Most owners start with one or two of these and add more as they see what works.
       </p>
-      <div className="mt-8 inline-flex p-1 rounded-full bg-[color:var(--color-tint)]">
+      <div className="mt-6 sm:mt-8 inline-flex p-1 rounded-full bg-[color:var(--color-tint)]">
         {(["data", "ai"] as const).map((k) => (
           <button
             key={k}
             onClick={() => setTab(k)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition ${
               tab === k ? "bg-white text-[color:var(--color-heading)] shadow-sm" : "text-[color:var(--color-muted)]"
             }`}
           >
@@ -112,7 +112,7 @@ export function UseCases() {
           </button>
         ))}
       </div>
-      <ul className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <ul className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {lists[tab].map((l) => (
           <li key={l} className="px-5 py-4 rounded-2xl bg-white border border-[color:var(--color-border-soft)] text-[color:var(--color-heading)] hover:border-[color:var(--color-brand)] transition">
             {l}
