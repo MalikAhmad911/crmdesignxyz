@@ -75,27 +75,31 @@ export function NavRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        {onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"
-          >
-            ← Back
-          </button>
-        )}
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--color-bg)]/80 lg:static lg:mt-7 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+      <div className="mx-auto flex max-w-xl items-center justify-between gap-3 lg:max-w-none">
+        <div className="shrink-0">
+          {onBack ? (
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-medium text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)] sm:px-5"
+            >
+              ← <span className="hidden sm:inline">Back</span>
+            </button>
+          ) : (
+            <span className="h-11 w-11" />
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={disabled}
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[color:var(--color-heading)] px-7 text-sm font-medium text-[color:var(--color-bg)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40 lg:flex-none"
+        >
+          {nextLabel}
+          <span aria-hidden>→</span>
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={disabled}
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[color:var(--color-heading)] px-7 text-sm font-medium text-[color:var(--color-bg)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        {nextLabel}
-        <span aria-hidden>→</span>
-      </button>
     </div>
   );
 }
