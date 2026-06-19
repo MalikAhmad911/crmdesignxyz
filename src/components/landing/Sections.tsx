@@ -304,14 +304,14 @@ export function QuoteCarousel() {
 export function FinalCta() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
-        <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
+      <div className="relative overflow-hidden rounded-3xl px-6 sm:px-8 py-14 sm:py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
+        <h2 className="relative font-display text-3xl sm:text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
           Give it a try.<br />See if it fits your shop.
         </h2>
-        <p className="relative mt-5 text-[color:var(--color-muted)]">Free to start. No credit card. Cancel any time.</p>
-        <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Talk to us first <ArrowRight /></a>
+        <p className="relative mt-4 sm:mt-5 text-[color:var(--color-muted)]">Free to start. No credit card. Cancel any time.</p>
+        <div className="relative mt-7 sm:mt-9 flex flex-wrap justify-center gap-3">
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 sm:py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 sm:py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Talk to us first <ArrowRight /></a>
         </div>
       </div>
     </section>
