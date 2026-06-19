@@ -67,7 +67,7 @@ export function HeroBackground() {
       }
 
       // lines
-      const maxDist = 130;
+      const maxDist = 170;
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
