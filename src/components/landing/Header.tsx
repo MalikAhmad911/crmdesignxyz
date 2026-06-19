@@ -37,7 +37,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <HeroBackground />
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-12 text-center relative">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-5 sm:pt-8 lg:pt-10 pb-5 sm:pb-8 text-center relative">
 
         <h1
           className="relative font-[family-name:var(--font-hero)] font-extrabold tracking-[-0.035em] text-[#0F0F10] text-[32px] leading-[1.08] sm:text-[48px] md:text-[60px] lg:text-[72px]"
@@ -47,11 +47,11 @@ export function Hero() {
           <span className="block">without missing leads.</span>
         </h1>
 
-        <p className="relative mt-4 sm:mt-5 mx-auto max-w-xl text-[15px] sm:text-base text-[#3B3A36] leading-relaxed">
+        <p className="relative mt-3 sm:mt-4 mx-auto max-w-xl text-[15px] sm:text-base text-[#3B3A36] leading-relaxed">
           We answer your calls, reply to texts and forms, and add every new job to your calendar — so you can focus on the work instead of the phone.
         </p>
 
-        <div className="relative mt-5 sm:mt-6 flex justify-center">
+        <div className="relative mt-4 sm:mt-5 flex justify-center">
           <a
             href="#"
             className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#0F0F10] text-white text-sm font-semibold hover:bg-black transition"
@@ -60,14 +60,14 @@ export function Hero() {
           </a>
         </div>
 
-        <div className="relative mt-8 sm:mt-10">
+        <div className="relative mt-6 sm:mt-8">
           <p className="text-[10px] sm:text-[11px] tracking-[0.22em] font-semibold text-[#6B645A] uppercase px-4">
             Used by thousands of local service businesses.
             <br className="sm:hidden" />
             <span className="hidden sm:inline"> </span>
             Built with the people who actually use it.
           </p>
-          <div className="mt-3 sm:mt-4 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+          <div className="mt-2 sm:mt-3 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
             <Chip><Star className="text-[#C9A227]" /> 4.9 from owners <span className="hidden sm:inline-flex"><Stars /></span></Chip>
             <Chip>👥 10K+ shops using it</Chip>
             <Chip>💬 5.0 support score <span className="hidden sm:inline-flex"><Stars /></span></Chip>
