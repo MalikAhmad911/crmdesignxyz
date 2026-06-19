@@ -2,25 +2,19 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/eb-garamond/400.css";
-@import "@fontsource/eb-garamond/500.css";
-@import "@fontsource/eb-garamond/600.css";
-@import "@fontsource/eb-garamond/400-italic.css";
-@import "@fontsource/plus-jakarta-sans/500.css";
-@import "@fontsource/plus-jakarta-sans/600.css";
-@import "@fontsource/plus-jakarta-sans/700.css";
-@import "@fontsource/plus-jakarta-sans/800.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/400-italic.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "EB Garamond", ui-serif, Georgia, serif;
-  --font-hero: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-hero: "Fraunces", ui-serif, Georgia, serif;
+
 
   /* Single flat background + single accent */
   --color-bg: #F4F1EC;
