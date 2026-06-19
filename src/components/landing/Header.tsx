@@ -63,7 +63,7 @@ export function Hero() {
         </div>
 
         <div className="relative mt-14 sm:mt-20">
-          <p className="text-[10px] sm:text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase px-4">
+          <p className="text-[10px] sm:text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase px-4" style={{ textShadow: '0 1px 6px rgba(255,255,255,0.9)' }}>
             Trusted by thousands of local service businesses
           </p>
           <div className="mt-4 sm:mt-5 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
