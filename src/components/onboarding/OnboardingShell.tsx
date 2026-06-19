@@ -30,7 +30,7 @@ export function OnboardingShell({
               />
             </div>
             <span className="text-[11px] font-medium text-[color:var(--color-heading)] sm:hidden">{step}/{total}</span>
-            <Link to="/signin" className="hidden text-[color:var(--color-heading)] underline-offset-4 hover:underline sm:inline">
+            <Link to="/auth" className="hidden text-[color:var(--color-heading)] underline-offset-4 hover:underline sm:inline">
               Save & exit
             </Link>
           </div>

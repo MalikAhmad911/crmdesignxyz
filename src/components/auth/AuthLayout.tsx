@@ -10,16 +10,18 @@ import { useMemo, useState, type ReactNode } from "react";
 /* ---------- Shared visual chrome ---------- */
 
 export function AuthShell({
-  side,
+  mode,
+  onSwitch,
   children,
 }: {
-  side: "signin" | "signup";
+  mode: "signin" | "signup";
+  onSwitch?: (mode: "signin" | "signup") => void;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-screen bg-[color:var(--color-bg)] flex flex-col lg:grid lg:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.15fr_1fr]">
       <BrandPanel />
-      <FormPanel side={side}>{children}</FormPanel>
+      <FormPanel mode={mode} onSwitch={onSwitch}>{children}</FormPanel>
     </div>
   );
 }
@@ -178,8 +180,12 @@ function BrandPanel() {
 
 
 
-function FormPanel({ side, children }: { side: "signin" | "signup"; children: ReactNode }) {
+function FormPanel({ mode, onSwitch, children }: { mode: "signin" | "signup"; onSwitch?: (mode: "signin" | "signup") => void; children: ReactNode }) {
   const navigate = useNavigate();
+  const switchTo = (m: "signin" | "signup") => {
+    if (onSwitch) onSwitch(m);
+    else navigate({ to: m === "signin" ? "/signin" : "/signup" });
+  };
   return (
     <main className="flex flex-col min-h-screen lg:min-h-0">
       {/* mobile header */}
@@ -207,9 +213,9 @@ function FormPanel({ side, children }: { side: "signin" | "signup"; children: Re
           {/* segmented switch */}
           <div className="inline-flex p-1 rounded-full bg-[color:var(--color-tint)] border border-[color:var(--color-border-soft)] mb-8">
             <button
-              onClick={() => navigate({ to: "/signin" })}
+              onClick={() => switchTo("signin")}
               className={`px-5 py-2 text-sm font-medium rounded-full transition ${
-                side === "signin"
+                mode === "signin"
                   ? "bg-[color:var(--color-brand)] text-white shadow-sm"
                   : "text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]"
               }`}
@@ -217,9 +223,9 @@ function FormPanel({ side, children }: { side: "signin" | "signup"; children: Re
               Log in
             </button>
             <button
-              onClick={() => navigate({ to: "/signup" })}
+              onClick={() => switchTo("signup")}
               className={`px-5 py-2 text-sm font-medium rounded-full transition ${
-                side === "signup"
+                mode === "signup"
                   ? "bg-[color:var(--color-brand)] text-white shadow-sm"
                   : "text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]"
               }`}
