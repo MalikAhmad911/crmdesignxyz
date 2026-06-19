@@ -36,10 +36,10 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-10">
+      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-7">
         <div className="min-w-0">{children}</div>
         <aside className="hidden lg:block">
-          <div className="sticky top-20">{side}</div>
+          <div className="sticky top-16">{side}</div>
         </aside>
       </main>
     </div>
