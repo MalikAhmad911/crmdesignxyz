@@ -40,7 +40,7 @@ export function Hero() {
           AI CRM for local service businesses
         </span>
 
-        <h1 className="relative mt-5 font-display font-medium text-[color:var(--color-heading)] tracking-tight text-[34px] leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="relative mt-5 font-display font-medium text-[color:var(--color-heading)] tracking-tight text-[34px] leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl" style={{ textShadow: '0 2px 18px rgba(255,255,255,0.85), 0 1px 4px rgba(255,255,255,0.6)' }}>
           <span className="block">Run your service business</span>
           <span className="block">
             <span className="italic text-[color:var(--color-brand)]">with unique data</span>
@@ -49,7 +49,7 @@ export function Hero() {
           <span className="block">the AI to act on it</span>
         </h1>
 
-        <p className="relative mt-5 sm:mt-7 mx-auto max-w-xl sm:max-w-2xl text-base sm:text-lg text-[color:var(--color-body)] px-2">
+        <p className="relative mt-5 sm:mt-7 mx-auto max-w-xl sm:max-w-2xl text-base sm:text-lg text-[color:var(--color-body)] px-2" style={{ textShadow: '0 1px 10px rgba(255,255,255,0.8), 0 1px 3px rgba(255,255,255,0.5)' }}>
           Bring AI employees, customer enrichment, and intent signals together — turn every call, text, and form into a booked job.
         </p>
 
@@ -57,13 +57,13 @@ export function Hero() {
           <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)] shadow-[0_10px_30px_-10px_rgba(99,91,255,0.6)] transition">
             Start building for free <ArrowRight />
           </a>
-          <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/80 backdrop-blur border border-[color:var(--color-border-soft)] text-sm font-medium text-[color:var(--color-heading)] hover:bg-white transition">
+          <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/90 backdrop-blur border border-[color:var(--color-border-soft)] text-sm font-medium text-[color:var(--color-heading)] hover:bg-white transition shadow-[0_4px_20px_-4px_rgba(0,0,0,0.08)]">
             Get a demo
           </a>
         </div>
 
         <div className="relative mt-14 sm:mt-20">
-          <p className="text-[10px] sm:text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase px-4">
+          <p className="text-[10px] sm:text-xs tracking-[0.18em] text-[color:var(--color-muted)] uppercase px-4" style={{ textShadow: '0 1px 6px rgba(255,255,255,0.9)' }}>
             Trusted by thousands of local service businesses
           </p>
           <div className="mt-4 sm:mt-5 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
@@ -80,7 +80,7 @@ export function Hero() {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-white text-sm text-[color:var(--color-heading)]">
+    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-white/95 text-sm text-[color:var(--color-heading)] shadow-[0_2px_10px_-2px_rgba(0,0,0,0.06)]">
       {children}
     </span>
   );
