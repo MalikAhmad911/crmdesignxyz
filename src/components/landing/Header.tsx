@@ -96,7 +96,7 @@ export function Stars() {
 }
 
 export function IntegrationsStrip() {
-  // Real brand logos via Clearbit Logo API (domain-based, full color) with favicon fallback
+  // Reliable real brand favicons from Google's favicon service, with an inline fallback so no logo slot disappears.
   const rowA: Brand[] = [
     { name: "Google", domain: "google.com" },
     { name: "Microsoft", domain: "microsoft.com" },
@@ -187,19 +187,19 @@ function Marquee({ items, duration, reverse = false }: { items: Brand[]; duratio
             className="shrink-0 inline-flex items-center gap-2 opacity-90 hover:opacity-100 transition"
           >
             <img
-              src={`https://logo.clearbit.com/${b.domain}`}
+              src={logoSrc(b.domain)}
               alt={b.name}
               loading="lazy"
               width={36}
               height={36}
-              className="h-7 w-7 sm:h-8 sm:w-8 lg:h-9 lg:w-9 object-contain block"
+              className="h-7 w-7 sm:h-8 sm:w-8 lg:h-9 lg:w-9 object-contain block rounded-md"
               onError={(e) => {
                 const img = e.currentTarget as HTMLImageElement;
                 if (!img.dataset.fallback) {
                   img.dataset.fallback = "1";
-                  img.src = `https://www.google.com/s2/favicons?domain=${b.domain}&sz=128`;
+                  img.src = fallbackLogo(b.name);
                 } else {
-                  img.style.display = "none";
+                  img.style.visibility = "hidden";
                 }
               }}
             />
@@ -212,4 +212,20 @@ function Marquee({ items, duration, reverse = false }: { items: Brand[]; duratio
       <style>{`@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
     </div>
   );
+}
+
+function logoSrc(domain: string) {
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+}
+
+function fallbackLogo(name: string) {
+  const initials = name
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  return `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="#F1F5F9"/><text x="64" y="76" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#0F172A">${initials}</text></svg>`,
+  )}`;
 }
