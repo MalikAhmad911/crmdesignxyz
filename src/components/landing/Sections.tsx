@@ -173,50 +173,50 @@ export function CapabilityRow() {
   ];
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-start">
         <div className="lg:col-span-5">
-          <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">PROOF, NOT PROMISES</p>
-          <h2 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight leading-[1.1]">
+          <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-3 sm:mb-4">PROOF, NOT PROMISES</p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight leading-[1.1]">
             Here's one shop's morning, picked up while the owner was still asleep.
           </h2>
-          <p className="mt-5 text-[color:var(--color-body)] leading-relaxed">
+          <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] leading-relaxed">
             A real screenshot from a 9-truck HVAC company in Phoenix. Between midnight and 9am on a Tuesday in May, Revenue Sol answered 14 calls, booked 6 jobs, and filtered 3 robocalls — before anyone in the office had coffee.
           </p>
-          <div className="mt-8 grid grid-cols-3 gap-3">
+          <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
             {[
               ["$8,420", "Booked revenue, before 9am"],
               ["6 / 14", "Calls turned into jobs"],
               ["38 sec", "Average pickup time"],
             ].map(([n, l]) => (
-              <div key={l} className="rounded-2xl p-4 bg-[color:var(--color-tint)]">
-                <p className="font-display text-2xl lg:text-3xl text-[color:var(--color-heading)] tracking-tight">{n}</p>
-                <p className="mt-1 text-xs text-[color:var(--color-body)] leading-snug">{l}</p>
+              <div key={l} className="rounded-2xl p-3 sm:p-4 bg-[color:var(--color-tint)]">
+                <p className="font-display text-lg sm:text-2xl lg:text-3xl text-[color:var(--color-heading)] tracking-tight">{n}</p>
+                <p className="mt-1 text-[11px] sm:text-xs text-[color:var(--color-body)] leading-snug">{l}</p>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-xs text-[color:var(--color-muted)]">Names changed at the customer's request. Numbers and timestamps are from their account on May 14, 2026.</p>
+          <p className="mt-5 sm:mt-6 text-xs text-[color:var(--color-muted)]">Names changed at the customer's request. Numbers and timestamps are from their account on May 14, 2026.</p>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 w-full min-w-0">
           <div className="rounded-2xl bg-white border border-[color:var(--color-border-soft)] overflow-hidden">
             {/* Window chrome */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-tint)]">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-              <span className="ml-3 text-xs text-[color:var(--color-muted)] font-mono">app.revenuesol.com / today</span>
+              <span className="ml-3 text-[10px] sm:text-xs text-[color:var(--color-muted)] font-mono truncate">app.revenuesol.com / today</span>
             </div>
             {/* App body */}
-            <div className="p-5 lg:p-7">
-              <div className="flex items-baseline justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)]">Today · Tue May 14</p>
-                  <h3 className="font-display text-2xl text-[color:var(--color-heading)] mt-1">Good morning, Ray.</h3>
+            <div className="p-4 sm:p-5 lg:p-7">
+              <div className="flex items-baseline justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)]">Today · Tue May 14</p>
+                  <h3 className="font-display text-xl sm:text-2xl text-[color:var(--color-heading)] mt-1 truncate">Good morning, Ray.</h3>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] font-medium">Live</span>
+                <span className="text-[10px] sm:text-xs px-2.5 py-1 rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] font-medium shrink-0">Live</span>
               </div>
 
-              <div className="mt-5 grid grid-cols-4 gap-3">
+              <div className="mt-4 sm:mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {[
                   ["14", "Calls"],
                   ["6", "Booked"],
@@ -224,24 +224,24 @@ export function CapabilityRow() {
                   ["3", "Filtered"],
                 ].map(([n, l]) => (
                   <div key={l} className="rounded-xl border border-[color:var(--color-border-soft)] p-3">
-                    <p className="font-display text-2xl text-[color:var(--color-heading)] leading-none">{n}</p>
-                    <p className="mt-1.5 text-[11px] text-[color:var(--color-muted)] uppercase tracking-wider">{l}</p>
+                    <p className="font-display text-xl sm:text-2xl text-[color:var(--color-heading)] leading-none">{n}</p>
+                    <p className="mt-1.5 text-[10px] sm:text-[11px] text-[color:var(--color-muted)] uppercase tracking-wider">{l}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-2">Call log · last 4 hours</p>
+              <div className="mt-5 sm:mt-6">
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[color:var(--color-muted)] mb-2">Call log · last 4 hours</p>
                 <ul className="divide-y divide-[color:var(--color-border-soft)] border border-[color:var(--color-border-soft)] rounded-xl overflow-hidden">
                   {callLog.map((c) => (
-                    <li key={c.time} className="grid grid-cols-[68px_1fr_auto] items-center gap-3 px-3.5 py-3 text-sm bg-white">
-                      <span className="font-mono text-xs text-[color:var(--color-muted)]">{c.time}</span>
+                    <li key={c.time} className="grid grid-cols-[52px_minmax(0,1fr)_auto] sm:grid-cols-[68px_minmax(0,1fr)_auto] items-center gap-2 sm:gap-3 px-3 sm:px-3.5 py-3 text-sm bg-white">
+                      <span className="font-mono text-[10px] sm:text-xs text-[color:var(--color-muted)]">{c.time}</span>
                       <div className="min-w-0">
-                        <p className="font-medium text-[color:var(--color-heading)] truncate">{c.name}</p>
-                        <p className="text-xs text-[color:var(--color-body)] truncate">{c.reason}</p>
+                        <p className="font-medium text-[color:var(--color-heading)] truncate text-[13px] sm:text-sm">{c.name}</p>
+                        <p className="text-[11px] sm:text-xs text-[color:var(--color-body)] truncate">{c.reason}</p>
                       </div>
                       <span
-                        className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded-full font-semibold whitespace-nowrap ${
+                        className={`text-[9px] sm:text-[10px] uppercase tracking-wider px-2 py-1 rounded-full font-semibold whitespace-nowrap ${
                           c.status === "booked"
                             ? "bg-[color:var(--color-brand)] text-[color:var(--color-bg)]"
                             : c.status === "quoted"
