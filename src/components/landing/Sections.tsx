@@ -369,8 +369,9 @@ export function Footer() {
             x="500"
             y="170"
             textAnchor="middle"
-            className="font-display"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "220px", letterSpacing: "-8px", fill: "var(--color-heading)" }}
+            textLength="980"
+            lengthAdjust="spacingAndGlyphs"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "220px", fill: "var(--color-heading)" }}
           >
             Revenue Sol
           </text>
