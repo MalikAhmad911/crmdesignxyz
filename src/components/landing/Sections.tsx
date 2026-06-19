@@ -144,16 +144,16 @@ export function CentralPlatform() {
           <svg viewBox="0 0 400 400" className="w-full h-full">
             <rect x="60" y="120" width="280" height="220" rx="32" fill="#0F0F10" />
 
-            <rect x="60" y="120" width="280" height="60" rx="32" fill="#4F46E5" />
-            <rect x="170" y="80" width="60" height="60" rx="16" fill="#4F46E5" />
-            <rect x="100" y="200" width="80" height="80" rx="18" fill="#FFFFFF" />
-            <rect x="200" y="200" width="80" height="80" rx="18" fill="#00D4FF" />
-            <rect x="100" y="290" width="80" height="40" rx="14" fill="#7C3AED" />
-            <rect x="200" y="290" width="80" height="40" rx="14" fill="#FFFFFF" />
-            <circle cx="140" cy="240" r="14" fill="#635BFF" />
-            <circle cx="240" cy="240" r="14" fill="#FFFFFF" />
-            <circle cx="320" cy="100" r="22" fill="#7C3AED" />
-            <circle cx="70" cy="80" r="14" fill="#0A84FF" />
+            <rect x="60" y="120" width="280" height="60" rx="32" fill="#0F0F10" />
+            <rect x="170" y="80" width="60" height="60" rx="16" fill="#0F0F10" />
+            <rect x="100" y="200" width="80" height="80" rx="18" fill="#F4F1EC" />
+            <rect x="200" y="200" width="80" height="80" rx="18" fill="#EAE5DA" />
+            <rect x="100" y="290" width="80" height="40" rx="14" fill="#F4F1EC" />
+            <rect x="200" y="290" width="80" height="40" rx="14" fill="#EAE5DA" />
+            <circle cx="140" cy="240" r="14" fill="#0F0F10" />
+            <circle cx="240" cy="240" r="14" fill="#F4F1EC" />
+            <circle cx="320" cy="100" r="22" fill="#0F0F10" />
+            <circle cx="70" cy="80" r="14" fill="#0F0F10" />
           </svg>
         </div>
       </div>
