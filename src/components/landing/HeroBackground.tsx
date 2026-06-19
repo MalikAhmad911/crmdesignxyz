@@ -1,147 +1,104 @@
-import { useEffect, useRef } from "react";
-
 /**
- * Animated network/nodes background for the hero.
- * Pure canvas, no external libs. Uses only brand palette colors.
+ * Stripe-style animated gradient mesh background for the hero.
+ * Layered conic/radial gradients + soft animated blobs + subtle grid.
+ * Pure CSS — no canvas, GPU friendly.
  */
 export function HeroBackground() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const COLORS = ["#635BFF", "#7C3AED", "#00D4FF", "#0A84FF"];
-    let width = 0;
-    let height = 0;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let raf = 0;
-
-    type Node = { x: number; y: number; vx: number; vy: number; r: number; c: string };
-    let nodes: Node[] = [];
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      width = parent.clientWidth;
-      height = parent.clientHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = Math.min(120, Math.floor((width * height) / 9000));
-      nodes = Array.from({ length: count }).map(() => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        r: 1.2 + Math.random() * 1.8,
-        c: COLORS[Math.floor(Math.random() * COLORS.length)],
-      }));
-    };
-
-    const mouse = { x: -9999, y: -9999 };
-    const onMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-    const onLeave = () => {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    };
-
-    const tick = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // update
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > width) n.vx *= -1;
-        if (n.y < 0 || n.y > height) n.vy *= -1;
-      }
-
-      // lines
-      const maxDist = 170;
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < maxDist) {
-            const alpha = (1 - d / maxDist) * 0.35;
-            ctx.strokeStyle = `rgba(99, 91, 255, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-
-        // mouse interaction
-        const mdx = a.x - mouse.x;
-        const mdy = a.y - mouse.y;
-        const md = Math.hypot(mdx, mdy);
-        if (md < 160) {
-          const alpha = (1 - md / 160) * 0.55;
-          ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-        }
-      }
-
-      // nodes
-      for (const n of nodes) {
-        ctx.fillStyle = n.c;
-        ctx.globalAlpha = 0.85;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-        // glow
-        ctx.globalAlpha = 0.18;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r * 3.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-
-      raf = requestAnimationFrame(tick);
-    };
-
-    resize();
-    tick();
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseleave", onLeave);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
-
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* soft color blobs behind canvas */}
-      <div className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full blur-3xl opacity-30" style={{ background: "#635BFF" }} />
-      <div className="absolute top-10 -right-20 w-[460px] h-[460px] rounded-full blur-3xl opacity-25" style={{ background: "#00D4FF" }} />
-      <div className="absolute bottom-0 left-1/3 w-[380px] h-[380px] rounded-full blur-3xl opacity-25" style={{ background: "#7C3AED" }} />
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      {/* fade to bg at bottom for clean handoff */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[color:var(--color-bg)]" />
+      {/* base wash */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, #F6F9FC 0%, #EEF0FF 55%, #F6F9FC 100%)",
+        }}
+      />
+
+      {/* stripe-style angled ribbon */}
+      <div
+        className="absolute -top-1/3 -left-1/4 w-[160%] h-[120%] opacity-70"
+        style={{
+          background:
+            "conic-gradient(from 210deg at 50% 50%, rgba(99,91,255,0) 0deg, rgba(99,91,255,0.55) 60deg, rgba(124,58,237,0.55) 120deg, rgba(0,132,255,0.45) 180deg, rgba(0,212,255,0.45) 240deg, rgba(99,91,255,0) 320deg)",
+          filter: "blur(80px)",
+          transform: "rotate(-12deg)",
+          animation: "hero-spin 28s linear infinite",
+        }}
+      />
+
+      {/* floating color blobs */}
+      <div
+        className="absolute top-[-10%] left-[-10%] w-[520px] h-[520px] rounded-full opacity-60"
+        style={{
+          background: "radial-gradient(circle, #635BFF 0%, transparent 65%)",
+          filter: "blur(40px)",
+          animation: "hero-float-a 18s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute top-[10%] right-[-12%] w-[560px] h-[560px] rounded-full opacity-55"
+        style={{
+          background: "radial-gradient(circle, #00D4FF 0%, transparent 65%)",
+          filter: "blur(50px)",
+          animation: "hero-float-b 22s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute bottom-[-15%] left-[25%] w-[600px] h-[600px] rounded-full opacity-50"
+        style={{
+          background: "radial-gradient(circle, #7C3AED 0%, transparent 65%)",
+          filter: "blur(60px)",
+          animation: "hero-float-c 26s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute top-[40%] left-[35%] w-[420px] h-[420px] rounded-full opacity-40"
+        style={{
+          background: "radial-gradient(circle, #0A84FF 0%, transparent 65%)",
+          filter: "blur(50px)",
+          animation: "hero-float-b 24s ease-in-out infinite reverse",
+        }}
+      />
+
+      {/* fine grid overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #0A2540 1px, transparent 1px), linear-gradient(to bottom, #0A2540 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+        }}
+      />
+
+      {/* noise / softness via inner shadow */}
+      <div className="absolute inset-0 bg-[color:var(--color-bg)]/20" />
+
+      {/* bottom fade to bg */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[color:var(--color-bg)]" />
+
+      <style>{`
+        @keyframes hero-spin {
+          from { transform: rotate(-12deg); }
+          to   { transform: rotate(348deg); }
+        }
+        @keyframes hero-float-a {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50%      { transform: translate(60px, 40px) scale(1.1); }
+        }
+        @keyframes hero-float-b {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50%      { transform: translate(-50px, 60px) scale(1.08); }
+        }
+        @keyframes hero-float-c {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50%      { transform: translate(40px, -50px) scale(1.12); }
+        }
+      `}</style>
     </div>
   );
 }
