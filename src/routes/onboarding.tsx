@@ -47,7 +47,7 @@ function OnboardingPage() {
       goal: a.goal, focusAreas: a.focusAreas, referralSource: a.referral,
       onboardingComplete: true,
     });
-    navigate({ to: "/dashboard" });
+    navigate({ to: "/" });
   };
 
   const sides = [

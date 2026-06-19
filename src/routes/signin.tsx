@@ -20,7 +20,7 @@ function SignInPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const acc = getAccount();
-    navigate({ to: acc.onboardingComplete ? "/dashboard" : "/onboarding" });
+    navigate({ to: acc.onboardingComplete ? "/" : "/onboarding" });
   };
   return (
     <AuthShell side="signin">
