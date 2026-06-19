@@ -10,17 +10,23 @@
 @import "@fontsource/eb-garamond/500.css";
 @import "@fontsource/eb-garamond/600.css";
 @import "@fontsource/eb-garamond/400-italic.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "EB Garamond", ui-serif, Georgia, serif;
+  --font-hero: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-bg: #F6F9FC;
   --color-surface: #FFFFFF;
   --color-border-soft: #E6EBF1;
   --color-tint: #EEF0FF;
+  --color-cream: #F4F1EC;
 
   --color-heading: #0A2540;
   --color-body: #425466;
