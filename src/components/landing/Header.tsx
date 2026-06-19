@@ -33,11 +33,9 @@ export function Nav() {
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
+      <HeroBackground />
       <div className="mx-auto max-w-7xl px-5 lg:px-8 pt-20 pb-24 text-center relative">
-        {/* Decorative blobs */}
-        <div aria-hidden className="absolute -top-10 -left-10 w-72 h-72 rounded-full blur-3xl opacity-30" style={{ background: "#635BFF" }} />
-        <div aria-hidden className="absolute top-20 -right-10 w-80 h-80 rounded-full blur-3xl opacity-25" style={{ background: "#00D4FF" }} />
-        <div aria-hidden className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full blur-3xl opacity-25" style={{ background: "#7C3AED" }} />
+
 
         <h1 className="relative font-display text-[44px] leading-[1.05] sm:text-6xl lg:text-7xl font-medium text-[color:var(--color-heading)] tracking-tight">
           Run your service business<br />
