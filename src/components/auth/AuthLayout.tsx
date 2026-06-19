@@ -10,16 +10,18 @@ import { useMemo, useState, type ReactNode } from "react";
 /* ---------- Shared visual chrome ---------- */
 
 export function AuthShell({
-  side,
+  mode,
+  onSwitch,
   children,
 }: {
-  side: "signin" | "signup";
+  mode: "signin" | "signup";
+  onSwitch?: (mode: "signin" | "signup") => void;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-screen bg-[color:var(--color-bg)] flex flex-col lg:grid lg:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.15fr_1fr]">
       <BrandPanel />
-      <FormPanel side={side}>{children}</FormPanel>
+      <FormPanel mode={mode} onSwitch={onSwitch}>{children}</FormPanel>
     </div>
   );
 }
