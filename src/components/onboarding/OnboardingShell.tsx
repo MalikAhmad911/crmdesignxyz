@@ -36,10 +36,10 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-16">
-        <section className="min-w-0">{children}</section>
+      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-10">
+        <div className="min-w-0">{children}</div>
         <aside className="hidden lg:block">
-          <div className="sticky top-24">{side}</div>
+          <div className="sticky top-20">{side}</div>
         </aside>
       </main>
     </div>
@@ -48,16 +48,16 @@ export function OnboardingShell({
 
 export function StepHeading({ eyebrow, title, sub }: { eyebrow?: string; title: string; sub?: string }) {
   return (
-    <div className="mb-8 max-w-xl">
+    <div className="mb-6 max-w-xl">
       {eyebrow && (
-        <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
           {eyebrow}
         </p>
       )}
-      <h1 className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[color:var(--color-heading)] sm:text-4xl md:text-[2.75rem]">
+      <h1 className="font-display text-[26px] font-medium leading-[1.1] tracking-tight text-[color:var(--color-heading)] sm:text-[30px] md:text-[34px]">
         {title}
       </h1>
-      {sub && <p className="mt-4 text-[15px] leading-relaxed text-[color:var(--color-body)]">{sub}</p>}
+      {sub && <p className="mt-2.5 text-[14px] leading-relaxed text-[color:var(--color-body)]">{sub}</p>}
     </div>
   );
 }
