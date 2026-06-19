@@ -51,7 +51,7 @@ export function AgentMock() {
         <p className="text-sm text-[color:var(--color-heading)]">10am works.</p>
       </div>
       <div className="rounded-2xl bg-white p-4 shadow-[0_20px_60px_-20px_rgba(10,37,64,0.25)] flex items-center gap-3">
-        <span className="w-8 h-8 grid place-items-center rounded-full bg-[#00D4FF]/15 text-[color:var(--color-sky)] text-sm">✓</span>
+        <span className="w-8 h-8 grid place-items-center rounded-full bg-[color:var(--color-tint)] text-[color:var(--color-heading)] text-sm">✓</span>
         <div>
           <p className="text-sm font-semibold text-[color:var(--color-heading)]">Job booked · Tue 10:00 AM</p>
           <p className="text-xs text-[color:var(--color-muted)]">Added to dispatch · Confirmation SMS sent</p>

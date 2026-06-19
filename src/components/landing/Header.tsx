@@ -80,7 +80,7 @@ export function Hero() {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#E5DFD3] bg-white/70 backdrop-blur text-sm text-[#1A1916]">
+    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-sm text-[color:var(--color-heading)]">
       {children}
     </span>
   );
