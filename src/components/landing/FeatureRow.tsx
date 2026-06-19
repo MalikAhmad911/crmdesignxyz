@@ -63,17 +63,18 @@ export function SectionBreak() {
   return (
     <section className="mx-auto max-w-5xl px-5 lg:px-8 py-24 text-center">
       <h2 className="font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
-        Turn data into action with flexible,{" "}
+        Knowing what's going on is one thing.{" "}
         <span className="relative inline-block italic">
           <span className="absolute inset-x-[-6px] bottom-1 h-3 bg-[color:var(--color-tint)] -z-10 rounded-sm" />
-          iterable workflows
-        </span>
+          Doing something about it
+        </span>{" "}
+        is the part we make easy.
       </h2>
       <p className="mt-6 text-lg text-[color:var(--color-body)] max-w-2xl mx-auto">
-        Getting the right data is half the battle. The real value comes from putting it into action — connect to any tool in your stack and iterate quickly.
+        It's not enough to have the info. We connect to the tools you already use and help you take the next step — book the job, send the quote, follow up — without juggling tabs.
       </p>
       <a href="#" className="mt-8 inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">
-        Start building for free <ArrowRight />
+        Try it free <ArrowRight />
       </a>
     </section>
   );
