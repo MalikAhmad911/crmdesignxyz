@@ -44,21 +44,21 @@ export function StackedFeatures() {
 export function PullQuote() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
-        <blockquote className="font-display text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
+      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-6 sm:p-8 lg:p-14">
+        <blockquote className="font-display text-xl sm:text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
           "We were missing calls every single day. Since we set up Revenue Sol, somebody — or something — answers every one. We didn't have to hire another person to do it."
         </blockquote>
-        <p className="mt-6 text-sm text-[color:var(--color-muted)]">
+        <p className="mt-5 sm:mt-6 text-sm text-[color:var(--color-muted)]">
           <span className="font-semibold text-[color:var(--color-heading)]">Sample Owner</span> · Office manager, Placeholder HVAC <span className="ml-1 italic">(example)</span>
         </p>
-        <div className="mt-10 grid sm:grid-cols-3 gap-4">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {[
             ["4 hrs/week", "Less time on the phone, per owner we talked to"],
             ["100+", "Tools we can plug into out of the box"],
             ["Every call", "Picked up, day or night"],
           ].map(([n, l]) => (
             <div key={l} className="rounded-2xl p-5 bg-[color:var(--color-tint)]">
-              <p className="font-display text-3xl text-[color:var(--color-brand)]">{n}</p>
+              <p className="font-display text-2xl sm:text-3xl text-[color:var(--color-brand)]">{n}</p>
               <p className="mt-1 text-sm text-[color:var(--color-body)]">{l}</p>
             </div>
           ))}
