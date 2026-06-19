@@ -363,10 +363,10 @@ export function Footer() {
       </div>
 
       {/* Giant brand mark */}
-      <div className="select-none" style={{ background: "yellow" }}>
+      <div className="overflow-hidden select-none px-5 lg:px-8" aria-hidden="true">
         <p
-          className="font-display font-medium whitespace-nowrap"
-          style={{ fontSize: "clamp(8rem, 22vw, 24rem)", lineHeight: 0.8, letterSpacing: "-0.04em", color: "red" }}
+          className="font-display font-medium text-[color:var(--color-heading)] whitespace-nowrap"
+          style={{ fontSize: "clamp(6rem, 22vw, 22rem)", lineHeight: 0.85, letterSpacing: "-0.05em" }}
         >
           Revenue Sol
         </p>
