@@ -63,41 +63,40 @@ function DashboardPage() {
 
       {/* Top app bar */}
       <header className="border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/85 backdrop-blur">
-        <div className="mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6">
-          <div className="flex min-w-0 items-center gap-6">
-            <Link to="/" className="font-display text-lg font-semibold tracking-tight">
-              Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
-            </Link>
-            <nav className="hidden gap-1 md:flex">
-              {["Today","Calls","Jobs","Clients","Invoices","Reports"].map((t,i) => (
-                <button key={t} className={[
-                  "rounded-full px-3.5 py-1.5 text-sm",
-                  i === 0 ? "bg-[color:var(--color-heading)] text-[color:var(--color-bg)]" : "text-[color:var(--color-body)] hover:bg-[color:var(--color-tint)]"
-                ].join(" ")}>{t}</button>
-              ))}
-            </nav>
-          </div>
+        <div className="mx-auto grid h-14 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:h-16 sm:px-6">
+          <Link to="/" className="font-display text-base font-semibold tracking-tight sm:text-lg">
+            Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
+          </Link>
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-[color:var(--color-muted)] sm:inline">{company}</span>
+            <span className="hidden text-xs text-[color:var(--color-muted)] md:inline">{company}</span>
             <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-heading)] text-sm font-medium text-[color:var(--color-bg)]">
               {firstName.charAt(0)}
             </div>
           </div>
         </div>
+        {/* Scrollable section nav */}
+        <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-2 sm:px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {["Today","Calls","Jobs","Clients","Invoices","Reports"].map((t,i) => (
+            <button key={t} className={[
+              "shrink-0 rounded-full px-3.5 py-1.5 text-sm",
+              i === 0 ? "bg-[color:var(--color-heading)] text-[color:var(--color-bg)]" : "text-[color:var(--color-body)] hover:bg-[color:var(--color-tint)]"
+            ].join(" ")}>{t}</button>
+          ))}
+        </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-muted)]">Friday · June 19</p>
-            <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">Friday · June 19</p>
+            <h1 className="font-display text-[26px] font-medium leading-tight tracking-tight sm:text-4xl">
               Good morning, {firstName}.
             </h1>
-            <p className="mt-1 text-[15px] text-[color:var(--color-body)]">Your operator answered 12 calls overnight. 4 turned into booked jobs.</p>
+            <p className="mt-1 text-[14px] text-[color:var(--color-body)] sm:text-[15px]">Your operator answered 12 calls overnight. 4 turned into booked jobs.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="h-10 rounded-full bg-[color:var(--color-heading)] px-5 text-sm font-medium text-[color:var(--color-bg)] hover:bg-black">+ New job</button>
-            <button className="h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white px-5 text-sm font-medium hover:bg-[color:var(--color-tint)]">+ Quote</button>
+            <button className="h-10 flex-1 rounded-full bg-[color:var(--color-heading)] px-5 text-sm font-medium text-[color:var(--color-bg)] hover:bg-black sm:flex-none">+ New job</button>
+            <button className="h-10 flex-1 rounded-full border border-[color:var(--color-border-soft)] bg-white px-5 text-sm font-medium hover:bg-[color:var(--color-tint)] sm:flex-none">+ Quote</button>
           </div>
         </div>
 

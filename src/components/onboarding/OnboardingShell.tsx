@@ -14,21 +14,22 @@ export function OnboardingShell({
 }) {
   const pct = Math.round((step / total) * 100);
   return (
-    <div className="min-h-dvh bg-[color:var(--color-bg)] text-[color:var(--color-heading)]">
+    <div className="min-h-dvh bg-[color:var(--color-bg)] text-[color:var(--color-heading)] pb-24 lg:pb-0">
       {/* Top bar */}
-      <header className="sticky top-0 z-20 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/85 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link to="/" className="font-display text-lg font-semibold tracking-tight">
+      <header className="sticky top-0 z-20 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/90 backdrop-blur">
+        <div className="mx-auto flex h-12 max-w-7xl items-center justify-between gap-3 px-4 sm:h-14 sm:px-6">
+          <Link to="/" className="font-display text-base font-semibold tracking-tight sm:text-lg">
             Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
           </Link>
-          <div className="flex items-center gap-3 text-xs text-[color:var(--color-muted)]">
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-3 text-xs text-[color:var(--color-muted)]">
             <span className="hidden sm:inline">Step {step} of {total}</span>
-            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-[color:var(--color-tint)] sm:w-40">
+            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-[color:var(--color-tint)] sm:w-40">
               <div
                 className="h-full rounded-full bg-[color:var(--color-heading)] transition-all duration-500"
                 style={{ width: `${pct}%` }}
               />
             </div>
+            <span className="text-[11px] font-medium text-[color:var(--color-heading)] sm:hidden">{step}/{total}</span>
             <Link to="/signin" className="hidden text-[color:var(--color-heading)] underline-offset-4 hover:underline sm:inline">
               Save & exit
             </Link>
@@ -36,7 +37,7 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-7">
+      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-4 sm:px-6 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-7">
         <div className="min-w-0">{children}</div>
         <aside className="hidden lg:block">
           <div className="sticky top-16">{side}</div>
@@ -74,27 +75,31 @@ export function NavRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        {onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"
-          >
-            ← Back
-          </button>
-        )}
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--color-bg)]/80 lg:static lg:mt-7 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+      <div className="mx-auto flex max-w-xl items-center justify-between gap-3 lg:max-w-none">
+        <div className="shrink-0">
+          {onBack ? (
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-medium text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)] sm:px-5"
+            >
+              ← <span className="hidden sm:inline">Back</span>
+            </button>
+          ) : (
+            <span className="h-11 w-11" />
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={disabled}
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[color:var(--color-heading)] px-7 text-sm font-medium text-[color:var(--color-bg)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40 lg:flex-none"
+        >
+          {nextLabel}
+          <span aria-hidden>→</span>
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={disabled}
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[color:var(--color-heading)] px-7 text-sm font-medium text-[color:var(--color-bg)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.45)] transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        {nextLabel}
-        <span aria-hidden>→</span>
-      </button>
     </div>
   );
 }
