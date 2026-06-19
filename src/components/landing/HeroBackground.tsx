@@ -33,13 +33,13 @@ export function HeroBackground() {
       canvas.style.height = height + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.min(70, Math.floor((width * height) / 16000));
+      const count = Math.min(120, Math.floor((width * height) / 9000));
       nodes = Array.from({ length: count }).map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        r: 1.4 + Math.random() * 2.2,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        r: 1.2 + Math.random() * 1.8,
         c: COLORS[Math.floor(Math.random() * COLORS.length)],
       }));
     };
@@ -67,7 +67,7 @@ export function HeroBackground() {
       }
 
       // lines
-      const maxDist = 130;
+      const maxDist = 170;
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
