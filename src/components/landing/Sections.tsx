@@ -24,7 +24,7 @@ export function StackedFeatures() {
     },
   ];
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 pb-8 space-y-20 lg:space-y-28">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8 space-y-20 lg:space-y-28">
       {items.map((it, i) => (
         <div key={it.eyebrow} className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
           <div>
@@ -43,7 +43,7 @@ export function StackedFeatures() {
 
 export function PullQuote() {
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-24">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14 shadow-[0_20px_60px_-30px_rgba(10,37,64,0.15)]">
         <blockquote className="font-display text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
           "We were missing calls every single day. Since we set up Revenue Sol, somebody — or something — answers every one. We didn't have to hire another person to do it."
@@ -92,7 +92,7 @@ export function UseCases() {
     ],
   };
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
         Things our customers actually use Revenue Sol for
       </h2>
@@ -125,7 +125,7 @@ export function UseCases() {
 
 export function CentralPlatform() {
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
@@ -172,7 +172,7 @@ export function CapabilityRow() {
     { time: "9:11 AM", name: "Lena Park", reason: "Asked for hours — replied, sent booking link", status: "info" },
   ];
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         <div className="lg:col-span-5">
           <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">PROOF, NOT PROMISES</p>
@@ -275,7 +275,7 @@ export function QuoteCarousel() {
   const [i, setI] = useState(0);
   const visible = quotes.slice(i, i + 3).concat(quotes.slice(0, Math.max(0, i + 3 - quotes.length))).slice(0, 3);
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="flex items-end justify-between mb-8">
         <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
           What owners are telling us
@@ -303,7 +303,7 @@ export function QuoteCarousel() {
 
 export function FinalCta() {
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 pb-24">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
         <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
           Give it a try.<br />See if it fits your shop.
