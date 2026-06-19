@@ -362,14 +362,19 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Giant brand mark */}
-      <div className="overflow-hidden select-none px-5 lg:px-8" aria-hidden="true">
-        <p
-          className="font-display font-medium text-[color:var(--color-heading)] whitespace-nowrap"
-          style={{ fontSize: "clamp(6rem, 22vw, 22rem)", lineHeight: 0.85, letterSpacing: "-0.05em" }}
-        >
-          Revenue Sol
-        </p>
+      {/* Giant brand mark — auto-fits viewport width */}
+      <div className="select-none px-5 lg:px-8 pb-4" aria-hidden="true">
+        <svg viewBox="0 0 1000 200" className="w-full h-auto block" preserveAspectRatio="xMidYMid meet">
+          <text
+            x="500"
+            y="170"
+            textAnchor="middle"
+            className="font-display"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 500, fontSize: "220px", letterSpacing: "-8px", fill: "var(--color-heading)" }}
+          >
+            Revenue Sol
+          </text>
+        </svg>
       </div>
     </footer>
   );
