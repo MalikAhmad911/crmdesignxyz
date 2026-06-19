@@ -87,6 +87,7 @@ function Page() {
         <FinalCta />
         <Footer />
       </main>
+      <div style={{ background: 'lime', height: 100, width: '100%' }}>TEST DIV</div>
     </div>
   );
 }
