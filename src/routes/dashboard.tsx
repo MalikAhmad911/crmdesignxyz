@@ -63,26 +63,25 @@ function DashboardPage() {
 
       {/* Top app bar */}
       <header className="border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/85 backdrop-blur">
-        <div className="mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6">
-          <div className="flex min-w-0 items-center gap-6">
-            <Link to="/" className="font-display text-lg font-semibold tracking-tight">
-              Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
-            </Link>
-            <nav className="hidden gap-1 md:flex">
-              {["Today","Calls","Jobs","Clients","Invoices","Reports"].map((t,i) => (
-                <button key={t} className={[
-                  "rounded-full px-3.5 py-1.5 text-sm",
-                  i === 0 ? "bg-[color:var(--color-heading)] text-[color:var(--color-bg)]" : "text-[color:var(--color-body)] hover:bg-[color:var(--color-tint)]"
-                ].join(" ")}>{t}</button>
-              ))}
-            </nav>
-          </div>
+        <div className="mx-auto grid h-14 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:h-16 sm:px-6">
+          <Link to="/" className="font-display text-base font-semibold tracking-tight sm:text-lg">
+            Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
+          </Link>
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-[color:var(--color-muted)] sm:inline">{company}</span>
+            <span className="hidden text-xs text-[color:var(--color-muted)] md:inline">{company}</span>
             <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-heading)] text-sm font-medium text-[color:var(--color-bg)]">
               {firstName.charAt(0)}
             </div>
           </div>
+        </div>
+        {/* Scrollable section nav */}
+        <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-2 sm:px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {["Today","Calls","Jobs","Clients","Invoices","Reports"].map((t,i) => (
+            <button key={t} className={[
+              "shrink-0 rounded-full px-3.5 py-1.5 text-sm",
+              i === 0 ? "bg-[color:var(--color-heading)] text-[color:var(--color-bg)]" : "text-[color:var(--color-body)] hover:bg-[color:var(--color-tint)]"
+            ].join(" ")}>{t}</button>
+          ))}
         </div>
       </header>
 
