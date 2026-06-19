@@ -1,4 +1,5 @@
 import { Search, Menu, Star, ArrowRight, ChevronDown } from "./icons";
+import { HeroBackground } from "./HeroBackground";
 
 export function Nav() {
   const links = ["Product", "Use Cases", "Solutions", "Resources", "Company", "Pricing"];
