@@ -71,9 +71,22 @@
     background-color: var(--color-bg);
     color: var(--color-body);
     font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  p {
+    line-height: 1.6;
   }
   h1, h2, h3, h4 {
     color: var(--color-heading);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  /* Consistent vertical rhythm for every landing section */
+  section {
+    padding-top: clamp(4rem, 8vw, 7rem);
+    padding-bottom: clamp(4rem, 8vw, 7rem);
   }
 }
