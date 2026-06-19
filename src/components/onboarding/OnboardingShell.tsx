@@ -36,10 +36,10 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-16">
-        <section className="min-w-0">{children}</section>
+      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-10">
+        <div className="min-w-0">{children}</div>
         <aside className="hidden lg:block">
-          <div className="sticky top-24">{side}</div>
+          <div className="sticky top-20">{side}</div>
         </aside>
       </main>
     </div>
@@ -48,16 +48,16 @@ export function OnboardingShell({
 
 export function StepHeading({ eyebrow, title, sub }: { eyebrow?: string; title: string; sub?: string }) {
   return (
-    <div className="mb-8 max-w-xl">
+    <div className="mb-6 max-w-xl">
       {eyebrow && (
-        <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
           {eyebrow}
         </p>
       )}
-      <h1 className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[color:var(--color-heading)] sm:text-4xl md:text-[2.75rem]">
+      <h1 className="font-display text-[26px] font-medium leading-[1.1] tracking-tight text-[color:var(--color-heading)] sm:text-[30px] md:text-[34px]">
         {title}
       </h1>
-      {sub && <p className="mt-4 text-[15px] leading-relaxed text-[color:var(--color-body)]">{sub}</p>}
+      {sub && <p className="mt-2.5 text-[14px] leading-relaxed text-[color:var(--color-body)]">{sub}</p>}
     </div>
   );
 }
@@ -74,7 +74,7 @@ export function NavRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="mt-10 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         {onBack && (
           <button
@@ -272,27 +272,27 @@ export function SidePoster({
   role: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-[color:var(--color-border-soft)] bg-[color:var(--color-heading)] p-8 text-[color:var(--color-bg)]">
-      <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-white/70">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {badge}
+    <div className="overflow-hidden rounded-[2rem] border border-[color:var(--color-border-soft)] bg-[color:var(--color-tint)] p-7 text-[color:var(--color-heading)]">
+      <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> {badge}
       </span>
-      <div className="mt-8">
-        <p className="font-display text-6xl font-medium leading-none tracking-tight">{stat}</p>
-        <p className="mt-2 text-sm text-white/60">{statSub}</p>
+      <div className="mt-6">
+        <p className="font-display text-5xl font-medium leading-none tracking-tight text-[color:var(--color-heading)]">{stat}</p>
+        <p className="mt-2 text-[13px] text-[color:var(--color-muted)]">{statSub}</p>
       </div>
-      <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-        <p className="font-display text-lg leading-snug text-white/90">“{quote}”</p>
+      <div className="mt-7 rounded-2xl border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] p-5">
+        <p className="font-display text-[17px] leading-snug text-[color:var(--color-heading)]">“{quote}”</p>
         <div className="mt-4 flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-sm font-medium">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-tint)] text-sm font-medium text-[color:var(--color-heading)]">
             {author.charAt(0)}
           </div>
           <div className="text-xs">
-            <p className="font-medium text-white">{author}</p>
-            <p className="text-white/55">{role}</p>
+            <p className="font-medium text-[color:var(--color-heading)]">{author}</p>
+            <p className="text-[color:var(--color-muted)]">{role}</p>
           </div>
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-3 gap-3 text-[10px] uppercase tracking-[0.18em] text-white/45">
+      <div className="mt-6 grid grid-cols-3 gap-3 text-[10px] uppercase tracking-[0.16em] text-[color:var(--color-muted)]">
         <span>SOC 2 ready</span>
         <span>HIPAA aware</span>
         <span>Made in Austin</span>
