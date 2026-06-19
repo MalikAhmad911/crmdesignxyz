@@ -15,7 +15,7 @@ export function AuthShell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[color:var(--color-bg)] flex flex-col lg:grid lg:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.15fr_1fr]">
+    <div className="min-h-screen bg-[color:var(--color-bg)] flex flex-col lg:grid lg:grid-cols-[0.85fr_1.15fr] xl:grid-cols-[0.9fr_1.1fr]">
       <BrandPanel />
       <FormPanel>{children}</FormPanel>
     </div>
@@ -31,7 +31,7 @@ const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace";
 
 function BrandPanel() {
   return (
-    <aside className="relative hidden lg:flex flex-col overflow-hidden bg-[#FDFCF9] p-10 xl:p-14 border-r border-zinc-100">
+    <aside className="relative hidden lg:flex flex-col overflow-hidden bg-[#FDFCF9] p-8 xl:p-10 border-r border-zinc-100">
       {/* subtle grid backdrop */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.4]"
@@ -62,7 +62,7 @@ function BrandPanel() {
         <div className="inline-flex px-3 py-1 rounded-full border border-zinc-200 bg-zinc-100/60 text-[10px] font-semibold text-zinc-500 uppercase tracking-widest mb-6">
           The Operator OS for Service Shops
         </div>
-        <h1 className="!text-zinc-900 text-[44px] xl:text-[56px] leading-[1.05] mb-6" style={{ fontFamily: SERIF }}>
+        <h1 className="!text-zinc-900 text-[38px] xl:text-[48px] leading-[1.05] mb-5" style={{ fontFamily: SERIF }}>
           Never miss a
           <br />
           <span className="italic text-zinc-500">customer call</span> again.
@@ -73,7 +73,7 @@ function BrandPanel() {
       </div>
 
       {/* Stats */}
-      <div className="relative z-10 grid grid-cols-3 gap-8 mt-12">
+      <div className="relative z-10 grid grid-cols-3 gap-6 mt-10">
         {[
           { v: "42%", l: "More Bookings" },
           { v: "< 3s", l: "Avg. Response" },
@@ -200,7 +200,7 @@ function FormPanel({ children }: { children: ReactNode }) {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-5 sm:px-8 py-10 lg:py-12">
-        <div className="w-full max-w-[440px]">
+        <div className="w-full max-w-[480px]">
           {children}
 
           <p className="mt-8 text-xs text-[color:var(--color-muted)] leading-relaxed">
