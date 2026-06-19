@@ -14,21 +14,22 @@ export function OnboardingShell({
 }) {
   const pct = Math.round((step / total) * 100);
   return (
-    <div className="min-h-dvh bg-[color:var(--color-bg)] text-[color:var(--color-heading)]">
+    <div className="min-h-dvh bg-[color:var(--color-bg)] text-[color:var(--color-heading)] pb-24 lg:pb-0">
       {/* Top bar */}
-      <header className="sticky top-0 z-20 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/85 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link to="/" className="font-display text-lg font-semibold tracking-tight">
+      <header className="sticky top-0 z-20 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)]/90 backdrop-blur">
+        <div className="mx-auto flex h-12 max-w-7xl items-center justify-between gap-3 px-4 sm:h-14 sm:px-6">
+          <Link to="/" className="font-display text-base font-semibold tracking-tight sm:text-lg">
             Revenue<span className="text-[color:var(--color-muted)]">.sol</span>
           </Link>
-          <div className="flex items-center gap-3 text-xs text-[color:var(--color-muted)]">
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-3 text-xs text-[color:var(--color-muted)]">
             <span className="hidden sm:inline">Step {step} of {total}</span>
-            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-[color:var(--color-tint)] sm:w-40">
+            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-[color:var(--color-tint)] sm:w-40">
               <div
                 className="h-full rounded-full bg-[color:var(--color-heading)] transition-all duration-500"
                 style={{ width: `${pct}%` }}
               />
             </div>
+            <span className="text-[11px] font-medium text-[color:var(--color-heading)] sm:hidden">{step}/{total}</span>
             <Link to="/signin" className="hidden text-[color:var(--color-heading)] underline-offset-4 hover:underline sm:inline">
               Save & exit
             </Link>
@@ -36,7 +37,7 @@ export function OnboardingShell({
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-7">
+      <main className="mx-auto grid max-w-6xl gap-8 px-4 py-4 sm:px-6 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-7">
         <div className="min-w-0">{children}</div>
         <aside className="hidden lg:block">
           <div className="sticky top-16">{side}</div>
