@@ -39,15 +39,13 @@ export function Hero() {
         <h1
           className="relative font-[family-name:var(--font-hero)] font-extrabold tracking-[-0.035em] text-[#0F0F10] text-[44px] leading-[0.98] sm:text-[68px] md:text-[84px] lg:text-[104px]"
         >
-          <span className="block">Run your service business</span>
-          <span className="block">with unique data</span>
-          <span className="block">— and the AI to act on it</span>
+          <span className="block">A simple way to run</span>
+          <span className="block">your service business</span>
+          <span className="block">without missing leads.</span>
         </h1>
 
         <p className="relative mt-7 sm:mt-9 mx-auto max-w-xl text-base sm:text-lg text-[#3B3A36] leading-relaxed">
-          Bring AI employees, customer enrichment, and intent signals together
-          <br className="hidden sm:block" />
-          {" "}and turn every call, text, and form into a booked job.
+          We answer your calls, reply to texts and forms, and add every new job to your calendar — so you can focus on the work instead of the phone.
         </p>
 
         <div className="relative mt-9 sm:mt-10 flex justify-center">
@@ -55,21 +53,21 @@ export function Hero() {
             href="#"
             className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-[#0F0F10] text-white text-sm sm:text-base font-semibold hover:bg-black transition shadow-[0_8px_24px_-8px_rgba(0,0,0,0.4)]"
           >
-            Start building for free <ArrowRight />
+            Try it free <ArrowRight />
           </a>
         </div>
 
         <div className="relative mt-16 sm:mt-24">
           <p className="text-[10px] sm:text-[11px] tracking-[0.22em] font-semibold text-[#6B645A] uppercase px-4">
-            Trusted by thousands of local service businesses.
+            Used by thousands of local service businesses.
             <br className="sm:hidden" />
             <span className="hidden sm:inline"> </span>
-            Built with love, inspired by our customers.
+            Built with the people who actually use it.
           </p>
           <div className="mt-5 sm:mt-6 flex flex-wrap justify-center items-center gap-2 sm:gap-3">
-            <Chip><Star className="text-[#C9A227]" /> 4.9 <span className="hidden sm:inline-flex"><Stars /></span></Chip>
-            <Chip>👥 10K+ community</Chip>
-            <Chip>💬 5.0 <span className="hidden sm:inline-flex"><Stars /></span></Chip>
+            <Chip><Star className="text-[#C9A227]" /> 4.9 from owners <span className="hidden sm:inline-flex"><Stars /></span></Chip>
+            <Chip>👥 10K+ shops using it</Chip>
+            <Chip>💬 5.0 support score <span className="hidden sm:inline-flex"><Stars /></span></Chip>
           </div>
         </div>
       </div>

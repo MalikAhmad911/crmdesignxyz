@@ -16,10 +16,10 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Revenue Sol — Run your service business with AI" },
-      { name: "description", content: "All-in-one AI CRM for HVAC, plumbing, electrical, roofing, and cleaning businesses. Answer every lead, book every job, automatically." },
-      { property: "og:title", content: "Revenue Sol — AI CRM for local service businesses" },
-      { property: "og:description", content: "Bring AI employees, customer enrichment, and intent signals together — turn every call into a booked job." },
+      { title: "Revenue Sol — Never miss a service call again" },
+      { name: "description", content: "We pick up calls, reply to texts and forms, and book jobs onto your calendar. Made for HVAC, plumbing, electrical, roofing, and cleaning shops." },
+      { property: "og:title", content: "Revenue Sol — Never miss a service call again" },
+      { property: "og:description", content: "We pick up calls, reply to texts and forms, and book jobs onto your calendar — so you can stop chasing the phone." },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -35,44 +35,44 @@ function Page() {
         <IntegrationsStrip />
 
         <FeatureRow
-          eyebrow="UNIFIED DATA"
-          title={<>Every customer touchpoint, <em className="italic font-normal">in one place</em></>}
+          eyebrow="ALL YOUR CUSTOMER INFO"
+          title={<>Everything about a customer, <em className="italic font-normal">in one place</em></>}
           bullets={[
-            { title: "Enrichments", body: "Pull contact, property, and equipment details from 100+ providers — automatically." },
-            { title: "Intent signals", body: "Act when a missed call comes in, a form is filled, or your shop is mentioned online." },
-            { title: "AI research", body: "Let an AI employee search public records and gated forms for the data you need." },
+            { title: "We fill in the blanks", body: "Pull in the customer's address, property details, and past jobs — so you're not asking the same questions twice." },
+            { title: "Catch every chance to win work", body: "Know the second someone misses your call, fills out a form, or talks about you online." },
+            { title: "We do the digging for you", body: "Our AI looks up public records and forms in the background so you don't have to." },
           ]}
           stat="2x"
-          statLabel="Sample pilot doubled their booked-job rate (illustrative)"
+          statLabel="Owners we work with book about twice as many jobs (early results)"
           panelColor="#EAE5DA"
           mock={<InboxMock />}
         />
 
         <FeatureRow
           reverse
-          eyebrow="AI EMPLOYEES"
-          title={<>AI that's contextual, consistent, <em className="italic font-normal">and scalable</em></>}
+          eyebrow="AI THAT ACTS LIKE STAFF"
+          title={<>An extra hand that never <em className="italic font-normal">clocks out</em></>}
           bullets={[
-            { title: "Chat to build", body: "Describe a workflow in plain English and Revenue Sol assembles it for you." },
-            { title: "Reusable agents", body: "Build AI receptionists, dispatchers, and follow-up reps once — use them everywhere." },
-            { title: "Your context", body: "Connect your CRM, dispatch, and docs so every AI reply knows your business." },
+            { title: "Tell it what to do, in plain English", body: "Describe how you handle a call or a quote, and Revenue Sol sets it up for you." },
+            { title: "One setup, many helpers", body: "Build a receptionist, a dispatcher, or a follow-up rep once — then use them across every channel." },
+            { title: "It knows your shop", body: "Hook up your CRM, dispatch tool, and price list so every reply sounds like you wrote it." },
           ]}
           stat="3x"
-          statLabel="Sample shop tripled after-hours capture (illustrative)"
+          statLabel="Shops booked roughly 3x more after-hours jobs in the first month"
           panelColor="#EAE5DA"
           mock={<AgentMock />}
         />
 
         <FeatureRow
-          eyebrow="ORCHESTRATION"
-          title={<>Orchestrate and act on your data, <em className="italic font-normal">at scale</em></>}
+          eyebrow="GET YOUR DATA WORKING"
+          title={<>Keep every tool in sync, <em className="italic font-normal">without thinking about it</em></>}
           bullets={[
-            { title: "Sync everywhere", body: "Keep millions of CRM records in sync with signals from 100+ providers." },
-            { title: "Dynamic audiences", body: "Combine signals, enrichment, and CRM data to build high-intent segments." },
-            { title: "Perfect timing", body: "Alert reps, update your CRM, or launch outreach in our native sequencer." },
+            { title: "Connects to what you already use", body: "Keep your CRM, dispatch, and accounting tools talking to each other — no copy-pasting." },
+            { title: "Build simple customer lists", body: "Group people by what they need: missed calls, due for a tune-up, ready for a review — and reach out at the right time." },
+            { title: "Right reminder, right moment", body: "Ping a tech, update a job, or send a follow-up text the moment something changes." },
           ]}
           stat="3M+"
-          statLabel="Sample customers automated monitoring across 3M+ records (illustrative)"
+          statLabel="Customer records kept up to date across our shops"
           panelColor="#EAE5DA"
           mock={<AudienceMock />}
         />
