@@ -24,112 +24,151 @@ export function AuthShell({
   );
 }
 
-/* ---------- LEFT: premium brand panel ---------- */
+export function AuthShellWrapper() { return null; }
+
+/* ---------- LEFT: Architectural light brand panel ---------- */
+
+const SERIF = "'Cormorant Garamond', ui-serif, Georgia, serif";
+const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace";
 
 function BrandPanel() {
   return (
-    <aside className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-[#070708] text-white p-10 xl:p-14">
-      {/* Aurora gradient background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className="absolute -top-40 -left-20 h-[600px] w-[600px] rounded-full blur-[100px] opacity-30"
-          style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute top-1/2 -right-20 h-[500px] w-[500px] rounded-full blur-[90px] opacity-20"
-          style={{ background: "radial-gradient(circle, #a855f7 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute -bottom-20 left-1/3 h-[400px] w-[400px] rounded-full blur-[80px] opacity-15"
-          style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)" }}
-        />
-      </div>
-
-      {/* Subtle grid overlay */}
+    <aside className="relative hidden lg:flex flex-col overflow-hidden bg-[#FDFCF9] p-10 xl:p-14 border-r border-zinc-100">
+      {/* subtle grid backdrop */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-[0.4]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+            "linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
       />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-zinc-100/60 via-transparent to-transparent" />
 
-      {/* Noise texture */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.025] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")",
-        }}
-      />
-
-      {/* Top bar */}
-      <div className="relative z-10 flex items-center justify-between">
-        <Link to="/" className="font-display text-xl font-semibold tracking-tight text-white">
-          revenue<span className="text-white/40">.sol</span>
+      {/* Top row */}
+      <div className="relative z-10 flex justify-between items-center">
+        <Link to="/" className="text-zinc-900 font-bold text-xl tracking-tight">
+          revenue<span className="text-zinc-400">.sol</span>
         </Link>
-        <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.2em] text-white/50">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200 bg-white/80 backdrop-blur-sm shadow-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
           </span>
-          Live system active
+          <span className="text-[10px] font-semibold text-zinc-500 tracking-wider uppercase">Systems Active</span>
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center">
-        <div className="max-w-lg">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-1.5 mb-6">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-            <span className="text-[11px] font-medium text-white/70 uppercase tracking-wider">The Operator OS for Service Shops</span>
+      {/* Headline */}
+      <div className="relative z-10 mt-16 xl:mt-20 max-w-md">
+        <div className="inline-flex px-3 py-1 rounded-full border border-zinc-200 bg-zinc-100/60 text-[10px] font-semibold text-zinc-500 uppercase tracking-widest mb-6">
+          The Operator OS for Service Shops
+        </div>
+        <h1 className="!text-zinc-900 text-[44px] xl:text-[56px] leading-[1.05] mb-6" style={{ fontFamily: SERIF }}>
+          Never miss a
+          <br />
+          <span className="italic text-zinc-500">customer call</span> again.
+        </h1>
+        <p className="text-zinc-500 text-[15px] leading-relaxed max-w-sm">
+          AI answers every ring, texts back in seconds, and books jobs straight to your calendar — while you focus on the work.
+        </p>
+      </div>
+
+      {/* Stats */}
+      <div className="relative z-10 grid grid-cols-3 gap-8 mt-12">
+        {[
+          { v: "42%", l: "More Bookings" },
+          { v: "< 3s", l: "Avg. Response" },
+          { v: "24/7", l: "Always On" },
+        ].map((s) => (
+          <div key={s.l}>
+            <div className="text-2xl text-zinc-900 mb-1 font-semibold" style={{ fontFamily: MONO }}>
+              {s.v}
+            </div>
+            <div className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">{s.l}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Activity card with trend line */}
+      <div className="relative z-10 mt-auto pt-10">
+        <div className="bg-white/95 backdrop-blur-xl rounded-2xl border border-zinc-200 p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.06)]">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h4 className="text-[11px] font-black !text-zinc-900 uppercase tracking-widest mb-1">REVENUE SOL</h4>
+              <p className="text-[10px] text-zinc-400 font-medium">Real-time conversion yield</p>
+            </div>
+            <div className="text-[10px] font-bold text-emerald-600 py-1 px-3 rounded-full bg-emerald-50 border border-emerald-100 flex items-center gap-1.5">
+              <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
+              12.4%
+            </div>
           </div>
 
-          <h2 className="font-display text-[42px] xl:text-[52px] leading-[1.05] tracking-tight text-white mb-5">
-            Never miss a
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-blue-300">
-              customer call
-            </span>{" "}
-            again.
-          </h2>
+          <div className="relative h-24 mb-8">
+            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-[0.06]">
+              <div className="w-full border-t border-zinc-900" />
+              <div className="w-full border-t border-zinc-900" />
+              <div className="w-full border-t border-zinc-900" />
+            </div>
+            <svg className="w-full h-full overflow-visible" viewBox="0 0 280 80" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M 0 60 Q 30 55, 60 65 Q 90 75, 120 40 Q 150 5, 180 20 Q 210 35, 240 50 Q 280 45, 280 45 V 80 H 0 Z"
+                fill="url(#lineGradient)"
+              />
+              <path
+                d="M 0 60 Q 30 55, 60 65 Q 90 75, 120 40 Q 150 5, 180 20 Q 210 35, 240 50 Q 280 45, 280 45"
+                fill="none"
+                stroke="#18181b"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+              />
+              <circle cx="150" cy="5" r="4" fill="white" stroke="#10b981" strokeWidth="2.5" />
+              <circle cx="150" cy="5" r="10" fill="#10b981" fillOpacity="0.1" className="animate-pulse" />
+            </svg>
+            <div className="absolute -bottom-5 inset-x-0 flex justify-between">
+              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+                <span key={i} className={`text-[9px] font-bold ${i === 3 ? "text-emerald-500" : "text-zinc-300"}`}>
+                  {d}
+                </span>
+              ))}
+            </div>
+          </div>
 
-          <p className="text-[15px] text-white/55 leading-relaxed max-w-md mb-10">
-            AI answers every ring, texts back in seconds, and books jobs straight to your calendar — while you focus on the work that matters.
-          </p>
-
-          {/* Stats row */}
-          <div className="flex items-center gap-8 mb-10">
-            {[
-              { value: "42%", label: "More bookings" },
-              { value: "< 3s", label: "Avg. response" },
-              { value: "24/7", label: "Always on" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div className="font-display text-2xl font-semibold text-white">{stat.value}</div>
-                <div className="text-[11px] text-white/40 uppercase tracking-wider mt-0.5">{stat.label}</div>
+          <div className="flex items-center justify-between pt-6 border-t border-zinc-100">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-full bg-zinc-900 flex items-center justify-center text-[9px] font-bold !text-white">
+                JP
               </div>
-            ))}
+              <div>
+                <p className="text-[11px] font-bold !text-zinc-900">
+                  Jordan P. <span className="text-zinc-400 font-normal">booked a call</span>
+                </p>
+                <p className="text-[9px] text-emerald-600 font-bold uppercase tracking-tight">+$450.00 Potential</p>
+              </div>
+            </div>
+            <div className="text-[9px] text-zinc-400" style={{ fontFamily: MONO }}>
+              2M AGO
+            </div>
           </div>
         </div>
-
-        {/* Floating dashboard mockup */}
-        <DashboardMockup />
       </div>
 
-      {/* Bottom bar */}
-      <div className="relative z-10 flex items-center justify-between text-[11px] text-white/30">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5">
-            <ShieldIcon /> SOC 2 Ready
-          </span>
-          <span className="h-1 w-1 rounded-full bg-white/20" />
-          <span className="inline-flex items-center gap-1.5">
-            <LockSmallIcon /> HIPAA Aware
-          </span>
-          <span className="h-1 w-1 rounded-full bg-white/20" />
-          <span>Made in Austin, TX</span>
+      {/* Footer compliance row */}
+      <div className="relative z-10 flex items-center justify-between mt-8 text-[10px] text-zinc-400">
+        <div className="flex gap-4 uppercase tracking-widest font-semibold">
+          <span>SOC 2 Ready</span>
+          <span>HIPAA Aware</span>
+          <span>Austin, TX</span>
         </div>
         <span>© Revenue Sol 2026</span>
       </div>
@@ -137,97 +176,7 @@ function BrandPanel() {
   );
 }
 
-function DashboardMockup() {
-  return (
-    <div className="relative w-full max-w-md mt-2">
-      {/* Main card */}
-      <div className="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-5 shadow-2xl">
-        {/* Card header */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-              <PhoneIcon />
-            </div>
-            <div>
-              <div className="text-[13px] font-medium text-white">Inbound Calls</div>
-              <div className="text-[10px] text-white/40">Today, Jun 19</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">
-            <span className="h-1 w-1 rounded-full bg-emerald-400" />
-            +12% vs yesterday
-          </div>
-        </div>
 
-        {/* Mini chart bars */}
-        <div className="flex items-end gap-1.5 h-16 mb-4">
-          {[35, 55, 42, 78, 62, 88, 95, 70, 58, 82, 90, 75].map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-t-sm bg-gradient-to-t from-indigo-500/40 to-purple-400/60"
-              style={{ height: `${h}%`, opacity: i >= 9 ? 1 : 0.4 + (i * 0.05) }}
-            />
-          ))}
-        </div>
-
-        {/* Recent activity items */}
-        <div className="space-y-2.5">
-          {[
-            { name: "Jordan P.", time: "2 min ago", status: "Booked", statusColor: "text-emerald-400 bg-emerald-400/10" },
-            { name: "Maya S.", time: "8 min ago", status: "Quoted", statusColor: "text-amber-400 bg-amber-400/10" },
-            { name: "Devon K.", time: "15 min ago", status: "Booked", statusColor: "text-emerald-400 bg-emerald-400/10" },
-          ].map((item) => (
-            <div key={item.name} className="flex items-center justify-between py-2 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
-              <div className="flex items-center gap-2.5">
-                <div className="h-7 w-7 rounded-full bg-gradient-to-br from-indigo-400/30 to-purple-400/30 flex items-center justify-center text-[10px] font-medium text-white/80">
-                  {item.name[0]}
-                </div>
-                <div>
-                  <div className="text-[12px] text-white/80">{item.name}</div>
-                  <div className="text-[10px] text-white/30">{item.time}</div>
-                </div>
-              </div>
-              <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${item.statusColor}`}>
-                {item.status}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Ghost cards behind */}
-      <div className="absolute -z-10 inset-0 translate-x-4 translate-y-4 rounded-2xl border border-white/[0.04] bg-white/[0.015]" />
-      <div className="absolute -z-20 inset-0 translate-x-8 translate-y-8 rounded-2xl border border-white/[0.02] bg-white/[0.01]" />
-    </div>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-  );
-}
-
-function LockSmallIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
-
-/* ---------- RIGHT: form panel ---------- */
 
 function FormPanel({ side, children }: { side: "signin" | "signup"; children: ReactNode }) {
   const navigate = useNavigate();
