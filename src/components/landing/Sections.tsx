@@ -24,17 +24,17 @@ export function StackedFeatures() {
     },
   ];
   return (
-    <section className="mx-auto max-w-7xl px-5 lg:px-8 space-y-20 lg:space-y-28">
+    <section className="mx-auto max-w-7xl px-5 lg:px-8 space-y-16 sm:space-y-20 lg:space-y-28">
       {items.map((it, i) => (
-        <div key={it.eyebrow} className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+        <div key={it.eyebrow} className={`grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
           <div>
-            <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-4">{it.eyebrow}</p>
-            <h3 className="font-display text-3xl lg:text-4xl font-medium text-[color:var(--color-heading)] leading-[1.15] tracking-tight">
+            <p className="text-xs tracking-[0.18em] uppercase text-[color:var(--color-brand)] mb-3 sm:mb-4">{it.eyebrow}</p>
+            <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-medium text-[color:var(--color-heading)] leading-[1.15] tracking-tight">
               {it.title}
             </h3>
-            <p className="mt-5 text-[color:var(--color-body)] leading-relaxed">{it.body}</p>
+            <p className="mt-4 sm:mt-5 text-[color:var(--color-body)] leading-relaxed">{it.body}</p>
           </div>
-          <div className="rounded-3xl p-6 lg:p-10 bg-[color:var(--color-tint)]">{it.mock}</div>
+          <div className="rounded-3xl p-5 sm:p-6 lg:p-10 bg-[color:var(--color-tint)]">{it.mock}</div>
         </div>
       ))}
     </section>
