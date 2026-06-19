@@ -5,26 +5,29 @@ export function Nav() {
   const links = ["Product", "Use Cases", "Solutions", "Resources", "Company", "Pricing"];
   return (
     <header className="sticky top-0 z-50 bg-[color:var(--color-bg)] border-b border-[color:var(--color-border-soft)]">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 h-16 flex items-center gap-6">
-        <a href="#" className="font-display text-xl font-semibold text-[color:var(--color-heading)] tracking-tight shrink-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 lg:px-8 h-16 grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-6">
+        <a href="#" className="font-display text-lg sm:text-xl font-semibold text-[color:var(--color-heading)] tracking-tight shrink-0">
           revenue<span className="text-[color:var(--color-brand)]">.sol</span>
         </a>
-        <nav className="hidden lg:flex items-center gap-1 text-sm text-[color:var(--color-body)]">
+        <nav className="hidden xl:flex items-center gap-1 text-sm text-[color:var(--color-body)] min-w-0">
           {links.map((l) => (
-            <a key={l} href="#" className="px-3 py-2 rounded-md hover:bg-[color:var(--color-tint)] inline-flex items-center gap-1">
+            <a key={l} href="#" className="px-3 py-2 rounded-md hover:bg-[color:var(--color-tint)] inline-flex items-center gap-1 whitespace-nowrap">
               {l} <ChevronDown className="opacity-60" />
             </a>
           ))}
         </nav>
-        <div className="ml-auto hidden md:flex items-center gap-2">
+        <div className="hidden xl:flex items-center gap-2 justify-self-end">
           <button className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-[color:var(--color-border-soft)] bg-white text-xs text-[color:var(--color-muted)]">
             <Search /> <span>Search</span> <kbd className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-[color:var(--color-tint)]">⌘K</kbd>
           </button>
-          <a href="#" className="text-sm text-[color:var(--color-body)] px-3 py-2 hover:text-[color:var(--color-heading)]">Log in</a>
-          <a href="#" className="text-sm px-3.5 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-white text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Get a demo</a>
-          <a href="#" className="text-sm px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)]">Start free trial</a>
+          <a href="#" className="text-sm text-[color:var(--color-body)] px-3 py-2 hover:text-[color:var(--color-heading)] whitespace-nowrap">Log in</a>
+          <a href="#" className="text-sm px-3.5 py-2 rounded-full border border-[color:var(--color-border-soft)] bg-white text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)] whitespace-nowrap">Get a demo</a>
+          <a href="#" className="text-sm px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free trial</a>
         </div>
-        <button className="ml-auto lg:hidden p-2 text-[color:var(--color-heading)]"><Menu /></button>
+        <div className="flex items-center gap-2 justify-self-end xl:hidden">
+          <a href="#" className="hidden sm:inline-flex text-xs sm:text-sm px-3 sm:px-3.5 py-2 rounded-full bg-[color:var(--color-brand)] text-white hover:bg-[color:var(--color-brand-hover)] whitespace-nowrap">Start free</a>
+          <button aria-label="Menu" className="p-2 text-[color:var(--color-heading)] shrink-0"><Menu /></button>
+        </div>
       </div>
     </header>
   );
