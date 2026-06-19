@@ -44,7 +44,7 @@ export function StackedFeatures() {
 export function PullQuote() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8">
-      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14 shadow-[0_20px_60px_-30px_rgba(10,37,64,0.15)]">
+      <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
         <blockquote className="font-display text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
           "We were missing calls every single day. Since we set up Revenue Sol, somebody — or something — answers every one. We didn't have to hire another person to do it."
         </blockquote>
@@ -198,7 +198,7 @@ export function CapabilityRow() {
         </div>
 
         <div className="lg:col-span-7">
-          <div className="rounded-2xl bg-white border border-[color:var(--color-border-soft)] shadow-[0_30px_80px_-40px_rgba(15,15,16,0.35)] overflow-hidden">
+          <div className="rounded-2xl bg-white border border-[color:var(--color-border-soft)] overflow-hidden">
             {/* Window chrome */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[color:var(--color-border-soft)] bg-[color:var(--color-tint)]">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />

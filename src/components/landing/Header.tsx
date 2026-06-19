@@ -51,7 +51,7 @@ export function Hero() {
         <div className="relative mt-9 sm:mt-10 flex justify-center">
           <a
             href="#"
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-[#0F0F10] text-white text-sm sm:text-base font-semibold hover:bg-black transition shadow-[0_8px_24px_-8px_rgba(0,0,0,0.4)]"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-[#0F0F10] text-white text-sm sm:text-base font-semibold hover:bg-black transition"
           >
             Try it free <ArrowRight />
           </a>
