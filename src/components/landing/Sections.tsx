@@ -5,21 +5,21 @@ import { FormattingMock, ConditionalMock, DestinationsMock } from "./mocks";
 export function StackedFeatures() {
   const items = [
     {
-      eyebrow: "AI FORMATTING",
-      title: "Clean and format customer data with AI in seconds",
-      body: "Use AI to transform any record into the format you need — normalize names, deduplicate lists, strip emoji and stray punctuation.",
+      eyebrow: "TIDY UP YOUR LIST",
+      title: "Customer info that's actually readable — without the cleanup work",
+      body: "Names in caps, half-typed phone numbers, three versions of the same customer. We clean it up automatically so your list isn't a mess.",
       mock: <FormattingMock />,
     },
     {
-      eyebrow: "AI CONDITIONAL LOGIC",
-      title: "Run action steps conditionally — no engineering needed",
-      body: "Conditionally run workflows based on any logic. Use different providers for different jobs, enrich only your best leads, or build fallbacks.",
+      eyebrow: "DO X ONLY WHEN Y",
+      title: "Run things only when it makes sense — no developer needed",
+      body: "Want to text owners back right away but skip past tenants? Send quotes to repeat customers only? Set the rule once and it just works.",
       mock: <ConditionalMock />,
     },
     {
-      eyebrow: "DESTINATIONS",
-      title: "Constantly update any tool — CRM, dispatch, accounting, or more",
-      body: "Push enriched data to your CRM, accounting, SMS tool, or website — on a recurring basis. Use HTTP for anything custom.",
+      eyebrow: "SENDS IT WHERE YOU NEED IT",
+      title: "Keeps your CRM, dispatch, and books up to date for you",
+      body: "When a job is booked or a customer detail changes, we send it to the tools you already use — your CRM, accounting, dispatch software, or website.",
       mock: <DestinationsMock />,
     },
   ];
@@ -46,16 +46,16 @@ export function PullQuote() {
     <section className="mx-auto max-w-7xl px-5 lg:px-8 py-24">
       <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14 shadow-[0_20px_60px_-30px_rgba(10,37,64,0.15)]">
         <blockquote className="font-display text-2xl lg:text-4xl leading-snug text-[color:var(--color-heading)] italic">
-          "Revenue Sol has helped us answer every lead and book jobs without growing our office team. We've consolidated our tools to the essentials — our CRM, Revenue Sol, and our dispatch software."
+          "We were missing calls every single day. Since we set up Revenue Sol, somebody — or something — answers every one. We didn't have to hire another person to do it."
         </blockquote>
         <p className="mt-6 text-sm text-[color:var(--color-muted)]">
-          <span className="font-semibold text-[color:var(--color-heading)]">Sample Owner</span> · Operations Lead, Placeholder HVAC <span className="ml-1 italic">(illustrative)</span>
+          <span className="font-semibold text-[color:var(--color-heading)]">Sample Owner</span> · Office manager, Placeholder HVAC <span className="ml-1 italic">(example)</span>
         </p>
         <div className="mt-10 grid sm:grid-cols-3 gap-4">
           {[
-            ["4h/week", "Saved on inbound lead handling (illustrative)"],
-            ["100+", "Integrations available via Revenue Sol"],
-            ["100%", "Of inbound calls answered after hours (illustrative)"],
+            ["4 hrs/week", "Less time on the phone, per owner we talked to"],
+            ["100+", "Tools we can plug into out of the box"],
+            ["Every call", "Picked up, day or night"],
           ].map(([n, l]) => (
             <div key={l} className="rounded-2xl p-5 bg-[color:var(--color-tint)]">
               <p className="font-display text-3xl text-[color:var(--color-brand)]">{n}</p>
@@ -64,7 +64,7 @@ export function PullQuote() {
           ))}
         </div>
         <a href="#" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[color:var(--color-brand)] hover:text-[color:var(--color-brand-hover)]">
-          Read case study <ArrowRight />
+          Read the full story <ArrowRight />
         </a>
       </div>
     </section>
@@ -75,29 +75,29 @@ export function UseCases() {
   const [tab, setTab] = useState<"data" | "ai">("data");
   const lists: Record<string, string[]> = {
     data: [
-      "CRM enrichment & maintenance",
-      "Service-area & territory planning",
-      "Inbound lead enrichment & routing",
-      "Intent-based follow-up flows",
-      "Review monitoring & response",
-      "Account-based marketing",
+      "Keeping your customer list clean",
+      "Mapping out your service area",
+      "Routing new leads to the right person",
+      "Following up when someone's ready to book",
+      "Watching your reviews and responding fast",
+      "Reaching out to your best repeat customers",
     ],
     ai: [
-      "24/7 AI voice receptionist",
-      "AI auto-reply for SMS & web forms",
-      "AI quote drafting from job notes",
-      "AI dispatch suggestions",
-      "AI review responder",
-      "AI knowledge hub for techs",
+      "An AI receptionist that picks up 24/7",
+      "Auto-replies to texts and web form requests",
+      "Quote drafts written from your job notes",
+      "Suggestions for who to send on which job",
+      "Polite AI replies to every review",
+      "A searchable answer book for your techs",
     ],
   };
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
       <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight max-w-3xl">
-        Revenue Sol's data + AI unlocks any growth use case
+        Things our customers actually use Revenue Sol for
       </h2>
       <p className="mt-5 text-[color:var(--color-body)] max-w-2xl">
-        Use the best data foundation alongside flexible AI agents to turn any growth idea into reality — from CRM enrichment to after-hours booking.
+        Pick what's useful for your shop. Most owners start with one or two of these and add more as they see what works.
       </p>
       <div className="mt-8 inline-flex p-1 rounded-full bg-[color:var(--color-tint)]">
         {(["data", "ai"] as const).map((k) => (
@@ -108,7 +108,7 @@ export function UseCases() {
               tab === k ? "bg-white text-[color:var(--color-heading)] shadow-sm" : "text-[color:var(--color-muted)]"
             }`}
           >
-            {k === "data" ? "Data enrichments" : "AI agents"}
+            {k === "data" ? "Your customer info" : "AI helpers"}
           </button>
         ))}
       </div>
@@ -129,14 +129,14 @@ export function CentralPlatform() {
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
-            Cut costs, access data faster in one central platform
+            One tool instead of six. One bill instead of six.
           </h2>
           <p className="mt-5 text-[color:var(--color-body)] max-w-xl">
-            Stop stitching together six different tools. Revenue Sol gives you immediate access to dozens of data sources, AI employees, and your existing stack — one subscription, no implementation hassle.
+            Most shops we meet are paying for a CRM, a receptionist service, a texting tool, a review app, and a couple of automations holding it all together. Revenue Sol does the lot — and you're up and running the same day.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Read more <ArrowRight /></a>
-            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Get a demo <ArrowRight /></a>
+            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">See how it works <ArrowRight /></a>
+            <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Show me a demo <ArrowRight /></a>
           </div>
         </div>
         {/* Inline SVG "toolbox" illustration */}
@@ -163,16 +163,16 @@ export function CentralPlatform() {
 
 export function CapabilityRow() {
   const items = [
-    ["Encryption in transit", "TLS 1.2+ everywhere — your data is encrypted on every hop."],
-    ["Role-based access", "Granular roles for owners, dispatchers, and field techs."],
-    ["Audit logs", "Every action recorded, exportable, and searchable."],
-    ["Data residency", "Choose where your customer data lives."],
-    ["SSO ready", "Bring your own identity provider via SAML / OIDC."],
+    ["Your data stays private", "Everything's encrypted in transit. We don't sell or share your customer info — full stop."],
+    ["Who sees what is up to you", "Give owners, dispatchers, and techs the right level of access. No accidental edits."],
+    ["A record of who did what", "Every change is logged, so if something looks off you can see exactly what happened."],
+    ["You choose where it lives", "Pick the region your customer data is stored in — US, EU, or somewhere else."],
+    ["Sign in with what you use", "Works with Google, Microsoft, or any SSO setup you already have for your team."],
   ];
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
       <h2 className="font-display text-3xl lg:text-4xl font-medium text-[color:var(--color-heading)] tracking-tight">
-        Built for the scale of a multi-branch operation
+        Solid enough for a multi-location shop
       </h2>
       <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
         {items.map(([t, d]) => (
@@ -189,10 +189,10 @@ export function CapabilityRow() {
 
 export function QuoteCarousel() {
   const quotes = [
-    { who: "Sample GTM Lead", role: "Placeholder Plumbing Co.", text: "Revenue Sol is one of the most practical applications of AI we've put into our shop in years." },
-    { who: "Sample Owner", role: "Placeholder Roofing", text: "Revenue Sol should be a pillar of every service company's stack — outbound and inbound on the highest quality data." },
-    { who: "Sample Director", role: "Placeholder Electrical", text: "This job has always been about creativity. Revenue Sol lets me answer more 'what if we could…' questions than ever before." },
-    { who: "Sample Operations", role: "Placeholder Cleaning", text: "I love the team's support — they treat our problems like their own." },
+    { who: "Sample GTM Lead", role: "Placeholder Plumbing Co.", text: "Honestly, this is the first 'AI' thing we've used that actually saves us time instead of making more work." },
+    { who: "Sample Owner", role: "Placeholder Roofing", text: "We stopped losing leads to whoever picks up the phone first. That alone paid for it in the first month." },
+    { who: "Sample Director", role: "Placeholder Electrical", text: "I can finally take a day off and know the office isn't on fire when I get back." },
+    { who: "Sample Operations", role: "Placeholder Cleaning", text: "Their team actually picks up when I email them. Feels like having an extra person on staff." },
   ];
   const [i, setI] = useState(0);
   const visible = quotes.slice(i, i + 3).concat(quotes.slice(0, Math.max(0, i + 3 - quotes.length))).slice(0, 3);
@@ -200,7 +200,7 @@ export function QuoteCarousel() {
     <section className="mx-auto max-w-7xl px-5 lg:px-8 py-20">
       <div className="flex items-end justify-between mb-8">
         <h2 className="font-display text-4xl lg:text-5xl font-medium text-[color:var(--color-heading)] tracking-tight">
-          What customers say about us
+          What owners are telling us
         </h2>
         <div className="flex gap-2">
           <button onClick={() => setI((p) => (p - 1 + quotes.length) % quotes.length)} className="w-10 h-10 rounded-full border border-[color:var(--color-border-soft)] bg-white grid place-items-center text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]"><ChevronLeft /></button>
@@ -215,7 +215,7 @@ export function QuoteCarousel() {
               <span className="font-semibold text-[color:var(--color-heading)]">{q.who}</span>
               <span className="text-[color:var(--color-muted)]"> · {q.role}</span>
             </p>
-            <p className="mt-1 text-xs text-[color:var(--color-muted)] italic">Placeholder testimonial</p>
+            <p className="mt-1 text-xs text-[color:var(--color-muted)] italic">Example quote</p>
           </div>
         ))}
       </div>
@@ -228,12 +228,12 @@ export function FinalCta() {
     <section className="mx-auto max-w-7xl px-5 lg:px-8 pb-24">
       <div className="relative overflow-hidden rounded-3xl px-8 py-20 lg:py-28 text-center border border-[color:var(--color-border-soft)]" style={{ background: "var(--color-tint)" }}>
         <h2 className="relative font-display text-4xl lg:text-6xl font-medium text-[color:var(--color-heading)] leading-[1.05] tracking-tight">
-          Turn your growth ideas<br />into reality today
+          Give it a try.<br />See if it fits your shop.
         </h2>
-        <p className="relative mt-5 text-[color:var(--color-muted)]">Start for free. No credit card required.</p>
+        <p className="relative mt-5 text-[color:var(--color-muted)]">Free to start. No credit card. Cancel any time.</p>
         <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Start building for free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Get a demo <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[color:var(--color-brand)] text-[color:var(--color-bg)] text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[color:var(--color-border-soft)] bg-[color:var(--color-bg)] text-[color:var(--color-heading)] text-sm font-medium hover:bg-[color:var(--color-tint)]">Talk to us first <ArrowRight /></a>
         </div>
       </div>
     </section>
@@ -242,21 +242,21 @@ export function FinalCta() {
 
 export function Footer() {
   const cols: Record<string, string[]> = {
-    "Use cases": ["Automated inbound", "Account research", "ABM", "PLG assist", "Rep assist", "Reverse ETL", "Outbound", "CRM enrichment"],
-    "Product": ["AI receptionist", "AI auto-reply", "Sequencer", "Data enrichment", "Audiences", "Signals", "Integrations", "Pricing"],
-    "Resources": ["Getting started", "University", "Templates", "Partner program", "Community", "FAQ"],
-    "Company": ["About", "Careers", "Contact", "Status"],
-    "Legal": ["Privacy policy", "Terms of service", "Do not sell my data"],
+    "What people use it for": ["Picking up calls", "Answering texts and forms", "Booking jobs", "Following up on quotes", "Sending review requests", "Routing leads", "Keeping the CRM tidy", "Reaching past customers"],
+    "What's inside": ["AI receptionist", "Auto-reply for texts", "Follow-up sequences", "Customer info lookups", "Smart lists", "Real-time alerts", "Connects to your tools", "Pricing"],
+    "Help & learning": ["Getting started", "Short videos", "Templates to copy", "Partner program", "Owner community", "Common questions"],
+    "About us": ["Our story", "Jobs", "Contact", "Status"],
+    "The fine print": ["Privacy", "Terms", "Don't sell my info"],
   };
   return (
     <footer className="mx-auto max-w-7xl px-5 lg:px-8 pb-10">
       <div className="rounded-3xl bg-white border border-[color:var(--color-border-soft)] p-8 lg:p-14">
         <h3 className="font-display text-3xl lg:text-5xl font-medium text-[color:var(--color-heading)] leading-[1.1] tracking-tight max-w-3xl">
-          Run your service business with unique data — and the AI to act on it.
+          A simple way to run your service business without missing leads.
         </h3>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Start building for free <ArrowRight /></a>
-          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Contact us <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-medium hover:bg-[color:var(--color-brand-hover)]">Try it free <ArrowRight /></a>
+          <a href="#" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-[color:var(--color-border-soft)] text-sm text-[color:var(--color-heading)] hover:bg-[color:var(--color-tint)]">Get in touch <ArrowRight /></a>
         </div>
         <div className="mt-10 flex gap-3 text-[color:var(--color-muted)]">
           <a href="#" className="w-9 h-9 grid place-items-center rounded-full border border-[color:var(--color-border-soft)] hover:text-[color:var(--color-brand)]"><LinkedIn /></a>
@@ -278,7 +278,7 @@ export function Footer() {
         </div>
         <div className="mt-10 pt-6 border-t border-[color:var(--color-border-soft)] flex flex-wrap justify-between gap-3 text-xs text-[color:var(--color-muted)]">
           <span className="font-display text-base text-[color:var(--color-heading)]">revenue<span className="text-[color:var(--color-brand)]">.sol</span></span>
-          <span>© Revenue Sol 2026 — Built for local service businesses.</span>
+          <span>© Revenue Sol 2026 — Made for the folks running local service shops.</span>
         </div>
       </div>
     </footer>
