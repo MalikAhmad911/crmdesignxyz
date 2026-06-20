@@ -1,96 +1,930 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Nav, Hero, IntegrationsStrip } from "@/components/landing/Header";
-import { FeatureRow, SectionBreak } from "@/components/landing/FeatureRow";
-import { InboxMock, AgentMock, AudienceMock } from "@/components/landing/mocks";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  StackedFeatures,
-  PullQuote,
-  UseCases,
-  CentralPlatform,
-  CapabilityRow,
-  QuoteCarousel,
-  FinalCta,
-  Footer,
-} from "@/components/landing/Sections";
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Phone,
+  MessageSquare,
+  Calendar,
+  Sparkles,
+  Zap,
+  Mic,
+  Bot,
+  Mail,
+  Wrench,
+  Hammer,
+  Droplets,
+  Plug,
+  Home,
+  Brush,
+  Star,
+  Menu,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Revenue Sol — Never miss a service call again" },
-      { name: "description", content: "We pick up calls, reply to texts and forms, and book jobs onto your calendar. Made for HVAC, plumbing, electrical, roofing, and cleaning shops." },
-      { property: "og:title", content: "Revenue Sol — Never miss a service call again" },
-      { property: "og:description", content: "We pick up calls, reply to texts and forms, and book jobs onto your calendar — so you can stop chasing the phone." },
+      { title: "Revenue Sol — The AI CRM for service businesses" },
+      {
+        name: "description",
+        content:
+          "Revenue Sol picks up calls, replies to texts and forms, and books jobs onto your calendar — built for HVAC, plumbing, electrical, roofing, and cleaning shops.",
+      },
+      { property: "og:title", content: "Revenue Sol — The AI CRM for service businesses" },
+      {
+        property: "og:description",
+        content:
+          "We pick up calls, reply to texts and forms, and book jobs onto your calendar — so you can stop chasing the phone.",
+      },
       { property: "og:type", content: "website" },
     ],
   }),
   component: Page,
 });
 
+/* ---------- Primitives ---------- */
+
+function BtnPrimary({
+  children,
+  to,
+  invert,
+}: {
+  children: React.ReactNode;
+  to?: string;
+  invert?: boolean;
+}) {
+  const cls = invert
+    ? "bg-white text-[color:var(--color-ink)] hover:bg-white/90"
+    : "bg-[color:var(--color-ink)] text-white hover:bg-black";
+  return (
+    <Link
+      to={to ?? "/signup"}
+      className={`inline-flex h-11 items-center justify-center rounded-xl px-5 text-sm font-semibold transition ${cls}`}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function BtnSecondary({ children, to }: { children: React.ReactNode; to?: string }) {
+  return (
+    <Link
+      to={to ?? "/signin"}
+      className="inline-flex h-11 items-center justify-center rounded-xl border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] px-5 text-sm font-semibold text-[color:var(--color-ink)] transition hover:bg-[color:var(--color-surface-card)]"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <div className="eyebrow">{children}</div>;
+}
+
+/* ---------- Nav ---------- */
+
+function Nav() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-transparent bg-[color:var(--color-canvas)]/85 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-5 lg:px-8">
+        <div className="flex items-center gap-10">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="grid h-8 w-8 place-items-center rounded-xl bg-[color:var(--color-brand-pink)]">
+              <span className="text-base font-bold text-white">R</span>
+            </div>
+            <span className="text-[17px] font-semibold tracking-tight text-[color:var(--color-ink)]">
+              Revenue Sol
+            </span>
+          </Link>
+          <nav className="hidden items-center gap-7 lg:flex">
+            {["Product", "Solutions", "Customers", "Resources", "Pricing"].map((l) => (
+              <a key={l} href="#" className="text-sm font-medium text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">
+                {l}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div className="flex items-center gap-2">
+          <Link to="/signin" className="hidden text-sm font-medium text-[color:var(--color-body)] hover:text-[color:var(--color-ink)] sm:inline-flex">
+            Sign in
+          </Link>
+          <BtnPrimary>Try free</BtnPrimary>
+          <button className="grid h-10 w-10 place-items-center rounded-xl text-[color:var(--color-ink)] lg:hidden">
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+/* ---------- Hero ---------- */
+
+function Hero() {
+  return (
+    <section className="relative pt-12 pb-20 sm:pt-16 lg:pt-24">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[color:var(--color-hairline)] bg-[color:var(--color-surface-card)] px-3 py-1 text-xs font-medium text-[color:var(--color-body)]">
+              <Sparkles className="h-3.5 w-3.5 text-[color:var(--color-brand-pink)]" />
+              New — AI receptionist that books jobs while you work
+            </div>
+            <h1 className="display-xl text-[color:var(--color-ink)]">
+              Never miss a service <span className="italic font-normal text-[color:var(--color-brand-pink)]">call</span> again.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-[color:var(--color-body)]">
+              Revenue Sol picks up the phone, replies to texts and web forms, and books the
+              job straight onto your calendar — so your truck stays full and your office
+              stays quiet.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <BtnPrimary>Start free trial</BtnPrimary>
+              <BtnSecondary>Book a demo</BtnSecondary>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[color:var(--color-muted)]">
+              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-[color:var(--color-ink)]" /> No credit card</span>
+              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-[color:var(--color-ink)]" /> Live in 10 minutes</span>
+              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-[color:var(--color-ink)]" /> Cancel anytime</span>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <HeroIllustration />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Clay-style claymation hero, made out of pure SVG/CSS */
+function HeroIllustration() {
+  return (
+    <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-[color:var(--color-surface-soft)] p-6">
+      {/* horizon */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color:var(--color-brand-peach)]/40 to-transparent" />
+      {/* sun */}
+      <div className="absolute right-8 top-10 h-24 w-24 rounded-full bg-[color:var(--color-brand-ochre)] shadow-[inset_-12px_-14px_0_rgba(0,0,0,0.07)]" />
+      {/* mountains */}
+      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full">
+        <defs>
+          <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#1a3a3a" />
+            <stop offset="1" stopColor="#0f2727" />
+          </linearGradient>
+          <linearGradient id="m2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#b8a4ed" />
+            <stop offset="1" stopColor="#8b76c9" />
+          </linearGradient>
+          <linearGradient id="m3" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#ff4d8b" />
+            <stop offset="1" stopColor="#d63a72" />
+          </linearGradient>
+        </defs>
+        <path d="M0 290 L90 170 L160 230 L220 160 L300 250 L400 200 L400 400 L0 400 Z" fill="url(#m2)" />
+        <path d="M0 320 L70 220 L150 280 L230 210 L310 290 L400 240 L400 400 L0 400 Z" fill="url(#m1)" />
+        <path d="M0 360 L100 290 L190 340 L280 280 L400 330 L400 400 L0 400 Z" fill="url(#m3)" />
+        {/* snowcaps */}
+        <path d="M75 188 L90 170 L108 195 L98 200 L88 192 Z" fill="#fffaf0" opacity="0.9" />
+        <path d="M205 170 L220 160 L240 188 L228 192 L215 184 Z" fill="#fffaf0" opacity="0.9" />
+      </svg>
+      {/* floating phone card */}
+      <div className="absolute left-6 top-1/2 w-[58%] -translate-y-1/3 rotate-[-4deg] rounded-2xl border border-black/5 bg-white p-3 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.35)]">
+        <div className="flex items-center gap-2">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-brand-mint)]">
+            <Phone className="h-4 w-4 text-[color:var(--color-surface-dark)]" />
+          </div>
+          <div className="flex-1">
+            <div className="text-[11px] font-medium text-[color:var(--color-muted)]">Incoming call · 7:42 PM</div>
+            <div className="text-[13px] font-semibold text-[color:var(--color-ink)]">Maria Lopez — AC not cooling</div>
+          </div>
+        </div>
+        <div className="mt-3 rounded-xl bg-[color:var(--color-surface-card)] p-2.5 text-[12px] leading-snug text-[color:var(--color-body)]">
+          AI booked a tune-up tomorrow 9–11am. Customer record updated.
+        </div>
+      </div>
+      {/* mascot blob */}
+      <div className="absolute -right-3 bottom-6 grid h-28 w-28 place-items-center rounded-full bg-[color:var(--color-brand-coral)] shadow-[inset_-12px_-10px_0_rgba(0,0,0,0.08)]">
+        <div className="flex gap-3">
+          <div className="h-3 w-3 rounded-full bg-white" />
+          <div className="h-3 w-3 rounded-full bg-white" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Logos strip ---------- */
+
+function LogosStrip() {
+  const logos = ["HVACPro", "PlumbWorks", "Volt&Co", "RoofRight", "TidyHaus", "FieldOps", "ServPro"];
+  return (
+    <section className="border-y border-[color:var(--color-hairline)] bg-[color:var(--color-surface-soft)] py-10">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
+          Trusted by 1,200+ service shops across North America
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-[color:var(--color-muted)]">
+          {logos.map((l) => (
+            <span key={l} className="text-lg font-semibold tracking-tight opacity-70">
+              {l}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Feature card grid (6 colors) ---------- */
+
+type FeatureCard = {
+  title: string;
+  body: string;
+  bg: string;
+  text: "light" | "dark";
+  visual: React.ReactNode;
+};
+
+function FeatureGrid() {
+  const cards: FeatureCard[] = [
+    {
+      title: "An AI receptionist that picks up every call",
+      body: "Answers in a natural voice, qualifies the job, and writes a clean summary straight to your CRM.",
+      bg: "var(--color-brand-pink)",
+      text: "light",
+      visual: <VoiceVisual />,
+    },
+    {
+      title: "Replies to texts and web forms in seconds",
+      body: "Two-way SMS, Facebook leads, and contact forms — answered, scheduled, and logged.",
+      bg: "var(--color-brand-teal)",
+      text: "light",
+      visual: <ChatVisual />,
+    },
+    {
+      title: "Books straight onto your calendar",
+      body: "Knows your service area, hours, and crew capacity before it offers a window.",
+      bg: "var(--color-brand-lavender)",
+      text: "dark",
+      visual: <CalendarVisual />,
+    },
+    {
+      title: "Follows up so leads don't go cold",
+      body: "Auto-nurtures estimates with text and email until the customer says yes or no.",
+      bg: "var(--color-brand-peach)",
+      text: "dark",
+      visual: <FollowupVisual />,
+    },
+    {
+      title: "Brings every customer record together",
+      body: "Past jobs, equipment, property details, and notes — one tidy page per customer.",
+      bg: "var(--color-brand-ochre)",
+      text: "dark",
+      visual: <RecordsVisual />,
+    },
+    {
+      title: "Plugs into the tools you already pay for",
+      body: "ServiceTitan, Housecall Pro, Jobber, QuickBooks, Google Calendar — no rip-and-replace.",
+      bg: "var(--color-surface-card)",
+      text: "dark",
+      visual: <IntegrationsVisual />,
+    },
+  ];
+
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-14 grid items-end gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Eyebrow>Everything your front desk does — automatically</Eyebrow>
+            <h2 className="display-lg mt-3 max-w-2xl text-[color:var(--color-ink)]">
+              One workspace for every <span className="italic font-normal">job</span>, every channel, every truck.
+            </h2>
+          </div>
+          <div className="lg:col-span-5">
+            <p className="text-base text-[color:var(--color-body)]">
+              Stop juggling sticky notes, voicemail, and three different inboxes. Revenue Sol is
+              the operating system shops use to capture, qualify, and book work — without hiring.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((c, i) => {
+            const textColor = c.text === "light" ? "#ffffff" : "var(--color-ink)";
+            const muted = c.text === "light" ? "rgba(255,255,255,0.78)" : "var(--color-body)";
+            return (
+              <article
+                key={i}
+                className="flex min-h-[420px] flex-col justify-between rounded-3xl p-7"
+                style={{ background: c.bg, color: textColor }}
+              >
+                <div>
+                  <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.02em]" style={{ color: textColor }}>
+                    {c.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed" style={{ color: muted }}>
+                    {c.body}
+                  </p>
+                </div>
+                <div className="mt-6">{c.visual}</div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Embedded product-fragment visuals (no images, just SVG/divs) */
+
+function MiniCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-2xl border border-black/5 bg-white p-3 text-[color:var(--color-ink)] shadow-[0_18px_36px_-20px_rgba(0,0,0,0.35)] ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+function VoiceVisual() {
+  return (
+    <MiniCard>
+      <div className="flex items-center gap-2">
+        <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-brand-pink)] text-white">
+          <Mic className="h-4 w-4" />
+        </div>
+        <div>
+          <div className="text-[11px] font-medium text-[color:var(--color-muted)]">Live call · 00:42</div>
+          <div className="text-[13px] font-semibold">Outbound caller — water heater leak</div>
+        </div>
+      </div>
+      <div className="mt-3 flex items-end gap-1">
+        {[12, 22, 30, 14, 28, 36, 18, 24, 10, 32, 20, 26].map((h, i) => (
+          <span key={i} className="w-1.5 rounded-full bg-[color:var(--color-brand-pink)]" style={{ height: h }} />
+        ))}
+      </div>
+      <div className="mt-3 rounded-lg bg-[color:var(--color-surface-card)] px-2.5 py-1.5 text-[12px] text-[color:var(--color-body)]">
+        "I can have Mark out tomorrow 8–10am — does that work?"
+      </div>
+    </MiniCard>
+  );
+}
+
+function ChatVisual() {
+  return (
+    <MiniCard>
+      <div className="flex items-center justify-between">
+        <div className="text-[12px] font-semibold">SMS · (415) 555-0142</div>
+        <span className="rounded-full bg-[color:var(--color-brand-mint)]/40 px-2 py-0.5 text-[10px] font-semibold text-[color:var(--color-surface-dark)]">AI</span>
+      </div>
+      <div className="mt-3 space-y-2 text-[12px]">
+        <div className="ml-auto max-w-[80%] rounded-2xl rounded-br-sm bg-[color:var(--color-ink)] px-3 py-1.5 text-white">Need someone to look at my furnace</div>
+        <div className="max-w-[80%] rounded-2xl rounded-bl-sm bg-[color:var(--color-surface-card)] px-3 py-1.5">Sorry to hear that. Address & what's it doing?</div>
+        <div className="ml-auto max-w-[80%] rounded-2xl rounded-br-sm bg-[color:var(--color-ink)] px-3 py-1.5 text-white">812 Oak. Won't ignite.</div>
+        <div className="max-w-[80%] rounded-2xl rounded-bl-sm bg-[color:var(--color-surface-card)] px-3 py-1.5">Booked for today 3–5pm ✓</div>
+      </div>
+    </MiniCard>
+  );
+}
+
+function CalendarVisual() {
+  return (
+    <MiniCard>
+      <div className="flex items-center justify-between">
+        <div className="text-[12px] font-semibold">This week</div>
+        <Calendar className="h-3.5 w-3.5 text-[color:var(--color-muted)]" />
+      </div>
+      <div className="mt-3 grid grid-cols-5 gap-1">
+        {["M", "T", "W", "T", "F"].map((d) => (
+          <div key={d} className="text-center text-[10px] font-semibold text-[color:var(--color-muted)]">{d}</div>
+        ))}
+        {[
+          ["pink", "teal", "ochre", "lavender", "peach"],
+          ["lavender", "ochre", "pink", "teal", "ochre"],
+          ["", "lavender", "peach", "pink", ""],
+        ].flat().map((c, i) => (
+          <div
+            key={i}
+            className="h-5 rounded-md"
+            style={{
+              background: c ? `var(--color-brand-${c})` : "var(--color-surface-card)",
+            }}
+          />
+        ))}
+      </div>
+      <div className="mt-3 text-[11px] text-[color:var(--color-muted)]">23 jobs booked · 4 open slots</div>
+    </MiniCard>
+  );
+}
+
+function FollowupVisual() {
+  return (
+    <MiniCard>
+      <div className="text-[12px] font-semibold">Estimate #4821 · $2,140</div>
+      <ol className="mt-3 space-y-1.5 text-[12px]">
+        {[
+          ["Sent estimate", true],
+          ["Day 2 — text reminder", true],
+          ["Day 5 — email recap", true],
+          ["Day 7 — call back", false],
+        ].map(([label, done], i) => (
+          <li key={i} className="flex items-center gap-2">
+            <span
+              className="grid h-4 w-4 place-items-center rounded-full"
+              style={{ background: done ? "var(--color-brand-mint)" : "var(--color-surface-card)" }}
+            >
+              {done ? <Check className="h-3 w-3 text-[color:var(--color-surface-dark)]" /> : null}
+            </span>
+            <span className={done ? "text-[color:var(--color-ink)]" : "text-[color:var(--color-muted)]"}>{label as string}</span>
+          </li>
+        ))}
+      </ol>
+    </MiniCard>
+  );
+}
+
+function RecordsVisual() {
+  return (
+    <MiniCard>
+      <div className="flex items-center gap-2">
+        <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-brand-ochre)] text-[color:var(--color-ink)] text-[12px] font-bold">JR</div>
+        <div>
+          <div className="text-[13px] font-semibold">Jordan Reyes</div>
+          <div className="text-[11px] text-[color:var(--color-muted)]">812 Oak St · Customer since 2021</div>
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-1.5 text-[10px]">
+        {[
+          ["Furnace", "Carrier 80k"],
+          ["Last job", "Mar 12"],
+          ["LTV", "$4,820"],
+        ].map(([k, v]) => (
+          <div key={k} className="rounded-lg bg-[color:var(--color-surface-card)] p-1.5">
+            <div className="text-[color:var(--color-muted)]">{k}</div>
+            <div className="font-semibold text-[color:var(--color-ink)]">{v}</div>
+          </div>
+        ))}
+      </div>
+    </MiniCard>
+  );
+}
+
+function IntegrationsVisual() {
+  const items = [
+    ["ServiceTitan", "var(--color-brand-pink)"],
+    ["Jobber", "var(--color-brand-teal)"],
+    ["QuickBooks", "var(--color-brand-lavender)"],
+    ["Google", "var(--color-brand-peach)"],
+    ["Twilio", "var(--color-brand-ochre)"],
+    ["Stripe", "var(--color-brand-mint)"],
+  ];
+  return (
+    <MiniCard>
+      <div className="text-[12px] font-semibold">6 of 40+ integrations</div>
+      <div className="mt-3 grid grid-cols-3 gap-1.5">
+        {items.map(([name, c]) => (
+          <div key={name} className="flex items-center gap-1.5 rounded-lg bg-[color:var(--color-surface-card)] px-2 py-1.5 text-[11px] font-semibold">
+            <span className="h-2.5 w-2.5 rounded-full" style={{ background: c }} />
+            {name}
+          </div>
+        ))}
+      </div>
+    </MiniCard>
+  );
+}
+
+/* ---------- Big split feature row ---------- */
+
+function HowItWorks() {
+  const steps = [
+    {
+      n: "01",
+      title: "Forward your phone & connect your tools",
+      body: "Set it up in 10 minutes. Point your business line at Revenue Sol and link your CRM and calendar.",
+    },
+    {
+      n: "02",
+      title: "We listen, type, and book — in your voice",
+      body: "Tell us how you greet customers and what info you need. We'll match it on every call, text, and form.",
+    },
+    {
+      n: "03",
+      title: "You wake up to a full calendar",
+      body: "Every conversation lands in one inbox with a summary, the customer record, and the booked job.",
+    },
+  ];
+
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <Eyebrow>How it works</Eyebrow>
+            <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+              Live in an <span className="italic font-normal">afternoon</span>. Booking jobs by morning.
+            </h2>
+            <p className="mt-5 text-base text-[color:var(--color-body)]">
+              No new software for your techs to learn. No three-month implementation. Forward
+              your line, link a calendar, and let Revenue Sol cover the phones tonight.
+            </p>
+            <div className="mt-7">
+              <BtnPrimary>Try it free</BtnPrimary>
+            </div>
+          </div>
+
+          <ol className="lg:col-span-7 space-y-4">
+            {steps.map((s) => (
+              <li
+                key={s.n}
+                className="rounded-2xl border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] p-6"
+              >
+                <div className="flex items-baseline gap-4">
+                  <span className="font-display text-[34px] font-medium tracking-tight text-[color:var(--color-brand-pink)]">
+                    {s.n}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-[color:var(--color-ink)]">{s.title}</h3>
+                    <p className="mt-1.5 text-[15px] text-[color:var(--color-body)]">{s.body}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Pull quote ---------- */
+
+function PullQuote() {
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1100px] px-5 text-center lg:px-8">
+        <div className="mx-auto mb-6 flex items-center justify-center gap-1 text-[color:var(--color-brand-ochre)]">
+          {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
+        </div>
+        <blockquote className="display-md text-[color:var(--color-ink)]">
+          "We were missing about <span className="italic font-normal text-[color:var(--color-brand-pink)]">eight calls a day</span>.
+          Revenue Sol caught every one of them in the first week — that's the difference between
+          a quiet month and a great one."
+        </blockquote>
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-[color:var(--color-brand-peach)] font-bold text-[color:var(--color-ink)]">DR</div>
+          <div className="text-left">
+            <div className="text-sm font-semibold text-[color:var(--color-ink)]">Diego Ramirez</div>
+            <div className="text-xs text-[color:var(--color-muted)]">Owner · Ramirez HVAC, Austin TX</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Use cases (industry chips) ---------- */
+
+function UseCases() {
+  const trades = [
+    { icon: Wrench, label: "HVAC", c: "var(--color-brand-pink)" },
+    { icon: Droplets, label: "Plumbing", c: "var(--color-brand-teal)", light: true },
+    { icon: Plug, label: "Electrical", c: "var(--color-brand-ochre)" },
+    { icon: Home, label: "Roofing", c: "var(--color-brand-lavender)" },
+    { icon: Brush, label: "Cleaning", c: "var(--color-brand-peach)" },
+    { icon: Hammer, label: "Handyman", c: "var(--color-surface-card)" },
+  ];
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-12 max-w-2xl">
+          <Eyebrow>Built for the trades</Eyebrow>
+          <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+            Made for shops with <span className="italic font-normal">trucks on the road</span>.
+          </h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {trades.map(({ icon: Icon, label, c, light }) => (
+            <div
+              key={label}
+              className="flex items-center gap-4 rounded-2xl p-5"
+              style={{ background: c, color: light ? "white" : "var(--color-ink)" }}
+            >
+              <div
+                className="grid h-12 w-12 place-items-center rounded-xl"
+                style={{ background: light ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.55)" }}
+              >
+                <Icon className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-base font-semibold">{label}</div>
+                <div className="text-[13px] opacity-80">Templates, scripts, and price lists ready to go.</div>
+              </div>
+              <ArrowUpRight className="ml-auto h-5 w-5 opacity-70" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Stats / metrics band ---------- */
+
+function StatsBand() {
+  const stats = [
+    ["+38%", "more jobs booked in month one"],
+    ["<8s", "average reply to a new lead"],
+    ["24/7", "phone & text coverage"],
+    ["10 min", "from sign-up to live"],
+  ];
+  return (
+    <section className="py-16">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="grid divide-y divide-[color:var(--color-hairline)] overflow-hidden rounded-3xl border border-[color:var(--color-hairline)] bg-[color:var(--color-surface-soft)] sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+          {stats.map(([k, v]) => (
+            <div key={k} className="p-8 text-center">
+              <div className="display-md text-[color:var(--color-ink)]">{k}</div>
+              <div className="mt-2 text-sm text-[color:var(--color-muted)]">{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Pricing ---------- */
+
+function Pricing() {
+  const tiers = [
+    {
+      name: "Starter",
+      price: "$149",
+      sub: "/month",
+      blurb: "For solo operators just getting calls covered.",
+      bullets: ["AI voice + SMS receptionist", "200 conversations / mo", "Calendar booking", "Email support"],
+      featured: false,
+    },
+    {
+      name: "Shop",
+      price: "$349",
+      sub: "/month",
+      blurb: "For growing crews running multiple trucks.",
+      bullets: ["Everything in Starter", "Unlimited conversations", "CRM + dispatch integrations", "Follow-up automations", "Priority support"],
+      featured: true,
+    },
+    {
+      name: "Multi-location",
+      price: "Custom",
+      sub: "",
+      blurb: "For shops with multiple offices and 10+ techs.",
+      bullets: ["Everything in Shop", "Per-location routing", "Custom voice & scripts", "Dedicated CSM"],
+      featured: false,
+    },
+  ];
+
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-12 max-w-2xl">
+          <Eyebrow>Pricing</Eyebrow>
+          <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+            One plan to <span className="italic font-normal">cover the phones</span>. Pay for what you grow into.
+          </h2>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-3">
+          {tiers.map((t) => {
+            const featured = t.featured;
+            return (
+              <div
+                key={t.name}
+                className={`flex flex-col rounded-3xl p-8 ${
+                  featured
+                    ? "bg-[color:var(--color-brand-teal)] text-white"
+                    : "border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] text-[color:var(--color-ink)]"
+                }`}
+              >
+                {featured && (
+                  <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-[color:var(--color-brand-pink)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
+                    Most popular
+                  </span>
+                )}
+                <div className="text-sm font-semibold opacity-80">{t.name}</div>
+                <div className="mt-2 flex items-baseline gap-1">
+                  <span className="display-md">{t.price}</span>
+                  <span className="text-sm opacity-70">{t.sub}</span>
+                </div>
+                <p className={`mt-3 text-sm ${featured ? "text-white/80" : "text-[color:var(--color-body)]"}`}>
+                  {t.blurb}
+                </p>
+                <ul className="mt-6 space-y-2.5 text-sm">
+                  {t.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2">
+                      <Check className={`mt-0.5 h-4 w-4 ${featured ? "text-[color:var(--color-brand-mint)]" : "text-[color:var(--color-ink)]"}`} />
+                      <span className={featured ? "text-white/90" : "text-[color:var(--color-body)]"}>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
+                  {featured ? (
+                    <BtnPrimary invert>Start free trial</BtnPrimary>
+                  ) : (
+                    <BtnSecondary>{t.price === "Custom" ? "Talk to sales" : "Start free trial"}</BtnSecondary>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Testimonial trio ---------- */
+
+function Testimonials() {
+  const items = [
+    {
+      quote: "It's like hiring a front-desk person who never sleeps and never forgets to follow up.",
+      who: "Sarah Patel",
+      role: "Co-owner, Patel Plumbing",
+    },
+    {
+      quote: "Our after-hours bookings tripled. The kicker — customers think it's a real person.",
+      who: "Mike O'Brien",
+      role: "Ops Manager, BrightVolt Electric",
+    },
+    {
+      quote: "Setup took one afternoon. The next morning we had four new tune-ups on the board.",
+      who: "Tasha Wallace",
+      role: "Owner, Wallace Roofing",
+    },
+  ];
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-12 max-w-2xl">
+          <Eyebrow>Owners on Revenue Sol</Eyebrow>
+          <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+            Loved by the people who <span className="italic font-normal">run the trucks</span>.
+          </h2>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((t) => (
+            <div key={t.who} className="rounded-2xl bg-[color:var(--color-surface-card)] p-6">
+              <div className="mb-3 flex gap-0.5 text-[color:var(--color-brand-ochre)]">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
+              </div>
+              <p className="text-base leading-relaxed text-[color:var(--color-ink)]">"{t.quote}"</p>
+              <div className="mt-5 flex items-center gap-3">
+                <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-brand-lavender)] text-xs font-bold text-[color:var(--color-ink)]">
+                  {t.who.split(" ").map((w) => w[0]).join("")}
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-[color:var(--color-ink)]">{t.who}</div>
+                  <div className="text-xs text-[color:var(--color-muted)]">{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- CTA band ---------- */
+
+function CtaBand() {
+  return (
+    <section className="pb-20 pt-10">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="relative overflow-hidden rounded-[2rem] bg-[color:var(--color-surface-soft)] px-8 py-16 lg:px-16 lg:py-20">
+          {/* claymation horizon */}
+          <svg viewBox="0 0 1200 200" className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full">
+            <path d="M0 120 L160 60 L280 110 L420 50 L560 110 L720 40 L880 110 L1040 60 L1200 110 L1200 200 L0 200 Z" fill="var(--color-brand-lavender)" opacity="0.7" />
+            <path d="M0 150 L200 90 L360 140 L520 80 L680 140 L860 90 L1040 150 L1200 100 L1200 200 L0 200 Z" fill="var(--color-brand-teal)" />
+          </svg>
+          <div className="relative grid items-center gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <Eyebrow>Stop chasing the phone</Eyebrow>
+              <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+                Turn every missed call into <span className="italic font-normal">booked revenue</span>, starting tonight.
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 lg:col-span-4 lg:justify-end">
+              <BtnPrimary>Start free trial</BtnPrimary>
+              <BtnSecondary>Book a demo</BtnSecondary>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Footer ---------- */
+
+function Footer() {
+  const cols = [
+    {
+      h: "Product",
+      links: ["AI Receptionist", "SMS Inbox", "Booking", "Follow-ups", "Integrations", "Pricing"],
+    },
+    {
+      h: "Solutions",
+      links: ["HVAC", "Plumbing", "Electrical", "Roofing", "Cleaning", "Handyman"],
+    },
+    {
+      h: "Resources",
+      links: ["Customer stories", "Help center", "Changelog", "Onboarding", "API docs"],
+    },
+    {
+      h: "Company",
+      links: ["About", "Careers", "Contact", "Security", "Privacy", "Terms"],
+    },
+  ];
+  return (
+    <footer className="bg-[color:var(--color-surface-soft)]">
+      <div className="mx-auto max-w-[1280px] px-5 pb-12 pt-20 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-[color:var(--color-brand-pink)]">
+                <span className="font-bold text-white">R</span>
+              </div>
+              <span className="text-lg font-semibold tracking-tight text-[color:var(--color-ink)]">Revenue Sol</span>
+            </Link>
+            <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
+              The AI CRM for service businesses. Built in Austin for the shops that keep
+              America running.
+            </p>
+            <div className="mt-6 flex gap-2">
+              <BtnPrimary>Try free</BtnPrimary>
+            </div>
+          </div>
+          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
+            {cols.map((c) => (
+              <div key={c.h}>
+                <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--color-muted)]">{c.h}</div>
+                <ul className="space-y-2.5">
+                  {c.links.map((l) => (
+                    <li key={l}>
+                      <a href="#" className="text-sm text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">{l}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* signature mountain horizon */}
+        <svg viewBox="0 0 1200 140" className="mt-16 w-full">
+          <path d="M0 90 L120 40 L220 80 L340 30 L460 80 L600 20 L740 80 L880 40 L1020 90 L1200 50 L1200 140 L0 140 Z" fill="var(--color-brand-peach)" opacity="0.55" />
+          <path d="M0 110 L160 70 L300 100 L460 60 L620 100 L780 60 L940 110 L1100 70 L1200 100 L1200 140 L0 140 Z" fill="var(--color-brand-teal)" />
+          <circle cx="170" cy="55" r="3" fill="#fffaf0" />
+          <circle cx="465" cy="42" r="3" fill="#fffaf0" />
+          <circle cx="785" cy="75" r="3" fill="#fffaf0" />
+        </svg>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6 text-xs text-[color:var(--color-muted)]">
+          <div>© {new Date().getFullYear()} Revenue Sol, Inc. Made for the trades.</div>
+          <div className="flex gap-5">
+            <a href="#" className="hover:text-[color:var(--color-ink)]">Privacy</a>
+            <a href="#" className="hover:text-[color:var(--color-ink)]">Terms</a>
+            <a href="#" className="hover:text-[color:var(--color-ink)]">Status</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---------- Page ---------- */
+
 function Page() {
   return (
-    <div className="min-h-screen bg-[color:var(--color-bg)]">
+    <div className="min-h-screen bg-[color:var(--color-canvas)]">
       <Nav />
       <main>
         <Hero />
-        <IntegrationsStrip />
-
-        <div className="space-y-20 sm:space-y-24 lg:space-y-32 pt-16 sm:pt-20 lg:pt-28">
-          <FeatureRow
-            eyebrow="ALL YOUR CUSTOMER INFO"
-            title={<>Everything about a customer, <em className="italic font-normal">in one place</em></>}
-            bullets={[
-              { title: "We fill in the blanks", body: "Pull in the customer's address, property details, and past jobs — so you're not asking the same questions twice." },
-              { title: "Catch every chance to win work", body: "Know the second someone misses your call, fills out a form, or talks about you online." },
-              { title: "We do the digging for you", body: "Our AI looks up public records and forms in the background so you don't have to." },
-            ]}
-            stat="2x"
-            statLabel="Owners we work with book about twice as many jobs (early results)"
-            panelColor="#EAE5DA"
-            mock={<InboxMock />}
-          />
-
-          <FeatureRow
-            reverse
-            eyebrow="AI THAT ACTS LIKE STAFF"
-            title={<>An extra hand that never <em className="italic font-normal">clocks out</em></>}
-            bullets={[
-              { title: "Tell it what to do, in plain English", body: "Describe how you handle a call or a quote, and Revenue Sol sets it up for you." },
-              { title: "One setup, many helpers", body: "Build a receptionist, a dispatcher, or a follow-up rep once — then use them across every channel." },
-              { title: "It knows your shop", body: "Hook up your CRM, dispatch tool, and price list so every reply sounds like you wrote it." },
-            ]}
-            stat="3x"
-            statLabel="Shops booked roughly 3x more after-hours jobs in the first month"
-            panelColor="#EAE5DA"
-            mock={<AgentMock />}
-          />
-
-          <FeatureRow
-            eyebrow="GET YOUR DATA WORKING"
-            title={<>Keep every tool in sync, <em className="italic font-normal">without thinking about it</em></>}
-            bullets={[
-              { title: "Connects to what you already use", body: "Keep your CRM, dispatch, and accounting tools talking to each other — no copy-pasting." },
-              { title: "Build simple customer lists", body: "Group people by what they need: missed calls, due for a tune-up, ready for a review — and reach out at the right time." },
-              { title: "Right reminder, right moment", body: "Ping a tech, update a job, or send a follow-up text the moment something changes." },
-            ]}
-            stat="3M+"
-            statLabel="Customer records kept up to date across our shops"
-            panelColor="#EAE5DA"
-            mock={<AudienceMock />}
-          />
-
-          <SectionBreak />
-          <StackedFeatures />
-          <PullQuote />
-          <UseCases />
-          <CentralPlatform />
-          <CapabilityRow />
-          <QuoteCarousel />
-          <FinalCta />
-        </div>
-        <div className="mt-20 sm:mt-24 lg:mt-32">
-          <Footer />
-        </div>
+        <LogosStrip />
+        <FeatureGrid />
+        <HowItWorks />
+        <PullQuote />
+        <UseCases />
+        <StatsBand />
+        <Pricing />
+        <Testimonials />
+        <CtaBand />
       </main>
+      <Footer />
     </div>
   );
 }
