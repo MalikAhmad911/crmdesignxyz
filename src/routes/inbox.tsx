@@ -389,7 +389,7 @@ function InboxPage() {
           </div>
 
           {/* Composer */}
-          <div className="border-t border-[#e3e3e8] px-6 py-3">
+          <div className="border-t border-[#e3e3e8] px-3 py-3 sm:px-6">
             <div className="mx-auto max-w-[760px]">
               <input
                 placeholder="New message"
