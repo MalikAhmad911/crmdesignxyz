@@ -284,26 +284,26 @@ function InboxPage() {
                 </div>
               </div>
 
-              <div className="mx-auto flex items-center gap-1.5">
+              <div className="mx-auto flex flex-wrap items-center justify-center gap-1.5">
                 <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
                   <Mic className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 sm:grid">
                   <Pause className="h-3.5 w-3.5" />
                 </button>
                 <button className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white">
                   <Grid3x3 className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <PhoneForwarded className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <Plus className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <Video className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 sm:grid">
                   <MoreVertical className="h-3.5 w-3.5" />
                 </button>
                 <button
@@ -314,17 +314,18 @@ function InboxPage() {
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 text-white/70">
+              <div className="hidden items-center gap-2 text-white/70 md:flex">
                 <SignalHigh className="h-4 w-4" />
                 <Headphones className="h-4 w-4" />
               </div>
               <button
                 onClick={() => setOnCall(false)}
-                className="ml-2 flex items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15"
+                className="ml-2 hidden items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15 lg:flex"
               >
                 <Check className="h-3.5 w-3.5" />
                 Mark as done
               </button>
+
             </div>
           ) : null}
 
