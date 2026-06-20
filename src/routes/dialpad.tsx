@@ -553,6 +553,8 @@ function ActiveCallWindow({
   muted,
   speaker,
   held,
+  minimized,
+  onToggleMinimize,
   onToggleMute,
   onToggleSpeaker,
   onToggleHold,
@@ -563,6 +565,8 @@ function ActiveCallWindow({
   muted: boolean;
   speaker: boolean;
   held: boolean;
+  minimized: boolean;
+  onToggleMinimize: () => void;
   onToggleMute: () => void;
   onToggleSpeaker: () => void;
   onToggleHold: () => void;
@@ -570,13 +574,22 @@ function ActiveCallWindow({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const drag = useRef<{ dx: number; dy: number; on: boolean }>({ dx: 0, dy: 0, on: false });
 
   useEffect(() => {
-    if (pos || typeof window === "undefined") return;
-    const w = Math.min(300, window.innerWidth - 16);
-    setPos({ x: Math.max(8, window.innerWidth - w - 24), y: 80 });
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 640px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
+  useEffect(() => {
+    if (pos || typeof window === "undefined") return;
+    const w = Math.min(320, window.innerWidth - 16);
+    setPos({ x: Math.max(8, window.innerWidth - w - 24), y: 80 });
   }, [pos]);
 
   useEffect(() => {
@@ -598,6 +611,7 @@ function ActiveCallWindow({
   }, []);
 
   const startDrag = (e: React.MouseEvent) => {
+    if (!isDesktop) return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     drag.current = { dx: e.clientX - rect.left, dy: e.clientY - rect.top, on: true };
@@ -608,11 +622,13 @@ function ActiveCallWindow({
     label,
     active,
     onClick,
+    danger,
   }: {
     Icon: React.ComponentType<{ className?: string }>;
     label: string;
     active?: boolean;
     onClick?: () => void;
+    danger?: boolean;
   }) => (
     <button
       onClick={onClick}
@@ -620,9 +636,11 @@ function ActiveCallWindow({
     >
       <span
         className={`grid h-14 w-14 place-items-center rounded-full border transition-colors ${
-          active
-            ? "border-white/30 bg-white text-[#0a0a0a]"
-            : "border-white/15 bg-white/10 text-white hover:bg-white/15"
+          danger
+            ? "border-rose-500/40 bg-rose-500/15 text-rose-300 hover:bg-rose-500/25"
+            : active
+              ? "border-white/30 bg-white text-[#0a0a0a]"
+              : "border-white/15 bg-white/10 text-white hover:bg-white/15"
         }`}
       >
         <Icon className="h-5 w-5" />
@@ -631,37 +649,100 @@ function ActiveCallWindow({
     </button>
   );
 
+  // Minimized pill — bottom-right on all sizes
+  if (minimized) {
+    return (
+      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-white/10 bg-[#0a0a0e] px-2 py-2 pr-3 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.65)]">
+        <button
+          onClick={onToggleMinimize}
+          className="flex items-center gap-2 rounded-full bg-white/5 pl-1.5 pr-2.5 py-1 text-white hover:bg-white/10"
+          aria-label="Expand call"
+        >
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] text-[11px] font-semibold text-[#7c5b00]">
+            LB
+          </span>
+          <span className="flex flex-col text-left leading-tight">
+            <span className="text-[12px] font-semibold">Lisa Bennett</span>
+            <span className="flex items-center gap-1 text-[10.5px] text-emerald-400">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              {held ? "On hold" : "In call"} · {timer}
+            </span>
+          </span>
+        </button>
+        <button
+          onClick={onToggleMute}
+          className={`grid h-9 w-9 place-items-center rounded-full ${muted ? "bg-white text-[#0a0a0a]" : "bg-white/10 text-white hover:bg-white/15"}`}
+          aria-label={muted ? "Unmute" : "Mute"}
+        >
+          {muted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+        </button>
+        <button
+          onClick={onEnd}
+          className="grid h-9 w-9 place-items-center rounded-full bg-[#ef4444] text-white hover:bg-[#dc2626]"
+          aria-label="End call"
+        >
+          <PhoneOff className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  }
+
+  // Mobile fullscreen / desktop draggable card
+  const desktopStyle = isDesktop ? { left: pos?.x ?? -9999, top: pos?.y ?? -9999 } : undefined;
+
   return (
     <div
       ref={ref}
-      style={{ left: pos?.x ?? -9999, top: pos?.y ?? -9999 }}
-      className="fixed z-50 w-[calc(100vw-16px)] max-w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+      style={desktopStyle}
+      className={
+        isDesktop
+          ? "fixed z-50 w-[320px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+          : "fixed inset-0 z-50 flex flex-col overflow-y-auto bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e]"
+      }
     >
-      {/* Drag handle */}
+      {/* Top bar: drag handle (desktop) + minimize */}
       <div
         onMouseDown={startDrag}
-        className="flex cursor-grab items-center justify-center py-2 active:cursor-grabbing"
+        className={`flex items-center justify-between px-4 ${isDesktop ? "cursor-grab py-2 active:cursor-grabbing" : "pt-[max(env(safe-area-inset-top),12px)] pb-2"}`}
       >
-        <GripHorizontal className="h-3.5 w-3.5 text-white/30" />
+        <button
+          onClick={onToggleMinimize}
+          className="grid h-8 w-8 place-items-center rounded-full bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+          aria-label="Minimize call"
+        >
+          <Minus className="h-4 w-4" />
+        </button>
+        {isDesktop ? (
+          <GripHorizontal className="h-3.5 w-3.5 text-white/30" />
+        ) : (
+          <div className="text-[11px] uppercase tracking-[0.16em] text-white/40">Active call</div>
+        )}
+        <div className="h-8 w-8" />
       </div>
 
       {/* Caller */}
-      <div className="px-6 pb-5 pt-1 text-center">
-        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] text-[22px] font-semibold text-[#7c5b00] shadow-[0_8px_24px_-8px_rgba(245,158,11,0.6)]">
+      <div className={`text-center ${isDesktop ? "px-6 pb-5 pt-1" : "px-6 pb-8 pt-6"}`}>
+        <div
+          className={`mx-auto grid place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] font-semibold text-[#7c5b00] shadow-[0_8px_24px_-8px_rgba(245,158,11,0.6)] ${
+            isDesktop ? "h-20 w-20 text-[22px]" : "h-28 w-28 text-[30px]"
+          }`}
+        >
           LB
         </div>
-        <div className="mt-3 text-[17px] font-semibold text-white">Lisa Bennett</div>
-        <div className="text-[12px] text-white/55">
-          {number || "+1 (907) 555-0101"}
+        <div className={`mt-4 font-semibold text-white ${isDesktop ? "text-[17px]" : "text-[22px]"}`}>
+          Lisa Bennett
         </div>
-        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
+        <div className="mt-1 flex items-center justify-center gap-1.5 text-[12px] text-white/55">
+          <Building2 className="h-3 w-3" /> Acme Logistics · {number || "+1 (907) 555-0101"}
+        </div>
+        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
           {held ? "On hold" : "In call"} · {timer}
         </div>
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-3 gap-y-5 px-6 pb-5">
+      <div className={`grid grid-cols-3 ${isDesktop ? "gap-y-5 px-6 pb-5" : "gap-y-7 px-8 pb-8"} mt-auto sm:mt-0`}>
         <div className="flex justify-center">
           <ActionBtn Icon={muted ? MicOff : Mic} label={muted ? "Unmute" : "Mute"} active={muted} onClick={onToggleMute} />
         </div>
@@ -683,16 +764,143 @@ function ActiveCallWindow({
       </div>
 
       {/* Hang up */}
-      <div className="flex justify-center pb-6">
+      <div className={`flex justify-center ${isDesktop ? "pb-6" : "pb-[max(env(safe-area-inset-bottom),24px)] pt-2"}`}>
         <button
           onClick={onEnd}
-          className="grid h-14 w-14 place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_10px_24px_-8px_rgba(239,68,68,0.6)] transition-transform hover:bg-[#dc2626] active:scale-95"
+          className={`grid place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_10px_24px_-8px_rgba(239,68,68,0.6)] transition-transform hover:bg-[#dc2626] active:scale-95 ${
+            isDesktop ? "h-14 w-14" : "h-16 w-16"
+          }`}
           aria-label="End call"
         >
-          <PhoneOff className="h-5 w-5" />
+          <PhoneOff className={isDesktop ? "h-5 w-5" : "h-6 w-6"} />
         </button>
       </div>
     </div>
   );
 }
+
+function IncomingCallScreen({
+  number,
+  onAccept,
+  onDecline,
+}: {
+  number: string;
+  onAccept: () => void;
+  onDecline: () => void;
+}) {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 640px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const Card = (
+    <div
+      className={
+        isDesktop
+          ? "relative w-[380px] overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)]"
+          : "relative flex h-full w-full flex-col bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e]"
+      }
+    >
+      {/* Pulse rings */}
+      <div className="pointer-events-none absolute left-1/2 top-24 -translate-x-1/2">
+        <span className="absolute -left-20 -top-20 h-40 w-40 animate-ping rounded-full bg-emerald-500/10" />
+        <span className="absolute -left-16 -top-16 h-32 w-32 animate-ping rounded-full bg-emerald-500/15 [animation-delay:300ms]" />
+      </div>
+
+      {/* Header label */}
+      <div className={`flex items-center justify-between px-5 ${isDesktop ? "pt-5" : "pt-[max(env(safe-area-inset-top),16px)]"}`}>
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-medium text-emerald-400">
+          <PhoneIncoming className="h-3 w-3" />
+          Incoming call
+        </div>
+        <div className="text-[11px] text-white/45">Sales · +1 415</div>
+      </div>
+
+      {/* Caller */}
+      <div className={`relative flex flex-col items-center px-6 text-center ${isDesktop ? "pt-8 pb-6" : "flex-1 justify-center pt-10"}`}>
+        <div
+          className={`grid place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] font-semibold text-[#7c5b00] shadow-[0_12px_30px_-10px_rgba(245,158,11,0.7)] ${
+            isDesktop ? "h-24 w-24 text-[26px]" : "h-32 w-32 text-[34px]"
+          }`}
+        >
+          LB
+        </div>
+        <div className={`mt-5 font-semibold text-white ${isDesktop ? "text-[20px]" : "text-[26px]"}`}>
+          Lisa Bennett
+        </div>
+        <div className="mt-1 text-[12.5px] text-white/55">{number}</div>
+        <div className="mt-1 flex items-center gap-1.5 text-[12px] text-white/45">
+          <Building2 className="h-3 w-3" /> Acme Logistics · Operations
+        </div>
+
+        {/* Context chips */}
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">VIP</span>
+          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">Renewal Q4</span>
+          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">Open ticket #4821</span>
+        </div>
+
+        {/* AI note */}
+        <div className="mt-5 w-full rounded-xl border border-white/10 bg-white/[0.03] p-3 text-left">
+          <div className="flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-white/45">
+            <span className="grid h-4 w-4 place-items-center rounded bg-white text-[8px] font-bold text-[#0a0a0a]">AI</span>
+            Suggested context
+          </div>
+          <p className="mt-1.5 text-[12px] leading-[1.5] text-white/75">
+            Likely follow-up on shipment delay (ticket #4821). Sentiment positive · 3 calls this week.
+          </p>
+        </div>
+      </div>
+
+      {/* Quick reply (decline with text) */}
+      <div className={`grid grid-cols-2 gap-2 px-6 ${isDesktop ? "pb-3" : "pb-3"}`}>
+        <button className="flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10">
+          <MessageCircle className="h-3.5 w-3.5" /> Reply
+        </button>
+        <button className="flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10">
+          <BellOff className="h-3.5 w-3.5" /> Remind me
+        </button>
+      </div>
+
+      {/* Accept / Decline */}
+      <div className={`flex items-center justify-around px-6 ${isDesktop ? "pb-7 pt-3" : "pb-[max(env(safe-area-inset-bottom),28px)] pt-4"}`}>
+        <button
+          onClick={onDecline}
+          className={`group flex flex-col items-center gap-1.5 ${isDesktop ? "" : ""}`}
+        >
+          <span className={`grid place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_14px_30px_-10px_rgba(239,68,68,0.7)] transition-transform group-hover:bg-[#dc2626] group-active:scale-95 ${isDesktop ? "h-14 w-14" : "h-16 w-16"}`}>
+            <PhoneOff className={isDesktop ? "h-5 w-5" : "h-6 w-6"} />
+          </span>
+          <span className="text-[11px] font-medium text-white/70">Decline</span>
+        </button>
+        <button
+          onClick={onAccept}
+          className="group flex flex-col items-center gap-1.5"
+        >
+          <span className={`relative grid place-items-center rounded-full bg-emerald-500 text-white shadow-[0_14px_30px_-10px_rgba(16,185,129,0.7)] transition-transform group-hover:bg-emerald-600 group-active:scale-95 ${isDesktop ? "h-14 w-14" : "h-16 w-16"}`}>
+            <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/40" />
+            <PhoneCall className={`relative ${isDesktop ? "h-5 w-5" : "h-6 w-6"}`} />
+          </span>
+          <span className="text-[11px] font-medium text-emerald-400">Accept</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  if (!isDesktop) {
+    return <div className="fixed inset-0 z-[60]">{Card}</div>;
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/55 backdrop-blur-sm p-4">
+      {Card}
+    </div>
+  );
+}
+
 
