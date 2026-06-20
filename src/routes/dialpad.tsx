@@ -8,24 +8,32 @@ import {
   PhoneMissed,
   Delete,
   Search,
-  Star,
   Clock,
   Users,
   Voicemail,
   Settings,
+  MessageSquare,
+  BarChart3,
+  Inbox,
+  ChevronDown,
+  ChevronRight,
+  Plus,
   Mic,
   Video,
+  UserPlus,
+  Star,
   MoreHorizontal,
-  Plus,
-  ChevronDown,
-  Headphones,
-  Volume2,
+  Filter,
+  Command,
+  Bell,
+  ArrowUpRight,
+  CircleDot,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dialpad")({
   head: () => ({
     meta: [
-      { title: "Dialpad · Revenue Sol" },
+      { title: "Dialer · Revenue Sol" },
       { name: "description", content: "Professional cloud dialer." },
     ],
   }),
@@ -48,271 +56,404 @@ const keys: { d: string; l: string }[] = [
 ];
 
 type CallType = "in" | "out" | "miss";
-const recent: { name: string; sub: string; time: string; type: CallType; initials: string; color: string }[] = [
-  { name: "Lisa Bennett", sub: "Mobile · (907) 555-0101", time: "2m", type: "in", initials: "LB", color: "#fde68a" },
-  { name: "Ralph Edwards", sub: "Rocket Inc · Work", time: "18m", type: "out", initials: "RE", color: "#bfdbfe" },
-  { name: "Annette Black", sub: "Check Point · Mobile", time: "1h", type: "miss", initials: "AB", color: "#fecaca" },
-  { name: "Dianne Russell", sub: "HP · Work", time: "3h", type: "in", initials: "DR", color: "#c7d2fe" },
-  { name: "Kathryn Murphy", sub: "Nintendo · Mobile", time: "Yesterday", type: "out", initials: "KM", color: "#fcd34d" },
-  { name: "Carlos Smith", sub: "Real estate · Mobile", time: "Yesterday", type: "miss", initials: "CS", color: "#a7f3d0" },
+const recent: {
+  name: string; company: string; number: string; time: string; dur: string; type: CallType; initials: string;
+}[] = [
+  { name: "Lisa Bennett", company: "Acme Logistics", number: "+1 (907) 555-0101", time: "2 min ago", dur: "4:12", type: "in", initials: "LB" },
+  { name: "Ralph Edwards", company: "Rocket Inc.", number: "+1 (415) 555-0118", time: "18 min ago", dur: "11:02", type: "out", initials: "RE" },
+  { name: "Annette Black", company: "Check Point", number: "+1 (212) 555-0143", time: "1 hr ago", dur: "—", type: "miss", initials: "AB" },
+  { name: "Dianne Russell", company: "HP", number: "+1 (650) 555-0192", time: "3 hr ago", dur: "2:48", type: "in", initials: "DR" },
+  { name: "Kathryn Murphy", company: "Nintendo", number: "+1 (206) 555-0177", time: "Yesterday", dur: "7:30", type: "out", initials: "KM" },
+  { name: "Carlos Smith", company: "Northstar RE", number: "+1 (305) 555-0166", time: "Yesterday", dur: "—", type: "miss", initials: "CS" },
 ];
 
-function TypeIcon({ type }: { type: CallType }) {
-  if (type === "in") return <PhoneIncoming className="h-3 w-3 text-[#22c55e]" />;
-  if (type === "out") return <PhoneOutgoing className="h-3 w-3 text-[#3b82f6]" />;
-  return <PhoneMissed className="h-3 w-3 text-[#ef4444]" />;
+function TypeBadge({ type }: { type: CallType }) {
+  const map = {
+    in: { Icon: PhoneIncoming, color: "text-emerald-500" },
+    out: { Icon: PhoneOutgoing, color: "text-sky-500" },
+    miss: { Icon: PhoneMissed, color: "text-rose-500" },
+  } as const;
+  const { Icon, color } = map[type];
+  return <Icon className={`h-3 w-3 ${color}`} strokeWidth={2.5} />;
 }
 
-function SideIcon({
+function NavItem({
   icon: Icon,
+  label,
+  badge,
   active,
 }: {
   icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  badge?: string;
   active?: boolean;
 }) {
   return (
     <button
-      className={`grid h-10 w-10 place-items-center rounded-xl transition-colors ${
-        active ? "bg-[#0b5cff] text-white shadow-[0_8px_22px_-10px_rgba(11,92,255,0.7)]" : "text-[#5a5a66] hover:bg-[#eef0f5]"
+      className={`group flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] transition-colors ${
+        active
+          ? "bg-white/8 text-white"
+          : "text-white/60 hover:bg-white/5 hover:text-white"
       }`}
     >
-      <Icon className="h-4.5 w-4.5" />
+      <Icon className="h-4 w-4" />
+      <span className="flex-1 text-left">{label}</span>
+      {badge ? (
+        <span className="rounded bg-white/10 px-1.5 py-px text-[10px] font-medium text-white/80">
+          {badge}
+        </span>
+      ) : null}
     </button>
   );
 }
 
 function DialpadPage() {
   const [number, setNumber] = useState("");
-
   const press = (k: string) => setNumber((n) => (n + k).slice(0, 18));
   const back = () => setNumber((n) => n.slice(0, -1));
 
   return (
-    <div className="h-screen w-full bg-[#f4f5f8] font-sans text-[#0f172a]">
-      {/* Top bar */}
-      <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] bg-white px-3">
-        <div className="flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-        </div>
-        <div className="ml-2 flex items-center gap-2">
-          <div className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-[#0b5cff] to-[#1e3a8a] text-[11px] font-bold text-white">
-            R
-          </div>
-          <span className="text-[13px] font-semibold tracking-tight">Revenue Dialer</span>
-        </div>
-        <div className="mx-3 flex flex-1 items-center gap-2 rounded-md bg-[#f1f2f6] px-3 py-1.5 text-[12px] text-[#7a7a85]">
-          <Search className="h-3.5 w-3.5" />
-          <span>Search contacts, calls, numbers…</span>
-        </div>
-        <div className="flex items-center gap-2 rounded-md bg-[#ecfdf5] px-2 py-1 text-[12px] text-[#047857]">
-          <span className="h-2 w-2 rounded-full bg-[#10b981]" />
-          <span>Available</span>
-          <ChevronDown className="h-3 w-3" />
-        </div>
-        <div className="grid h-7 w-7 place-items-center rounded-full bg-[#6e3aff] text-[10px] font-semibold text-white">SM</div>
-      </div>
-
-      <div className="flex h-[calc(100vh-48px)]">
-        {/* Icon rail */}
-        <aside className="hidden w-[64px] shrink-0 flex-col items-center gap-2 border-r border-[#e3e3e8] bg-white py-4 md:flex">
-          <SideIcon icon={Phone} active />
-          <SideIcon icon={Clock} />
-          <SideIcon icon={Users} />
-          <SideIcon icon={Voicemail} />
-          <SideIcon icon={Star} />
-          <div className="mt-auto" />
-          <SideIcon icon={Settings} />
-        </aside>
-
-        {/* Recents column */}
-        <section className="hidden w-[340px] shrink-0 flex-col border-r border-[#e3e3e8] bg-white md:flex">
-          <div className="flex items-center justify-between border-b border-[#e3e3e8] px-4 py-3">
-            <div>
-              <div className="text-[15px] font-semibold tracking-tight">Recents</div>
-              <div className="text-[11px] text-[#64748b]">All calls today</div>
+    <div className="h-screen w-full overflow-hidden bg-[#fafafa] font-sans text-[#0a0a0a] antialiased">
+      <div className="flex h-full">
+        {/* App sidebar — dark SaaS rail */}
+        <aside className="hidden w-[232px] shrink-0 flex-col border-r border-[#1c1c20] bg-[#0b0b0e] px-3 py-3 lg:flex">
+          {/* Brand */}
+          <div className="flex items-center gap-2 px-1.5 py-1">
+            <div className="grid h-7 w-7 place-items-center rounded-md bg-white text-[12px] font-bold text-[#0b0b0e]">
+              R
             </div>
-            <button className="grid h-8 w-8 place-items-center rounded-md text-[#5a5a66] hover:bg-[#eef0f5]">
-              <MoreHorizontal className="h-4 w-4" />
+            <div className="leading-tight">
+              <div className="text-[12.5px] font-semibold text-white">Revenue Sol</div>
+              <div className="text-[10.5px] text-white/45">Workspace</div>
+            </div>
+            <button className="ml-auto grid h-6 w-6 place-items-center rounded text-white/50 hover:bg-white/5">
+              <ChevronDown className="h-3.5 w-3.5" />
             </button>
           </div>
-          <div className="flex gap-1 border-b border-[#e3e3e8] px-3 py-2 text-[12px]">
-            {["All", "Missed", "Inbound", "Outbound"].map((t, i) => (
-              <button
-                key={t}
-                className={`rounded-full px-3 py-1 ${
-                  i === 0 ? "bg-[#0f172a] text-white" : "text-[#475569] hover:bg-[#eef0f5]"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div className="flex-1 overflow-y-auto">
-            {recent.map((r, i) => (
-              <button
-                key={i}
-                className="flex w-full items-center gap-3 border-b border-[#f1f2f6] px-4 py-3 text-left hover:bg-[#f8fafc]"
-              >
-                <span
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-[12px] font-semibold text-[#1f2937]"
-                  style={{ background: r.color }}
-                >
-                  {r.initials}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
-                    <TypeIcon type={r.type} />
-                    <span className={`truncate text-[13.5px] font-semibold ${r.type === "miss" ? "text-[#ef4444]" : ""}`}>
-                      {r.name}
-                    </span>
-                  </div>
-                  <div className="truncate text-[11.5px] text-[#64748b]">{r.sub}</div>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-[11px] text-[#94a3b8]">{r.time}</span>
-                  <Phone className="h-3.5 w-3.5 text-[#0b5cff]" />
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
 
-        {/* Dialer */}
-        <section className="relative flex min-w-0 flex-1 items-center justify-center overflow-hidden bg-gradient-to-br from-[#eef2ff] via-[#f4f5f8] to-[#e0f2fe] px-4 py-6">
-          <div
-            className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(11,92,255,0.18), transparent 60%)" }}
-          />
-          <div
-            className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, rgba(16,185,129,0.18), transparent 60%)" }}
-          />
+          {/* Search */}
+          <div className="mt-3 flex items-center gap-2 rounded-md border border-white/8 bg-white/[0.03] px-2.5 py-1.5 text-[12px] text-white/45">
+            <Search className="h-3.5 w-3.5" />
+            <span className="flex-1">Search</span>
+            <span className="flex items-center gap-0.5 rounded border border-white/10 px-1 text-[10px] text-white/40">
+              <Command className="h-2.5 w-2.5" /> K
+            </span>
+          </div>
 
-          <div className="relative w-full max-w-[360px] rounded-3xl border border-white/70 bg-white/80 p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.25)] backdrop-blur-xl">
-            {/* Caller line */}
-            <div className="flex items-center justify-between">
-              <button className="flex items-center gap-1 rounded-md px-2 py-1 text-[12px] font-medium text-[#475569] hover:bg-[#eef0f5]">
-                <span className="grid h-5 w-7 place-items-center rounded-sm bg-gradient-to-b from-[#3c3b6e] to-[#b22234] text-[9px] font-bold text-white">
-                  US
-                </span>
-                +1
-                <ChevronDown className="h-3 w-3" />
-              </button>
-              <button className="flex items-center gap-1 rounded-md px-2 py-1 text-[12px] font-medium text-[#475569] hover:bg-[#eef0f5]">
-                <span className="h-2 w-2 rounded-full bg-[#10b981]" />
-                Caller ID · Main
-                <ChevronDown className="h-3 w-3" />
-              </button>
+          {/* Nav */}
+          <nav className="mt-4 space-y-0.5">
+            <NavItem icon={Phone} label="Dialer" active />
+            <NavItem icon={Inbox} label="Inbox" badge="5" />
+            <NavItem icon={Clock} label="Recents" />
+            <NavItem icon={Voicemail} label="Voicemail" badge="2" />
+            <NavItem icon={MessageSquare} label="Messages" />
+            <NavItem icon={Users} label="Contacts" />
+            <NavItem icon={BarChart3} label="Analytics" />
+          </nav>
+
+          <div className="mt-5 px-2.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-white/40">
+            Lines
+          </div>
+          <div className="mt-1 space-y-0.5">
+            <button className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] text-white/60 hover:bg-white/5 hover:text-white">
+              <CircleDot className="h-3 w-3 text-emerald-400" />
+              <span className="flex-1 text-left">Sales · Main</span>
+              <span className="text-[10.5px] text-white/40">+1 415</span>
+            </button>
+            <button className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] text-white/60 hover:bg-white/5 hover:text-white">
+              <CircleDot className="h-3 w-3 text-amber-400" />
+              <span className="flex-1 text-left">Support</span>
+              <span className="text-[10.5px] text-white/40">+1 628</span>
+            </button>
+          </div>
+
+          {/* User */}
+          <div className="mt-auto flex items-center gap-2 rounded-md border border-white/8 bg-white/[0.02] px-2 py-2">
+            <div className="grid h-7 w-7 place-items-center rounded-full bg-[#6e3aff] text-[10.5px] font-semibold text-white">
+              SM
             </div>
-
-            {/* Number display */}
-            <div className="mt-3 flex min-h-[64px] items-center justify-center px-2">
-              <div className="text-center text-[34px] font-semibold tracking-tight tabular-nums text-[#0f172a]">
-                {number || <span className="text-[#cbd5e1]">Enter a number</span>}
+            <div className="min-w-0 leading-tight">
+              <div className="truncate text-[12px] font-medium text-white">Sophia Miller</div>
+              <div className="flex items-center gap-1 text-[10.5px] text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Available
               </div>
             </div>
-            <div className="text-center text-[12px] text-[#64748b]">
-              {number ? "Mobile · United States" : "Type or paste · Use keyboard"}
-            </div>
-
-            {/* Keys */}
-            <div className="mt-5 grid grid-cols-3 gap-2.5">
-              {keys.map((k) => (
-                <button
-                  key={k.d}
-                  onClick={() => press(k.d)}
-                  className="group flex h-16 flex-col items-center justify-center rounded-2xl border border-[#e2e8f0] bg-white text-[#0f172a] shadow-[0_1px_0_rgba(15,23,42,0.04)] transition-all hover:-translate-y-px hover:border-[#0b5cff]/30 hover:shadow-[0_8px_24px_-12px_rgba(11,92,255,0.45)] active:translate-y-0"
-                >
-                  <span className="text-[22px] font-semibold leading-none">{k.d}</span>
-                  {k.l ? (
-                    <span className="mt-1 text-[9.5px] font-medium tracking-[0.12em] text-[#94a3b8]">{k.l}</span>
-                  ) : (
-                    <span className="mt-1 h-[10px]" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Actions */}
-            <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-              <button className="grid h-10 w-10 place-items-center justify-self-end rounded-full text-[#475569] hover:bg-[#eef0f5]">
-                <Plus className="h-4 w-4" />
-              </button>
-              <button
-                className="grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-[#10b981] to-[#059669] text-white shadow-[0_18px_40px_-14px_rgba(16,185,129,0.7)] transition-transform hover:scale-[1.03] active:scale-95"
-                aria-label="Call"
-              >
-                <PhoneCall className="h-5 w-5" />
-              </button>
-              <button
-                onClick={back}
-                className="grid h-10 w-10 place-items-center justify-self-start rounded-full text-[#475569] hover:bg-[#eef0f5]"
-              >
-                <Delete className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* Secondary */}
-            <div className="mt-4 flex items-center justify-center gap-2 text-[11.5px] text-[#64748b]">
-              <button className="flex items-center gap-1.5 rounded-full bg-[#f1f5f9] px-3 py-1.5 hover:bg-[#e2e8f0]">
-                <Mic className="h-3.5 w-3.5" /> SMS
-              </button>
-              <button className="flex items-center gap-1.5 rounded-full bg-[#f1f5f9] px-3 py-1.5 hover:bg-[#e2e8f0]">
-                <Video className="h-3.5 w-3.5" /> Video
-              </button>
-              <button className="flex items-center gap-1.5 rounded-full bg-[#f1f5f9] px-3 py-1.5 hover:bg-[#e2e8f0]">
-                <Headphones className="h-3.5 w-3.5" /> Transfer
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Right details */}
-        <aside className="hidden w-[300px] shrink-0 flex-col border-l border-[#e3e3e8] bg-white p-4 xl:flex">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">Active line</div>
-          <div className="mt-3 rounded-2xl border border-[#e2e8f0] bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-4 text-white">
-            <div className="flex items-center justify-between text-[11px] text-white/60">
-              <span>Main Line</span>
-              <span className="flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" /> Live</span>
-            </div>
-            <div className="mt-2 text-[18px] font-semibold tracking-tight">+1 (415) 555 · 0142</div>
-            <div className="mt-3 flex items-center gap-2 text-[11px] text-white/70">
-              <Volume2 className="h-3.5 w-3.5" /> HD voice · Opus 48 kHz
-            </div>
-          </div>
-
-          <div className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">Today</div>
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {[
-              { l: "Calls", v: "24" },
-              { l: "Talk", v: "1h 42m" },
-              { l: "Missed", v: "3" },
-            ].map((s) => (
-              <div key={s.l} className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
-                <div className="text-[16px] font-semibold tracking-tight">{s.v}</div>
-                <div className="text-[10.5px] text-[#64748b]">{s.l}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">Quick contacts</div>
-          <div className="mt-2 space-y-1">
-            {recent.slice(0, 4).map((r, i) => (
-              <button key={i} className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[12.5px] hover:bg-[#f1f5f9]">
-                <span
-                  className="grid h-6 w-6 place-items-center rounded-full text-[10px] font-semibold text-[#1f2937]"
-                  style={{ background: r.color }}
-                >
-                  {r.initials}
-                </span>
-                <span className="flex-1 truncate text-left">{r.name}</span>
-                <Phone className="h-3.5 w-3.5 text-[#0b5cff]" />
-              </button>
-            ))}
+            <button className="ml-auto grid h-6 w-6 place-items-center rounded text-white/50 hover:bg-white/5">
+              <Settings className="h-3.5 w-3.5" />
+            </button>
           </div>
         </aside>
+
+        {/* Main workspace */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Top header */}
+          <header className="flex h-14 items-center gap-3 border-b border-[#ececef] bg-white px-5">
+            <div className="flex items-center gap-1.5 text-[12.5px] text-[#6b6b76]">
+              <span>Workspace</span>
+              <ChevronRight className="h-3 w-3" />
+              <span className="text-[#0a0a0a]">Dialer</span>
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <button className="flex items-center gap-1.5 rounded-md border border-[#e6e6ea] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7]">
+                <Filter className="h-3.5 w-3.5" />
+                Filter
+              </button>
+              <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7]">
+                <Bell className="h-3.5 w-3.5" />
+              </button>
+              <button className="flex items-center gap-1.5 rounded-md bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-medium text-white hover:bg-[#1f1f24]">
+                <Plus className="h-3.5 w-3.5" />
+                New call
+              </button>
+            </div>
+          </header>
+
+          {/* Body */}
+          <div className="grid min-h-0 flex-1 grid-cols-1 xl:grid-cols-[1fr_400px_320px]">
+            {/* Recents list */}
+            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-white">
+              <div className="flex items-center justify-between border-b border-[#ececef] px-5 py-3">
+                <div>
+                  <div className="text-[14px] font-semibold tracking-tight">Recent calls</div>
+                  <div className="text-[11.5px] text-[#6b6b76]">Today · 24 calls · 1h 42m talk time</div>
+                </div>
+                <div className="flex gap-0.5 rounded-md border border-[#e6e6ea] bg-[#f7f7f9] p-0.5 text-[11.5px]">
+                  {["All", "Missed", "Inbound", "Outbound"].map((t, i) => (
+                    <button
+                      key={t}
+                      className={`rounded px-2.5 py-1 ${
+                        i === 0 ? "bg-white text-[#0a0a0a] shadow-[0_1px_0_rgba(15,15,18,0.06)]" : "text-[#6b6b76] hover:text-[#0a0a0a]"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Column header */}
+              <div className="grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94]">
+                <span>Contact</span>
+                <span>Number</span>
+                <span>Duration</span>
+                <span />
+              </div>
+
+              <div className="min-h-0 flex-1 overflow-y-auto">
+                {recent.map((r, i) => (
+                  <div
+                    key={i}
+                    className="group grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#f1f1f3] px-5 py-3 hover:bg-[#fafafb]"
+                  >
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="relative">
+                        <div className="grid h-9 w-9 place-items-center rounded-full bg-[#f0f0f3] text-[11.5px] font-semibold text-[#3a3a44]">
+                          {r.initials}
+                        </div>
+                        <div className="absolute -bottom-0.5 -right-0.5 grid h-4 w-4 place-items-center rounded-full bg-white">
+                          <TypeBadge type={r.type} />
+                        </div>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`truncate text-[13px] font-medium ${r.type === "miss" ? "text-rose-600" : "text-[#0a0a0a]"}`}>
+                            {r.name}
+                          </span>
+                          <span className="rounded bg-[#f0f0f3] px-1.5 py-px text-[10px] font-medium text-[#6b6b76]">
+                            {r.company}
+                          </span>
+                        </div>
+                        <div className="truncate text-[11.5px] text-[#8a8a94]">{r.time}</div>
+                      </div>
+                    </div>
+                    <div className="truncate text-[12px] tabular-nums text-[#3a3a44]">{r.number}</div>
+                    <div className="text-[12px] tabular-nums text-[#6b6b76]">{r.dur}</div>
+                    <button className="grid h-7 w-7 place-items-center rounded-md text-[#8a8a94] opacity-0 transition-opacity hover:bg-[#f0f0f3] hover:text-[#0a0a0a] group-hover:opacity-100">
+                      <Phone className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Dialer card column */}
+            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-5">
+              <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#8a8a94]">Dialer</div>
+
+              <div className="mt-3 rounded-2xl border border-[#ececef] bg-white shadow-[0_1px_0_rgba(15,15,18,0.04)]">
+                {/* Caller controls */}
+                <div className="flex items-center justify-between border-b border-[#f1f1f3] px-4 py-2.5">
+                  <button className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7]">
+                    <span className="grid h-4 w-5 place-items-center rounded-[2px] bg-gradient-to-b from-[#3c3b6e] to-[#b22234] text-[8px] font-bold text-white">
+                      US
+                    </span>
+                    +1
+                    <ChevronDown className="h-3 w-3" />
+                  </button>
+                  <button className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[11.5px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    Sales · Main
+                    <ChevronDown className="h-3 w-3" />
+                  </button>
+                </div>
+
+                {/* Number display */}
+                <div className="px-4 pt-5 pb-1 text-center">
+                  <div className="min-h-[40px] text-[28px] font-semibold tracking-tight tabular-nums text-[#0a0a0a]">
+                    {number || <span className="text-[#d1d1d6]">(000) 000-0000</span>}
+                  </div>
+                  <div className="text-[11.5px] text-[#8a8a94]">
+                    {number ? "Mobile · United States" : "Enter a number or paste from clipboard"}
+                  </div>
+                </div>
+
+                {/* Keys */}
+                <div className="grid grid-cols-3 gap-px bg-[#f1f1f3] p-px">
+                  {keys.map((k) => (
+                    <button
+                      key={k.d}
+                      onClick={() => press(k.d)}
+                      className="flex h-14 flex-col items-center justify-center bg-white text-[#0a0a0a] transition-colors hover:bg-[#fafafa] active:bg-[#f5f5f7]"
+                    >
+                      <span className="text-[19px] font-medium leading-none">{k.d}</span>
+                      <span className="mt-0.5 h-2.5 text-[9px] font-medium tracking-[0.14em] text-[#8a8a94]">
+                        {k.l}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Actions */}
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 p-3">
+                  <div className="flex justify-end">
+                    <button className="grid h-9 w-9 place-items-center rounded-full text-[#3a3a44] hover:bg-[#f5f5f7]">
+                      <UserPlus className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <button
+                    className="grid h-12 w-12 place-items-center rounded-full bg-emerald-500 text-white shadow-[0_8px_24px_-12px_rgba(16,185,129,0.7)] transition-transform hover:bg-emerald-600 active:scale-95"
+                    aria-label="Call"
+                  >
+                    <PhoneCall className="h-4.5 w-4.5" />
+                  </button>
+                  <div className="flex justify-start">
+                    <button
+                      onClick={back}
+                      className="grid h-9 w-9 place-items-center rounded-full text-[#3a3a44] hover:bg-[#f5f5f7]"
+                    >
+                      <Delete className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick actions */}
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {[
+                  { Icon: MessageSquare, label: "SMS" },
+                  { Icon: Video, label: "Video" },
+                  { Icon: Mic, label: "Record" },
+                ].map(({ Icon, label }) => (
+                  <button
+                    key={label}
+                    className="flex items-center justify-center gap-1.5 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] font-medium text-[#3a3a44] hover:bg-[#f7f7f9]"
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Quality strip */}
+              <div className="mt-3 flex items-center gap-2 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] text-[#6b6b76]">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="font-medium text-[#0a0a0a]">Excellent</span>
+                <span className="text-[#c7c7cd]">·</span>
+                <span>Latency 38ms</span>
+                <span className="text-[#c7c7cd]">·</span>
+                <span>Opus 48kHz</span>
+              </div>
+            </section>
+
+            {/* Right pane — context */}
+            <aside className="hidden min-w-0 flex-col bg-white xl:flex">
+              <div className="flex items-center justify-between border-b border-[#ececef] px-5 py-3">
+                <div className="text-[14px] font-semibold tracking-tight">Details</div>
+                <button className="grid h-7 w-7 place-items-center rounded-md text-[#6b6b76] hover:bg-[#f5f5f7]">
+                  <MoreHorizontal className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="overflow-y-auto px-5 py-4">
+                {/* Contact card */}
+                <div className="flex items-center gap-3">
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-[#fde68a] text-[14px] font-semibold text-[#7c5b00]">
+                    LB
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="truncate text-[14px] font-semibold">Lisa Bennett</span>
+                      <Star className="h-3.5 w-3.5 text-[#d1d1d6]" />
+                    </div>
+                    <div className="truncate text-[12px] text-[#6b6b76]">Operations · Acme Logistics</div>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {[
+                    { Icon: Phone, l: "Call" },
+                    { Icon: MessageSquare, l: "Text" },
+                    { Icon: Video, l: "Meet" },
+                  ].map(({ Icon, l }) => (
+                    <button key={l} className="flex flex-col items-center gap-1 rounded-md border border-[#ececef] py-2 text-[11px] text-[#3a3a44] hover:bg-[#fafafb]">
+                      <Icon className="h-3.5 w-3.5" />
+                      {l}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Fields */}
+                <div className="mt-5 space-y-2.5 text-[12px]">
+                  {[
+                    ["Mobile", "+1 (907) 555-0101"],
+                    ["Email", "lisa@acme.co"],
+                    ["Timezone", "PT · 2:47 PM"],
+                    ["Owner", "Sophia Miller"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex items-center justify-between border-b border-[#f1f1f3] pb-2 last:border-0">
+                      <span className="text-[#8a8a94]">{k}</span>
+                      <span className="font-medium text-[#0a0a0a]">{v}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Insights */}
+                <div className="mt-5 rounded-xl border border-[#ececef] bg-gradient-to-br from-[#fafafb] to-white p-3">
+                  <div className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#8a8a94]">
+                    <span className="grid h-4 w-4 place-items-center rounded bg-[#0a0a0a] text-[8px] font-bold text-white">AI</span>
+                    Insights
+                  </div>
+                  <p className="mt-2 text-[12.5px] leading-[1.5] text-[#3a3a44]">
+                    Lisa is following up on a shipment delay. Prior sentiment is positive; she has called twice this week.
+                  </p>
+                  <button className="mt-2 inline-flex items-center gap-1 text-[11.5px] font-medium text-[#0b5cff] hover:underline">
+                    Open in CRM <ArrowUpRight className="h-3 w-3" />
+                  </button>
+                </div>
+
+                {/* Tags */}
+                <div className="mt-5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#8a8a94]">Tags</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {["VIP", "Logistics", "Renewal Q4"].map((t) => (
+                    <span key={t} className="rounded-md border border-[#ececef] bg-[#fafafb] px-2 py-0.5 text-[11px] font-medium text-[#3a3a44]">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
       </div>
     </div>
   );
