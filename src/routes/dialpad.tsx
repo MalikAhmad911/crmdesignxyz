@@ -28,6 +28,12 @@ import {
   Bell,
   ArrowUpRight,
   CircleDot,
+  MicOff,
+  Volume2,
+  Grid3x3,
+  Pause,
+  PhoneOff,
+  GripHorizontal,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dialpad")({
