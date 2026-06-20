@@ -520,6 +520,14 @@ function DialpadPage() {
         </div>
       </div>
 
+      {incoming ? (
+        <IncomingCallScreen
+          number={number || "+1 (907) 555-0101"}
+          onAccept={acceptIncoming}
+          onDecline={declineIncoming}
+        />
+      ) : null}
+
       {onCall ? (
         <ActiveCallWindow
           number={number}
@@ -527,6 +535,8 @@ function DialpadPage() {
           muted={muted}
           speaker={speaker}
           held={held}
+          minimized={minimized}
+          onToggleMinimize={() => setMinimized((v) => !v)}
           onToggleMute={() => setMuted((v) => !v)}
           onToggleSpeaker={() => setSpeaker((v) => !v)}
           onToggleHold={() => setHeld((v) => !v)}
