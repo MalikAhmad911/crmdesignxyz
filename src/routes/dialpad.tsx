@@ -145,7 +145,7 @@ function DialpadPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#fafafa] font-sans text-[#0a0a0a] antialiased lg:h-screen lg:overflow-hidden">
-      <div className="flex h-full">
+      <div className="flex min-h-screen flex-col lg:h-full lg:flex-row">
         {/* App sidebar — dark SaaS rail */}
         <aside className="hidden w-[232px] shrink-0 flex-col border-r border-[#1c1c20] bg-[#0b0b0e] px-3 py-3 lg:flex">
 
