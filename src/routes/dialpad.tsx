@@ -602,7 +602,7 @@ function ActiveCallWindow({
     <div
       ref={ref}
       style={{ left: pos?.x ?? -9999, top: pos?.y ?? -9999 }}
-      className="fixed z-50 w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+      className="fixed z-50 w-[calc(100vw-16px)] max-w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
     >
       {/* Drag handle */}
       <div
