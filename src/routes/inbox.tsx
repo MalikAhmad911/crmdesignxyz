@@ -160,8 +160,20 @@ function ColorRow({ color, label }: { color: string; label: string }) {
 }
 
 function InboxPage() {
+  const [onCall, setOnCall] = useState(false);
+  const [secs, setSecs] = useState(0);
+  useEffect(() => {
+    if (!onCall) return;
+    setSecs(0);
+    const id = setInterval(() => setSecs((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [onCall]);
+  const mm = String(Math.floor(secs / 60)).padStart(2, "0");
+  const ss = String(secs % 60).padStart(2, "0");
+
   return (
     <div className="h-screen w-full bg-[#f4f4f6] font-sans text-[#1f1f1f]">
+
       {/* Top bar */}
       <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] bg-white px-3">
         <div className="flex items-center gap-2">
