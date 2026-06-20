@@ -248,16 +248,16 @@ function DialpadPage() {
           <div className="grid min-h-0 flex-1 grid-cols-1 xl:grid-cols-[1fr_400px_320px]">
             {/* Recents list */}
             <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-white">
-              <div className="flex items-center justify-between border-b border-[#ececef] px-5 py-3">
-                <div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ececef] px-3 py-3 sm:px-5">
+                <div className="min-w-0">
                   <div className="text-[14px] font-semibold tracking-tight">Recent calls</div>
-                  <div className="text-[11.5px] text-[#6b6b76]">Today · 24 calls · 1h 42m talk time</div>
+                  <div className="truncate text-[11.5px] text-[#6b6b76]">Today · 24 calls · 1h 42m talk time</div>
                 </div>
-                <div className="flex gap-0.5 rounded-md border border-[#e6e6ea] bg-[#f7f7f9] p-0.5 text-[11.5px]">
+                <div className="flex shrink-0 gap-0.5 overflow-x-auto rounded-md border border-[#e6e6ea] bg-[#f7f7f9] p-0.5 text-[11.5px]">
                   {["All", "Missed", "Inbound", "Outbound"].map((t, i) => (
                     <button
                       key={t}
-                      className={`rounded px-2.5 py-1 ${
+                      className={`shrink-0 rounded px-2.5 py-1 ${
                         i === 0 ? "bg-white text-[#0a0a0a] shadow-[0_1px_0_rgba(15,15,18,0.06)]" : "text-[#6b6b76] hover:text-[#0a0a0a]"
                       }`}
                     >
@@ -266,6 +266,7 @@ function DialpadPage() {
                   ))}
                 </div>
               </div>
+
 
               {/* Column header */}
               <div className="grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94]">
