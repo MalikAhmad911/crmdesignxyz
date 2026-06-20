@@ -144,8 +144,8 @@ function DialpadPage() {
   const ss = String(secs % 60).padStart(2, "0");
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-[#fafafa] font-sans text-[#0a0a0a] antialiased">
-      <div className="flex h-full">
+    <div className="min-h-screen w-full bg-[#fafafa] font-sans text-[#0a0a0a] antialiased lg:h-screen lg:overflow-hidden">
+      <div className="flex min-h-screen flex-col lg:h-full lg:flex-row">
         {/* App sidebar — dark SaaS rail */}
         <aside className="hidden w-[232px] shrink-0 flex-col border-r border-[#1c1c20] bg-[#0b0b0e] px-3 py-3 lg:flex">
 
@@ -219,41 +219,45 @@ function DialpadPage() {
         {/* Main workspace */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Top header */}
-          <header className="flex h-14 items-center gap-3 border-b border-[#ececef] bg-white px-5">
-            <div className="flex items-center gap-1.5 text-[12.5px] text-[#6b6b76]">
-              <span>Workspace</span>
-              <ChevronRight className="h-3 w-3" />
-              <span className="text-[#0a0a0a]">Dialer</span>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b border-[#ececef] bg-white px-3 sm:gap-3 sm:px-5">
+            <div className="flex min-w-0 items-center gap-1.5 text-[12.5px] text-[#6b6b76]">
+              <span className="hidden sm:inline">Workspace</span>
+              <ChevronRight className="hidden h-3 w-3 sm:inline" />
+              <span className="truncate text-[#0a0a0a]">Dialer</span>
             </div>
-            <div className="ml-auto flex items-center gap-2">
-              <button className="flex items-center gap-1.5 rounded-md border border-[#e6e6ea] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7]">
+            <div className="ml-auto flex shrink-0 items-center gap-2">
+              <button className="hidden items-center gap-1.5 rounded-md border border-[#e6e6ea] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7] sm:flex">
                 <Filter className="h-3.5 w-3.5" />
                 Filter
+              </button>
+              <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7] sm:hidden">
+                <Filter className="h-3.5 w-3.5" />
               </button>
               <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7]">
                 <Bell className="h-3.5 w-3.5" />
               </button>
               <button className="flex items-center gap-1.5 rounded-md bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-medium text-white hover:bg-[#1f1f24]">
                 <Plus className="h-3.5 w-3.5" />
-                New call
+                <span className="hidden sm:inline">New call</span>
               </button>
             </div>
           </header>
+
 
           {/* Body */}
           <div className="grid min-h-0 flex-1 grid-cols-1 xl:grid-cols-[1fr_400px_320px]">
             {/* Recents list */}
             <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-white">
-              <div className="flex items-center justify-between border-b border-[#ececef] px-5 py-3">
-                <div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ececef] px-3 py-3 sm:px-5">
+                <div className="min-w-0">
                   <div className="text-[14px] font-semibold tracking-tight">Recent calls</div>
-                  <div className="text-[11.5px] text-[#6b6b76]">Today · 24 calls · 1h 42m talk time</div>
+                  <div className="truncate text-[11.5px] text-[#6b6b76]">Today · 24 calls · 1h 42m talk time</div>
                 </div>
-                <div className="flex gap-0.5 rounded-md border border-[#e6e6ea] bg-[#f7f7f9] p-0.5 text-[11.5px]">
+                <div className="flex shrink-0 gap-0.5 overflow-x-auto rounded-md border border-[#e6e6ea] bg-[#f7f7f9] p-0.5 text-[11.5px]">
                   {["All", "Missed", "Inbound", "Outbound"].map((t, i) => (
                     <button
                       key={t}
-                      className={`rounded px-2.5 py-1 ${
+                      className={`shrink-0 rounded px-2.5 py-1 ${
                         i === 0 ? "bg-white text-[#0a0a0a] shadow-[0_1px_0_rgba(15,15,18,0.06)]" : "text-[#6b6b76] hover:text-[#0a0a0a]"
                       }`}
                     >
@@ -263,8 +267,9 @@ function DialpadPage() {
                 </div>
               </div>
 
+
               {/* Column header */}
-              <div className="grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94]">
+              <div className="hidden grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94] sm:grid">
                 <span>Contact</span>
                 <span>Number</span>
                 <span>Duration</span>
@@ -275,10 +280,10 @@ function DialpadPage() {
                 {recent.map((r, i) => (
                   <div
                     key={i}
-                    className="group grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#f1f1f3] px-5 py-3 hover:bg-[#fafafb]"
+                    className="group grid grid-cols-[1fr_auto] items-center gap-3 border-b border-[#f1f1f3] px-3 py-3 hover:bg-[#fafafb] sm:grid-cols-[1fr_120px_90px_40px] sm:px-5"
                   >
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="relative">
+                      <div className="relative shrink-0">
                         <div className="grid h-9 w-9 place-items-center rounded-full bg-[#f0f0f3] text-[11.5px] font-semibold text-[#3a3a44]">
                           {r.initials}
                         </div>
@@ -287,20 +292,22 @@ function DialpadPage() {
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex min-w-0 items-center gap-2">
                           <span className={`truncate text-[13px] font-medium ${r.type === "miss" ? "text-rose-600" : "text-[#0a0a0a]"}`}>
                             {r.name}
                           </span>
-                          <span className="rounded bg-[#f0f0f3] px-1.5 py-px text-[10px] font-medium text-[#6b6b76]">
+                          <span className="hidden shrink-0 rounded bg-[#f0f0f3] px-1.5 py-px text-[10px] font-medium text-[#6b6b76] sm:inline">
                             {r.company}
                           </span>
                         </div>
-                        <div className="truncate text-[11.5px] text-[#8a8a94]">{r.time}</div>
+                        <div className="truncate text-[11.5px] text-[#8a8a94]">
+                          <span className="sm:hidden">{r.number} · </span>{r.time}
+                        </div>
                       </div>
                     </div>
-                    <div className="truncate text-[12px] tabular-nums text-[#3a3a44]">{r.number}</div>
+                    <div className="hidden truncate text-[12px] tabular-nums text-[#3a3a44] sm:block">{r.number}</div>
                     <div className="text-[12px] tabular-nums text-[#6b6b76]">{r.dur}</div>
-                    <button className="grid h-7 w-7 place-items-center rounded-md text-[#8a8a94] opacity-0 transition-opacity hover:bg-[#f0f0f3] hover:text-[#0a0a0a] group-hover:opacity-100">
+                    <button className="hidden h-7 w-7 place-items-center rounded-md text-[#8a8a94] opacity-0 transition-opacity hover:bg-[#f0f0f3] hover:text-[#0a0a0a] group-hover:opacity-100 sm:grid">
                       <Phone className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -308,8 +315,9 @@ function DialpadPage() {
               </div>
             </section>
 
+
             {/* Dialer card column */}
-            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-5">
+            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-3 sm:p-5">
               <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#8a8a94]">Dialer</div>
 
               <div className="mt-3 rounded-2xl border border-[#ececef] bg-white shadow-[0_1px_0_rgba(15,15,18,0.04)]">
@@ -398,7 +406,7 @@ function DialpadPage() {
               </div>
 
               {/* Quality strip */}
-              <div className="mt-3 flex items-center gap-2 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] text-[#6b6b76]">
+              <div className="mt-3 flex flex-wrap items-center gap-2 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] text-[#6b6b76]">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 <span className="font-medium text-[#0a0a0a]">Excellent</span>
                 <span className="text-[#c7c7cd]">·</span>
@@ -533,7 +541,9 @@ function ActiveCallWindow({
 
   useEffect(() => {
     if (pos || typeof window === "undefined") return;
-    setPos({ x: window.innerWidth - 360, y: 80 });
+    const w = Math.min(300, window.innerWidth - 16);
+    setPos({ x: Math.max(8, window.innerWidth - w - 24), y: 80 });
+
   }, [pos]);
 
   useEffect(() => {
@@ -592,7 +602,7 @@ function ActiveCallWindow({
     <div
       ref={ref}
       style={{ left: pos?.x ?? -9999, top: pos?.y ?? -9999 }}
-      className="fixed z-50 w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+      className="fixed z-50 w-[calc(100vw-16px)] max-w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
     >
       {/* Drag handle */}
       <div

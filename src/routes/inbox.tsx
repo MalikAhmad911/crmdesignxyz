@@ -175,33 +175,35 @@ function InboxPage() {
     <div className="h-screen w-full bg-[#f4f4f6] font-sans text-[#1f1f1f]">
 
       {/* Top bar */}
-      <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] bg-white px-3">
-        <div className="flex items-center gap-2">
+      <div className="flex h-12 items-center gap-2 border-b border-[#e3e3e8] bg-white px-2 sm:gap-3 sm:px-3">
+        <div className="hidden items-center gap-2 sm:flex">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         </div>
-        <div className="ml-2 grid h-7 w-7 place-items-center rounded-md bg-[#6e3aff] text-[11px] font-bold text-white">
+        <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-[#6e3aff] text-[11px] font-bold text-white sm:ml-2">
           d
         </div>
-        <div className="flex items-center gap-1 text-[#5a5a66]">
+        <div className="hidden items-center gap-1 text-[#5a5a66] md:flex">
           <button className="grid h-7 w-7 place-items-center rounded-md hover:bg-[#ececef]"><Phone className="h-4 w-4" /></button>
           <button className="grid h-7 w-7 place-items-center rounded-md hover:bg-[#ececef]"><MessageCircle className="h-4 w-4" /></button>
           <button className="grid h-7 w-7 place-items-center rounded-md hover:bg-[#ececef]"><Video className="h-4 w-4" /></button>
         </div>
-        <div className="mx-3 flex flex-1 items-center gap-2 rounded-md bg-[#f1f1f4] px-3 py-1.5 text-[12px] text-[#7a7a85]">
+        <div className="mx-1 hidden flex-1 items-center gap-2 rounded-md bg-[#f1f1f4] px-3 py-1.5 text-[12px] text-[#7a7a85] sm:mx-3 md:flex">
           <Search className="h-3.5 w-3.5" />
           <span>Search Dialpad</span>
         </div>
-        <button className="grid h-7 w-7 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef]"><Settings className="h-4 w-4" /></button>
-        <button className="grid h-7 w-7 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef]"><Calendar className="h-4 w-4" /></button>
-        <div className="flex items-center gap-2 rounded-md bg-[#f1f1f4] px-2 py-1 text-[12px] text-[#1f1f1f]">
+        <div className="flex-1 md:hidden" />
+        <button className="hidden h-7 w-7 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef] md:grid"><Settings className="h-4 w-4" /></button>
+        <button className="hidden h-7 w-7 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef] md:grid"><Calendar className="h-4 w-4" /></button>
+        <div className="flex shrink-0 items-center gap-2 rounded-md bg-[#f1f1f4] px-2 py-1 text-[12px] text-[#1f1f1f]">
           <span className="h-2 w-2 rounded-full bg-[#22c55e]" />
-          <span>Available to chat</span>
-          <div className="ml-1 grid h-6 w-6 place-items-center rounded-full bg-[#8b5cf6] text-[10px] font-semibold text-white">A</div>
+          <span className="hidden lg:inline">Available to chat</span>
+          <div className="grid h-6 w-6 place-items-center rounded-full bg-[#8b5cf6] text-[10px] font-semibold text-white lg:ml-1">A</div>
         </div>
-        <button className="grid h-7 w-7 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef]"><MoreVertical className="h-4 w-4" /></button>
+        <button className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-[#5a5a66] hover:bg-[#ececef]"><MoreVertical className="h-4 w-4" /></button>
       </div>
+
 
       {/* Layout */}
       <div className="flex h-[calc(100vh-48px)]">
@@ -282,26 +284,26 @@ function InboxPage() {
                 </div>
               </div>
 
-              <div className="mx-auto flex items-center gap-1.5">
+              <div className="mx-auto flex flex-wrap items-center justify-center gap-1.5">
                 <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
                   <Mic className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 sm:grid">
                   <Pause className="h-3.5 w-3.5" />
                 </button>
                 <button className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white">
                   <Grid3x3 className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <PhoneForwarded className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <Plus className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 md:grid">
                   <Video className="h-3.5 w-3.5" />
                 </button>
-                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                <button className="hidden h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15 sm:grid">
                   <MoreVertical className="h-3.5 w-3.5" />
                 </button>
                 <button
@@ -312,17 +314,18 @@ function InboxPage() {
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 text-white/70">
+              <div className="hidden items-center gap-2 text-white/70 md:flex">
                 <SignalHigh className="h-4 w-4" />
                 <Headphones className="h-4 w-4" />
               </div>
               <button
                 onClick={() => setOnCall(false)}
-                className="ml-2 flex items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15"
+                className="ml-2 hidden items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15 lg:flex"
               >
                 <Check className="h-3.5 w-3.5" />
                 Mark as done
               </button>
+
             </div>
           ) : null}
 
@@ -339,17 +342,18 @@ function InboxPage() {
               <div className="truncate text-[11px] text-[#5a5a66]">Other: (907) 555-0101</div>
             </div>
             <div className="ml-auto flex items-center gap-1 text-[#5a5a66]">
-              <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><Search className="h-4 w-4" /></button>
-              <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><UserPlus className="h-4 w-4" /></button>
-              <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><ImageIcon className="h-4 w-4" /></button>
-              <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><Video className="h-4 w-4" /></button>
+              <button className="hidden h-8 w-8 place-items-center rounded-md hover:bg-[#ececef] md:grid"><Search className="h-4 w-4" /></button>
+              <button className="hidden h-8 w-8 place-items-center rounded-md hover:bg-[#ececef] md:grid"><UserPlus className="h-4 w-4" /></button>
+              <button className="hidden h-8 w-8 place-items-center rounded-md hover:bg-[#ececef] lg:grid"><ImageIcon className="h-4 w-4" /></button>
+              <button className="hidden h-8 w-8 place-items-center rounded-md hover:bg-[#ececef] lg:grid"><Video className="h-4 w-4" /></button>
               <button onClick={() => setOnCall(true)} className={`grid h-8 w-8 place-items-center rounded-md ${onCall ? "bg-[#22c55e]/15 text-[#16a34a]" : "hover:bg-[#ececef]"}`}><Phone className="h-4 w-4" /></button>
               <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><ChevronDown className="h-4 w-4" /></button>
             </div>
+
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-6 sm:py-6">
             <div className="mx-auto max-w-[760px] space-y-4">
               {messages.map((m, i) => (
                 <div key={i} className="flex gap-3">
@@ -385,7 +389,7 @@ function InboxPage() {
           </div>
 
           {/* Composer */}
-          <div className="border-t border-[#e3e3e8] px-6 py-3">
+          <div className="border-t border-[#e3e3e8] px-3 py-3 sm:px-6">
             <div className="mx-auto max-w-[760px]">
               <input
                 placeholder="New message"
