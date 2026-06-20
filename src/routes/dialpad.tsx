@@ -219,26 +219,30 @@ function DialpadPage() {
         {/* Main workspace */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Top header */}
-          <header className="flex h-14 items-center gap-3 border-b border-[#ececef] bg-white px-5">
-            <div className="flex items-center gap-1.5 text-[12.5px] text-[#6b6b76]">
-              <span>Workspace</span>
-              <ChevronRight className="h-3 w-3" />
-              <span className="text-[#0a0a0a]">Dialer</span>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b border-[#ececef] bg-white px-3 sm:gap-3 sm:px-5">
+            <div className="flex min-w-0 items-center gap-1.5 text-[12.5px] text-[#6b6b76]">
+              <span className="hidden sm:inline">Workspace</span>
+              <ChevronRight className="hidden h-3 w-3 sm:inline" />
+              <span className="truncate text-[#0a0a0a]">Dialer</span>
             </div>
-            <div className="ml-auto flex items-center gap-2">
-              <button className="flex items-center gap-1.5 rounded-md border border-[#e6e6ea] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7]">
+            <div className="ml-auto flex shrink-0 items-center gap-2">
+              <button className="hidden items-center gap-1.5 rounded-md border border-[#e6e6ea] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#3a3a44] hover:bg-[#f5f5f7] sm:flex">
                 <Filter className="h-3.5 w-3.5" />
                 Filter
+              </button>
+              <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7] sm:hidden">
+                <Filter className="h-3.5 w-3.5" />
               </button>
               <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7]">
                 <Bell className="h-3.5 w-3.5" />
               </button>
               <button className="flex items-center gap-1.5 rounded-md bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-medium text-white hover:bg-[#1f1f24]">
                 <Plus className="h-3.5 w-3.5" />
-                New call
+                <span className="hidden sm:inline">New call</span>
               </button>
             </div>
           </header>
+
 
           {/* Body */}
           <div className="grid min-h-0 flex-1 grid-cols-1 xl:grid-cols-[1fr_400px_320px]">
