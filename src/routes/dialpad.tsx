@@ -363,6 +363,7 @@ function DialpadPage() {
                     </button>
                   </div>
                   <button
+                    onClick={startCall}
                     className="grid h-12 w-12 place-items-center rounded-full bg-emerald-500 text-white shadow-[0_8px_24px_-12px_rgba(16,185,129,0.7)] transition-transform hover:bg-emerald-600 active:scale-95"
                     aria-label="Call"
                   >
