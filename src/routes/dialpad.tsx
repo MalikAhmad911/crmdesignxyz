@@ -541,7 +541,9 @@ function ActiveCallWindow({
 
   useEffect(() => {
     if (pos || typeof window === "undefined") return;
-    setPos({ x: window.innerWidth - 360, y: 80 });
+    const w = Math.min(300, window.innerWidth - 16);
+    setPos({ x: Math.max(8, window.innerWidth - w - 24), y: 80 });
+
   }, [pos]);
 
   useEffect(() => {
