@@ -317,7 +317,7 @@ function DialpadPage() {
 
 
             {/* Dialer card column */}
-            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-5">
+            <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-3 sm:p-5">
               <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#8a8a94]">Dialer</div>
 
               <div className="mt-3 rounded-2xl border border-[#ececef] bg-white shadow-[0_1px_0_rgba(15,15,18,0.04)]">
