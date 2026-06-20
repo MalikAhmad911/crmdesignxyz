@@ -269,7 +269,7 @@ function DialpadPage() {
 
 
               {/* Column header */}
-              <div className="grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94]">
+              <div className="hidden grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#ececef] bg-[#fbfbfc] px-5 py-2 text-[10.5px] font-medium uppercase tracking-[0.1em] text-[#8a8a94] sm:grid">
                 <span>Contact</span>
                 <span>Number</span>
                 <span>Duration</span>
@@ -280,10 +280,10 @@ function DialpadPage() {
                 {recent.map((r, i) => (
                   <div
                     key={i}
-                    className="group grid grid-cols-[1fr_120px_90px_40px] items-center gap-3 border-b border-[#f1f1f3] px-5 py-3 hover:bg-[#fafafb]"
+                    className="group grid grid-cols-[1fr_auto] items-center gap-3 border-b border-[#f1f1f3] px-3 py-3 hover:bg-[#fafafb] sm:grid-cols-[1fr_120px_90px_40px] sm:px-5"
                   >
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="relative">
+                      <div className="relative shrink-0">
                         <div className="grid h-9 w-9 place-items-center rounded-full bg-[#f0f0f3] text-[11.5px] font-semibold text-[#3a3a44]">
                           {r.initials}
                         </div>
@@ -292,26 +292,29 @@ function DialpadPage() {
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex min-w-0 items-center gap-2">
                           <span className={`truncate text-[13px] font-medium ${r.type === "miss" ? "text-rose-600" : "text-[#0a0a0a]"}`}>
                             {r.name}
                           </span>
-                          <span className="rounded bg-[#f0f0f3] px-1.5 py-px text-[10px] font-medium text-[#6b6b76]">
+                          <span className="hidden shrink-0 rounded bg-[#f0f0f3] px-1.5 py-px text-[10px] font-medium text-[#6b6b76] sm:inline">
                             {r.company}
                           </span>
                         </div>
-                        <div className="truncate text-[11.5px] text-[#8a8a94]">{r.time}</div>
+                        <div className="truncate text-[11.5px] text-[#8a8a94]">
+                          <span className="sm:hidden">{r.number} · </span>{r.time}
+                        </div>
                       </div>
                     </div>
-                    <div className="truncate text-[12px] tabular-nums text-[#3a3a44]">{r.number}</div>
+                    <div className="hidden truncate text-[12px] tabular-nums text-[#3a3a44] sm:block">{r.number}</div>
                     <div className="text-[12px] tabular-nums text-[#6b6b76]">{r.dur}</div>
-                    <button className="grid h-7 w-7 place-items-center rounded-md text-[#8a8a94] opacity-0 transition-opacity hover:bg-[#f0f0f3] hover:text-[#0a0a0a] group-hover:opacity-100">
+                    <button className="hidden h-7 w-7 place-items-center rounded-md text-[#8a8a94] opacity-0 transition-opacity hover:bg-[#f0f0f3] hover:text-[#0a0a0a] group-hover:opacity-100 sm:grid">
                       <Phone className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 ))}
               </div>
             </section>
+
 
             {/* Dialer card column */}
             <section className="flex min-w-0 flex-col border-r border-[#ececef] bg-[#fafafa] p-5">
