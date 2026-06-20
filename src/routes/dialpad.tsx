@@ -115,14 +115,40 @@ function NavItem({
 
 function DialpadPage() {
   const [number, setNumber] = useState("");
+  const [onCall, setOnCall] = useState(false);
+  const [secs, setSecs] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const [speaker, setSpeaker] = useState(false);
+  const [held, setHeld] = useState(false);
   const press = (k: string) => setNumber((n) => (n + k).slice(0, 18));
   const back = () => setNumber((n) => n.slice(0, -1));
+  const startCall = () => {
+    if (!number) setNumber("(907) 555-0101");
+    setOnCall(true);
+  };
+  const endCall = () => {
+    setOnCall(false);
+    setSecs(0);
+    setMuted(false);
+    setHeld(false);
+    setSpeaker(false);
+  };
+
+  useEffect(() => {
+    if (!onCall) return;
+    const id = setInterval(() => setSecs((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [onCall]);
+
+  const mm = String(Math.floor(secs / 60)).padStart(2, "0");
+  const ss = String(secs % 60).padStart(2, "0");
 
   return (
     <div className="h-screen w-full overflow-hidden bg-[#fafafa] font-sans text-[#0a0a0a] antialiased">
       <div className="flex h-full">
         {/* App sidebar — dark SaaS rail */}
         <aside className="hidden w-[232px] shrink-0 flex-col border-r border-[#1c1c20] bg-[#0b0b0e] px-3 py-3 lg:flex">
+
           {/* Brand */}
           <div className="flex items-center gap-2 px-1.5 py-1">
             <div className="grid h-7 w-7 place-items-center rounded-md bg-white text-[12px] font-bold text-[#0b0b0e]">
