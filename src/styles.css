@@ -2,59 +2,69 @@
 @source "../src";
 @import "tw-animate-css";
 
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 @import "@fontsource-variable/geist";
-@import "@fontsource/fraunces/400.css";
-@import "@fontsource/fraunces/500.css";
-@import "@fontsource/fraunces/600.css";
-@import "@fontsource/fraunces/400-italic.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-hero: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-hero: "Inter", ui-sans-serif, system-ui, sans-serif;
 
+  /* Clay-style cream canvas system */
+  --color-canvas: #fffaf0;
+  --color-surface-soft: #faf5e8;
+  --color-surface-card: #f5f0e0;
+  --color-surface-strong: #ebe6d6;
+  --color-surface-dark: #0a1a1a;
+  --color-surface-dark-elevated: #1a2a2a;
+  --color-hairline: #e7e1d1;
 
-  /* Single flat background + single accent */
-  --color-bg: #F4F1EC;
-  --color-surface: #F4F1EC;
-  --color-border-soft: #E5DFD3;
-  --color-tint: #EAE5DA;
-  --color-cream: #F4F1EC;
+  /* Saturated brand cards */
+  --color-brand-pink: #ff4d8b;
+  --color-brand-teal: #1a3a3a;
+  --color-brand-lavender: #b8a4ed;
+  --color-brand-peach: #ffb084;
+  --color-brand-ochre: #e8b94a;
+  --color-brand-mint: #a4d4c5;
+  --color-brand-coral: #ff6b5a;
 
-  --color-heading: #0F0F10;
-  --color-body: #3B3A36;
-  --color-muted: #6B645A;
-
-  /* Single accent — ink black for everything */
-  --color-brand: #0F0F10;
-  --color-brand-hover: #000000;
-  --color-violet: #0F0F10;
-  --color-cyan: #0F0F10;
-  --color-sky: #0F0F10;
+  /* Text */
+  --color-ink: #0a0a0a;
+  --color-body-strong: #1a1a1a;
+  --color-body: #3a3a3a;
+  --color-muted: #6a6a6a;
+  --color-muted-soft: #9a9a9a;
+  --color-on-primary: #ffffff;
 
   /* shadcn passthroughs */
-  --color-background: #F4F1EC;
-  --color-foreground: #0F0F10;
-  --color-card: #F4F1EC;
-  --color-card-foreground: #0F0F10;
-  --color-popover: #F4F1EC;
-  --color-popover-foreground: #0F0F10;
-  --color-primary: #0F0F10;
-  --color-primary-foreground: #F4F1EC;
-  --color-secondary: #EAE5DA;
-  --color-secondary-foreground: #0F0F10;
-  --color-muted-bg: #EAE5DA;
-  --color-muted-foreground: #6B645A;
-  --color-accent: #EAE5DA;
-  --color-accent-foreground: #0F0F10;
-  --color-destructive: #0F0F10;
-  --color-destructive-foreground: #F4F1EC;
-  --color-border: #E5DFD3;
-  --color-input: #E5DFD3;
-  --color-ring: #0F0F10;
+  --color-bg: #fffaf0;
+  --color-background: #fffaf0;
+  --color-foreground: #0a0a0a;
+  --color-card: #fffaf0;
+  --color-card-foreground: #0a0a0a;
+  --color-popover: #fffaf0;
+  --color-popover-foreground: #0a0a0a;
+  --color-primary: #0a0a0a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f5f0e0;
+  --color-secondary-foreground: #0a0a0a;
+  --color-muted-bg: #f5f0e0;
+  --color-muted-foreground: #6a6a6a;
+  --color-accent: #f5f0e0;
+  --color-accent-foreground: #0a0a0a;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e7e1d1;
+  --color-input: #e7e1d1;
+  --color-ring: #0a0a0a;
+  --color-border-soft: #e7e1d1;
 
+  --radius-xs: 0.375rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -65,28 +75,48 @@
 
 @layer base {
   * {
-    border-color: var(--color-border-soft);
+    border-color: var(--color-hairline);
   }
   html, body {
-    background-color: var(--color-bg);
+    background-color: var(--color-canvas);
     color: var(--color-body);
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  p {
-    line-height: 1.6;
-  }
+  p { line-height: 1.55; }
   h1, h2, h3, h4 {
-    color: var(--color-heading);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
   }
-  /* Consistent vertical rhythm for every landing section */
-  section {
-    padding-top: clamp(4rem, 8vw, 7rem);
-    padding-bottom: clamp(4rem, 8vw, 7rem);
-  }
+}
+
+@utility display-xl {
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+@utility display-lg {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+@utility display-md {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+@utility eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
