@@ -252,6 +252,13 @@ function DialpadPage() {
               <button className="grid h-8 w-8 place-items-center rounded-md border border-[#e6e6ea] text-[#3a3a44] hover:bg-[#f5f5f7]">
                 <Bell className="h-3.5 w-3.5" />
               </button>
+              <button
+                onClick={simulateIncoming}
+                className="flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-[12px] font-medium text-emerald-700 hover:bg-emerald-100"
+              >
+                <PhoneIncoming className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Simulate inbound</span>
+              </button>
               <button className="flex items-center gap-1.5 rounded-md bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-medium text-white hover:bg-[#1f1f24]">
                 <Plus className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">New call</span>
