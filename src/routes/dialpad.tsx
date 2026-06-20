@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Phone,
   PhoneCall,
@@ -28,6 +28,12 @@ import {
   Bell,
   ArrowUpRight,
   CircleDot,
+  MicOff,
+  Volume2,
+  Grid3x3,
+  Pause,
+  PhoneOff,
+  GripHorizontal,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dialpad")({
@@ -109,14 +115,40 @@ function NavItem({
 
 function DialpadPage() {
   const [number, setNumber] = useState("");
+  const [onCall, setOnCall] = useState(false);
+  const [secs, setSecs] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const [speaker, setSpeaker] = useState(false);
+  const [held, setHeld] = useState(false);
   const press = (k: string) => setNumber((n) => (n + k).slice(0, 18));
   const back = () => setNumber((n) => n.slice(0, -1));
+  const startCall = () => {
+    if (!number) setNumber("(907) 555-0101");
+    setOnCall(true);
+  };
+  const endCall = () => {
+    setOnCall(false);
+    setSecs(0);
+    setMuted(false);
+    setHeld(false);
+    setSpeaker(false);
+  };
+
+  useEffect(() => {
+    if (!onCall) return;
+    const id = setInterval(() => setSecs((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [onCall]);
+
+  const mm = String(Math.floor(secs / 60)).padStart(2, "0");
+  const ss = String(secs % 60).padStart(2, "0");
 
   return (
     <div className="h-screen w-full overflow-hidden bg-[#fafafa] font-sans text-[#0a0a0a] antialiased">
       <div className="flex h-full">
         {/* App sidebar — dark SaaS rail */}
         <aside className="hidden w-[232px] shrink-0 flex-col border-r border-[#1c1c20] bg-[#0b0b0e] px-3 py-3 lg:flex">
+
           {/* Brand */}
           <div className="flex items-center gap-2 px-1.5 py-1">
             <div className="grid h-7 w-7 place-items-center rounded-md bg-white text-[12px] font-bold text-[#0b0b0e]">
@@ -331,6 +363,7 @@ function DialpadPage() {
                     </button>
                   </div>
                   <button
+                    onClick={startCall}
                     className="grid h-12 w-12 place-items-center rounded-full bg-emerald-500 text-white shadow-[0_8px_24px_-12px_rgba(16,185,129,0.7)] transition-transform hover:bg-emerald-600 active:scale-95"
                     aria-label="Call"
                   >
@@ -455,6 +488,168 @@ function DialpadPage() {
           </div>
         </div>
       </div>
+
+      {onCall ? (
+        <ActiveCallWindow
+          number={number}
+          timer={`${mm}:${ss}`}
+          muted={muted}
+          speaker={speaker}
+          held={held}
+          onToggleMute={() => setMuted((v) => !v)}
+          onToggleSpeaker={() => setSpeaker((v) => !v)}
+          onToggleHold={() => setHeld((v) => !v)}
+          onEnd={endCall}
+        />
+      ) : null}
     </div>
   );
 }
+
+function ActiveCallWindow({
+  number,
+  timer,
+  muted,
+  speaker,
+  held,
+  onToggleMute,
+  onToggleSpeaker,
+  onToggleHold,
+  onEnd,
+}: {
+  number: string;
+  timer: string;
+  muted: boolean;
+  speaker: boolean;
+  held: boolean;
+  onToggleMute: () => void;
+  onToggleSpeaker: () => void;
+  onToggleHold: () => void;
+  onEnd: () => void;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const drag = useRef<{ dx: number; dy: number; on: boolean }>({ dx: 0, dy: 0, on: false });
+
+  useEffect(() => {
+    if (pos || typeof window === "undefined") return;
+    setPos({ x: window.innerWidth - 360, y: 80 });
+  }, [pos]);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (!drag.current.on) return;
+      const w = ref.current?.offsetWidth ?? 320;
+      const h = ref.current?.offsetHeight ?? 460;
+      const x = Math.max(8, Math.min(window.innerWidth - w - 8, e.clientX - drag.current.dx));
+      const y = Math.max(8, Math.min(window.innerHeight - h - 8, e.clientY - drag.current.dy));
+      setPos({ x, y });
+    };
+    const up = () => (drag.current.on = false);
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+    };
+  }, []);
+
+  const startDrag = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    drag.current = { dx: e.clientX - rect.left, dy: e.clientY - rect.top, on: true };
+  };
+
+  const ActionBtn = ({
+    Icon,
+    label,
+    active,
+    onClick,
+  }: {
+    Icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    active?: boolean;
+    onClick?: () => void;
+  }) => (
+    <button
+      onClick={onClick}
+      className="flex flex-col items-center gap-1.5 text-white/80 transition-colors hover:text-white"
+    >
+      <span
+        className={`grid h-14 w-14 place-items-center rounded-full border transition-colors ${
+          active
+            ? "border-white/30 bg-white text-[#0a0a0a]"
+            : "border-white/15 bg-white/10 text-white hover:bg-white/15"
+        }`}
+      >
+        <Icon className="h-5 w-5" />
+      </span>
+      <span className="text-[10.5px] font-medium">{label}</span>
+    </button>
+  );
+
+  return (
+    <div
+      ref={ref}
+      style={{ left: pos?.x ?? -9999, top: pos?.y ?? -9999 }}
+      className="fixed z-50 w-[300px] select-none overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6),0_10px_30px_-15px_rgba(0,0,0,0.5)]"
+    >
+      {/* Drag handle */}
+      <div
+        onMouseDown={startDrag}
+        className="flex cursor-grab items-center justify-center py-2 active:cursor-grabbing"
+      >
+        <GripHorizontal className="h-3.5 w-3.5 text-white/30" />
+      </div>
+
+      {/* Caller */}
+      <div className="px-6 pb-5 pt-1 text-center">
+        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] text-[22px] font-semibold text-[#7c5b00] shadow-[0_8px_24px_-8px_rgba(245,158,11,0.6)]">
+          LB
+        </div>
+        <div className="mt-3 text-[17px] font-semibold text-white">Lisa Bennett</div>
+        <div className="text-[12px] text-white/55">
+          {number || "+1 (907) 555-0101"}
+        </div>
+        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+          {held ? "On hold" : "In call"} · {timer}
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="grid grid-cols-3 gap-y-5 px-6 pb-5">
+        <div className="flex justify-center">
+          <ActionBtn Icon={muted ? MicOff : Mic} label={muted ? "Unmute" : "Mute"} active={muted} onClick={onToggleMute} />
+        </div>
+        <div className="flex justify-center">
+          <ActionBtn Icon={Grid3x3} label="Keypad" />
+        </div>
+        <div className="flex justify-center">
+          <ActionBtn Icon={Volume2} label="Speaker" active={speaker} onClick={onToggleSpeaker} />
+        </div>
+        <div className="flex justify-center">
+          <ActionBtn Icon={UserPlus} label="Add" />
+        </div>
+        <div className="flex justify-center">
+          <ActionBtn Icon={Video} label="Video" />
+        </div>
+        <div className="flex justify-center">
+          <ActionBtn Icon={Pause} label={held ? "Resume" : "Hold"} active={held} onClick={onToggleHold} />
+        </div>
+      </div>
+
+      {/* Hang up */}
+      <div className="flex justify-center pb-6">
+        <button
+          onClick={onEnd}
+          className="grid h-14 w-14 place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_10px_24px_-8px_rgba(239,68,68,0.6)] transition-transform hover:bg-[#dc2626] active:scale-95"
+          aria-label="End call"
+        >
+          <PhoneOff className="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
