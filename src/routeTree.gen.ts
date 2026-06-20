@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as DialpadRouteImport } from './routes/dialpad'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +37,11 @@ const InboxRoute = InboxRouteImport.update({
   path: '/inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DialpadRoute = DialpadRouteImport.update({
+  id: '/dialpad',
+  path: '/dialpad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -50,6 +56,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
@@ -74,13 +83,28 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/inbox' | '/onboarding' | '/signin' | '/signup'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dialpad'
+    | '/inbox'
+    | '/onboarding'
+    | '/signin'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/inbox' | '/onboarding' | '/signin' | '/signup'
+  to:
+    | '/'
+    | '/auth'
+    | '/dialpad'
+    | '/inbox'
+    | '/onboarding'
+    | '/signin'
+    | '/signup'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/dialpad'
     | '/inbox'
     | '/onboarding'
     | '/signin'
@@ -90,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  DialpadRoute: typeof DialpadRoute
   InboxRoute: typeof InboxRoute
   OnboardingRoute: typeof OnboardingRoute
   SigninRoute: typeof SigninRoute
@@ -126,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dialpad': {
+      id: '/dialpad'
+      path: '/dialpad'
+      fullPath: '/dialpad'
+      preLoaderRoute: typeof DialpadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -146,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  DialpadRoute: DialpadRoute,
   InboxRoute: InboxRoute,
   OnboardingRoute: OnboardingRoute,
   SigninRoute: SigninRoute,
