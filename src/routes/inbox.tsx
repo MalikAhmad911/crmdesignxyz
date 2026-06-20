@@ -22,6 +22,14 @@ import {
   Play,
   Volume2,
   PhoneCall,
+  Pause,
+  Mic,
+  Grid3x3,
+  PhoneOff,
+  PhoneForwarded,
+  Plus,
+  SignalHigh,
+  Check,
 } from "lucide-react";
 
 export const Route = createFileRoute("/inbox")({
