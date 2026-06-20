@@ -798,109 +798,192 @@ function IncomingCallScreen({
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  const Card = (
-    <div
-      className={
-        isDesktop
-          ? "relative w-[380px] overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)]"
-          : "relative flex h-full w-full flex-col bg-gradient-to-b from-[#1c1c22] via-[#121216] to-[#0a0a0e]"
-      }
-    >
-      {/* Pulse rings */}
-      <div className="pointer-events-none absolute left-1/2 top-24 -translate-x-1/2">
-        <span className="absolute -left-20 -top-20 h-40 w-40 animate-ping rounded-full bg-emerald-500/10" />
-        <span className="absolute -left-16 -top-16 h-32 w-32 animate-ping rounded-full bg-emerald-500/15 [animation-delay:300ms]" />
+  return isDesktop ? (
+    <DesktopIncomingBanner number={number} onAccept={onAccept} onDecline={onDecline} />
+  ) : (
+    <MobileIncomingCall number={number} onAccept={onAccept} onDecline={onDecline} />
+  );
+}
+
+/* ---------- Desktop: top-right banner notification ---------- */
+function DesktopIncomingBanner({
+  number,
+  onAccept,
+  onDecline,
+}: {
+  number: string;
+  onAccept: () => void;
+  onDecline: () => void;
+}) {
+  return (
+    <div className="fixed right-5 top-5 z-[60] w-[360px] animate-in slide-in-from-top-4 fade-in duration-300">
+      <div className="overflow-hidden rounded-2xl border border-[#1c1c20] bg-[#0b0b0e]/95 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+        {/* Top status strip */}
+        <div className="flex items-center gap-2 border-b border-white/5 px-4 py-2 text-[11px] text-white/55">
+          <span className="relative grid h-4 w-4 place-items-center">
+            <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/40" />
+            <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          </span>
+          <span className="font-medium text-emerald-400">Incoming call</span>
+          <span className="text-white/30">·</span>
+          <span>Sales · Main</span>
+          <span className="ml-auto text-white/40">Ringing…</span>
+        </div>
+
+        {/* Caller row */}
+        <div className="flex items-center gap-3 px-4 py-3.5">
+          <div className="relative shrink-0">
+            <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] text-[14px] font-semibold text-[#7c5b00] shadow-[0_8px_20px_-8px_rgba(245,158,11,0.6)]">
+              LB
+            </div>
+            <span className="absolute -bottom-0.5 -right-0.5 grid h-4 w-4 place-items-center rounded-full bg-[#0b0b0e]">
+              <PhoneIncoming className="h-2.5 w-2.5 text-emerald-400" strokeWidth={2.6} />
+            </span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="truncate text-[14px] font-semibold text-white">Lisa Bennett</span>
+              <span className="rounded bg-white/10 px-1.5 py-px text-[9.5px] font-medium text-white/70">VIP</span>
+            </div>
+            <div className="truncate text-[11.5px] text-white/55">{number}</div>
+            <div className="truncate text-[11px] text-white/40">Acme Logistics · Operations</div>
+          </div>
+        </div>
+
+        {/* AI hint */}
+        <div className="mx-4 mb-3 rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2">
+          <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.12em] text-white/45">
+            <span className="grid h-3.5 w-3.5 place-items-center rounded bg-white text-[7.5px] font-bold text-[#0a0a0a]">AI</span>
+            Context
+          </div>
+          <p className="mt-1 text-[11.5px] leading-[1.45] text-white/70">
+            Likely follow-up on shipment delay · Ticket #4821 open · 3 calls this week.
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="grid grid-cols-[1fr_1fr_auto] gap-2 px-3 pb-3">
+          <button
+            onClick={onDecline}
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10"
+          >
+            <PhoneOff className="h-3.5 w-3.5" /> Decline
+          </button>
+          <button className="flex items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10">
+            <MessageCircle className="h-3.5 w-3.5" /> Reply
+          </button>
+          <button
+            onClick={onAccept}
+            className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-500 px-4 py-2 text-[12px] font-semibold text-white shadow-[0_8px_20px_-8px_rgba(16,185,129,0.7)] hover:bg-emerald-600"
+          >
+            <PhoneCall className="h-3.5 w-3.5" /> Accept
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Mobile: native-style fullscreen ringing screen ---------- */
+function MobileIncomingCall({
+  number,
+  onAccept,
+  onDecline,
+}: {
+  number: string;
+  onAccept: () => void;
+  onDecline: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex flex-col overflow-hidden bg-[#06060a] text-white">
+      {/* Blurred avatar background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[-20%] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-br from-[#f59e0b] via-[#b45309] to-transparent opacity-40 blur-3xl" />
+        <div className="absolute bottom-[-30%] left-[-20%] h-[400px] w-[400px] rounded-full bg-emerald-500/20 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0)_0%,rgba(6,6,10,0.7)_60%,rgba(6,6,10,1)_100%)]" />
       </div>
 
-      {/* Header label */}
-      <div className={`flex items-center justify-between px-5 ${isDesktop ? "pt-5" : "pt-[max(env(safe-area-inset-top),16px)]"}`}>
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-medium text-emerald-400">
-          <PhoneIncoming className="h-3 w-3" />
-          Incoming call
+      {/* iOS-style status bar mimic */}
+      <div className="relative flex items-center justify-between px-6 pt-[max(env(safe-area-inset-top),14px)] text-[12px] font-semibold tracking-tight text-white/85">
+        <span>9:41</span>
+        <span className="flex items-center gap-1 text-white/70">
+          <span className="h-2 w-2 rounded-full bg-white/70" />
+          <span className="h-2 w-2 rounded-full bg-white/70" />
+          <span className="h-2 w-2 rounded-full bg-white/35" />
+        </span>
+      </div>
+
+      {/* Label */}
+      <div className="relative mt-6 text-center">
+        <div className="text-[12.5px] font-medium uppercase tracking-[0.22em] text-white/55">
+          Revenue Sol · Sales line
         </div>
-        <div className="text-[11px] text-white/45">Sales · +1 415</div>
+        <div className="mt-1 text-[13px] text-white/45">incoming call…</div>
       </div>
 
       {/* Caller */}
-      <div className={`relative flex flex-col items-center px-6 text-center ${isDesktop ? "pt-8 pb-6" : "flex-1 justify-center pt-10"}`}>
-        <div
-          className={`grid place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] font-semibold text-[#7c5b00] shadow-[0_12px_30px_-10px_rgba(245,158,11,0.7)] ${
-            isDesktop ? "h-24 w-24 text-[26px]" : "h-32 w-32 text-[34px]"
-          }`}
-        >
-          LB
-        </div>
-        <div className={`mt-5 font-semibold text-white ${isDesktop ? "text-[20px]" : "text-[26px]"}`}>
-          Lisa Bennett
-        </div>
-        <div className="mt-1 text-[12.5px] text-white/55">{number}</div>
-        <div className="mt-1 flex items-center gap-1.5 text-[12px] text-white/45">
-          <Building2 className="h-3 w-3" /> Acme Logistics · Operations
-        </div>
-
-        {/* Context chips */}
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
-          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">VIP</span>
-          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">Renewal Q4</span>
-          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10.5px] font-medium text-white/70">Open ticket #4821</span>
-        </div>
-
-        {/* AI note */}
-        <div className="mt-5 w-full rounded-xl border border-white/10 bg-white/[0.03] p-3 text-left">
-          <div className="flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-white/45">
-            <span className="grid h-4 w-4 place-items-center rounded bg-white text-[8px] font-bold text-[#0a0a0a]">AI</span>
-            Suggested context
+      <div className="relative mt-10 flex flex-col items-center px-6 text-center">
+        <div className="relative">
+          <span className="absolute inset-0 -m-6 animate-ping rounded-full bg-white/10" />
+          <span className="absolute inset-0 -m-3 animate-ping rounded-full bg-white/15 [animation-delay:400ms]" />
+          <div className="relative grid h-32 w-32 place-items-center rounded-full bg-gradient-to-br from-[#fde68a] to-[#f59e0b] text-[36px] font-semibold text-[#7c5b00] shadow-[0_20px_60px_-15px_rgba(245,158,11,0.7)] ring-4 ring-white/10">
+            LB
           </div>
-          <p className="mt-1.5 text-[12px] leading-[1.5] text-white/75">
-            Likely follow-up on shipment delay (ticket #4821). Sentiment positive · 3 calls this week.
-          </p>
+        </div>
+        <div className="mt-7 text-[32px] font-semibold leading-tight tracking-tight">Lisa Bennett</div>
+        <div className="mt-1.5 text-[14px] text-white/60">{number}</div>
+        <div className="mt-1 flex items-center gap-1.5 text-[12.5px] text-white/45">
+          <Building2 className="h-3 w-3" />
+          Acme Logistics · Operations
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+          <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-[10.5px] font-medium text-white/80 backdrop-blur">VIP</span>
+          <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-[10.5px] font-medium text-white/80 backdrop-blur">Renewal Q4</span>
+          <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-0.5 text-[10.5px] font-medium text-white/80 backdrop-blur">#4821 open</span>
         </div>
       </div>
 
-      {/* Quick reply (decline with text) */}
-      <div className={`grid grid-cols-2 gap-2 px-6 ${isDesktop ? "pb-3" : "pb-3"}`}>
-        <button className="flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10">
-          <MessageCircle className="h-3.5 w-3.5" /> Reply
+      {/* AI card */}
+      <div className="relative mx-5 mt-7 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-xl">
+        <div className="flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-white/50">
+          <span className="grid h-4 w-4 place-items-center rounded bg-white text-[8px] font-bold text-[#0a0a0a]">AI</span>
+          Suggested context
+        </div>
+        <p className="mt-1.5 text-[13px] leading-[1.5] text-white/85">
+          Likely follow-up on shipment delay. Sentiment positive · 3 calls this week.
+        </p>
+      </div>
+
+      {/* Quick row */}
+      <div className="relative mt-auto grid grid-cols-2 gap-3 px-8 pb-3 pt-6">
+        <button className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 py-3 text-[12.5px] font-medium text-white/85 backdrop-blur hover:bg-white/10">
+          <MessageCircle className="h-4 w-4" /> Reply
         </button>
-        <button className="flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/5 py-2 text-[12px] font-medium text-white/80 hover:bg-white/10">
-          <BellOff className="h-3.5 w-3.5" /> Remind me
+        <button className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 py-3 text-[12.5px] font-medium text-white/85 backdrop-blur hover:bg-white/10">
+          <BellOff className="h-4 w-4" /> Remind
         </button>
       </div>
 
       {/* Accept / Decline */}
-      <div className={`flex items-center justify-around px-6 ${isDesktop ? "pb-7 pt-3" : "pb-[max(env(safe-area-inset-bottom),28px)] pt-4"}`}>
-        <button
-          onClick={onDecline}
-          className={`group flex flex-col items-center gap-1.5 ${isDesktop ? "" : ""}`}
-        >
-          <span className={`grid place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_14px_30px_-10px_rgba(239,68,68,0.7)] transition-transform group-hover:bg-[#dc2626] group-active:scale-95 ${isDesktop ? "h-14 w-14" : "h-16 w-16"}`}>
-            <PhoneOff className={isDesktop ? "h-5 w-5" : "h-6 w-6"} />
+      <div className="relative flex items-end justify-between px-10 pb-[max(env(safe-area-inset-bottom),32px)] pt-4">
+        <button onClick={onDecline} className="group flex flex-col items-center gap-2">
+          <span className="grid h-[72px] w-[72px] place-items-center rounded-full bg-[#ef4444] text-white shadow-[0_18px_36px_-12px_rgba(239,68,68,0.7)] transition-transform group-active:scale-95">
+            <PhoneOff className="h-7 w-7" />
           </span>
-          <span className="text-[11px] font-medium text-white/70">Decline</span>
+          <span className="text-[12px] font-medium text-white/75">Decline</span>
         </button>
-        <button
-          onClick={onAccept}
-          className="group flex flex-col items-center gap-1.5"
-        >
-          <span className={`relative grid place-items-center rounded-full bg-emerald-500 text-white shadow-[0_14px_30px_-10px_rgba(16,185,129,0.7)] transition-transform group-hover:bg-emerald-600 group-active:scale-95 ${isDesktop ? "h-14 w-14" : "h-16 w-16"}`}>
-            <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/40" />
-            <PhoneCall className={`relative ${isDesktop ? "h-5 w-5" : "h-6 w-6"}`} />
+        <button onClick={onAccept} className="group flex flex-col items-center gap-2">
+          <span className="relative grid h-[72px] w-[72px] place-items-center rounded-full bg-emerald-500 text-white shadow-[0_18px_36px_-12px_rgba(16,185,129,0.75)] transition-transform group-active:scale-95">
+            <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/50" />
+            <PhoneCall className="relative h-7 w-7" />
           </span>
-          <span className="text-[11px] font-medium text-emerald-400">Accept</span>
+          <span className="text-[12px] font-medium text-emerald-400">Accept</span>
         </button>
       </div>
     </div>
   );
-
-  if (!isDesktop) {
-    return <div className="fixed inset-0 z-[60]">{Card}</div>;
-  }
-
-  return (
-    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/55 backdrop-blur-sm p-4">
-      {Card}
-    </div>
-  );
 }
+
 
 
