@@ -34,6 +34,10 @@ import {
   Pause,
   PhoneOff,
   GripHorizontal,
+  Minus,
+  MessageCircle,
+  BellOff,
+  Building2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dialpad")({
