@@ -343,7 +343,7 @@ function InboxPage() {
               <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><UserPlus className="h-4 w-4" /></button>
               <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><ImageIcon className="h-4 w-4" /></button>
               <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><Video className="h-4 w-4" /></button>
-              <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><Phone className="h-4 w-4" /></button>
+              <button onClick={() => setOnCall(true)} className={`grid h-8 w-8 place-items-center rounded-md ${onCall ? "bg-[#22c55e]/15 text-[#16a34a]" : "hover:bg-[#ececef]"}`}><Phone className="h-4 w-4" /></button>
               <button className="grid h-8 w-8 place-items-center rounded-md hover:bg-[#ececef]"><ChevronDown className="h-4 w-4" /></button>
             </div>
           </div>
