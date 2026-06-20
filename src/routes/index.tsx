@@ -1,16 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  ArrowRight,
   ArrowUpRight,
   Check,
   Phone,
-  MessageSquare,
   Calendar,
   Sparkles,
-  Zap,
   Mic,
-  Bot,
-  Mail,
   Wrench,
   Hammer,
   Droplets,
@@ -19,7 +14,16 @@ import {
   Brush,
   Star,
   Menu,
+  Inbox,
+  BarChart3,
+  Shield,
+  Workflow,
+  Bot,
+  Globe,
+  CreditCard,
+  Users,
 } from "lucide-react";
+import { IntegrationsStrip } from "@/components/landing/Header";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -88,13 +92,8 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b border-transparent bg-[color:var(--color-canvas)]/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-5 lg:px-8">
         <div className="flex items-center gap-10">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-xl bg-[color:var(--color-brand-pink)]">
-              <span className="text-base font-bold text-white">R</span>
-            </div>
-            <span className="text-[17px] font-semibold tracking-tight text-[color:var(--color-ink)]">
-              Revenue Sol
-            </span>
+          <Link to="/" className="font-display text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+            revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             {["Product", "Solutions", "Customers", "Resources", "Pricing"].map((l) => (
@@ -150,7 +149,7 @@ function Hero() {
           </div>
 
           <div className="lg:col-span-5">
-            <HeroIllustration />
+            <HeroProductCard />
           </div>
         </div>
       </div>
@@ -158,82 +157,92 @@ function Hero() {
   );
 }
 
-/* Clay-style claymation hero, made out of pure SVG/CSS */
-function HeroIllustration() {
+/* Cleaner SaaS-style product mockup for the hero */
+function HeroProductCard() {
   return (
-    <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-[color:var(--color-surface-soft)] p-6">
-      {/* horizon */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color:var(--color-brand-peach)]/40 to-transparent" />
-      {/* sun */}
-      <div className="absolute right-8 top-10 h-24 w-24 rounded-full bg-[color:var(--color-brand-ochre)] shadow-[inset_-12px_-14px_0_rgba(0,0,0,0.07)]" />
-      {/* mountains */}
-      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full">
-        <defs>
-          <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#1a3a3a" />
-            <stop offset="1" stopColor="#0f2727" />
-          </linearGradient>
-          <linearGradient id="m2" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#b8a4ed" />
-            <stop offset="1" stopColor="#8b76c9" />
-          </linearGradient>
-          <linearGradient id="m3" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#ff4d8b" />
-            <stop offset="1" stopColor="#d63a72" />
-          </linearGradient>
-        </defs>
-        <path d="M0 290 L90 170 L160 230 L220 160 L300 250 L400 200 L400 400 L0 400 Z" fill="url(#m2)" />
-        <path d="M0 320 L70 220 L150 280 L230 210 L310 290 L400 240 L400 400 L0 400 Z" fill="url(#m1)" />
-        <path d="M0 360 L100 290 L190 340 L280 280 L400 330 L400 400 L0 400 Z" fill="url(#m3)" />
-        {/* snowcaps */}
-        <path d="M75 188 L90 170 L108 195 L98 200 L88 192 Z" fill="#fffaf0" opacity="0.9" />
-        <path d="M205 170 L220 160 L240 188 L228 192 L215 184 Z" fill="#fffaf0" opacity="0.9" />
-      </svg>
-      {/* floating phone card */}
-      <div className="absolute left-6 top-1/2 w-[58%] -translate-y-1/3 rotate-[-4deg] rounded-2xl border border-black/5 bg-white p-3 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.35)]">
-        <div className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-[color:var(--color-brand-mint)]">
-            <Phone className="h-4 w-4 text-[color:var(--color-surface-dark)]" />
+    <div className="relative">
+      {/* soft cream backdrop */}
+      <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[color:var(--color-surface-soft)]" />
+
+      {/* main dashboard card */}
+      <div className="rounded-2xl border border-[color:var(--color-hairline)] bg-white p-5 shadow-[0_30px_70px_-40px_rgba(0,0,0,0.35)]">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#27c93f]" />
           </div>
-          <div className="flex-1">
-            <div className="text-[11px] font-medium text-[color:var(--color-muted)]">Incoming call · 7:42 PM</div>
-            <div className="text-[13px] font-semibold text-[color:var(--color-ink)]">Maria Lopez — AC not cooling</div>
+          <div className="rounded-full bg-[color:var(--color-surface-card)] px-2.5 py-0.5 text-[11px] font-semibold text-[color:var(--color-ink)]">
+            Inbox · Today
           </div>
         </div>
-        <div className="mt-3 rounded-xl bg-[color:var(--color-surface-card)] p-2.5 text-[12px] leading-snug text-[color:var(--color-body)]">
-          AI booked a tune-up tomorrow 9–11am. Customer record updated.
-        </div>
-      </div>
-      {/* mascot blob */}
-      <div className="absolute -right-3 bottom-6 grid h-28 w-28 place-items-center rounded-full bg-[color:var(--color-brand-coral)] shadow-[inset_-12px_-10px_0_rgba(0,0,0,0.08)]">
-        <div className="flex gap-3">
-          <div className="h-3 w-3 rounded-full bg-white" />
-          <div className="h-3 w-3 rounded-full bg-white" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
-/* ---------- Logos strip ---------- */
-
-function LogosStrip() {
-  const logos = ["HVACPro", "PlumbWorks", "Volt&Co", "RoofRight", "TidyHaus", "FieldOps", "ServPro"];
-  return (
-    <section className="border-y border-[color:var(--color-hairline)] bg-[color:var(--color-surface-soft)] py-10">
-      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <div className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-muted)]">
-          Trusted by 1,200+ service shops across North America
+        <div className="mt-5 space-y-2.5">
+          {[
+            { name: "Maria Lopez", msg: "AC not cooling — booked 9–11am", color: "var(--color-brand-pink)", icon: Phone, tag: "Call" },
+            { name: "Jordan Reyes", msg: "Furnace won't ignite — sent ETA", color: "var(--color-brand-teal)", icon: Inbox, tag: "SMS", light: true },
+            { name: "Tasha Wallace", msg: "Roof leak — estimate sent", color: "var(--color-brand-lavender)", icon: Globe, tag: "Form" },
+          ].map((r, i) => {
+            const Icon = r.icon;
+            return (
+              <div key={i} className="flex items-center gap-3 rounded-xl border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] p-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl" style={{ background: r.color, color: r.light ? "white" : "var(--color-ink)" }}>
+                  <Icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <div className="truncate text-[13px] font-semibold text-[color:var(--color-ink)]">{r.name}</div>
+                    <span className="rounded-full bg-[color:var(--color-surface-card)] px-1.5 py-0.5 text-[10px] font-semibold text-[color:var(--color-muted)]">{r.tag}</span>
+                  </div>
+                  <div className="truncate text-[12px] text-[color:var(--color-muted)]">{r.msg}</div>
+                </div>
+                <Check className="h-4 w-4 text-[color:var(--color-brand-teal)]" />
+              </div>
+            );
+          })}
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-[color:var(--color-muted)]">
-          {logos.map((l) => (
-            <span key={l} className="text-lg font-semibold tracking-tight opacity-70">
-              {l}
-            </span>
+
+        <div className="mt-5 grid grid-cols-3 gap-2">
+          {[
+            ["Booked today", "12"],
+            ["Avg reply", "8s"],
+            ["Revenue", "$4.2k"],
+          ].map(([k, v]) => (
+            <div key={k} className="rounded-xl bg-[color:var(--color-surface-card)] p-2.5">
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted)]">{k}</div>
+              <div className="mt-0.5 text-base font-semibold text-[color:var(--color-ink)]">{v}</div>
+            </div>
           ))}
         </div>
       </div>
-    </section>
+
+      {/* floating live call chip */}
+      <div className="absolute -left-4 -top-4 hidden rounded-2xl border border-[color:var(--color-hairline)] bg-white p-3 shadow-[0_20px_40px_-25px_rgba(0,0,0,0.4)] sm:block">
+        <div className="flex items-center gap-2">
+          <span className="relative grid h-8 w-8 place-items-center rounded-full bg-[color:var(--color-brand-pink)] text-white">
+            <Mic className="h-3.5 w-3.5" />
+            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[color:var(--color-brand-mint)] ring-2 ring-white" />
+          </span>
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted)]">Live · 00:42</div>
+            <div className="text-[12px] font-semibold text-[color:var(--color-ink)]">AI Receptionist</div>
+          </div>
+        </div>
+      </div>
+
+      {/* floating calendar chip */}
+      <div className="absolute -bottom-5 -right-3 hidden rounded-2xl border border-[color:var(--color-hairline)] bg-white p-3 shadow-[0_20px_40px_-25px_rgba(0,0,0,0.4)] sm:block">
+        <div className="flex items-center gap-2">
+          <div className="grid h-8 w-8 place-items-center rounded-xl bg-[color:var(--color-brand-ochre)]">
+            <Calendar className="h-4 w-4 text-[color:var(--color-ink)]" />
+          </div>
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted)]">Booked</div>
+            <div className="text-[12px] font-semibold text-[color:var(--color-ink)]">Tomorrow · 9–11am</div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -339,7 +348,7 @@ function FeatureGrid() {
   );
 }
 
-/* Embedded product-fragment visuals (no images, just SVG/divs) */
+/* Embedded product-fragment visuals */
 
 function MiniCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -398,8 +407,8 @@ function CalendarVisual() {
         <Calendar className="h-3.5 w-3.5 text-[color:var(--color-muted)]" />
       </div>
       <div className="mt-3 grid grid-cols-5 gap-1">
-        {["M", "T", "W", "T", "F"].map((d) => (
-          <div key={d} className="text-center text-[10px] font-semibold text-[color:var(--color-muted)]">{d}</div>
+        {["M", "T", "W", "T", "F"].map((d, i) => (
+          <div key={i} className="text-center text-[10px] font-semibold text-[color:var(--color-muted)]">{d}</div>
         ))}
         {[
           ["pink", "teal", "ochre", "lavender", "peach"],
@@ -496,25 +505,49 @@ function IntegrationsVisual() {
   );
 }
 
-/* ---------- Big split feature row ---------- */
+/* ---------- Capabilities grid (replaces pricing) ---------- */
+
+function Capabilities() {
+  const items = [
+    { icon: Bot, t: "Custom AI voice", b: "Match your greeting, tone, and brand. Sounds like the person you'd hire." },
+    { icon: Workflow, t: "Smart routing", b: "Send emergencies to on-call, quotes to sales, billing to office — automatically." },
+    { icon: Shield, t: "Spam & robocall filter", b: "Only real customers get through. Junk never wastes a minute of your day." },
+    { icon: BarChart3, t: "Owner dashboard", b: "Calls, bookings, revenue, and missed-opportunity money — one daily glance." },
+    { icon: Users, t: "Team handoff", b: "Loop in a tech with one tap. Full call summary, customer history, and job context." },
+    { icon: CreditCard, t: "Deposits & invoicing", b: "Collect a deposit on the booking call. Send the invoice when the job's done." },
+  ];
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+        <div className="mb-12 max-w-2xl">
+          <Eyebrow>More inside the platform</Eyebrow>
+          <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
+            A full front office, <span className="italic font-normal">without the front office</span>.
+          </h2>
+        </div>
+        <div className="grid gap-px overflow-hidden rounded-3xl border border-[color:var(--color-hairline)] bg-[color:var(--color-hairline)] sm:grid-cols-2 lg:grid-cols-3">
+          {items.map(({ icon: Icon, t, b }) => (
+            <div key={t} className="bg-[color:var(--color-canvas)] p-7">
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--color-surface-card)]">
+                <Icon className="h-5 w-5 text-[color:var(--color-ink)]" />
+              </div>
+              <h3 className="mt-5 text-lg font-semibold text-[color:var(--color-ink)]">{t}</h3>
+              <p className="mt-2 text-sm text-[color:var(--color-body)]">{b}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- How it works ---------- */
 
 function HowItWorks() {
   const steps = [
-    {
-      n: "01",
-      title: "Forward your phone & connect your tools",
-      body: "Set it up in 10 minutes. Point your business line at Revenue Sol and link your CRM and calendar.",
-    },
-    {
-      n: "02",
-      title: "We listen, type, and book — in your voice",
-      body: "Tell us how you greet customers and what info you need. We'll match it on every call, text, and form.",
-    },
-    {
-      n: "03",
-      title: "You wake up to a full calendar",
-      body: "Every conversation lands in one inbox with a summary, the customer record, and the booked job.",
-    },
+    { n: "01", title: "Forward your phone & connect your tools", body: "Set it up in 10 minutes. Point your business line at Revenue Sol and link your CRM and calendar." },
+    { n: "02", title: "We listen, type, and book — in your voice", body: "Tell us how you greet customers and what info you need. We'll match it on every call, text, and form." },
+    { n: "03", title: "You wake up to a full calendar", body: "Every conversation lands in one inbox with a summary, the customer record, and the booked job." },
   ];
 
   return (
@@ -530,17 +563,12 @@ function HowItWorks() {
               No new software for your techs to learn. No three-month implementation. Forward
               your line, link a calendar, and let Revenue Sol cover the phones tonight.
             </p>
-            <div className="mt-7">
-              <BtnPrimary>Try it free</BtnPrimary>
-            </div>
+            <div className="mt-7"><BtnPrimary>Try it free</BtnPrimary></div>
           </div>
 
           <ol className="lg:col-span-7 space-y-4">
             {steps.map((s) => (
-              <li
-                key={s.n}
-                className="rounded-2xl border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] p-6"
-              >
+              <li key={s.n} className="rounded-2xl border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] p-6">
                 <div className="flex items-baseline gap-4">
                   <span className="font-display text-[34px] font-medium tracking-tight text-[color:var(--color-brand-pink)]">
                     {s.n}
@@ -585,7 +613,7 @@ function PullQuote() {
   );
 }
 
-/* ---------- Use cases (industry chips) ---------- */
+/* ---------- Use cases ---------- */
 
 function UseCases() {
   const trades = [
@@ -607,15 +635,8 @@ function UseCases() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {trades.map(({ icon: Icon, label, c, light }) => (
-            <div
-              key={label}
-              className="flex items-center gap-4 rounded-2xl p-5"
-              style={{ background: c, color: light ? "white" : "var(--color-ink)" }}
-            >
-              <div
-                className="grid h-12 w-12 place-items-center rounded-xl"
-                style={{ background: light ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.55)" }}
-              >
+            <div key={label} className="flex items-center gap-4 rounded-2xl p-5" style={{ background: c, color: light ? "white" : "var(--color-ink)" }}>
+              <div className="grid h-12 w-12 place-items-center rounded-xl" style={{ background: light ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.55)" }}>
                 <Icon className="h-5 w-5" />
               </div>
               <div>
@@ -631,7 +652,7 @@ function UseCases() {
   );
 }
 
-/* ---------- Stats / metrics band ---------- */
+/* ---------- Stats band ---------- */
 
 function StatsBand() {
   const stats = [
@@ -656,114 +677,13 @@ function StatsBand() {
   );
 }
 
-/* ---------- Pricing ---------- */
-
-function Pricing() {
-  const tiers = [
-    {
-      name: "Starter",
-      price: "$149",
-      sub: "/month",
-      blurb: "For solo operators just getting calls covered.",
-      bullets: ["AI voice + SMS receptionist", "200 conversations / mo", "Calendar booking", "Email support"],
-      featured: false,
-    },
-    {
-      name: "Shop",
-      price: "$349",
-      sub: "/month",
-      blurb: "For growing crews running multiple trucks.",
-      bullets: ["Everything in Starter", "Unlimited conversations", "CRM + dispatch integrations", "Follow-up automations", "Priority support"],
-      featured: true,
-    },
-    {
-      name: "Multi-location",
-      price: "Custom",
-      sub: "",
-      blurb: "For shops with multiple offices and 10+ techs.",
-      bullets: ["Everything in Shop", "Per-location routing", "Custom voice & scripts", "Dedicated CSM"],
-      featured: false,
-    },
-  ];
-
-  return (
-    <section className="py-20 sm:py-28">
-      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <div className="mb-12 max-w-2xl">
-          <Eyebrow>Pricing</Eyebrow>
-          <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
-            One plan to <span className="italic font-normal">cover the phones</span>. Pay for what you grow into.
-          </h2>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-3">
-          {tiers.map((t) => {
-            const featured = t.featured;
-            return (
-              <div
-                key={t.name}
-                className={`flex flex-col rounded-3xl p-8 ${
-                  featured
-                    ? "bg-[color:var(--color-brand-teal)] text-white"
-                    : "border border-[color:var(--color-hairline)] bg-[color:var(--color-canvas)] text-[color:var(--color-ink)]"
-                }`}
-              >
-                {featured && (
-                  <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-[color:var(--color-brand-pink)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
-                    Most popular
-                  </span>
-                )}
-                <div className="text-sm font-semibold opacity-80">{t.name}</div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="display-md">{t.price}</span>
-                  <span className="text-sm opacity-70">{t.sub}</span>
-                </div>
-                <p className={`mt-3 text-sm ${featured ? "text-white/80" : "text-[color:var(--color-body)]"}`}>
-                  {t.blurb}
-                </p>
-                <ul className="mt-6 space-y-2.5 text-sm">
-                  {t.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2">
-                      <Check className={`mt-0.5 h-4 w-4 ${featured ? "text-[color:var(--color-brand-mint)]" : "text-[color:var(--color-ink)]"}`} />
-                      <span className={featured ? "text-white/90" : "text-[color:var(--color-body)]"}>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8">
-                  {featured ? (
-                    <BtnPrimary invert>Start free trial</BtnPrimary>
-                  ) : (
-                    <BtnSecondary>{t.price === "Custom" ? "Talk to sales" : "Start free trial"}</BtnSecondary>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Testimonial trio ---------- */
+/* ---------- Testimonials ---------- */
 
 function Testimonials() {
   const items = [
-    {
-      quote: "It's like hiring a front-desk person who never sleeps and never forgets to follow up.",
-      who: "Sarah Patel",
-      role: "Co-owner, Patel Plumbing",
-    },
-    {
-      quote: "Our after-hours bookings tripled. The kicker — customers think it's a real person.",
-      who: "Mike O'Brien",
-      role: "Ops Manager, BrightVolt Electric",
-    },
-    {
-      quote: "Setup took one afternoon. The next morning we had four new tune-ups on the board.",
-      who: "Tasha Wallace",
-      role: "Owner, Wallace Roofing",
-    },
+    { quote: "It's like hiring a front-desk person who never sleeps and never forgets to follow up.", who: "Sarah Patel", role: "Co-owner, Patel Plumbing" },
+    { quote: "Our after-hours bookings tripled. The kicker — customers think it's a real person.", who: "Mike O'Brien", role: "Ops Manager, BrightVolt Electric" },
+    { quote: "Setup took one afternoon. The next morning we had four new tune-ups on the board.", who: "Tasha Wallace", role: "Owner, Wallace Roofing" },
   ];
   return (
     <section className="py-20 sm:py-28">
@@ -798,28 +718,31 @@ function Testimonials() {
   );
 }
 
-/* ---------- CTA band ---------- */
+/* ---------- CTA band (clean, no mountains) ---------- */
 
 function CtaBand() {
   return (
-    <section className="pb-20 pt-10">
+    <section className="pb-24 pt-10">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <div className="relative overflow-hidden rounded-[2rem] bg-[color:var(--color-surface-soft)] px-8 py-16 lg:px-16 lg:py-20">
-          {/* claymation horizon */}
-          <svg viewBox="0 0 1200 200" className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full">
-            <path d="M0 120 L160 60 L280 110 L420 50 L560 110 L720 40 L880 110 L1040 60 L1200 110 L1200 200 L0 200 Z" fill="var(--color-brand-lavender)" opacity="0.7" />
-            <path d="M0 150 L200 90 L360 140 L520 80 L680 140 L860 90 L1040 150 L1200 100 L1200 200 L0 200 Z" fill="var(--color-brand-teal)" />
-          </svg>
-          <div className="relative grid items-center gap-8 lg:grid-cols-12">
+        <div className="relative overflow-hidden rounded-[2rem] bg-[color:var(--color-brand-teal)] px-8 py-16 text-white lg:px-16 lg:py-20">
+          {/* decorative blobs */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[color:var(--color-brand-pink)] opacity-40 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-10 h-72 w-72 rounded-full bg-[color:var(--color-brand-lavender)] opacity-30 blur-3xl" />
+          <div className="relative grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <Eyebrow>Stop chasing the phone</Eyebrow>
-              <h2 className="display-lg mt-3 text-[color:var(--color-ink)]">
-                Turn every missed call into <span className="italic font-normal">booked revenue</span>, starting tonight.
+              <div className="text-[12px] font-semibold uppercase tracking-[0.18em] text-white/70">Stop chasing the phone</div>
+              <h2 className="display-lg mt-3 text-white">
+                Turn every missed call into <span className="italic font-normal text-[color:var(--color-brand-peach)]">booked revenue</span>, starting tonight.
               </h2>
+              <p className="mt-4 max-w-xl text-base text-white/80">
+                Forward your line, link your calendar, and watch the first job land in your inbox before dinner.
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-3 lg:col-span-4 lg:justify-end">
-              <BtnPrimary>Start free trial</BtnPrimary>
-              <BtnSecondary>Book a demo</BtnSecondary>
+              <BtnPrimary invert>Start free trial</BtnPrimary>
+              <Link to="/signin" className="inline-flex h-11 items-center justify-center rounded-xl border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">
+                Book a demo
+              </Link>
             </div>
           </div>
         </div>
@@ -832,41 +755,24 @@ function CtaBand() {
 
 function Footer() {
   const cols = [
-    {
-      h: "Product",
-      links: ["AI Receptionist", "SMS Inbox", "Booking", "Follow-ups", "Integrations", "Pricing"],
-    },
-    {
-      h: "Solutions",
-      links: ["HVAC", "Plumbing", "Electrical", "Roofing", "Cleaning", "Handyman"],
-    },
-    {
-      h: "Resources",
-      links: ["Customer stories", "Help center", "Changelog", "Onboarding", "API docs"],
-    },
-    {
-      h: "Company",
-      links: ["About", "Careers", "Contact", "Security", "Privacy", "Terms"],
-    },
+    { h: "Product", links: ["AI Receptionist", "SMS Inbox", "Booking", "Follow-ups", "Integrations"] },
+    { h: "Solutions", links: ["HVAC", "Plumbing", "Electrical", "Roofing", "Cleaning", "Handyman"] },
+    { h: "Resources", links: ["Customer stories", "Help center", "Changelog", "Onboarding", "API docs"] },
+    { h: "Company", links: ["About", "Careers", "Contact", "Security", "Privacy", "Terms"] },
   ];
   return (
     <footer className="bg-[color:var(--color-surface-soft)]">
       <div className="mx-auto max-w-[1280px] px-5 pb-12 pt-20 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="grid h-9 w-9 place-items-center rounded-xl bg-[color:var(--color-brand-pink)]">
-                <span className="font-bold text-white">R</span>
-              </div>
-              <span className="text-lg font-semibold tracking-tight text-[color:var(--color-ink)]">Revenue Sol</span>
+            <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+              revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
             </Link>
             <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
               The AI CRM for service businesses. Built in Austin for the shops that keep
               America running.
             </p>
-            <div className="mt-6 flex gap-2">
-              <BtnPrimary>Try free</BtnPrimary>
-            </div>
+            <div className="mt-6 flex gap-2"><BtnPrimary>Try free</BtnPrimary></div>
           </div>
           <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
             {cols.map((c) => (
@@ -874,9 +780,7 @@ function Footer() {
                 <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--color-muted)]">{c.h}</div>
                 <ul className="space-y-2.5">
                   {c.links.map((l) => (
-                    <li key={l}>
-                      <a href="#" className="text-sm text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">{l}</a>
-                    </li>
+                    <li key={l}><a href="#" className="text-sm text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">{l}</a></li>
                   ))}
                 </ul>
               </div>
@@ -884,17 +788,8 @@ function Footer() {
           </div>
         </div>
 
-        {/* signature mountain horizon */}
-        <svg viewBox="0 0 1200 140" className="mt-16 w-full">
-          <path d="M0 90 L120 40 L220 80 L340 30 L460 80 L600 20 L740 80 L880 40 L1020 90 L1200 50 L1200 140 L0 140 Z" fill="var(--color-brand-peach)" opacity="0.55" />
-          <path d="M0 110 L160 70 L300 100 L460 60 L620 100 L780 60 L940 110 L1100 70 L1200 100 L1200 140 L0 140 Z" fill="var(--color-brand-teal)" />
-          <circle cx="170" cy="55" r="3" fill="#fffaf0" />
-          <circle cx="465" cy="42" r="3" fill="#fffaf0" />
-          <circle cx="785" cy="75" r="3" fill="#fffaf0" />
-        </svg>
-
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6 text-xs text-[color:var(--color-muted)]">
-          <div>© {new Date().getFullYear()} Revenue Sol, Inc. Made for the trades.</div>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6 text-xs text-[color:var(--color-muted)]">
+          <div>© {new Date().getFullYear()} revenue.sol, Inc. Made for the trades.</div>
           <div className="flex gap-5">
             <a href="#" className="hover:text-[color:var(--color-ink)]">Privacy</a>
             <a href="#" className="hover:text-[color:var(--color-ink)]">Terms</a>
@@ -914,13 +809,13 @@ function Page() {
       <Nav />
       <main>
         <Hero />
-        <LogosStrip />
+        <IntegrationsStrip />
         <FeatureGrid />
         <HowItWorks />
         <PullQuote />
+        <Capabilities />
         <UseCases />
         <StatsBand />
-        <Pricing />
         <Testimonials />
         <CtaBand />
       </main>
