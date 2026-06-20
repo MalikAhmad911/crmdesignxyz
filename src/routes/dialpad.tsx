@@ -120,6 +120,8 @@ function NavItem({
 function DialpadPage() {
   const [number, setNumber] = useState("");
   const [onCall, setOnCall] = useState(false);
+  const [incoming, setIncoming] = useState(false);
+  const [minimized, setMinimized] = useState(false);
   const [secs, setSecs] = useState(0);
   const [muted, setMuted] = useState(false);
   const [speaker, setSpeaker] = useState(false);
@@ -130,8 +132,18 @@ function DialpadPage() {
     if (!number) setNumber("(907) 555-0101");
     setOnCall(true);
   };
+  const simulateIncoming = () => {
+    setNumber("(907) 555-0101");
+    setIncoming(true);
+  };
+  const acceptIncoming = () => {
+    setIncoming(false);
+    setOnCall(true);
+  };
+  const declineIncoming = () => setIncoming(false);
   const endCall = () => {
     setOnCall(false);
+    setMinimized(false);
     setSecs(0);
     setMuted(false);
     setHeld(false);
