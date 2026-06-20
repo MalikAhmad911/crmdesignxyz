@@ -353,7 +353,7 @@ function InboxPage() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-6 sm:py-6">
             <div className="mx-auto max-w-[760px] space-y-4">
               {messages.map((m, i) => (
                 <div key={i} className="flex gap-3">
