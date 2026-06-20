@@ -269,54 +269,63 @@ function InboxPage() {
 
         {/* Conversation */}
         <main className="flex min-w-0 flex-1 flex-col bg-white">
-          {/* Ongoing call bar */}
-          <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] bg-[#0f1116] px-3 text-white">
-            <div className="flex items-center gap-2">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-[#22c55e]/15 text-[#22c55e]">
-                <Phone className="h-3.5 w-3.5" />
-              </span>
-              <div className="leading-tight">
-                <div className="text-[12.5px] font-semibold">Ongoing call</div>
-                <div className="text-[10.5px] tabular-nums text-white/60">01:24</div>
+          {/* Ongoing call bar (visible only during a call) */}
+          {onCall ? (
+            <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] bg-[#0f1116] px-3 text-white">
+              <div className="flex items-center gap-2">
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-[#22c55e]/15 text-[#22c55e]">
+                  <Phone className="h-3.5 w-3.5" />
+                </span>
+                <div className="leading-tight">
+                  <div className="text-[12.5px] font-semibold">Ongoing call</div>
+                  <div className="text-[10.5px] tabular-nums text-white/60">{mm}:{ss}</div>
+                </div>
               </div>
-            </div>
 
-            <div className="mx-auto flex items-center gap-1.5">
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <Mic className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <Pause className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white">
-                <Grid3x3 className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <PhoneForwarded className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <Plus className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <Video className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
-                <MoreVertical className="h-3.5 w-3.5" />
-              </button>
-              <button className="grid h-8 w-8 place-items-center rounded-full bg-[#ef4444] text-white hover:bg-[#dc2626]">
-                <PhoneOff className="h-3.5 w-3.5" />
-              </button>
-            </div>
+              <div className="mx-auto flex items-center gap-1.5">
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <Mic className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <Pause className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white">
+                  <Grid3x3 className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <PhoneForwarded className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <Plus className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <Video className="h-3.5 w-3.5" />
+                </button>
+                <button className="grid h-8 w-8 place-items-center rounded-full bg-white/8 text-white/80 hover:bg-white/15">
+                  <MoreVertical className="h-3.5 w-3.5" />
+                </button>
+                <button
+                  onClick={() => setOnCall(false)}
+                  className="grid h-8 w-8 place-items-center rounded-full bg-[#ef4444] text-white hover:bg-[#dc2626]"
+                >
+                  <PhoneOff className="h-3.5 w-3.5" />
+                </button>
+              </div>
 
-            <div className="flex items-center gap-2 text-white/70">
-              <SignalHigh className="h-4 w-4" />
-              <Headphones className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-white/70">
+                <SignalHigh className="h-4 w-4" />
+                <Headphones className="h-4 w-4" />
+              </div>
+              <button
+                onClick={() => setOnCall(false)}
+                className="ml-2 flex items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15"
+              >
+                <Check className="h-3.5 w-3.5" />
+                Mark as done
+              </button>
             </div>
-            <button className="ml-2 flex items-center gap-1.5 rounded-md border border-[#22c55e]/40 bg-[#22c55e]/10 px-2.5 py-1 text-[12px] font-medium text-[#22c55e] hover:bg-[#22c55e]/15">
-              <Check className="h-3.5 w-3.5" />
-              Mark as done
-            </button>
-          </div>
+          ) : null}
+
 
           {/* Conversation header */}
           <div className="flex h-12 items-center gap-3 border-b border-[#e3e3e8] px-4">
