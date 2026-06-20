@@ -406,7 +406,7 @@ function DialpadPage() {
               </div>
 
               {/* Quality strip */}
-              <div className="mt-3 flex items-center gap-2 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] text-[#6b6b76]">
+              <div className="mt-3 flex flex-wrap items-center gap-2 rounded-md border border-[#ececef] bg-white px-3 py-2 text-[11.5px] text-[#6b6b76]">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 <span className="font-medium text-[#0a0a0a]">Excellent</span>
                 <span className="text-[#c7c7cd]">·</span>
