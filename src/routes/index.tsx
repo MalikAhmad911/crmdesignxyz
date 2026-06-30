@@ -93,8 +93,9 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b border-transparent bg-[color:var(--color-canvas)]/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-5 lg:px-8">
         <div className="flex items-center gap-10">
-          <Link to="/" className="font-display text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--color-ink)]">
-            revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
+          <Link to="/" className="flex items-center gap-2 font-display text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+            <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-7 w-7 rounded-sm object-contain" />
+            <span>revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span></span>
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             {["Product", "Solutions", "Customers", "Resources", "Pricing"].map((l) => (
