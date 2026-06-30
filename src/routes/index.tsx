@@ -768,8 +768,9 @@ function Footer() {
         <div className="rounded-[28px] bg-white border border-[color:var(--color-hairline)] p-6 sm:p-10 lg:p-14">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
-                revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
+              <Link to="/" className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+                <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-9 w-9 rounded-md object-contain" />
+                <span>revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span></span>
               </Link>
               <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
                 The AI CRM for service businesses. Built in Austin for the shops that keep
