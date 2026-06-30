@@ -93,8 +93,9 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b border-transparent bg-[color:var(--color-canvas)]/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-5 lg:px-8">
         <div className="flex items-center gap-10">
-          <Link to="/" className="font-display text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--color-ink)]">
-            revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
+          <Link to="/" className="flex items-center gap-2 font-display text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+            <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-7 w-7 rounded-sm object-contain" />
+            <span>revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span></span>
           </Link>
           <nav className="hidden items-center gap-7 lg:flex">
             {["Product", "Solutions", "Customers", "Resources", "Pricing"].map((l) => (
@@ -767,8 +768,9 @@ function Footer() {
         <div className="rounded-[28px] bg-white border border-[color:var(--color-hairline)] p-6 sm:p-10 lg:p-14">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
-                revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
+              <Link to="/" className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+                <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-9 w-9 rounded-md object-contain" />
+                <span>revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span></span>
               </Link>
               <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
                 The AI CRM for service businesses. Built in Austin for the shops that keep
@@ -792,13 +794,7 @@ function Footer() {
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6">
             <div className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="grid h-7 w-7 place-items-center rounded-md"
-                style={{ background: "linear-gradient(135deg,#7c5cff 0%,#ff6ba8 60%,#ffb37a 100%)" }}
-              >
-                <span className="block h-3 w-3 rounded-[3px] bg-white/95" />
-              </span>
+              <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-7 w-7 rounded-md object-contain" />
               <span className="text-[12px] font-bold tracking-[0.18em] text-[color:var(--color-ink)]">REVENUE SOL</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-[color:var(--color-muted)]">
