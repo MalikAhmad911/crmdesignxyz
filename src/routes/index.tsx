@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import infiniteRankersLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 import {
   ArrowUpRight,
   Check,
@@ -800,7 +801,10 @@ function Footer() {
               </span>
               <span className="text-[12px] font-bold tracking-[0.18em] text-[color:var(--color-ink)]">REVENUE SOL</span>
             </div>
-            <div className="text-xs text-[color:var(--color-muted)]">Powered by Infinite Rankers LLC</div>
+            <div className="flex items-center gap-2 text-xs text-[color:var(--color-muted)]">
+              <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-6 w-6 rounded-sm object-contain" />
+              <span>Powered by Infinite Rankers LLC</span>
+            </div>
           </div>
         </div>
       </div>
