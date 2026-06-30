@@ -761,41 +761,64 @@ function Footer() {
     { h: "Company", links: ["About", "Careers", "Contact", "Security", "Privacy", "Terms"] },
   ];
   return (
-    <footer className="bg-[color:var(--color-surface-soft)]">
-      <div className="mx-auto max-w-[1280px] px-5 pb-12 pt-20 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
-              revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
-            </Link>
-            <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
-              The AI CRM for service businesses. Built in Austin for the shops that keep
-              America running.
-            </p>
-            <div className="mt-6 flex gap-2"><BtnPrimary>Try free</BtnPrimary></div>
+    <footer className="bg-[color:var(--color-canvas)]">
+      <div className="mx-auto max-w-[1280px] px-5 pt-20 lg:px-8">
+        <div className="rounded-[28px] bg-white border border-[color:var(--color-hairline)] p-6 sm:p-10 lg:p-14">
+          <div className="grid gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-[color:var(--color-ink)]">
+                revenue<span className="text-[color:var(--color-brand-pink)]">.sol</span>
+              </Link>
+              <p className="mt-5 max-w-sm text-sm text-[color:var(--color-body)]">
+                The AI CRM for service businesses. Built in Austin for the shops that keep
+                America running.
+              </p>
+              <div className="mt-6 flex gap-2"><BtnPrimary>Try free</BtnPrimary></div>
+            </div>
+            <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
+              {cols.map((c) => (
+                <div key={c.h}>
+                  <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--color-muted)]">{c.h}</div>
+                  <ul className="space-y-2.5">
+                    {c.links.map((l) => (
+                      <li key={l}><a href="#" className="text-sm text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">{l}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
-            {cols.map((c) => (
-              <div key={c.h}>
-                <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--color-muted)]">{c.h}</div>
-                <ul className="space-y-2.5">
-                  {c.links.map((l) => (
-                    <li key={l}><a href="#" className="text-sm text-[color:var(--color-body)] hover:text-[color:var(--color-ink)]">{l}</a></li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6 text-xs text-[color:var(--color-muted)]">
-          <div>© {new Date().getFullYear()} revenue.sol, Inc. Made for the trades.</div>
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-[color:var(--color-ink)]">Privacy</a>
-            <a href="#" className="hover:text-[color:var(--color-ink)]">Terms</a>
-            <a href="#" className="hover:text-[color:var(--color-ink)]">Status</a>
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6">
+            <div className="flex items-center gap-2.5">
+              <span
+                aria-hidden="true"
+                className="grid h-7 w-7 place-items-center rounded-md"
+                style={{ background: "linear-gradient(135deg,#7c5cff 0%,#ff6ba8 60%,#ffb37a 100%)" }}
+              >
+                <span className="block h-3 w-3 rounded-[3px] bg-white/95" />
+              </span>
+              <span className="text-[12px] font-bold tracking-[0.18em] text-[color:var(--color-ink)]">REVENUE SOL</span>
+            </div>
+            <div className="text-xs text-[color:var(--color-muted)]">Powered by Infinite Rankers LLC</div>
           </div>
         </div>
+      </div>
+
+      {/* Giant brand mark */}
+      <div className="select-none px-5 pb-6 pt-8 lg:px-8" aria-hidden="true">
+        <svg viewBox="0 0 1000 200" className="block h-auto w-full" preserveAspectRatio="xMidYMid meet">
+          <text
+            x="500"
+            y="172"
+            textAnchor="middle"
+            textLength="980"
+            lengthAdjust="spacingAndGlyphs"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "230px", fill: "var(--color-ink)", letterSpacing: "-0.04em" }}
+          >
+            REVENUE SOL
+          </text>
+        </svg>
       </div>
     </footer>
   );
