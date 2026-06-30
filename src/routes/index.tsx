@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import infiniteRankersLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 import {
   ArrowUpRight,
   Check,
