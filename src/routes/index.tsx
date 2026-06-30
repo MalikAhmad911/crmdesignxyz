@@ -794,13 +794,7 @@ function Footer() {
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--color-hairline)] pt-6">
             <div className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="grid h-7 w-7 place-items-center rounded-md"
-                style={{ background: "linear-gradient(135deg,#7c5cff 0%,#ff6ba8 60%,#ffb37a 100%)" }}
-              >
-                <span className="block h-3 w-3 rounded-[3px] bg-white/95" />
-              </span>
+              <img src={infiniteRankersLogo.url} alt="Infinite Rankers" className="h-7 w-7 rounded-md object-contain" />
               <span className="text-[12px] font-bold tracking-[0.18em] text-[color:var(--color-ink)]">REVENUE SOL</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-[color:var(--color-muted)]">
