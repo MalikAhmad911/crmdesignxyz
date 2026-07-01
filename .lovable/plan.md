@@ -1,49 +1,140 @@
-## Revenue Sol — exact Clay homepage clone
+# RevenueSol Mobile — Expo React Native app
 
-Mirror clay.com's homepage structure, section order, and composition 1:1, but rebrand to **Revenue Sol** (AI CRM for US local service businesses) and use only the strict palette + fonts from your spec. Single-page, visual only.
+A separate Expo project inside this repo at `mobile/`, independent of the existing TanStack Start web app. Real RN code, previewable via `expo start` locally / on device / EAS — not in the Lovable web preview.
 
-### Branding & tokens
-- Wordmark: **REVENUE SOL**
-- Palette (only these, mapped to semantic tokens in `src/styles.css` under `@theme inline`):
-  - Brand `#635BFF` / hover `#4F46E5`
-  - Bg `#F6F9FC`, surface `#FFFFFF`, border `#E6EBF1`, tint `#EEF0FF`
-  - Heading `#0A2540`, body `#425466`, muted `#697386`
-  - Vivid accents: blurple `#635BFF`, violet `#7C3AED`, cyan `#00D4FF`, sky `#0A84FF`
-- Fonts (no CDN): `@fontsource/inter` (body/UI), `@fontsource/eb-garamond` (display) — installed via bun, imported in `src/router.tsx`, mapped to `--font-sans` / `--font-display`.
+## Stack
 
-### Sections — match Clay's order exactly
-1. **Top nav (sticky)** — REVENUE SOL logo · Product · Use Cases · Solutions · Resources · Company · Pricing · ⌘K search pill · Log in · Get a demo (outline) · Start free trial (solid brand)
-2. **Hero** — EB Garamond H1 "Run your service business with unique data — and the AI to act on it." Sub copy + "Start building for free →". Subtle clay-blob SVG shapes flanking.
-3. **Trust line** — "TRUSTED BY THOUSANDS OF LOCAL SERVICE BUSINESSES" + a 4.9★ chip · "10K+ operator community" chip · 5.0★ chip. (Generic, no fake named customers.)
-4. **Integrations strip** — labeled "Integrations" (not customers): Twilio, Stripe, QuickBooks, Google, RingCentral as text wordmarks in muted color. Two rows like Clay's logo wall, but using only these 5 rotated/repeated as integration tiles.
-5. **Feature row 1 — "Every data point about every job, in one place"** — left copy + 3 bullets (Enrichments → contact + property data; Intent signals → missed calls, form fills, review mentions; AI research → Claygent-style lookup). Right: rounded tint panel with inline-SVG inbox/table mockup. Small stat callout card "2x — Sample pilot doubled booked-job rate (illustrative)".
-6. **Feature row 2 — "AI that's contextual, consistent, and scalable"** — 3 bullets (Chat to build workflows; Reusable AI employees; Bring your own context via integrations). Mock: agent + workflow nodes. Stat card "3x — illustrative".
-7. **Feature row 3 — "Orchestrate and act on your data, at scale"** — 3 bullets (sync CRM records; build dynamic audiences; trigger outreach in native sequencer). Mock: audience builder. Stat card "3M+ — illustrative".
-8. **Section break headline** — "Turn data into action with flexible, iterable workflows" with a highlighted phrase (lilac/tint marker), centered + CTA.
-9. **Three stacked feature cards** (Clay's AI Formatting / Conditional Logic / Destinations pattern):
-   - **AI Formatting** — normalize company/customer names table mock
-   - **AI Conditional Logic** — formula chip + conditional table mock
-   - **Destinations** — list of integration actions (Upsert to HubSpot, Push to QuickBooks, Send via Twilio, etc.)
-10. **Pull-quote testimonial** — large EB Garamond quote, placeholder author "Sample Owner — Operations Lead, Placeholder HVAC". 3 stat tiles (4h/week, 100+, 100%) clearly framed as illustrative. "Read case study →" (non-functional).
-11. **Use-case toggle** — "Data enrichments / AI agents" tabs + list: CRM enrichment, TAM sourcing, Inbound lead routing, Intent-based outreach, AI outbound campaigns, ABM.
-12. **"Cut costs, one central platform"** — split row, copy on left, inline-SVG clay-toolbox illustration on right (abstract SVG shapes only), two CTAs.
-13. **Security/scale row** — generic capability tiles (Encryption in transit, Role-based access, Audit logs, Data residency, SSO-ready) — NO SOC2/ISO/GDPR/CCPA badges since not real.
-14. **Customer quote carousel** — 3–4 placeholder quote cards with arrow controls (static).
-15. **Final CTA** — "Turn your growth ideas into reality today" + "Start for free →" + "Get a demo →".
-16. **Big footer** — giant repeat headline "Run your service business with unique data — and the AI to act on it." + REVENUE SOL logo + two CTAs + social icons (inline SVG) + multi-column link grid (Use cases / Product / Blog / Resources / Company / Customers / Legal) + © Revenue Sol 2026.
+- Expo SDK 51+ (managed workflow), TypeScript
+- Expo Router (file-based, mirrors TanStack Start mental model)
+- React Native core + `react-native-svg`, `expo-linear-gradient`, `expo-blur`
+- Fonts: Inter (display + body) via `expo-font` / `@expo-google-fonts/inter`
+- Icons: `lucide-react-native`
+- No backend, no data layer — all screens use typed mock fixtures under `mobile/src/mocks/`
 
-### Tech & files
-- Route: `src/routes/index.tsx` with SEO `head()`.
-- Components under `src/components/landing/`: `Nav`, `Hero`, `TrustChips`, `IntegrationsStrip`, `FeatureRow`, `StatCard`, `SectionBreak`, `FeatureCardLarge`, `Testimonial`, `UseCaseTabs`, `CentralPlatform`, `SecurityRow`, `QuoteCarousel`, `FinalCta`, `Footer`, plus `icons.tsx` for inline SVGs (stars, social, integration wordmarks, blob shapes, UI primitives).
-- All visuals are inline SVG / CSS — no external images, no external font URLs (CSP-safe).
-- Mobile-first responsive (single column → 2/3 cols at `md`/`lg`); sticky nav collapses to hamburger.
+## Folder layout
 
-### Strict rules honored
-- ONLY the listed hex values; no other colors.
-- No external image URLs or font CDNs.
-- No invented customer logos, no fake-as-fact stats (all numbers labeled illustrative/placeholder), no SOC2/ISO badges.
+```text
+mobile/
+  app.json
+  package.json
+  tsconfig.json
+  babel.config.js
+  app/                           # expo-router routes
+    _layout.tsx                  # root: fonts, theme provider
+    index.tsx                    # entry redirect (onboarding vs tabs)
+    onboarding/
+      _layout.tsx
+      welcome.tsx
+      sign-in.tsx
+      workspace.tsx
+      connect-phone.tsx
+      connect-email.tsx
+      connect-calendar.tsx
+      import-website.tsx
+      complete.tsx
+    (tabs)/
+      _layout.tsx                # bottom tab bar
+      dashboard.tsx
+      inbox.tsx
+      contacts.tsx
+      calendar.tsx
+      jobs.tsx
+    inbox/[id].tsx               # conversation detail
+    contacts/[id].tsx
+    jobs/[id].tsx
+    ai/
+      employee.tsx
+      brain.tsx
+      voice.tsx
+    money/
+      quotes.tsx
+      quotes/[id].tsx
+      invoices.tsx
+      invoices/[id].tsx
+      payments.tsx
+      reviews.tsx
+  src/
+    theme/
+      tokens.ts                  # colors, radii, spacing, shadows, type scale
+      ThemeProvider.tsx
+    components/
+      Screen.tsx                 # safe-area + scroll wrapper
+      Header.tsx                 # title + notification bell
+      TabBar.tsx                 # custom bottom tabs
+      Button.tsx                 # primary/secondary/ghost/destructive
+      Input.tsx, TextField.tsx
+      Badge.tsx                  # status pills (success/warn/danger/info)
+      Card.tsx, MetricCard.tsx
+      LeadCard.tsx
+      ConversationRow.tsx
+      JobCard.tsx
+      AppointmentCard.tsx
+      ReviewCard.tsx
+      AISuggestionCard.tsx
+      ConnectorRow.tsx
+      EmptyState.tsx, LoadingState.tsx, ErrorState.tsx
+      BottomSheet.tsx            # @gorhom/bottom-sheet
+      ActionSheet.tsx
+      Avatar.tsx
+      SectionHeader.tsx
+      QuickActions.tsx           # Call / Text / Add Lead / Job / Invoice
+    mocks/
+      leads.ts, conversations.ts, jobs.ts, appts.ts, invoices.ts,
+      quotes.ts, reviews.ts, activity.ts, ai.ts
+```
 
-### Out of scope
-- Backend, auth, real forms (CTAs are non-functional).
-- Sub-routes for nav (anchor links only).
-- Heavy animation (subtle hover transitions only).
+## Design tokens (locked)
+
+```ts
+// src/theme/tokens.ts
+colors: {
+  primary: '#635BFF',
+  primaryDeep: '#4F46E5',
+  ink: '#0A2540',
+  body: '#425466',
+  muted: '#697386',
+  surface: '#F6F9FC',
+  hairline: '#E6EBF1',
+  bg: '#FFFFFF',
+  success: '#16A34A',
+  warning: '#D97706',
+  danger:  '#DC2626',
+}
+radius: { sm: 8, md: 12, lg: 16, xl: 20, pill: 999 }
+space:  4 / 8 / 12 / 16 / 20 / 24 / 32
+type:   Inter — display 28/22/18, body 15/13, mono for numbers
+shadow: soft: 0 8 24 rgba(10,37,64,0.06); card: 0 2 8 rgba(10,37,64,0.04)
+```
+
+## Scope for this build (first pass)
+
+**Onboarding (8)** — welcome, sign in, workspace, connect phone, connect email, connect calendar, import website, complete.
+
+**Core 5 tabs** — dashboard, inbox (+ conversation detail), contacts (+ contact detail + add), calendar (day/week + appt detail + create), jobs (+ job detail).
+
+**AI surfaces (3)** — AI Employee (status, auto-reply, approval queue), AI Brain (command input, plan preview, result), Voice AI (receptionist status, routing, hours, recent calls).
+
+**Money surfaces (4)** — Quotes (list + detail + create), Invoices (list + detail + send request), Payments (overview + history), Reviews (dashboard + AI reply + request).
+
+**Design system** — every reusable component in the list above.
+
+Out of scope for pass 1 (call out to user): Automations, Webchat & Forms, Analytics, Team, Settings, Connectors list, Contacts activity timeline animations, dispatch board drag interactions. Easy follow-up pass once the shell is approved.
+
+## How you'll preview
+
+Won't render in the Lovable preview panel. To run:
+
+```bash
+cd mobile
+bun install
+bunx expo start           # scan QR with Expo Go on iPhone/Android
+# or: bunx expo run:ios / run:android for native builds
+```
+
+## Deliverable per screen
+
+Real Expo screen file, uses the token system, wired to mock data, no `TODO` placeholders, empty/loading/error states included where meaningful, thumb-reachable primary actions, safe-area correct.
+
+---
+
+Confirm and I'll build it. If you want any of the out-of-scope items pulled into pass 1, say which and I'll add them.
