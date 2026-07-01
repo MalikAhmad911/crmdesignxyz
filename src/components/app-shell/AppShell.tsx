@@ -106,21 +106,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-scope min-h-[100dvh] bg-[--color-canvas] text-[--color-ink]">
       <div className="flex">
         {/* Sidebar — dark, desktop only */}
-        <aside className="hidden lg:flex fixed inset-y-0 left-0 w-[240px] flex-col text-white/80" style={{ background: "var(--color-sidebar-bg)" }}>
-          <div className="h-[60px] flex items-center gap-2.5 px-4 shrink-0">
-            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold" style={{ background: "var(--color-brand-gradient)" }}>
+        <aside className="hidden lg:flex fixed inset-y-0 left-0 w-[240px] flex-col border-r border-[--color-sidebar-border]" style={{ background: "var(--color-sidebar-bg)", color: "var(--color-body)" }}>
+          <div className="h-[60px] flex items-center gap-2.5 px-4 shrink-0 border-b border-[--color-sidebar-border]">
+            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)]" style={{ background: "var(--color-brand-gradient)" }}>
               ⚡
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-bold text-white truncate leading-tight">Revenue Sol</div>
-              <div className="text-[11px] text-white/50 truncate">{BUSINESS.name}</div>
+              <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
+              <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
             </div>
           </div>
 
           <nav className="flex-1 overflow-y-auto py-3">
             {NAV.map(sec => (
               <div key={sec.section} className="mb-4">
-                <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-[--color-muted-soft]">
                   {sec.section}
                 </div>
                 {sec.items.map(it => {
@@ -132,10 +132,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       to={it.to}
                       className={`mx-2 my-[1px] h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium transition ${
                         active
-                          ? "text-white shadow-[0_2px_8px_rgba(99,102,241,0.4)]"
-                          : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                          ? "font-semibold"
+                          : "text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink]"
                       }`}
-                      style={active ? { background: "var(--color-sidebar-active)" } : undefined}
+                      style={active ? { background: "var(--color-sidebar-active)", color: "var(--color-sidebar-active-text)" } : undefined}
                     >
                       <I size={17} className="shrink-0" />
                       <span className="flex-1 truncate">{it.label}</span>
@@ -144,7 +144,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                           className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
                             it.badgeTone === "new"
                               ? "bg-emerald-500 text-white"
-                              : active ? "bg-white text-[--color-primary-deep]" : "bg-[--color-primary] text-white"
+                              : active ? "bg-[--color-primary] text-white" : "bg-[--color-primary-subdued] text-[--color-primary-deep]"
                           }`}
                         >
                           {it.badge}
@@ -157,8 +157,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
 
-          <div className="border-t border-white/10 px-3 py-3 shrink-0">
-            <Link to="/app/settings" className="h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium text-white/60 hover:bg-white/[0.06] hover:text-white mb-2">
+          <div className="border-t border-[--color-sidebar-border] px-3 py-3 shrink-0">
+            <Link to="/app/settings" className="h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink] mb-2">
               <Settings size={17} /> Settings
             </Link>
 
@@ -167,14 +167,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 MW
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[13px] font-medium text-white truncate leading-tight">{BUSINESS.owner}</div>
-                <div className="text-[11px] text-white/40 truncate">{BUSINESS.role}</div>
+                <div className="text-[13px] font-medium text-[--color-ink] truncate leading-tight">{BUSINESS.owner}</div>
+                <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.role}</div>
               </div>
             </div>
 
-            <div className="mt-3 rounded-lg px-3 py-2 flex items-center justify-between gap-2" style={{ background: "rgba(245,158,11,0.12)" }}>
-              <div className="text-[11px] font-semibold text-amber-300">{BUSINESS.trialDaysLeft} days left</div>
-              <button className="text-[11px] font-semibold text-amber-200 hover:text-white">Upgrade</button>
+            <div className="mt-3 rounded-lg px-3 py-2 flex items-center justify-between gap-2 border border-amber-200" style={{ background: "#FFFBEB" }}>
+              <div className="text-[11px] font-semibold text-amber-700">{BUSINESS.trialDaysLeft} days left</div>
+              <button className="text-[11px] font-semibold text-amber-800 hover:text-amber-900">Upgrade</button>
             </div>
           </div>
         </aside>
