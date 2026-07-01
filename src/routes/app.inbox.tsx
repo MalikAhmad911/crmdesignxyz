@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Card, PageHeader, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
 import { THREADS, MESSAGES, CONTACTS, type Channel } from "@/lib/rs-mocks";
+import { useSwipe } from "@/hooks/useSwipe";
 
 export const Route = createFileRoute("/app/inbox")({ component: InboxPage });
 
