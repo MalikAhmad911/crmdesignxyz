@@ -104,16 +104,15 @@ function InboxPage() {
   const contact = active ? CONTACTS.find(c => c.id === active.contactId) : null;
   const messages = active ? MESSAGES.filter(m => m.threadId === active.id) : [];
 
-  // Swipe: on the conversation pane, right = back to list, left = open context
+  // Swipe: on the conversation pane, right-from-left-edge = back to list,
+  // left-anywhere = open context slide-over.
   const convoSwipe = useSwipe({
-    edge: "left",
-    edgeSize: 40,
-    onSwipeRight: () => setActiveId(null),
+    onSwipe: (dir, meta) => {
+      if (dir === "right" && meta.startX < 40) setActiveId(null);
+      else if (dir === "left" && active) setShowContext(true);
+    },
   });
-  const openContextSwipe = useSwipe({
-    onSwipeLeft: () => { if (active) setShowContext(true); },
-  });
-  // Swipe: on the context slide-over, right dismisses
+  // Swipe: on the context slide-over, right dismisses.
   const contextSwipe = useSwipe({
     onSwipeRight: () => setShowContext(false),
   });
