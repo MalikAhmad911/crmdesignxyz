@@ -1,140 +1,69 @@
-# RevenueSol Mobile — Expo React Native app
+# Revenue Sol — App Shell Rebuild (Interior Only)
 
-A separate Expo project inside this repo at `mobile/`, independent of the existing TanStack Start web app. Real RN code, previewable via `expo start` locally / on device / EAS — not in the Lovable web preview.
+Rebuild the authenticated `/app/*` product surface to the new indigo/purple spec. **Homepage (`/`) is untouched.** Frontend only, dummy data everywhere.
 
-## Stack
+## Design tokens (`src/styles.css`, `.app-scope` only)
 
-- Expo SDK 51+ (managed workflow), TypeScript
-- Expo Router (file-based, mirrors TanStack Start mental model)
-- React Native core + `react-native-svg`, `expo-linear-gradient`, `expo-blur`
-- Fonts: Inter (display + body) via `expo-font` / `@expo-google-fonts/inter`
-- Icons: `lucide-react-native`
-- No backend, no data layer — all screens use typed mock fixtures under `mobile/src/mocks/`
+Replace current interior tokens — do NOT touch homepage tokens:
+- Primary `#6366F1`, Deep `#4F46E5`, Light `#EEF2FF`, Glow `rgba(99,102,241,0.15)`
+- Surfaces `#FFFFFF` / `#FAFAFA` / `#F4F4F5`, border `#E4E4E7`
+- Text `#09090B` / `#52525B` / `#A1A1AA`
+- Success `#22C55E`, Warning `#F59E0B`, Error `#EF4444`, Info `#3B82F6` (+ light variants)
+- Gradients: g1 indigo→violet, g2 indigo→cyan, subtle indigo-tint
+- Sidebar: bg `#09090B`, active `#6366F1`, text white/80, muted white/40
+- Radii 6/10/14/20/full. Inter already loaded.
 
-## Folder layout
+## App shell (`src/components/app-shell/AppShell.tsx`)
 
-```text
-mobile/
-  app.json
-  package.json
-  tsconfig.json
-  babel.config.js
-  app/                           # expo-router routes
-    _layout.tsx                  # root: fonts, theme provider
-    index.tsx                    # entry redirect (onboarding vs tabs)
-    onboarding/
-      _layout.tsx
-      welcome.tsx
-      sign-in.tsx
-      workspace.tsx
-      connect-phone.tsx
-      connect-email.tsx
-      connect-calendar.tsx
-      import-website.tsx
-      complete.tsx
-    (tabs)/
-      _layout.tsx                # bottom tab bar
-      dashboard.tsx
-      inbox.tsx
-      contacts.tsx
-      calendar.tsx
-      jobs.tsx
-    inbox/[id].tsx               # conversation detail
-    contacts/[id].tsx
-    jobs/[id].tsx
-    ai/
-      employee.tsx
-      brain.tsx
-      voice.tsx
-    money/
-      quotes.tsx
-      quotes/[id].tsx
-      invoices.tsx
-      invoices/[id].tsx
-      payments.tsx
-      reviews.tsx
-  src/
-    theme/
-      tokens.ts                  # colors, radii, spacing, shadows, type scale
-      ThemeProvider.tsx
-    components/
-      Screen.tsx                 # safe-area + scroll wrapper
-      Header.tsx                 # title + notification bell
-      TabBar.tsx                 # custom bottom tabs
-      Button.tsx                 # primary/secondary/ghost/destructive
-      Input.tsx, TextField.tsx
-      Badge.tsx                  # status pills (success/warn/danger/info)
-      Card.tsx, MetricCard.tsx
-      LeadCard.tsx
-      ConversationRow.tsx
-      JobCard.tsx
-      AppointmentCard.tsx
-      ReviewCard.tsx
-      AISuggestionCard.tsx
-      ConnectorRow.tsx
-      EmptyState.tsx, LoadingState.tsx, ErrorState.tsx
-      BottomSheet.tsx            # @gorhom/bottom-sheet
-      ActionSheet.tsx
-      Avatar.tsx
-      SectionHeader.tsx
-      QuickActions.tsx           # Call / Text / Add Lead / Job / Invoice
-    mocks/
-      leads.ts, conversations.ts, jobs.ts, appts.ts, invoices.ts,
-      quotes.ts, reviews.ts, activity.ts, ai.ts
-```
+- 240px fixed dark sidebar (`#09090B`), grouped: Main / Engage / AI / Field Service / Insights + bottom Settings
+- Nav item 38px, active pill `#6366F1` with glow shadow, unread + NEW badges
+- Sidebar footer: user row (avatar + name + role) + amber "11 days left" trial badge with Upgrade link
+- Topbar 56px: page title, ⌘K search, `+ New ▼`, bell (with dot), help, avatar
+- Responsive: <768px hides sidebar → bottom tab bar (Home/Inbox/Reviews/Pay/More); 768–1024px collapses to 64px icon rail; ≥1024px full 240px
 
-## Design tokens (locked)
+## App routes (each dedicated file, replacing current `/app/*`)
 
-```ts
-// src/theme/tokens.ts
-colors: {
-  primary: '#635BFF',
-  primaryDeep: '#4F46E5',
-  ink: '#0A2540',
-  body: '#425466',
-  muted: '#697386',
-  surface: '#F6F9FC',
-  hairline: '#E6EBF1',
-  bg: '#FFFFFF',
-  success: '#16A34A',
-  warning: '#D97706',
-  danger:  '#DC2626',
-}
-radius: { sm: 8, md: 12, lg: 16, xl: 20, pill: 999 }
-space:  4 / 8 / 12 / 16 / 20 / 24 / 32
-type:   Inter — display 28/22/18, body 15/13, mono for numbers
-shadow: soft: 0 8 24 rgba(10,37,64,0.06); card: 0 2 8 rgba(10,37,64,0.04)
-```
+1. `/app/dashboard` — greeting, purple AI Command bar (chips + Autopilot mini-card), 4 stat cards, 60/40 split (Recent Activity timeline · Reviews overview + Autopilot Today), 3 quick-action cards.
+2. `/app/ai-brain` — sticky header + master Autopilot toggle, chat command center (400px scroll) + quick chips, 4 stats, 58/42 split (Autopilot module toggles + behavior · AI Suggestions + Pending Approvals), full-width Live Activity Log.
+3. `/app/inbox` — 3-column (280/flex/260): thread list with tabs + channel chips, conversation with AI-mode pill + internal-note composer, contact rail with quick actions, tags, previous convos, notes.
+4. `/app/contacts` — 4 stats, filter pills, table with checkbox bulk-action bar.
+5. `/app/reviews` — 4 stats, source + rating + status filters, review cards with AI Reply / Needs Reply.
+6. `/app/payments` — 3 stats, status tabs, transactions table with Remind.
+7. `/app/jobs` — 4 stats, 5-column Kanban (Scheduled / En Route / In Progress / Completed / Invoiced).
+8. `/app/voice-agent` — status badge, 4 stats, 2-column (Agent config with per-day hours · Recent Calls table with outcome tags).
+9. `/app/ai-employee` — 5 tabs (Overview / Knowledge / Persona / Q&A Pairs / Analytics): activity table, knowledge card grid, tone selector, blocklist tags.
+10. `/app/settings` — left sub-nav (Business Profile / Connectors / Team / Billing / Notifications / Security). Connectors: 9 integration cards (Twilio, Retell, Stripe, Google, QuickBooks connected; Meta, Zapier, SendGrid, RingCentral not) + Website snippet card with copyable JS. Billing: plan card, usage bars, invoice table.
+11. `/app/ai-search` — 6 tabs; Overview shows AI Visibility hero (4/8 engines + engine grid), 3 score bars, 3 quick-win cards, Recent AI Checks + Issues Summary.
 
-## Scope for this build (first pass)
+Old routes (`app.ai.*`, `app.money.*`, `app.calendar`, `app.jobs`, `app.contacts`, `app.inbox`, `app.dashboard`, `app.index`) will be replaced/renamed to match this list. Nav in AppShell updated accordingly.
 
-**Onboarding (8)** — welcome, sign in, workspace, connect phone, connect email, connect calendar, import website, complete.
+## Modals & overlays (`src/components/app-shell/modals/`)
 
-**Core 5 tabs** — dashboard, inbox (+ conversation detail), contacts (+ contact detail + add), calendar (day/week + appt detail + create), jobs (+ job detail).
+- Send Review Request, Request Payment, New Conversation, Add Contact (dialogs)
+- Notification dropdown (8 items, mark all read)
+- User menu (Profile / Settings / Billing / Help / Sign Out)
+- `+ New` dropdown (6 actions)
 
-**AI surfaces (3)** — AI Employee (status, auto-reply, approval queue), AI Brain (command input, plan preview, result), Voice AI (receptionist status, routing, hours, recent calls).
+Wired to topbar + relevant page buttons with dummy state only.
 
-**Money surfaces (4)** — Quotes (list + detail + create), Invoices (list + detail + send request), Payments (overview + history), Reviews (dashboard + AI reply + request).
+## Motion & polish
 
-**Design system** — every reusable component in the list above.
+- Page enter: opacity 0→1, y 8→0, 200ms
+- Card hover: translateY(-2px) + shadow
+- Button tap: scale(0.97)
+- Stat count-up on mount, 50ms stagger for lists/grids
+- Sidebar collapse 200ms
 
-Out of scope for pass 1 (call out to user): Automations, Webchat & Forms, Analytics, Team, Settings, Connectors list, Contacts activity timeline animations, dispatch board drag interactions. Easy follow-up pass once the shell is approved.
+## Out of scope
 
-## How you'll preview
+- Homepage (`/`) and landing components — untouched
+- `/onboarding`, `/inbox` (public dialpad demo), `/dialpad`, `/mobile-preview`, `/signin`, `/signup`, `/auth`
+- Mobile Expo project
 
-Won't render in the Lovable preview panel. To run:
+## Technical notes
 
-```bash
-cd mobile
-bun install
-bunx expo start           # scan QR with Expo Go on iPhone/Android
-# or: bunx expo run:ios / run:android for native builds
-```
-
-## Deliverable per screen
-
-Real Expo screen file, uses the token system, wired to mock data, no `TODO` placeholders, empty/loading/error states included where meaningful, thumb-reachable primary actions, safe-area correct.
-
----
-
-Confirm and I'll build it. If you want any of the out-of-scope items pulled into pass 1, say which and I'll add them.
+- All colors as `@theme` vars scoped to `.app-scope`; no hex literals in components
+- Route files follow `app.<segment>.tsx` with `createFileRoute("/app/<segment>")`
+- Dummy data in `src/lib/rs-mocks.ts`
+- `lucide-react` icons; emojis only where spec calls for them
+- Per-route `head()` with real title + description

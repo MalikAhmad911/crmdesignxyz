@@ -19,22 +19,22 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as AppMoneyRouteImport } from './routes/app.money'
+import { Route as AppVoiceAgentRouteImport } from './routes/app.voice-agent'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppReviewsRouteImport } from './routes/app.reviews'
+import { Route as AppQuotesRouteImport } from './routes/app.quotes'
+import { Route as AppPaymentsRouteImport } from './routes/app.payments'
 import { Route as AppJobsRouteImport } from './routes/app.jobs'
 import { Route as AppInboxRouteImport } from './routes/app.inbox'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppContactsRouteImport } from './routes/app.contacts'
+import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
+import { Route as AppCallsRouteImport } from './routes/app.calls'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
-import { Route as AppAiRouteImport } from './routes/app.ai'
-import { Route as AppMoneyIndexRouteImport } from './routes/app.money.index'
-import { Route as AppAiIndexRouteImport } from './routes/app.ai.index'
-import { Route as AppMoneyReviewsRouteImport } from './routes/app.money.reviews'
-import { Route as AppMoneyQuotesRouteImport } from './routes/app.money.quotes'
-import { Route as AppMoneyPaymentsRouteImport } from './routes/app.money.payments'
-import { Route as AppMoneyInvoicesRouteImport } from './routes/app.money.invoices'
-import { Route as AppAiVoiceRouteImport } from './routes/app.ai.voice'
-import { Route as AppAiEmployeeRouteImport } from './routes/app.ai.employee'
-import { Route as AppAiBrainRouteImport } from './routes/app.ai.brain'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppAiSearchRouteImport } from './routes/app.ai-search'
+import { Route as AppAiEmployeeRouteImport } from './routes/app.ai-employee'
+import { Route as AppAiBrainRouteImport } from './routes/app.ai-brain'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -86,9 +86,29 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppMoneyRoute = AppMoneyRouteImport.update({
-  id: '/money',
-  path: '/money',
+const AppVoiceAgentRoute = AppVoiceAgentRouteImport.update({
+  id: '/voice-agent',
+  path: '/voice-agent',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReviewsRoute = AppReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppQuotesRoute = AppQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsRoute = AppPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
   getParentRoute: () => AppRoute,
 } as any)
 const AppJobsRoute = AppJobsRouteImport.update({
@@ -111,60 +131,40 @@ const AppContactsRoute = AppContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCampaignsRoute = AppCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCallsRoute = AppCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppCalendarRoute = AppCalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAiRoute = AppAiRouteImport.update({
-  id: '/ai',
-  path: '/ai',
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
-const AppMoneyIndexRoute = AppMoneyIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppMoneyRoute,
-} as any)
-const AppAiIndexRoute = AppAiIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppAiRoute,
-} as any)
-const AppMoneyReviewsRoute = AppMoneyReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => AppMoneyRoute,
-} as any)
-const AppMoneyQuotesRoute = AppMoneyQuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
-  getParentRoute: () => AppMoneyRoute,
-} as any)
-const AppMoneyPaymentsRoute = AppMoneyPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
-  getParentRoute: () => AppMoneyRoute,
-} as any)
-const AppMoneyInvoicesRoute = AppMoneyInvoicesRouteImport.update({
-  id: '/invoices',
-  path: '/invoices',
-  getParentRoute: () => AppMoneyRoute,
-} as any)
-const AppAiVoiceRoute = AppAiVoiceRouteImport.update({
-  id: '/voice',
-  path: '/voice',
-  getParentRoute: () => AppAiRoute,
+const AppAiSearchRoute = AppAiSearchRouteImport.update({
+  id: '/ai-search',
+  path: '/ai-search',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppAiEmployeeRoute = AppAiEmployeeRouteImport.update({
-  id: '/employee',
-  path: '/employee',
-  getParentRoute: () => AppAiRoute,
+  id: '/ai-employee',
+  path: '/ai-employee',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppAiBrainRoute = AppAiBrainRouteImport.update({
-  id: '/brain',
-  path: '/brain',
-  getParentRoute: () => AppAiRoute,
+  id: '/ai-brain',
+  path: '/ai-brain',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -177,23 +177,23 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
-  '/app/ai': typeof AppAiRouteWithChildren
+  '/app/ai-brain': typeof AppAiBrainRoute
+  '/app/ai-employee': typeof AppAiEmployeeRoute
+  '/app/ai-search': typeof AppAiSearchRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/calls': typeof AppCallsRoute
+  '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
-  '/app/money': typeof AppMoneyRouteWithChildren
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/quotes': typeof AppQuotesRoute
+  '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app/': typeof AppIndexRoute
-  '/app/ai/brain': typeof AppAiBrainRoute
-  '/app/ai/employee': typeof AppAiEmployeeRoute
-  '/app/ai/voice': typeof AppAiVoiceRoute
-  '/app/money/invoices': typeof AppMoneyInvoicesRoute
-  '/app/money/payments': typeof AppMoneyPaymentsRoute
-  '/app/money/quotes': typeof AppMoneyQuotesRoute
-  '/app/money/reviews': typeof AppMoneyReviewsRoute
-  '/app/ai/': typeof AppAiIndexRoute
-  '/app/money/': typeof AppMoneyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -204,21 +204,23 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai-brain': typeof AppAiBrainRoute
+  '/app/ai-employee': typeof AppAiEmployeeRoute
+  '/app/ai-search': typeof AppAiSearchRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/calls': typeof AppCallsRoute
+  '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/quotes': typeof AppQuotesRoute
+  '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app': typeof AppIndexRoute
-  '/app/ai/brain': typeof AppAiBrainRoute
-  '/app/ai/employee': typeof AppAiEmployeeRoute
-  '/app/ai/voice': typeof AppAiVoiceRoute
-  '/app/money/invoices': typeof AppMoneyInvoicesRoute
-  '/app/money/payments': typeof AppMoneyPaymentsRoute
-  '/app/money/quotes': typeof AppMoneyQuotesRoute
-  '/app/money/reviews': typeof AppMoneyReviewsRoute
-  '/app/ai': typeof AppAiIndexRoute
-  '/app/money': typeof AppMoneyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -231,23 +233,23 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
-  '/app/ai': typeof AppAiRouteWithChildren
+  '/app/ai-brain': typeof AppAiBrainRoute
+  '/app/ai-employee': typeof AppAiEmployeeRoute
+  '/app/ai-search': typeof AppAiSearchRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/calls': typeof AppCallsRoute
+  '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
-  '/app/money': typeof AppMoneyRouteWithChildren
+  '/app/payments': typeof AppPaymentsRoute
+  '/app/quotes': typeof AppQuotesRoute
+  '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app/': typeof AppIndexRoute
-  '/app/ai/brain': typeof AppAiBrainRoute
-  '/app/ai/employee': typeof AppAiEmployeeRoute
-  '/app/ai/voice': typeof AppAiVoiceRoute
-  '/app/money/invoices': typeof AppMoneyInvoicesRoute
-  '/app/money/payments': typeof AppMoneyPaymentsRoute
-  '/app/money/quotes': typeof AppMoneyQuotesRoute
-  '/app/money/reviews': typeof AppMoneyReviewsRoute
-  '/app/ai/': typeof AppAiIndexRoute
-  '/app/money/': typeof AppMoneyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -261,23 +263,23 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
-    | '/app/ai'
+    | '/app/ai-brain'
+    | '/app/ai-employee'
+    | '/app/ai-search'
+    | '/app/analytics'
     | '/app/calendar'
+    | '/app/calls'
+    | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
-    | '/app/money'
+    | '/app/payments'
+    | '/app/quotes'
+    | '/app/reviews'
+    | '/app/settings'
+    | '/app/voice-agent'
     | '/app/'
-    | '/app/ai/brain'
-    | '/app/ai/employee'
-    | '/app/ai/voice'
-    | '/app/money/invoices'
-    | '/app/money/payments'
-    | '/app/money/quotes'
-    | '/app/money/reviews'
-    | '/app/ai/'
-    | '/app/money/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -288,21 +290,23 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai-brain'
+    | '/app/ai-employee'
+    | '/app/ai-search'
+    | '/app/analytics'
     | '/app/calendar'
+    | '/app/calls'
+    | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
+    | '/app/payments'
+    | '/app/quotes'
+    | '/app/reviews'
+    | '/app/settings'
+    | '/app/voice-agent'
     | '/app'
-    | '/app/ai/brain'
-    | '/app/ai/employee'
-    | '/app/ai/voice'
-    | '/app/money/invoices'
-    | '/app/money/payments'
-    | '/app/money/quotes'
-    | '/app/money/reviews'
-    | '/app/ai'
-    | '/app/money'
   id:
     | '__root__'
     | '/'
@@ -314,23 +318,23 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
-    | '/app/ai'
+    | '/app/ai-brain'
+    | '/app/ai-employee'
+    | '/app/ai-search'
+    | '/app/analytics'
     | '/app/calendar'
+    | '/app/calls'
+    | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
-    | '/app/money'
+    | '/app/payments'
+    | '/app/quotes'
+    | '/app/reviews'
+    | '/app/settings'
+    | '/app/voice-agent'
     | '/app/'
-    | '/app/ai/brain'
-    | '/app/ai/employee'
-    | '/app/ai/voice'
-    | '/app/money/invoices'
-    | '/app/money/payments'
-    | '/app/money/quotes'
-    | '/app/money/reviews'
-    | '/app/ai/'
-    | '/app/money/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -417,11 +421,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/money': {
-      id: '/app/money'
-      path: '/money'
-      fullPath: '/app/money'
-      preLoaderRoute: typeof AppMoneyRouteImport
+    '/app/voice-agent': {
+      id: '/app/voice-agent'
+      path: '/voice-agent'
+      fullPath: '/app/voice-agent'
+      preLoaderRoute: typeof AppVoiceAgentRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/reviews': {
+      id: '/app/reviews'
+      path: '/reviews'
+      fullPath: '/app/reviews'
+      preLoaderRoute: typeof AppReviewsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/quotes': {
+      id: '/app/quotes'
+      path: '/quotes'
+      fullPath: '/app/quotes'
+      preLoaderRoute: typeof AppQuotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/payments': {
+      id: '/app/payments'
+      path: '/payments'
+      fullPath: '/app/payments'
+      preLoaderRoute: typeof AppPaymentsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/jobs': {
@@ -452,6 +484,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/campaigns': {
+      id: '/app/campaigns'
+      path: '/campaigns'
+      fullPath: '/app/campaigns'
+      preLoaderRoute: typeof AppCampaignsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/calls': {
+      id: '/app/calls'
+      path: '/calls'
+      fullPath: '/app/calls'
+      preLoaderRoute: typeof AppCallsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/calendar': {
       id: '/app/calendar'
       path: '/calendar'
@@ -459,134 +505,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCalendarRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/ai': {
-      id: '/app/ai'
-      path: '/ai'
-      fullPath: '/app/ai'
-      preLoaderRoute: typeof AppAiRouteImport
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/money/': {
-      id: '/app/money/'
-      path: '/'
-      fullPath: '/app/money/'
-      preLoaderRoute: typeof AppMoneyIndexRouteImport
-      parentRoute: typeof AppMoneyRoute
+    '/app/ai-search': {
+      id: '/app/ai-search'
+      path: '/ai-search'
+      fullPath: '/app/ai-search'
+      preLoaderRoute: typeof AppAiSearchRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/app/ai/': {
-      id: '/app/ai/'
-      path: '/'
-      fullPath: '/app/ai/'
-      preLoaderRoute: typeof AppAiIndexRouteImport
-      parentRoute: typeof AppAiRoute
-    }
-    '/app/money/reviews': {
-      id: '/app/money/reviews'
-      path: '/reviews'
-      fullPath: '/app/money/reviews'
-      preLoaderRoute: typeof AppMoneyReviewsRouteImport
-      parentRoute: typeof AppMoneyRoute
-    }
-    '/app/money/quotes': {
-      id: '/app/money/quotes'
-      path: '/quotes'
-      fullPath: '/app/money/quotes'
-      preLoaderRoute: typeof AppMoneyQuotesRouteImport
-      parentRoute: typeof AppMoneyRoute
-    }
-    '/app/money/payments': {
-      id: '/app/money/payments'
-      path: '/payments'
-      fullPath: '/app/money/payments'
-      preLoaderRoute: typeof AppMoneyPaymentsRouteImport
-      parentRoute: typeof AppMoneyRoute
-    }
-    '/app/money/invoices': {
-      id: '/app/money/invoices'
-      path: '/invoices'
-      fullPath: '/app/money/invoices'
-      preLoaderRoute: typeof AppMoneyInvoicesRouteImport
-      parentRoute: typeof AppMoneyRoute
-    }
-    '/app/ai/voice': {
-      id: '/app/ai/voice'
-      path: '/voice'
-      fullPath: '/app/ai/voice'
-      preLoaderRoute: typeof AppAiVoiceRouteImport
-      parentRoute: typeof AppAiRoute
-    }
-    '/app/ai/employee': {
-      id: '/app/ai/employee'
-      path: '/employee'
-      fullPath: '/app/ai/employee'
+    '/app/ai-employee': {
+      id: '/app/ai-employee'
+      path: '/ai-employee'
+      fullPath: '/app/ai-employee'
       preLoaderRoute: typeof AppAiEmployeeRouteImport
-      parentRoute: typeof AppAiRoute
+      parentRoute: typeof AppRoute
     }
-    '/app/ai/brain': {
-      id: '/app/ai/brain'
-      path: '/brain'
-      fullPath: '/app/ai/brain'
+    '/app/ai-brain': {
+      id: '/app/ai-brain'
+      path: '/ai-brain'
+      fullPath: '/app/ai-brain'
       preLoaderRoute: typeof AppAiBrainRouteImport
-      parentRoute: typeof AppAiRoute
+      parentRoute: typeof AppRoute
     }
   }
 }
 
-interface AppAiRouteChildren {
+interface AppRouteChildren {
   AppAiBrainRoute: typeof AppAiBrainRoute
   AppAiEmployeeRoute: typeof AppAiEmployeeRoute
-  AppAiVoiceRoute: typeof AppAiVoiceRoute
-  AppAiIndexRoute: typeof AppAiIndexRoute
-}
-
-const AppAiRouteChildren: AppAiRouteChildren = {
-  AppAiBrainRoute: AppAiBrainRoute,
-  AppAiEmployeeRoute: AppAiEmployeeRoute,
-  AppAiVoiceRoute: AppAiVoiceRoute,
-  AppAiIndexRoute: AppAiIndexRoute,
-}
-
-const AppAiRouteWithChildren = AppAiRoute._addFileChildren(AppAiRouteChildren)
-
-interface AppMoneyRouteChildren {
-  AppMoneyInvoicesRoute: typeof AppMoneyInvoicesRoute
-  AppMoneyPaymentsRoute: typeof AppMoneyPaymentsRoute
-  AppMoneyQuotesRoute: typeof AppMoneyQuotesRoute
-  AppMoneyReviewsRoute: typeof AppMoneyReviewsRoute
-  AppMoneyIndexRoute: typeof AppMoneyIndexRoute
-}
-
-const AppMoneyRouteChildren: AppMoneyRouteChildren = {
-  AppMoneyInvoicesRoute: AppMoneyInvoicesRoute,
-  AppMoneyPaymentsRoute: AppMoneyPaymentsRoute,
-  AppMoneyQuotesRoute: AppMoneyQuotesRoute,
-  AppMoneyReviewsRoute: AppMoneyReviewsRoute,
-  AppMoneyIndexRoute: AppMoneyIndexRoute,
-}
-
-const AppMoneyRouteWithChildren = AppMoneyRoute._addFileChildren(
-  AppMoneyRouteChildren,
-)
-
-interface AppRouteChildren {
-  AppAiRoute: typeof AppAiRouteWithChildren
+  AppAiSearchRoute: typeof AppAiSearchRoute
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppCalendarRoute: typeof AppCalendarRoute
+  AppCallsRoute: typeof AppCallsRoute
+  AppCampaignsRoute: typeof AppCampaignsRoute
   AppContactsRoute: typeof AppContactsRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppInboxRoute: typeof AppInboxRoute
   AppJobsRoute: typeof AppJobsRoute
-  AppMoneyRoute: typeof AppMoneyRouteWithChildren
+  AppPaymentsRoute: typeof AppPaymentsRoute
+  AppQuotesRoute: typeof AppQuotesRoute
+  AppReviewsRoute: typeof AppReviewsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppVoiceAgentRoute: typeof AppVoiceAgentRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAiRoute: AppAiRouteWithChildren,
+  AppAiBrainRoute: AppAiBrainRoute,
+  AppAiEmployeeRoute: AppAiEmployeeRoute,
+  AppAiSearchRoute: AppAiSearchRoute,
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppCalendarRoute: AppCalendarRoute,
+  AppCallsRoute: AppCallsRoute,
+  AppCampaignsRoute: AppCampaignsRoute,
   AppContactsRoute: AppContactsRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppInboxRoute: AppInboxRoute,
   AppJobsRoute: AppJobsRoute,
-  AppMoneyRoute: AppMoneyRouteWithChildren,
+  AppPaymentsRoute: AppPaymentsRoute,
+  AppQuotesRoute: AppQuotesRoute,
+  AppReviewsRoute: AppReviewsRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppVoiceAgentRoute: AppVoiceAgentRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

@@ -80,42 +80,48 @@
 }
 
 /* Interior SaaS palette — scoped to authenticated app shell only.
-   Homepage keeps its cream canvas; /app/* gets the Stripe-inspired blue system. */
+   Homepage keeps its cream canvas; /app/* gets the Revenue Sol indigo system. */
 .app-scope {
-  --color-canvas: #f6f9fc;
-  --color-surface-soft: #ffffff;
-  --color-surface-card: #ffffff;
-  --color-surface-strong: #f6f9fc;
-  --color-hairline: #e6ebf1;
-  --color-hairline-soft: #f0f3f6;
+  --color-canvas: #FAFAFA;
+  --color-surface-soft: #FFFFFF;
+  --color-surface-card: #FFFFFF;
+  --color-surface-strong: #F4F4F5;
+  --color-hairline: #E4E4E7;
+  --color-hairline-soft: #F4F4F5;
 
-  --color-ink: #0a2540;
-  --color-body-strong: #0a2540;
-  --color-body: #425466;
-  --color-muted: #697386;
-  --color-muted-soft: #a3acb9;
+  --color-ink: #09090B;
+  --color-body-strong: #09090B;
+  --color-body: #52525B;
+  --color-muted: #52525B;
+  --color-muted-soft: #A1A1AA;
 
-  /* Stripe-inspired interior palette per Revenue Sol design system */
-  --color-primary: #0052ff;
-  --color-primary-deep: #003ecf;
-  --color-primary-subdued: #d6e4ff;
-  --color-accent-subtle: #f0f2ff;
-  --color-brand-gradient: linear-gradient(135deg, #0052ff 0%, #0a84ff 100%);
+  --color-primary: #6366F1;
+  --color-primary-deep: #4F46E5;
+  --color-primary-subdued: #EEF2FF;
+  --color-primary-glow: rgba(99, 102, 241, 0.15);
+  --color-accent-subtle: #F5F3FF;
+  --color-brand-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  --color-brand-gradient-2: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%);
+  --color-brand-gradient-subtle: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
 
-  --color-success: #00d924;
-  --color-success-subtle: #e3fbe8;
-  --color-warning: #ffb020;
-  --color-warning-subtle: #fef4de;
-  --color-error: #ff4d4f;
-  --color-error-subtle: #fee4e2;
-  --color-info: #0a84ff;
-  --color-info-subtle: #e0f2fe;
-  --color-ai: #7c3aed;
-  --color-ai-subtle: #f0e9ff;
+  --color-success: #22C55E;
+  --color-success-subtle: #F0FDF4;
+  --color-warning: #F59E0B;
+  --color-warning-subtle: #FFFBEB;
+  --color-error: #EF4444;
+  --color-error-subtle: #FEF2F2;
+  --color-info: #3B82F6;
+  --color-info-subtle: #EFF6FF;
+  --color-ai: #8B5CF6;
+  --color-ai-subtle: #F5F3FF;
+
+  --color-sidebar-bg: #09090B;
+  --color-sidebar-active: #6366F1;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
 }
+
 
 @layer base {
   * {

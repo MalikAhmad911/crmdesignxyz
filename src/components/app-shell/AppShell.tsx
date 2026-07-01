@@ -1,160 +1,323 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 import {
-  LayoutDashboard, Inbox, Users, Calendar, Wrench,
-  Sparkles, Wallet, Settings, Search, Bell, Plus, ChevronsLeft,
+  LayoutDashboard, Inbox, Users, Star, CreditCard, Megaphone, Phone,
+  Brain, Bot, Mic, Wrench, FileText, Calendar, BarChart3, Sparkles,
+  Settings, Search, Bell, Plus, ChevronDown, HelpCircle, Home, MoreHorizontal,
 } from "lucide-react";
-import { useState } from "react";
-import Logo from "@/assets/infinite-rankers-logo.jpg.asset.json";
+import { useEffect, useRef, useState } from "react";
+import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
 
-type NavItem = { to: string; label: string; icon: LucideIcon; badge?: string };
+type NavItem = { to: string; label: string; icon: LucideIcon; badge?: string; badgeTone?: "primary" | "new" };
 
 const NAV: { section: string; items: NavItem[] }[] = [
   {
-    section: "Workspace",
+    section: "Main",
     items: [
       { to: "/app/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { to: "/app/inbox",     label: "Inbox",     icon: Inbox, badge: "3" },
+      { to: "/app/inbox",     label: "Inbox",     icon: Inbox, badge: "3", badgeTone: "primary" },
       { to: "/app/contacts",  label: "Contacts",  icon: Users },
-      { to: "/app/calendar",  label: "Calendar",  icon: Calendar },
-      { to: "/app/jobs",      label: "Jobs",      icon: Wrench },
     ],
   },
   {
-    section: "Automations",
+    section: "Engage",
     items: [
-      { to: "/app/ai",    label: "AI surfaces", icon: Sparkles },
-      { to: "/app/money", label: "Money",       icon: Wallet },
+      { to: "/app/reviews",   label: "Reviews",   icon: Star },
+      { to: "/app/payments",  label: "Payments",  icon: CreditCard },
+      { to: "/app/campaigns", label: "Campaigns", icon: Megaphone },
+      { to: "/app/calls",     label: "Calls",     icon: Phone },
+    ],
+  },
+  {
+    section: "AI",
+    items: [
+      { to: "/app/ai-brain",    label: "AI Brain",    icon: Brain, badge: "NEW", badgeTone: "new" },
+      { to: "/app/ai-employee", label: "AI Employee", icon: Bot },
+      { to: "/app/voice-agent", label: "Voice Agent", icon: Mic },
+    ],
+  },
+  {
+    section: "Field Service",
+    items: [
+      { to: "/app/jobs",     label: "Jobs",     icon: Wrench },
+      { to: "/app/quotes",   label: "Quotes",   icon: FileText },
+      { to: "/app/calendar", label: "Calendar", icon: Calendar },
+    ],
+  },
+  {
+    section: "Insights",
+    items: [
+      { to: "/app/analytics", label: "Analytics", icon: BarChart3 },
+      { to: "/app/ai-search", label: "AI Search", icon: Sparkles, badge: "NEW", badgeTone: "new" },
     ],
   },
 ];
 
+const MOBILE_TABS = [
+  { to: "/app/dashboard", label: "Home",    icon: Home },
+  { to: "/app/inbox",     label: "Inbox",   icon: Inbox },
+  { to: "/app/reviews",   label: "Reviews", icon: Star },
+  { to: "/app/payments",  label: "Pay",     icon: CreditCard },
+  { to: "/app/settings",  label: "More",    icon: MoreHorizontal },
+];
+
+function pageTitle(path: string) {
+  const map: Record<string, string> = {
+    "/app/dashboard": "Dashboard",
+    "/app/inbox": "Inbox",
+    "/app/contacts": "Contacts",
+    "/app/reviews": "Reviews",
+    "/app/payments": "Payments",
+    "/app/campaigns": "Campaigns",
+    "/app/calls": "Calls",
+    "/app/ai-brain": "AI Brain",
+    "/app/ai-employee": "AI Employee",
+    "/app/voice-agent": "Voice Agent",
+    "/app/jobs": "Jobs",
+    "/app/quotes": "Quotes",
+    "/app/calendar": "Calendar",
+    "/app/analytics": "Analytics",
+    "/app/ai-search": "AI Search",
+    "/app/settings": "Settings",
+  };
+  return map[path] ?? "Revenue Sol";
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: s => s.location.pathname });
-  const [collapsed, setCollapsed] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [newOpen, setNewOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+
+  const wrap = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (!wrap.current?.contains(e.target as Node)) {
+        setNotifOpen(false); setNewOpen(false); setUserOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  const unreadCount = NOTIFICATIONS.filter(n => n.unread).length;
 
   return (
-    <div className="app-scope min-h-screen bg-[--color-canvas] text-[--color-ink]">
+    <div className="app-scope min-h-[100dvh] bg-[--color-canvas] text-[--color-ink]">
       <div className="flex">
-        {/* Sidebar */}
-        <aside
-          className={`${collapsed ? "w-[72px]" : "w-[240px]"} shrink-0 border-r border-[--color-hairline] bg-[--color-surface-soft] min-h-screen sticky top-0 flex flex-col transition-[width] duration-200`}
-        >
-          <div className="h-14 flex items-center gap-2 px-4 border-b border-[--color-hairline]">
-            <img src={Logo.url} alt="Revenue Sol" className="w-8 h-8 rounded-md object-cover ring-1 ring-[--color-hairline] bg-white" />
-            {!collapsed && (
-              <div className="min-w-0">
-                <div className="text-[13px] font-semibold leading-tight truncate text-[--color-ink]">Reyes HVAC</div>
-                <div className="text-[11px] text-[--color-muted] truncate">Pro plan</div>
-              </div>
-            )}
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="ml-auto w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong]"
-            >
-              <ChevronsLeft size={15} className={`transition-transform ${collapsed ? "rotate-180" : ""}`} />
-            </button>
+        {/* Sidebar — dark, desktop only */}
+        <aside className="hidden lg:flex fixed inset-y-0 left-0 w-[240px] flex-col text-white/80" style={{ background: "var(--color-sidebar-bg)" }}>
+          <div className="h-[60px] flex items-center gap-2.5 px-4 shrink-0">
+            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold" style={{ background: "var(--color-brand-gradient)" }}>
+              ⚡
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[15px] font-bold text-white truncate leading-tight">Revenue Sol</div>
+              <div className="text-[11px] text-white/50 truncate">{BUSINESS.name}</div>
+            </div>
           </div>
 
-          <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto">
+          <nav className="flex-1 overflow-y-auto py-3">
             {NAV.map(sec => (
-              <div key={sec.section}>
-                {!collapsed && (
-                  <div className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-widest text-[--color-muted-soft]">
-                    {sec.section}
-                  </div>
-                )}
-                <div className="space-y-0.5">
-                  {sec.items.map(it => {
-                    const active = pathname === it.to || pathname.startsWith(it.to + "/");
-                    const I = it.icon;
-                    return (
-                      <Link
-                        key={it.to}
-                        to={it.to}
-                        className={`flex items-center gap-3 px-2.5 py-2 rounded-lg text-[13px] font-medium transition ${
-                          active
-                            ? "bg-[--color-primary-subdued] text-[--color-primary-deep]"
-                            : "text-[--color-body] hover:bg-[--color-surface-strong]"
-                        }`}
-                      >
-                        <I size={16} className="shrink-0" />
-                        {!collapsed && (
-                          <>
-                            <span className="flex-1 truncate">{it.label}</span>
-                            {it.badge && (
-                              <span
-                                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-                                  active ? "bg-white text-[--color-primary-deep]" : "bg-[--color-primary] text-white"
-                                }`}
-                              >
-                                {it.badge}
-                              </span>
-                            )}
-                          </>
-                        )}
-                      </Link>
-                    );
-                  })}
+              <div key={sec.section} className="mb-4">
+                <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                  {sec.section}
                 </div>
+                {sec.items.map(it => {
+                  const active = pathname === it.to || pathname.startsWith(it.to + "/");
+                  const I = it.icon;
+                  return (
+                    <Link
+                      key={it.to}
+                      to={it.to}
+                      className={`mx-2 my-[1px] h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium transition ${
+                        active
+                          ? "text-white shadow-[0_2px_8px_rgba(99,102,241,0.4)]"
+                          : "text-white/60 hover:bg-white/[0.06] hover:text-white"
+                      }`}
+                      style={active ? { background: "var(--color-sidebar-active)" } : undefined}
+                    >
+                      <I size={17} className="shrink-0" />
+                      <span className="flex-1 truncate">{it.label}</span>
+                      {it.badge && (
+                        <span
+                          className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+                            it.badgeTone === "new"
+                              ? "bg-emerald-500 text-white"
+                              : active ? "bg-white text-[--color-primary-deep]" : "bg-[--color-primary] text-white"
+                          }`}
+                        >
+                          {it.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
               </div>
             ))}
           </nav>
 
-          <div className="p-3 border-t border-[--color-hairline]">
-            <Link
-              to="/app/dashboard"
-              className="flex items-center gap-3 px-2.5 py-2 rounded-lg text-[13px] text-[--color-body] hover:bg-[--color-surface-strong]"
-            >
-              <Settings size={16} />
-              {!collapsed && <span>Settings</span>}
+          <div className="border-t border-white/10 px-3 py-3 shrink-0">
+            <Link to="/app/settings" className="h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium text-white/60 hover:bg-white/[0.06] hover:text-white mb-2">
+              <Settings size={17} /> Settings
             </Link>
+
+            <div className="flex items-center gap-2.5 px-2">
+              <div className="w-8 h-8 rounded-full grid place-items-center text-white text-[12px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                MW
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[13px] font-medium text-white truncate leading-tight">{BUSINESS.owner}</div>
+                <div className="text-[11px] text-white/40 truncate">{BUSINESS.role}</div>
+              </div>
+            </div>
+
+            <div className="mt-3 rounded-lg px-3 py-2 flex items-center justify-between gap-2" style={{ background: "rgba(245,158,11,0.12)" }}>
+              <div className="text-[11px] font-semibold text-amber-300">{BUSINESS.trialDaysLeft} days left</div>
+              <button className="text-[11px] font-semibold text-amber-200 hover:text-white">Upgrade</button>
+            </div>
           </div>
         </aside>
 
-        {/* Main */}
-        <div className="flex-1 min-w-0 flex flex-col">
+        {/* Main column */}
+        <div ref={wrap} className="flex-1 min-w-0 flex flex-col lg:pl-[240px]">
           {/* Topbar */}
-          <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-20 flex items-center gap-3 px-6">
-            <div className="flex items-center gap-2 flex-1 max-w-md">
-              <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-canvas] border border-[--color-hairline] flex-1 text-[13px] text-[--color-muted]">
-                <Search size={14} />
-                <span>Search customers, jobs, invoices…</span>
-                <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline]">⌘K</span>
-              </div>
+          <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
+            <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+              ⚡
             </div>
-            <button className="h-9 px-3 rounded-lg text-[13px] font-medium bg-[--color-primary] text-white hover:bg-[--color-primary-deep] transition flex items-center gap-1.5">
-              <Plus size={14} /> New
-            </button>
-            <button className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] relative text-[--color-body]">
-              <Bell size={16} />
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[--color-error]" />
-            </button>
-            <div className="w-9 h-9 rounded-full bg-[--color-primary-subdued] grid place-items-center text-[12px] font-bold text-[--color-primary-deep]">
-              MR
+            <div className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
+              {pageTitle(pathname)}
+            </div>
+
+            <div className="hidden md:flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 max-w-[360px] mx-auto text-[13px] text-[--color-muted]">
+              <Search size={14} />
+              <span className="flex-1 truncate">Search anything...</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline]">⌘K</span>
+            </div>
+
+            <div className="ml-auto flex items-center gap-1.5 sm:gap-2 relative">
+              {/* + New */}
+              <div className="relative">
+                <button
+                  onClick={() => { setNewOpen(v => !v); setNotifOpen(false); setUserOpen(false); }}
+                  className="h-9 px-3 rounded-lg text-[13px] font-medium text-white flex items-center gap-1.5 transition hover:opacity-90 active:scale-[0.97]"
+                  style={{ background: "var(--color-brand-gradient)" }}
+                >
+                  <Plus size={14} /> New <ChevronDown size={12} />
+                </button>
+                {newOpen && (
+                  <div className="absolute right-0 top-11 w-56 bg-white border border-[--color-hairline] rounded-xl shadow-xl py-1.5 z-40">
+                    {[
+                      "New Conversation", "New Contact", "Request Payment",
+                      "Send Review Request", "Create Campaign", "Create Job",
+                    ].map(l => (
+                      <button key={l} className="w-full text-left px-3 py-2 text-[13px] text-[--color-ink] hover:bg-[--color-surface-strong] transition">
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Bell */}
+              <div className="relative">
+                <button
+                  onClick={() => { setNotifOpen(v => !v); setNewOpen(false); setUserOpen(false); }}
+                  className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] relative text-[--color-body]"
+                >
+                  <Bell size={16} />
+                  {unreadCount > 0 && <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[--color-error]" />}
+                </button>
+                {notifOpen && (
+                  <div className="absolute right-0 top-11 w-[340px] max-w-[92vw] bg-white border border-[--color-hairline] rounded-xl shadow-xl overflow-hidden z-40">
+                    <div className="px-4 py-3 border-b border-[--color-hairline] flex items-center justify-between">
+                      <div className="text-[13px] font-semibold text-[--color-ink]">Notifications</div>
+                      <button className="text-[11px] font-semibold text-[--color-primary]">Mark all read</button>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {NOTIFICATIONS.map(n => (
+                        <div key={n.id} className={`px-4 py-2.5 flex gap-3 items-start border-b border-[--color-hairline-soft] last:border-0 ${n.unread ? "bg-[--color-primary-subdued]/40" : ""}`}>
+                          <div className="w-8 h-8 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] text-[13px] shrink-0">
+                            {n.icon === "message" ? "💬" : n.icon === "star" ? "⭐" : n.icon === "pay" ? "💰" : n.icon === "call" ? "📞" : n.icon === "ai" ? "🤖" : "🔧"}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[12.5px] text-[--color-ink] leading-snug">{n.text}</div>
+                            <div className="text-[11px] text-[--color-muted] mt-0.5">{n.time}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button className="hidden sm:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong] text-[--color-body]">
+                <HelpCircle size={16} />
+              </button>
+
+              {/* Avatar */}
+              <div className="relative">
+                <button
+                  onClick={() => { setUserOpen(v => !v); setNotifOpen(false); setNewOpen(false); }}
+                  className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-bold"
+                  style={{ background: "var(--color-brand-gradient)" }}
+                >
+                  MW
+                </button>
+                {userOpen && (
+                  <div className="absolute right-0 top-11 w-52 bg-white border border-[--color-hairline] rounded-xl shadow-xl py-1.5 z-40">
+                    <div className="px-3 py-2 border-b border-[--color-hairline]">
+                      <div className="text-[13px] font-semibold text-[--color-ink]">{BUSINESS.owner}</div>
+                      <div className="text-[11px] text-[--color-muted]">mike@abcplumbing.com</div>
+                    </div>
+                    {["Profile", "Settings", "Billing", "Help", "Sign Out"].map(l => (
+                      <button key={l} className="w-full text-left px-3 py-2 text-[13px] text-[--color-ink] hover:bg-[--color-surface-strong] transition">
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
-          {children}
+          <main className="min-w-0 pb-24 lg:pb-0">
+            {children}
+          </main>
         </div>
       </div>
+
+      {/* Mobile bottom tabs */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 h-16 bg-white border-t border-[--color-hairline] grid grid-cols-5">
+        {MOBILE_TABS.map(t => {
+          const active = pathname === t.to || pathname.startsWith(t.to + "/");
+          const I = t.icon;
+          return (
+            <Link key={t.to} to={t.to} className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition ${active ? "text-[--color-primary]" : "text-[--color-muted]"}`}>
+              <I size={20} />
+              {t.label}
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }
 
 /* ============================================================
-   Shared UI Primitives (SaaS look, brand palette)
+   Shared UI Primitives
 ============================================================ */
 export function PageHeader({
   title, subtitle, actions,
 }: { title: string; subtitle?: string; actions?: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-6 mb-8">
+    <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
       <div className="min-w-0">
-        <h1 className="text-[26px] font-semibold tracking-tight text-[--color-ink]">{title}</h1>
+        <h1 className="text-[24px] sm:text-[26px] font-semibold tracking-tight text-[--color-ink]">{title}</h1>
         {subtitle && <p className="text-[13px] text-[--color-muted] mt-1">{subtitle}</p>}
       </div>
-      {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+      {actions && <div className="flex items-center gap-2 shrink-0 flex-wrap">{actions}</div>}
     </div>
   );
 }
@@ -164,8 +327,7 @@ export function Card({
 }: { children: React.ReactNode; className?: string; padded?: boolean }) {
   return (
     <div
-      className={`bg-white rounded-xl border border-[--color-hairline] ${padded ? "p-5" : ""} ${className}`}
-      style={{ boxShadow: "0 2px 8px rgba(10,10,10,0.03)" }}
+      className={`bg-white rounded-[14px] border border-[--color-hairline] transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] ${padded ? "p-5" : ""} ${className}`}
     >
       {children}
     </div>
@@ -196,21 +358,27 @@ export function Btn({
   onClick, className = "",
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "danger";
-  size?: "sm" | "md";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "gradient";
+  size?: "sm" | "md" | "lg";
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }) {
   const v: Record<string, string> = {
     primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep]",
+    gradient: "text-white hover:opacity-90",
     secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong]",
     ghost: "text-[--color-body] hover:bg-[--color-surface-strong]",
     danger: "bg-[--color-error] text-white hover:opacity-90",
   };
-  const s = size === "sm" ? "h-8 px-3 text-[12px]" : "h-9 px-4 text-[13px]";
+  const s = size === "sm" ? "h-8 px-3 text-[12px]" : size === "lg" ? "h-11 px-5 text-[14px]" : "h-9 px-4 text-[13px]";
+  const style = variant === "gradient" ? { background: "var(--color-brand-gradient)" } : undefined;
   return (
-    <button onClick={onClick} className={`inline-flex items-center justify-center gap-1.5 font-medium rounded-lg transition ${v[variant]} ${s} ${className}`}>
+    <button
+      onClick={onClick}
+      style={style}
+      className={`inline-flex items-center justify-center gap-1.5 font-medium rounded-lg transition active:scale-[0.97] ${v[variant]} ${s} ${className}`}
+    >
       {icon}
       {children}
     </button>
@@ -218,12 +386,12 @@ export function Btn({
 }
 
 export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
-  const init = name.split(" ").map(n => n[0]).slice(0, 2).join("");
-  const palette = ["#d6e4ff", "#e0f0ff", "#e3fbe8", "#fef4de", "#f0e9ff"];
+  const init = name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase();
+  const palette = ["#EEF2FF", "#F5F3FF", "#EFF6FF", "#F0FDF4", "#FFFBEB"];
   const bg = palette[name.charCodeAt(0) % palette.length];
   return (
     <div
-      className="rounded-full grid place-items-center font-semibold shrink-0 text-[--color-ink]"
+      className="rounded-full grid place-items-center font-semibold shrink-0 text-[--color-primary-deep]"
       style={{ width: size, height: size, background: bg, fontSize: size * 0.38 }}
     >
       {init}
@@ -232,25 +400,64 @@ export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
 }
 
 export function StatCard({
-  label, value, trend, trendTone = "success", icon,
-}: { label: string; value: string; trend?: string; trendTone?: "success" | "warning" | "danger" | "neutral"; icon?: React.ReactNode }) {
+  label, value, trend, trendTone = "success", icon, iconTone = "primary",
+}: {
+  label: string; value: string; trend?: string;
+  trendTone?: "success" | "warning" | "danger" | "neutral";
+  icon?: React.ReactNode;
+  iconTone?: "primary" | "success" | "warning" | "danger" | "ai" | "info";
+}) {
   const toneColor: Record<string, string> = {
-    success: "text-[--color-success]", warning: "text-[--color-warning]", danger: "text-[--color-error]", neutral: "text-[--color-muted]",
+    success: "text-[--color-success]", warning: "text-[--color-warning]",
+    danger: "text-[--color-error]", neutral: "text-[--color-muted]",
+  };
+  const iconBg: Record<string, string> = {
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    danger:  "bg-[--color-error-subtle] text-[--color-error]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
   };
   return (
     <Card>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
-          <div className="text-[26px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
+          <div className="text-[24px] sm:text-[26px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
           {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
         </div>
         {icon && (
-          <div className="w-9 h-9 rounded-lg bg-[--color-primary-subdued] text-[--color-primary-deep] grid place-items-center shrink-0">
+          <div className={`w-10 h-10 rounded-lg grid place-items-center shrink-0 ${iconBg[iconTone]}`}>
             {icon}
           </div>
         )}
       </div>
     </Card>
+  );
+}
+
+export function DataTable({
+  headers, rows,
+}: { headers: React.ReactNode[]; rows: React.ReactNode[][] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-[13px]">
+        <thead>
+          <tr className="border-b border-[--color-hairline]">
+            {headers.map((h, i) => (
+              <th key={i} className="text-left px-5 py-3 text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} className="border-b border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition">
+              {r.map((c, j) => <td key={j} className="px-5 py-3 text-[--color-ink] align-middle">{c}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
