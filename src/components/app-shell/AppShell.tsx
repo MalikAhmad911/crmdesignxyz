@@ -164,8 +164,8 @@ export function Card({
 }: { children: React.ReactNode; className?: string; padded?: boolean }) {
   return (
     <div
-      className={`bg-white rounded-2xl border border-[--color-hairline] ${padded ? "p-5" : ""} ${className}`}
-      style={{ boxShadow: "0 1px 2px rgba(10,10,10,0.03)" }}
+      className={`bg-white rounded-xl border border-[--color-hairline] ${padded ? "p-5" : ""} ${className}`}
+      style={{ boxShadow: "0 2px 8px rgba(10,10,10,0.03)" }}
     >
       {children}
     </div>
@@ -174,13 +174,14 @@ export function Card({
 
 export function Tag({
   children, tone = "neutral",
-}: { children: React.ReactNode; tone?: "primary" | "success" | "warning" | "danger" | "neutral" | "info" }) {
+}: { children: React.ReactNode; tone?: "primary" | "success" | "warning" | "danger" | "neutral" | "info" | "ai" }) {
   const tones: Record<string, string> = {
-    primary: "bg-[--color-brand-lavender]/25 text-[--color-ink]",
-    success: "bg-emerald-100 text-emerald-800",
-    warning: "bg-amber-100 text-amber-800",
-    danger:  "bg-red-100 text-red-800",
-    info:    "bg-blue-100 text-blue-800",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    danger:  "bg-[--color-error-subtle] text-[--color-error]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
     neutral: "bg-[--color-surface-strong] text-[--color-body]",
   };
   return (
@@ -195,16 +196,17 @@ export function Btn({
   onClick, className = "",
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md";
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }) {
   const v: Record<string, string> = {
-    primary: "bg-[--color-ink] text-white hover:opacity-90",
-    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-soft]",
-    ghost: "text-[--color-body] hover:bg-[--color-surface-soft]",
+    primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep]",
+    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong]",
+    ghost: "text-[--color-body] hover:bg-[--color-surface-strong]",
+    danger: "bg-[--color-error] text-white hover:opacity-90",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : "h-9 px-4 text-[13px]";
   return (
@@ -217,7 +219,7 @@ export function Btn({
 
 export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
   const init = name.split(" ").map(n => n[0]).slice(0, 2).join("");
-  const palette = ["#b8a4ed", "#ffb084", "#a4d4c5", "#ff6b5a", "#e8b94a"];
+  const palette = ["#d6e4ff", "#e0f0ff", "#e3fbe8", "#fef4de", "#f0e9ff"];
   const bg = palette[name.charCodeAt(0) % palette.length];
   return (
     <div
@@ -230,16 +232,25 @@ export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
 }
 
 export function StatCard({
-  label, value, trend, trendTone = "success",
-}: { label: string; value: string; trend?: string; trendTone?: "success" | "warning" | "danger" | "neutral" }) {
+  label, value, trend, trendTone = "success", icon,
+}: { label: string; value: string; trend?: string; trendTone?: "success" | "warning" | "danger" | "neutral"; icon?: React.ReactNode }) {
   const toneColor: Record<string, string> = {
-    success: "text-emerald-600", warning: "text-amber-600", danger: "text-red-600", neutral: "text-[--color-muted]",
+    success: "text-[--color-success]", warning: "text-[--color-warning]", danger: "text-[--color-error]", neutral: "text-[--color-muted]",
   };
   return (
     <Card>
-      <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
-      <div className="text-[28px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
-      {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
+          <div className="text-[26px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
+          {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
+        </div>
+        {icon && (
+          <div className="w-9 h-9 rounded-lg bg-[--color-primary-subdued] text-[--color-primary-deep] grid place-items-center shrink-0">
+            {icon}
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
