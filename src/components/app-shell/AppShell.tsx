@@ -5,7 +5,7 @@ import {
   Sparkles, Wallet, Settings, Search, Bell, Plus, ChevronsLeft,
 } from "lucide-react";
 import { useState } from "react";
-import Logo from "@/assets/infinite-rankers-logo.jpg";
+import Logo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 
 type NavItem = { to: string; label: string; icon: LucideIcon; badge?: string };
 
