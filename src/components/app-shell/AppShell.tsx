@@ -41,7 +41,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className={`${collapsed ? "w-[72px]" : "w-[240px]"} shrink-0 border-r border-[--color-hairline] bg-[--color-surface-soft] min-h-screen sticky top-0 flex flex-col transition-[width] duration-200`}
         >
           <div className="h-14 flex items-center gap-2 px-4 border-b border-[--color-hairline]">
-            <img src={Logo.url} alt="Revenue Sol" className="w-8 h-8 rounded-md object-cover ring-1 ring-[--color-hairline]" style={{ background: "var(--color-brand-gradient)" }} />
+            <img src={Logo.url} alt="Revenue Sol" className="w-8 h-8 rounded-md object-cover ring-1 ring-[--color-hairline] bg-white" />
             {!collapsed && (
               <div className="min-w-0">
                 <div className="text-[13px] font-semibold leading-tight truncate text-[--color-ink]">Reyes HVAC</div>
