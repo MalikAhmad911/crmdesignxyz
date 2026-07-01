@@ -340,36 +340,40 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 }
 
 function MetricCard({
-  icon, tone, value, label, hint, chip,
+  icon, tone, value, label, hint, chip, chipTone,
 }: {
   icon: React.ReactNode;
-  tone: "ocean" | "amber" | "mint" | "berry";
+  tone: "info" | "warning" | "success" | "ai" | "primary";
   value: string; label: string; hint: string;
   chip: string;
+  chipTone: "success" | "warning" | "danger" | "neutral";
 }) {
-  const toneMap: Record<string, { grad: string; chipBg: string; chipFg: string; ring: string }> = {
-    ocean:  { grad: "var(--grad-ocean)",  chipBg: "var(--accent-cyan-soft)",    chipFg: "#0369A1", ring: "rgba(6,182,212,0.35)" },
-    amber:  { grad: "var(--grad-amber)",  chipBg: "var(--accent-amber-soft)",   chipFg: "#B45309", ring: "rgba(245,158,11,0.35)" },
-    mint:   { grad: "var(--grad-mint)",   chipBg: "var(--accent-emerald-soft)", chipFg: "#047857", ring: "rgba(16,185,129,0.35)" },
-    berry:  { grad: "var(--grad-berry)",  chipBg: "var(--accent-violet-soft)",  chipFg: "#6D28D9", ring: "rgba(139,92,246,0.35)" },
+  const iconBg: Record<string, string> = {
+    info: "bg-[--color-info-subtle] text-[--color-info]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    ai: "bg-[--color-ai-subtle] text-[--color-ai]",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
   };
-  const t = toneMap[tone];
+  const chipCls: Record<string, string> = {
+    success: "text-[--color-success] bg-[--color-success-subtle]",
+    warning: "text-[--color-warning] bg-[--color-warning-subtle]",
+    danger: "text-[--color-error] bg-[--color-error-subtle]",
+    neutral: "text-[--color-muted] bg-[--color-surface-strong]",
+  };
   return (
-    <div
-      className="relative overflow-hidden rounded-[16px] bg-white border border-[--color-hairline] p-4 transition hover:-translate-y-[2px]"
-      style={{ boxShadow: `0 12px 28px -18px ${t.ring}` }}
-    >
-      <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full opacity-25 blur-2xl" style={{ background: t.grad }} />
-      <div className="relative flex items-center justify-between">
-        <div className="w-9 h-9 rounded-xl grid place-items-center text-white shadow-md" style={{ background: t.grad }}>{icon}</div>
-        <span className="text-[10.5px] font-semibold px-2 py-0.5 rounded-full" style={{ background: t.chipBg, color: t.chipFg }}>{chip}</span>
+    <Card>
+      <div className="flex items-center justify-between">
+        <div className={`w-8 h-8 rounded-lg grid place-items-center ${iconBg[tone]}`}>{icon}</div>
+        <span className={`text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full ${chipCls[chipTone]}`}>{chip}</span>
       </div>
-      <div className="relative text-[28px] font-semibold tracking-tight mt-3 text-[--color-ink] leading-none">{value}</div>
-      <div className="relative text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] mt-1.5">{label}</div>
-      <div className="relative text-[11.5px] text-[--color-muted-soft] mt-1">{hint}</div>
-    </div>
+      <div className="text-[28px] font-semibold tracking-tight mt-3 text-[--color-ink] leading-none">{value}</div>
+      <div className="text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] mt-1.5">{label}</div>
+      <div className="text-[11.5px] text-[--color-muted-soft] mt-1">{hint}</div>
+    </Card>
   );
 }
+
 
 
 function AttentionCard({
