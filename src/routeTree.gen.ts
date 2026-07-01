@@ -20,6 +20,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppVoiceAgentRouteImport } from './routes/app.voice-agent'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppReviewsRouteImport } from './routes/app.reviews'
 import { Route as AppPaymentsRouteImport } from './routes/app.payments'
 import { Route as AppJobsRouteImport } from './routes/app.jobs'
@@ -84,6 +85,11 @@ const AppVoiceAgentRoute = AppVoiceAgentRouteImport.update({
   path: '/voice-agent',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppReviewsRoute = AppReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/app/jobs': typeof AppJobsRoute
   '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app/': typeof AppIndexRoute
 }
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/app/jobs': typeof AppJobsRoute
   '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app': typeof AppIndexRoute
 }
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/app/jobs': typeof AppJobsRoute
   '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/voice-agent': typeof AppVoiceAgentRoute
   '/app/': typeof AppIndexRoute
 }
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/app/jobs'
     | '/app/payments'
     | '/app/reviews'
+    | '/app/settings'
     | '/app/voice-agent'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/app/jobs'
     | '/app/payments'
     | '/app/reviews'
+    | '/app/settings'
     | '/app/voice-agent'
     | '/app'
   id:
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/app/jobs'
     | '/app/payments'
     | '/app/reviews'
+    | '/app/settings'
     | '/app/voice-agent'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -344,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVoiceAgentRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/reviews': {
       id: '/app/reviews'
       path: '/reviews'
@@ -412,6 +431,7 @@ interface AppRouteChildren {
   AppJobsRoute: typeof AppJobsRoute
   AppPaymentsRoute: typeof AppPaymentsRoute
   AppReviewsRoute: typeof AppReviewsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppVoiceAgentRoute: typeof AppVoiceAgentRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -425,6 +445,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppJobsRoute: AppJobsRoute,
   AppPaymentsRoute: AppPaymentsRoute,
   AppReviewsRoute: AppReviewsRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppVoiceAgentRoute: AppVoiceAgentRoute,
   AppIndexRoute: AppIndexRoute,
 }
