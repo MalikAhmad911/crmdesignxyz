@@ -19,11 +19,12 @@ const PULSE = [
 ];
 
 const SHORTCUTS = [
-  { to: "/app/inbox", icon: Inbox, label: "Inbox", sub: "Messages" },
-  { to: "/app/contacts", icon: Users, label: "Leads", sub: "Pipeline" },
-  { to: "/app/calendar", icon: Calendar, label: "Calendar", sub: "Appointments" },
-  { to: "/app/campaigns", icon: Megaphone, label: "Campaigns", sub: "Broadcasts" },
+  { to: "/app/inbox", icon: Inbox, label: "Inbox", sub: "Messages", grad: "var(--grad-ocean)" },
+  { to: "/app/contacts", icon: Users, label: "Leads", sub: "Pipeline", grad: "var(--grad-berry)" },
+  { to: "/app/calendar", icon: Calendar, label: "Calendar", sub: "Appointments", grad: "var(--grad-mint)" },
+  { to: "/app/campaigns", icon: Megaphone, label: "Campaigns", sub: "Broadcasts", grad: "var(--grad-sunset)" },
 ];
+
 
 const QUICK_ACTIONS = [
   { icon: Star, label: "Send review request", sub: "Ask happy customers for a Google review", tone: "warning" as const },
