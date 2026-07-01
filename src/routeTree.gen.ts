@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as MobilePreviewRouteImport } from './routes/mobile-preview'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as DialpadRouteImport } from './routes/dialpad'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -30,6 +31,11 @@ const SigninRoute = SigninRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MobilePreviewRoute = MobilePreviewRouteImport.update({
+  id: '/mobile-preview',
+  path: '/mobile-preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InboxRoute = InboxRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
+  '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
+  '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
+  '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dialpad'
     | '/inbox'
+    | '/mobile-preview'
     | '/onboarding'
     | '/signin'
     | '/signup'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dialpad'
     | '/inbox'
+    | '/mobile-preview'
     | '/onboarding'
     | '/signin'
     | '/signup'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dialpad'
     | '/inbox'
+    | '/mobile-preview'
     | '/onboarding'
     | '/signin'
     | '/signup'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DialpadRoute: typeof DialpadRoute
   InboxRoute: typeof InboxRoute
+  MobilePreviewRoute: typeof MobilePreviewRoute
   OnboardingRoute: typeof OnboardingRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mobile-preview': {
+      id: '/mobile-preview'
+      path: '/mobile-preview'
+      fullPath: '/mobile-preview'
+      preLoaderRoute: typeof MobilePreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inbox': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DialpadRoute: DialpadRoute,
   InboxRoute: InboxRoute,
+  MobilePreviewRoute: MobilePreviewRoute,
   OnboardingRoute: OnboardingRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,

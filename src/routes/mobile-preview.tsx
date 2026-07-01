@@ -43,7 +43,7 @@ const C = {
 /* ============================================================
    SCREEN CATALOG
 ============================================================ */
-type ScreenDef = { id: string; label: string; group: string; render: () => JSX.Element };
+type ScreenDef = { id: string; label: string; group: string; render: () => React.ReactElement };
 
 const SCREENS: ScreenDef[] = [
   // Onboarding
