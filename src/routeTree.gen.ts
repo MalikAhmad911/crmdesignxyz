@@ -28,6 +28,7 @@ import { Route as AppInboxRouteImport } from './routes/app.inbox'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppContactsRouteImport } from './routes/app.contacts'
 import { Route as AppCampaignsRouteImport } from './routes/app.campaigns'
+import { Route as AppCallsRouteImport } from './routes/app.calls'
 import { Route as AppAiSearchRouteImport } from './routes/app.ai-search'
 import { Route as AppAiEmployeeRouteImport } from './routes/app.ai-employee'
 import { Route as AppAiBrainRouteImport } from './routes/app.ai-brain'
@@ -127,6 +128,11 @@ const AppCampaignsRoute = AppCampaignsRouteImport.update({
   path: '/campaigns',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCallsRoute = AppCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAiSearchRoute = AppAiSearchRouteImport.update({
   id: '/ai-search',
   path: '/ai-search',
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/app/ai-brain': typeof AppAiBrainRoute
   '/app/ai-employee': typeof AppAiEmployeeRoute
   '/app/ai-search': typeof AppAiSearchRoute
+  '/app/calls': typeof AppCallsRoute
   '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/app/ai-brain': typeof AppAiBrainRoute
   '/app/ai-employee': typeof AppAiEmployeeRoute
   '/app/ai-search': typeof AppAiSearchRoute
+  '/app/calls': typeof AppCallsRoute
   '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
@@ -204,6 +212,7 @@ export interface FileRoutesById {
   '/app/ai-brain': typeof AppAiBrainRoute
   '/app/ai-employee': typeof AppAiEmployeeRoute
   '/app/ai-search': typeof AppAiSearchRoute
+  '/app/calls': typeof AppCallsRoute
   '/app/campaigns': typeof AppCampaignsRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/app/ai-brain'
     | '/app/ai-employee'
     | '/app/ai-search'
+    | '/app/calls'
     | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/app/ai-brain'
     | '/app/ai-employee'
     | '/app/ai-search'
+    | '/app/calls'
     | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/app/ai-brain'
     | '/app/ai-employee'
     | '/app/ai-search'
+    | '/app/calls'
     | '/app/campaigns'
     | '/app/contacts'
     | '/app/dashboard'
@@ -436,6 +448,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCampaignsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/calls': {
+      id: '/app/calls'
+      path: '/calls'
+      fullPath: '/app/calls'
+      preLoaderRoute: typeof AppCallsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/ai-search': {
       id: '/app/ai-search'
       path: '/ai-search'
@@ -464,6 +483,7 @@ interface AppRouteChildren {
   AppAiBrainRoute: typeof AppAiBrainRoute
   AppAiEmployeeRoute: typeof AppAiEmployeeRoute
   AppAiSearchRoute: typeof AppAiSearchRoute
+  AppCallsRoute: typeof AppCallsRoute
   AppCampaignsRoute: typeof AppCampaignsRoute
   AppContactsRoute: typeof AppContactsRoute
   AppDashboardRoute: typeof AppDashboardRoute
@@ -480,6 +500,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAiBrainRoute: AppAiBrainRoute,
   AppAiEmployeeRoute: AppAiEmployeeRoute,
   AppAiSearchRoute: AppAiSearchRoute,
+  AppCallsRoute: AppCallsRoute,
   AppCampaignsRoute: AppCampaignsRoute,
   AppContactsRoute: AppContactsRoute,
   AppDashboardRoute: AppDashboardRoute,
