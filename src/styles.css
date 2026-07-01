@@ -79,6 +79,42 @@
   scrollbar-width: none;
 }
 
+/* Interior SaaS palette — scoped to authenticated app shell only.
+   Homepage keeps its cream canvas; /app/* gets the Stripe-inspired blue system. */
+.app-scope {
+  --color-canvas: #f6f9fc;
+  --color-surface-soft: #ffffff;
+  --color-surface-card: #ffffff;
+  --color-surface-strong: #f6f9fc;
+  --color-hairline: #e6ebf1;
+  --color-hairline-soft: #f0f3f6;
+
+  --color-ink: #0a2540;
+  --color-body-strong: #0a2540;
+  --color-body: #425466;
+  --color-muted: #697386;
+  --color-muted-soft: #a3acb9;
+
+  --color-primary: #0052ff;
+  --color-primary-deep: #003ecf;
+  --color-primary-subdued: #d6e4ff;
+  --color-accent-subtle: #f0f2ff;
+
+  --color-success: #00a83a;
+  --color-success-subtle: #e3fbe8;
+  --color-warning: #b7791f;
+  --color-warning-subtle: #fef4de;
+  --color-error: #d92d20;
+  --color-error-subtle: #fee4e2;
+  --color-info: #0a84ff;
+  --color-info-subtle: #e0f0ff;
+  --color-ai: #7c3aed;
+  --color-ai-subtle: #f0e9ff;
+
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+}
+
 @layer base {
   * {
     border-color: var(--color-hairline);

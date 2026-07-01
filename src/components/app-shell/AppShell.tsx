@@ -34,17 +34,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[--color-canvas] text-[--color-ink]">
+    <div className="app-scope min-h-screen bg-[--color-canvas] text-[--color-ink]">
       <div className="flex">
         {/* Sidebar */}
         <aside
-          className={`${collapsed ? "w-[72px]" : "w-[248px]"} shrink-0 border-r border-[--color-hairline] bg-[--color-surface-soft] min-h-screen sticky top-0 flex flex-col transition-[width] duration-200`}
+          className={`${collapsed ? "w-[72px]" : "w-[240px]"} shrink-0 border-r border-[--color-hairline] bg-[--color-surface-soft] min-h-screen sticky top-0 flex flex-col transition-[width] duration-200`}
         >
           <div className="h-14 flex items-center gap-2 px-4 border-b border-[--color-hairline]">
             <img src={Logo.url} alt="Revenue Sol" className="w-8 h-8 rounded-md object-cover" />
             {!collapsed && (
               <div className="min-w-0">
-                <div className="text-[13px] font-semibold leading-tight truncate">Reyes HVAC</div>
+                <div className="text-[13px] font-semibold leading-tight truncate text-[--color-ink]">Reyes HVAC</div>
                 <div className="text-[11px] text-[--color-muted] truncate">Pro plan</div>
               </div>
             )}
@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                         to={it.to}
                         className={`flex items-center gap-3 px-2.5 py-2 rounded-lg text-[13px] font-medium transition ${
                           active
-                            ? "bg-[--color-ink] text-white"
+                            ? "bg-[--color-primary-subdued] text-[--color-primary-deep]"
                             : "text-[--color-body] hover:bg-[--color-surface-strong]"
                         }`}
                       >
@@ -85,7 +85,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                             {it.badge && (
                               <span
                                 className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-                                  active ? "bg-white/20 text-white" : "bg-[--color-ink] text-white"
+                                  active ? "bg-white text-[--color-primary-deep]" : "bg-[--color-primary] text-white"
                                 }`}
                               >
                                 {it.badge}
@@ -115,22 +115,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Main */}
         <div className="flex-1 min-w-0 flex flex-col">
           {/* Topbar */}
-          <header className="h-14 border-b border-[--color-hairline] bg-[--color-canvas] sticky top-0 z-20 flex items-center gap-3 px-6">
+          <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-20 flex items-center gap-3 px-6">
             <div className="flex items-center gap-2 flex-1 max-w-md">
-              <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-soft] border border-[--color-hairline] flex-1 text-[13px] text-[--color-muted]">
+              <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-canvas] border border-[--color-hairline] flex-1 text-[13px] text-[--color-muted]">
                 <Search size={14} />
                 <span>Search customers, jobs, invoices…</span>
                 <span className="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline]">⌘K</span>
               </div>
             </div>
-            <button className="h-9 px-3 rounded-lg text-[13px] font-medium bg-[--color-ink] text-white hover:opacity-90 flex items-center gap-1.5">
+            <button className="h-9 px-3 rounded-lg text-[13px] font-medium bg-[--color-primary] text-white hover:bg-[--color-primary-deep] transition flex items-center gap-1.5">
               <Plus size={14} /> New
             </button>
-            <button className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-soft] relative">
+            <button className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] relative text-[--color-body]">
               <Bell size={16} />
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500" />
+              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[--color-error]" />
             </button>
-            <div className="w-9 h-9 rounded-full bg-[--color-brand-lavender] grid place-items-center text-[12px] font-bold text-[--color-ink]">
+            <div className="w-9 h-9 rounded-full bg-[--color-primary-subdued] grid place-items-center text-[12px] font-bold text-[--color-primary-deep]">
               MR
             </div>
           </header>
@@ -164,8 +164,8 @@ export function Card({
 }: { children: React.ReactNode; className?: string; padded?: boolean }) {
   return (
     <div
-      className={`bg-white rounded-2xl border border-[--color-hairline] ${padded ? "p-5" : ""} ${className}`}
-      style={{ boxShadow: "0 1px 2px rgba(10,10,10,0.03)" }}
+      className={`bg-white rounded-xl border border-[--color-hairline] ${padded ? "p-5" : ""} ${className}`}
+      style={{ boxShadow: "0 2px 8px rgba(10,10,10,0.03)" }}
     >
       {children}
     </div>
@@ -174,13 +174,14 @@ export function Card({
 
 export function Tag({
   children, tone = "neutral",
-}: { children: React.ReactNode; tone?: "primary" | "success" | "warning" | "danger" | "neutral" | "info" }) {
+}: { children: React.ReactNode; tone?: "primary" | "success" | "warning" | "danger" | "neutral" | "info" | "ai" }) {
   const tones: Record<string, string> = {
-    primary: "bg-[--color-brand-lavender]/25 text-[--color-ink]",
-    success: "bg-emerald-100 text-emerald-800",
-    warning: "bg-amber-100 text-amber-800",
-    danger:  "bg-red-100 text-red-800",
-    info:    "bg-blue-100 text-blue-800",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    danger:  "bg-[--color-error-subtle] text-[--color-error]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
     neutral: "bg-[--color-surface-strong] text-[--color-body]",
   };
   return (
@@ -195,16 +196,17 @@ export function Btn({
   onClick, className = "",
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md";
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }) {
   const v: Record<string, string> = {
-    primary: "bg-[--color-ink] text-white hover:opacity-90",
-    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-soft]",
-    ghost: "text-[--color-body] hover:bg-[--color-surface-soft]",
+    primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep]",
+    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong]",
+    ghost: "text-[--color-body] hover:bg-[--color-surface-strong]",
+    danger: "bg-[--color-error] text-white hover:opacity-90",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : "h-9 px-4 text-[13px]";
   return (
@@ -217,7 +219,7 @@ export function Btn({
 
 export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
   const init = name.split(" ").map(n => n[0]).slice(0, 2).join("");
-  const palette = ["#b8a4ed", "#ffb084", "#a4d4c5", "#ff6b5a", "#e8b94a"];
+  const palette = ["#d6e4ff", "#e0f0ff", "#e3fbe8", "#fef4de", "#f0e9ff"];
   const bg = palette[name.charCodeAt(0) % palette.length];
   return (
     <div
@@ -230,16 +232,25 @@ export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
 }
 
 export function StatCard({
-  label, value, trend, trendTone = "success",
-}: { label: string; value: string; trend?: string; trendTone?: "success" | "warning" | "danger" | "neutral" }) {
+  label, value, trend, trendTone = "success", icon,
+}: { label: string; value: string; trend?: string; trendTone?: "success" | "warning" | "danger" | "neutral"; icon?: React.ReactNode }) {
   const toneColor: Record<string, string> = {
-    success: "text-emerald-600", warning: "text-amber-600", danger: "text-red-600", neutral: "text-[--color-muted]",
+    success: "text-[--color-success]", warning: "text-[--color-warning]", danger: "text-[--color-error]", neutral: "text-[--color-muted]",
   };
   return (
     <Card>
-      <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
-      <div className="text-[28px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
-      {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
+          <div className="text-[26px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
+          {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
+        </div>
+        {icon && (
+          <div className="w-9 h-9 rounded-lg bg-[--color-primary-subdued] text-[--color-primary-deep] grid place-items-center shrink-0">
+            {icon}
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
