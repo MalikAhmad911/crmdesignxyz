@@ -129,9 +129,10 @@ function DashboardPage() {
                 to={s.to}
                 className="group bg-white rounded-[14px] border border-[--color-hairline] px-4 py-4 flex items-center gap-3 transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] hover:border-[--color-primary]"
               >
-                <div className="w-10 h-10 rounded-xl grid place-items-center text-white shrink-0 shadow-md" style={{ background: s.grad }}>
+                <div className="w-10 h-10 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
                   <I size={17} />
                 </div>
+
 
                 <div className="min-w-0 flex-1">
                   <div className="text-[13.5px] font-semibold text-[--color-ink] truncate">{s.label}</div>
