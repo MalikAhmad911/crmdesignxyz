@@ -115,8 +115,10 @@
   --color-ai: #8B5CF6;
   --color-ai-subtle: #F5F3FF;
 
-  --color-sidebar-bg: #09090B;
-  --color-sidebar-active: #6366F1;
+  --color-sidebar-bg: #FFFFFF;
+  --color-sidebar-border: #E4E4E7;
+  --color-sidebar-active: #EEF2FF;
+  --color-sidebar-active-text: #4F46E5;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
