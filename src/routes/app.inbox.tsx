@@ -104,6 +104,20 @@ function InboxPage() {
   const contact = active ? CONTACTS.find(c => c.id === active.contactId) : null;
   const messages = active ? MESSAGES.filter(m => m.threadId === active.id) : [];
 
+  // Swipe: on the conversation pane, right = back to list, left = open context
+  const convoSwipe = useSwipe({
+    edge: "left",
+    edgeSize: 40,
+    onSwipeRight: () => setActiveId(null),
+  });
+  const openContextSwipe = useSwipe({
+    onSwipeLeft: () => { if (active) setShowContext(true); },
+  });
+  // Swipe: on the context slide-over, right dismisses
+  const contextSwipe = useSwipe({
+    onSwipeRight: () => setShowContext(false),
+  });
+
   return (
     <div className="h-[calc(100dvh-56px-64px)] lg:h-[calc(100dvh-56px)] flex overflow-hidden">
       {/* Thread List */}
