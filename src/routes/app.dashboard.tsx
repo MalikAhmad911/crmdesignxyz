@@ -19,11 +19,12 @@ const PULSE = [
 ];
 
 const SHORTCUTS = [
-  { to: "/app/inbox", icon: Inbox, label: "Inbox", sub: "Messages", grad: "var(--grad-ocean)" },
-  { to: "/app/contacts", icon: Users, label: "Leads", sub: "Pipeline", grad: "var(--grad-berry)" },
-  { to: "/app/calendar", icon: Calendar, label: "Calendar", sub: "Appointments", grad: "var(--grad-mint)" },
-  { to: "/app/campaigns", icon: Megaphone, label: "Campaigns", sub: "Broadcasts", grad: "var(--grad-sunset)" },
+  { to: "/app/inbox", icon: Inbox, label: "Inbox", sub: "Messages" },
+  { to: "/app/contacts", icon: Users, label: "Leads", sub: "Pipeline" },
+  { to: "/app/calendar", icon: Calendar, label: "Calendar", sub: "Appointments" },
+  { to: "/app/campaigns", icon: Megaphone, label: "Campaigns", sub: "Broadcasts" },
 ];
+
 
 
 const QUICK_ACTIONS = [
@@ -44,51 +45,43 @@ function DashboardPage() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto space-y-6">
-      {/* Vibrant hero */}
-      <div
-        className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 text-white shadow-[0_20px_60px_-20px_rgba(139,92,246,0.55)]"
-        style={{ background: "var(--grad-sunset)" }}
-      >
-        <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full opacity-30 blur-3xl" style={{ background: "#FDE68A" }} />
-        <div className="absolute -left-10 -bottom-16 w-72 h-72 rounded-full opacity-25 blur-3xl" style={{ background: "#22D3EE" }} />
-        <div className="relative flex flex-wrap items-start justify-between gap-4">
+      {/* Greeting */}
+      <div>
+        <Kicker>Wednesday, July 1, 2026</Kicker>
+        <div className="mt-1.5 flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
-              Wednesday · July 1, 2026
-            </div>
-            <h1 className="text-[26px] sm:text-[32px] font-semibold tracking-tight mt-1 leading-tight">
-              Good evening, {BUSINESS.name} ✨
+            <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-[--color-ink] leading-tight">
+              Good evening, {BUSINESS.name}
             </h1>
-            <p className="text-[13px] text-white/85 mt-1.5 max-w-xl">
-              Your workspace overview — metrics, activity, and AI tools in one bright, focused place.
+            <p className="text-[13px] text-[--color-muted] mt-1">
+              Your workspace overview — metrics, activity, and AI tools in one place.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="h-9 px-3.5 rounded-lg text-[12.5px] font-semibold bg-white/15 backdrop-blur border border-white/25 text-white hover:bg-white/25 flex items-center gap-1.5">
-              <CreditCard size={13} /> Request payment
-            </button>
-            <button className="h-9 px-3.5 rounded-lg text-[12.5px] font-semibold bg-white text-[--color-primary-deep] hover:bg-white/90 flex items-center gap-1.5 shadow-md">
-              <MessageSquare size={13} /> New message
-            </button>
+            <Btn variant="secondary" size="sm" icon={<CreditCard size={13} />}>Request payment</Btn>
+            <Btn variant="secondary" size="sm" icon={<MessageSquare size={13} />}>New message</Btn>
           </div>
         </div>
       </div>
 
       {/* Trial banner */}
-      <div className="rounded-[16px] px-4 py-3 flex items-center gap-3 flex-wrap text-white shadow-[0_10px_30px_-12px_rgba(245,158,11,0.55)]" style={{ background: "var(--grad-amber)" }}>
-        <div className="w-9 h-9 rounded-full grid place-items-center bg-white/25 backdrop-blur text-white shrink-0">
-          <Zap size={16} />
+      <div className="rounded-[14px] border border-[--color-hairline] bg-white px-4 py-3 flex items-center gap-3 flex-wrap">
+        <div className="w-8 h-8 rounded-full grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
+          <Zap size={15} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-[13.5px] font-semibold">
+          <div className="text-[13px] font-semibold text-[--color-ink]">
             Your free trial ends in {BUSINESS.trialDaysLeft * 31} days
           </div>
-          <div className="text-[11.5px] text-white/85 mt-0.5">Upgrade now to keep all features active.</div>
+          <div className="text-[11.5px] text-[--color-muted] mt-0.5">Upgrade now to keep all features active.</div>
         </div>
-        <button className="h-8 px-3.5 rounded-lg text-[12.5px] font-semibold text-[--color-ink] bg-white hover:bg-white/90 shrink-0 shadow">
+        <button
+          className="h-8 px-3.5 rounded-lg text-[12.5px] font-semibold text-white shrink-0"
+          style={{ background: "var(--color-brand-gradient)" }}
+        >
           Upgrade now
         </button>
-        <button className="w-7 h-7 rounded-md grid place-items-center text-white/90 hover:bg-white/20 shrink-0">
+        <button className="w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] shrink-0">
           <X size={14} />
         </button>
       </div>
@@ -99,27 +92,28 @@ function DashboardPage() {
         <SectionTitle title="Performance metrics" subtitle="Key numbers for your business this month" />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
           <MetricCard
-            icon={<MessageSquare size={16} />} tone="ocean"
+            icon={<MessageSquare size={16} />} tone="info"
             value="20" label="Open conversations" hint="3 need reply"
-            chip="↑ 100%"
+            chip="↑ 100%" chipTone="success"
           />
           <MetricCard
-            icon={<Star size={16} />} tone="amber"
+            icon={<Star size={16} />} tone="warning"
             value="0" label="Reviews this month" hint="No reviews yet"
-            chip="+ 0%"
+            chip="+ 0%" chipTone="neutral"
           />
           <MetricCard
-            icon={<DollarSign size={16} />} tone="mint"
+            icon={<DollarSign size={16} />} tone="success"
             value="$0" label="Revenue this month" hint="No pending requests"
-            chip="↑ 0%"
+            chip="↑ 0%" chipTone="neutral"
           />
           <MetricCard
-            icon={<Sparkles size={16} />} tone="berry"
+            icon={<Sparkles size={16} />} tone="ai"
             value="90%" label="AI resolution rate" hint="8 handled today"
-            chip="↑ 12.5%"
+            chip="↑ 12.5%" chipTone="success"
           />
         </div>
       </section>
+
 
 
       {/* Workspace shortcuts */}
@@ -135,9 +129,10 @@ function DashboardPage() {
                 to={s.to}
                 className="group bg-white rounded-[14px] border border-[--color-hairline] px-4 py-4 flex items-center gap-3 transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] hover:border-[--color-primary]"
               >
-                <div className="w-10 h-10 rounded-xl grid place-items-center text-white shrink-0 shadow-md" style={{ background: s.grad }}>
+                <div className="w-10 h-10 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
                   <I size={17} />
                 </div>
+
 
                 <div className="min-w-0 flex-1">
                   <div className="text-[13.5px] font-semibold text-[--color-ink] truncate">{s.label}</div>
@@ -347,36 +342,40 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 }
 
 function MetricCard({
-  icon, tone, value, label, hint, chip,
+  icon, tone, value, label, hint, chip, chipTone,
 }: {
   icon: React.ReactNode;
-  tone: "ocean" | "amber" | "mint" | "berry";
+  tone: "info" | "warning" | "success" | "ai" | "primary";
   value: string; label: string; hint: string;
   chip: string;
+  chipTone: "success" | "warning" | "danger" | "neutral";
 }) {
-  const toneMap: Record<string, { grad: string; chipBg: string; chipFg: string; ring: string }> = {
-    ocean:  { grad: "var(--grad-ocean)",  chipBg: "var(--accent-cyan-soft)",    chipFg: "#0369A1", ring: "rgba(6,182,212,0.35)" },
-    amber:  { grad: "var(--grad-amber)",  chipBg: "var(--accent-amber-soft)",   chipFg: "#B45309", ring: "rgba(245,158,11,0.35)" },
-    mint:   { grad: "var(--grad-mint)",   chipBg: "var(--accent-emerald-soft)", chipFg: "#047857", ring: "rgba(16,185,129,0.35)" },
-    berry:  { grad: "var(--grad-berry)",  chipBg: "var(--accent-violet-soft)",  chipFg: "#6D28D9", ring: "rgba(139,92,246,0.35)" },
+  const iconBg: Record<string, string> = {
+    info: "bg-[--color-info-subtle] text-[--color-info]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    ai: "bg-[--color-ai-subtle] text-[--color-ai]",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
   };
-  const t = toneMap[tone];
+  const chipCls: Record<string, string> = {
+    success: "text-[--color-success] bg-[--color-success-subtle]",
+    warning: "text-[--color-warning] bg-[--color-warning-subtle]",
+    danger: "text-[--color-error] bg-[--color-error-subtle]",
+    neutral: "text-[--color-muted] bg-[--color-surface-strong]",
+  };
   return (
-    <div
-      className="relative overflow-hidden rounded-[16px] bg-white border border-[--color-hairline] p-4 transition hover:-translate-y-[2px]"
-      style={{ boxShadow: `0 12px 28px -18px ${t.ring}` }}
-    >
-      <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full opacity-25 blur-2xl" style={{ background: t.grad }} />
-      <div className="relative flex items-center justify-between">
-        <div className="w-9 h-9 rounded-xl grid place-items-center text-white shadow-md" style={{ background: t.grad }}>{icon}</div>
-        <span className="text-[10.5px] font-semibold px-2 py-0.5 rounded-full" style={{ background: t.chipBg, color: t.chipFg }}>{chip}</span>
+    <Card>
+      <div className="flex items-center justify-between">
+        <div className={`w-8 h-8 rounded-lg grid place-items-center ${iconBg[tone]}`}>{icon}</div>
+        <span className={`text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full ${chipCls[chipTone]}`}>{chip}</span>
       </div>
-      <div className="relative text-[28px] font-semibold tracking-tight mt-3 text-[--color-ink] leading-none">{value}</div>
-      <div className="relative text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] mt-1.5">{label}</div>
-      <div className="relative text-[11.5px] text-[--color-muted-soft] mt-1">{hint}</div>
-    </div>
+      <div className="text-[28px] font-semibold tracking-tight mt-3 text-[--color-ink] leading-none">{value}</div>
+      <div className="text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] mt-1.5">{label}</div>
+      <div className="text-[11.5px] text-[--color-muted-soft] mt-1">{hint}</div>
+    </Card>
   );
 }
+
 
 
 function AttentionCard({
