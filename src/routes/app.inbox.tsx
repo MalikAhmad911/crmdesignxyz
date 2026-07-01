@@ -215,7 +215,17 @@ function InboxPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
-              {messages.map(m => {
+              {messages.length === 0 ? (
+                <div className="h-full grid place-items-center">
+                  <div className="text-center max-w-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[--color-hairline] grid place-items-center mx-auto mb-2">
+                      <MessageCircle size={18} className="text-[--color-muted]" />
+                    </div>
+                    <div className="text-[13px] font-semibold text-[--color-ink]">No messages yet</div>
+                    <div className="text-[12px] text-[--color-muted] mt-1">Send the first message to start this thread.</div>
+                  </div>
+                </div>
+              ) : messages.map(m => {
                 if (m.from === "note") return (
                   <div key={m.id} className="mx-auto max-w-[75%] rounded-lg p-3 border border-dashed bg-[--color-warning-subtle] border-[--color-warning] text-[12px] text-[--color-ink]">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-[--color-warning] mb-1">Internal note</div>
