@@ -25,6 +25,7 @@ import { Route as AppJobsRouteImport } from './routes/app.jobs'
 import { Route as AppInboxRouteImport } from './routes/app.inbox'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppContactsRouteImport } from './routes/app.contacts'
+import { Route as AppAiBrainRouteImport } from './routes/app.ai-brain'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -106,6 +107,11 @@ const AppContactsRoute = AppContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAiBrainRoute = AppAiBrainRouteImport.update({
+  id: '/ai-brain',
+  path: '/ai-brain',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai-brain': typeof AppAiBrainRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai-brain': typeof AppAiBrainRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai-brain': typeof AppAiBrainRoute
   '/app/contacts': typeof AppContactsRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai-brain'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai-brain'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai-brain'
     | '/app/contacts'
     | '/app/dashboard'
     | '/app/inbox'
@@ -343,10 +355,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/ai-brain': {
+      id: '/app/ai-brain'
+      path: '/ai-brain'
+      fullPath: '/app/ai-brain'
+      preLoaderRoute: typeof AppAiBrainRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAiBrainRoute: typeof AppAiBrainRoute
   AppContactsRoute: typeof AppContactsRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppInboxRoute: typeof AppInboxRoute
@@ -357,6 +377,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAiBrainRoute: AppAiBrainRoute,
   AppContactsRoute: AppContactsRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppInboxRoute: AppInboxRoute,
