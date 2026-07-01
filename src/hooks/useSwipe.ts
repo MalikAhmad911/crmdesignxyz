@@ -4,7 +4,7 @@ type Dir = "left" | "right" | "up" | "down";
 interface SwipeMeta { startX: number; startY: number; dx: number; dy: number; dt: number; }
 
 interface Options {
-  onSwipe?: (dir: Dir) => void;
+  onSwipe?: (dir: Dir, meta: SwipeMeta) => void;
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
   /** Minimum horizontal distance in px to count as a swipe. */
