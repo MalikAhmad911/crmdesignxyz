@@ -1,6 +1,7 @@
 import { useRef, useCallback } from "react";
 
 type Dir = "left" | "right" | "up" | "down";
+interface SwipeMeta { startX: number; startY: number; dx: number; dy: number; dt: number; }
 
 interface Options {
   onSwipe?: (dir: Dir) => void;
