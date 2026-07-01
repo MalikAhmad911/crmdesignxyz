@@ -82,7 +82,7 @@
 /* Interior SaaS palette — scoped to authenticated app shell only.
    Homepage keeps its cream canvas; /app/* gets the Revenue Sol indigo system. */
 .app-scope {
-  --color-canvas: #F7F8FF;
+  --color-canvas: #F4F1FF;
   --color-surface-soft: #FFFFFF;
   --color-surface-card: #FFFFFF;
   --color-surface-strong: #EEF0FF;
@@ -104,25 +104,54 @@
   --color-brand-gradient-2: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%);
   --color-brand-gradient-subtle: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
 
-  --color-success: #22C55E;
-  --color-success-subtle: #F0FDF4;
+  /* Vibrant accent palette */
+  --accent-pink: #EC4899;
+  --accent-pink-soft: #FCE7F3;
+  --accent-amber: #F59E0B;
+  --accent-amber-soft: #FEF3C7;
+  --accent-emerald: #10B981;
+  --accent-emerald-soft: #D1FAE5;
+  --accent-cyan: #06B6D4;
+  --accent-cyan-soft: #CFFAFE;
+  --accent-violet: #8B5CF6;
+  --accent-violet-soft: #EDE9FE;
+  --accent-rose: #F43F5E;
+  --accent-rose-soft: #FFE4E6;
+  --accent-orange: #FB923C;
+  --accent-orange-soft: #FFEDD5;
+
+  /* Gradient hero backgrounds */
+  --grad-sunset: linear-gradient(135deg, #FB923C 0%, #EC4899 50%, #8B5CF6 100%);
+  --grad-ocean: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%);
+  --grad-mint: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+  --grad-berry: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  --grad-amber: linear-gradient(135deg, #F59E0B 0%, #FB923C 100%);
+  --grad-aurora: radial-gradient(1200px 600px at 0% 0%, #E0E7FF 0%, transparent 50%),
+                 radial-gradient(1000px 500px at 100% 0%, #FCE7F3 0%, transparent 50%),
+                 radial-gradient(800px 500px at 50% 100%, #CFFAFE 0%, transparent 50%),
+                 #F4F1FF;
+
+  --color-success: #10B981;
+  --color-success-subtle: #D1FAE5;
   --color-warning: #F59E0B;
-  --color-warning-subtle: #FFFBEB;
-  --color-error: #EF4444;
-  --color-error-subtle: #FEF2F2;
-  --color-info: #3B82F6;
-  --color-info-subtle: #EFF6FF;
+  --color-warning-subtle: #FEF3C7;
+  --color-error: #F43F5E;
+  --color-error-subtle: #FFE4E6;
+  --color-info: #06B6D4;
+  --color-info-subtle: #CFFAFE;
   --color-ai: #8B5CF6;
-  --color-ai-subtle: #F5F3FF;
+  --color-ai-subtle: #EDE9FE;
 
   --color-sidebar-bg: #FFFFFF;
   --color-sidebar-border: #E0E4FF;
   --color-sidebar-active: #EEF2FF;
   --color-sidebar-active-text: #4F46E5;
 
-  background-color: var(--color-canvas);
+  background: var(--grad-aurora);
+  background-attachment: fixed;
   color: var(--color-body);
 }
+
 
 
 @layer base {
