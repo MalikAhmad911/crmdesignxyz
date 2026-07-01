@@ -20,6 +20,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppReviewsRouteImport } from './routes/app.reviews'
+import { Route as AppPaymentsRouteImport } from './routes/app.payments'
 import { Route as AppJobsRouteImport } from './routes/app.jobs'
 import { Route as AppInboxRouteImport } from './routes/app.inbox'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
@@ -80,6 +81,11 @@ const AppReviewsRoute = AppReviewsRouteImport.update({
   path: '/reviews',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPaymentsRoute = AppPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppJobsRoute = AppJobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
+  '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
+  '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
   '/app': typeof AppIndexRoute
 }
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/inbox': typeof AppInboxRoute
   '/app/jobs': typeof AppJobsRoute
+  '/app/payments': typeof AppPaymentsRoute
   '/app/reviews': typeof AppReviewsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
+    | '/app/payments'
     | '/app/reviews'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
+    | '/app/payments'
     | '/app/reviews'
     | '/app'
   id:
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/inbox'
     | '/app/jobs'
+    | '/app/payments'
     | '/app/reviews'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -296,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReviewsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/payments': {
+      id: '/app/payments'
+      path: '/payments'
+      fullPath: '/app/payments'
+      preLoaderRoute: typeof AppPaymentsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/jobs': {
       id: '/app/jobs'
       path: '/jobs'
@@ -332,6 +351,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppInboxRoute: typeof AppInboxRoute
   AppJobsRoute: typeof AppJobsRoute
+  AppPaymentsRoute: typeof AppPaymentsRoute
   AppReviewsRoute: typeof AppReviewsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -341,6 +361,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppInboxRoute: AppInboxRoute,
   AppJobsRoute: AppJobsRoute,
+  AppPaymentsRoute: AppPaymentsRoute,
   AppReviewsRoute: AppReviewsRoute,
   AppIndexRoute: AppIndexRoute,
 }
