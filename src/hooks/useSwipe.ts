@@ -78,7 +78,7 @@ export function useSwipe(opts: Options) {
     if (Math.abs(dy) > maxOffAxis) return;
     if (Math.abs(dx) < threshold) return;
     const dir: Dir = dx > 0 ? "right" : "left";
-    onSwipe?.(dir);
+    onSwipe?.(dir, { startX: s.x, startY: s.y, dx, dy, dt });
     if (dir === "right") onSwipeRight?.();
     else onSwipeLeft?.();
   }, [maxDurationMs, maxOffAxis, threshold, onSwipe, onSwipeLeft, onSwipeRight]);
