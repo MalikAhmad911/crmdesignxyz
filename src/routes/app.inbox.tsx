@@ -195,7 +195,7 @@ function InboxPage() {
                     <div className={`text-[10px] shrink-0 ${t.unread ? "text-[--color-primary] font-semibold" : "text-[--color-muted]"}`}>{t.t}</div>
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-                    {t.missed && <Tag tone="error">Missed</Tag>}
+                    {t.missed && <Tag tone="danger">Missed</Tag>}
                     {t.ai && <Tag tone="ai">AI</Tag>}
                     {t.tag && !t.missed && <Tag tone={t.tag === "Hot lead" ? "success" : "primary"}>{t.tag}</Tag>}
                   </div>
@@ -397,7 +397,7 @@ function ProviderBadge({ provider }: { provider: Provider }) {
     "RingCentral": { tone: "primary", label: "RingCentral" },
     "Retell AI":   { tone: "ai",      label: "Retell AI" },
     "Webchat":     { tone: "success", label: "Webchat" },
-    "Gmail":       { tone: "muted",   label: "Gmail" },
+    "Gmail":       { tone: "neutral",   label: "Gmail" },
   };
   const m = map[provider];
   return <Tag tone={m.tone}>{m.label}</Tag>;
