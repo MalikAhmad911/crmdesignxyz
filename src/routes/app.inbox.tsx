@@ -1,14 +1,57 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Search, Filter, MoreVertical, Phone, Mail, MessageSquare, Facebook, Instagram,
   ArrowLeft, Info, Send, Sparkles, Paperclip, Smile, Bot, Check, CheckCheck,
-  Calendar, DollarSign, FileText, User,
+  Calendar, DollarSign, FileText, User, Inbox as InboxIcon, MessageCircle, UserX,
 } from "lucide-react";
 import { Card, PageHeader, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
 import { THREADS, MESSAGES, CONTACTS, type Channel } from "@/lib/rs-mocks";
 
 export const Route = createFileRoute("/app/inbox")({ component: InboxPage });
+
+function Shimmer({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse bg-[--color-surface-strong] rounded ${className}`} />;
+}
+function ThreadSkeleton() {
+  return (
+    <div className="px-4 py-3 border-b border-[--color-hairline-soft] flex gap-3">
+      <Shimmer className="w-10 h-10 !rounded-full shrink-0" />
+      <div className="flex-1 space-y-2 pt-1 min-w-0">
+        <div className="flex justify-between gap-2">
+          <Shimmer className="h-3 w-24" />
+          <Shimmer className="h-2.5 w-10" />
+        </div>
+        <Shimmer className="h-2.5 w-full" />
+        <Shimmer className="h-2.5 w-3/4" />
+      </div>
+    </div>
+  );
+}
+function MessageSkeleton({ mine = false }: { mine?: boolean }) {
+  return (
+    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+      <div className="space-y-1.5 max-w-[70%] flex flex-col">
+        <Shimmer className={`h-10 ${mine ? "w-48" : "w-56"} !rounded-2xl`} />
+        <Shimmer className={`h-2 w-12 ${mine ? "self-end" : ""}`} />
+      </div>
+    </div>
+  );
+}
+function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: string; hint?: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex-1 grid place-items-center p-8">
+      <div className="text-center max-w-xs">
+        <div className="w-14 h-14 rounded-2xl bg-[--color-surface-strong] grid place-items-center mx-auto mb-3">
+          <Icon size={22} className="text-[--color-muted]" />
+        </div>
+        <div className="text-[14px] font-semibold text-[--color-ink]">{title}</div>
+        {hint && <div className="text-[12px] text-[--color-muted] mt-1">{hint}</div>}
+        {action && <div className="mt-3">{action}</div>}
+      </div>
+    </div>
+  );
+}
 
 const CHANNEL_ICON: Record<Channel, any> = {
   sms: MessageSquare, email: Mail, fb: Facebook, ig: Instagram, call: Phone,
