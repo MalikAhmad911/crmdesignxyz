@@ -57,7 +57,7 @@ function InboxPage() {
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="text-[9px] font-semibold uppercase tracking-widest text-[--color-muted]">{t.channel}</span>
                   {t.ai && <Tag tone="primary">AI</Tag>}
-                  {t.unread && <span className="w-1.5 h-1.5 rounded-full bg-red-500" />}
+                  {t.unread && <span className="w-1.5 h-1.5 rounded-full bg-[--color-primary]" />}
                 </div>
                 <div className="text-[12px] text-[--color-body] truncate mt-1">{t.preview}</div>
               </div>
@@ -85,10 +85,10 @@ function InboxPage() {
           <Msg from="ai" text="Hi Priya, I have a 2pm slot open with Marcus. Should I book it?" t="1:13 PM" />
           <Msg from="them" text="Yes, 3pm would be better if possible." t="1:14 PM" />
 
-          <Card className="border-[--color-brand-lavender]/40 bg-white">
+          <Card className="border-[--color-ai]/40 bg-[--color-ai-subtle]/40">
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles size={14} className="text-[--color-ink]" />
-              <span className="text-[11px] font-semibold uppercase tracking-widest">AI suggested reply</span>
+              <Sparkles size={14} className="text-[--color-ai]" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-[--color-ai]">AI suggested reply</span>
             </div>
             <div className="text-[13px] text-[--color-body] leading-relaxed">"No problem — 3pm works. I'll send Marcus your way and text his ETA when he's on route."</div>
             <div className="flex gap-2 mt-3">
@@ -124,7 +124,7 @@ function InboxPage() {
         <div className="mt-5 pt-5 border-t border-[--color-hairline]">
           <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-2">Recent</div>
           <div className="space-y-2 text-[12px] text-[--color-body]">
-            <div className="flex items-center gap-2"><Star size={11} className="text-amber-500" /> Left 5★ review · Feb</div>
+            <div className="flex items-center gap-2"><Star size={11} className="text-[--color-warning] fill-[--color-warning]" /> Left 5★ review · Feb</div>
             <div className="flex items-center gap-2"><Phone size={11} /> Called 3 times this year</div>
           </div>
         </div>

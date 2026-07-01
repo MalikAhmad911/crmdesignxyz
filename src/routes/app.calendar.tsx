@@ -22,9 +22,9 @@ const EVENTS: Ev[] = [
 ];
 
 const toneMap: Record<string, string> = {
-  primary: "bg-[--color-brand-lavender]/40 border-[--color-brand-lavender] text-[--color-ink]",
-  success: "bg-emerald-100 border-emerald-300 text-emerald-900",
-  warning: "bg-amber-100 border-amber-300 text-amber-900",
+  primary: "bg-[--color-primary-subdued] border-[--color-primary] text-[--color-primary-deep]",
+  success: "bg-[--color-success-subtle] border-[--color-success] text-[--color-success]",
+  warning: "bg-[--color-warning-subtle] border-[--color-warning] text-[--color-warning]",
 };
 
 function CalendarPage() {
