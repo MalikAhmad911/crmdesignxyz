@@ -392,7 +392,7 @@ function MsgBubble({ msg, name }: { msg: Msg; name: string }) {
 /* ---------- Provider badge ---------- */
 
 function ProviderBadge({ provider }: { provider: Provider }) {
-  const map: Record<Provider, { tone: "primary" | "ai" | "warning" | "success" | "muted"; label: string }> = {
+  const map: Record<Provider, { tone: "primary" | "ai" | "warning" | "success" | "neutral"; label: string }> = {
     "Twilio":      { tone: "primary", label: "Twilio" },
     "RingCentral": { tone: "primary", label: "RingCentral" },
     "Retell AI":   { tone: "ai",      label: "Retell AI" },
