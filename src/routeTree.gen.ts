@@ -11,12 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MobilePreviewRouteImport } from './routes/mobile-preview'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as DialpadRouteImport } from './routes/dialpad'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AiSearchRouteImport } from './routes/ai-search'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppVoiceAgentRouteImport } from './routes/app.voice-agent'
@@ -46,6 +49,11 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -66,6 +74,11 @@ const DialpadRoute = DialpadRouteImport.update({
   path: '/dialpad',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -74,6 +87,11 @@ const AuthRoute = AuthRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiSearchRoute = AiSearchRouteImport.update({
+  id: '/ai-search',
+  path: '/ai-search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -169,12 +187,15 @@ const AppAiBrainRoute = AppAiBrainRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-search': typeof AiSearchRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/app/ai-brain': typeof AppAiBrainRoute
@@ -197,11 +218,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-search': typeof AiSearchRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/app/ai-brain': typeof AppAiBrainRoute
@@ -225,12 +249,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-search': typeof AiSearchRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
   '/mobile-preview': typeof MobilePreviewRoute
   '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/app/ai-brain': typeof AppAiBrainRoute
@@ -255,12 +282,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-search'
     | '/app'
     | '/auth'
+    | '/dashboard'
     | '/dialpad'
     | '/inbox'
     | '/mobile-preview'
     | '/onboarding'
+    | '/settings'
     | '/signin'
     | '/signup'
     | '/app/ai-brain'
@@ -283,11 +313,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-search'
     | '/auth'
+    | '/dashboard'
     | '/dialpad'
     | '/inbox'
     | '/mobile-preview'
     | '/onboarding'
+    | '/settings'
     | '/signin'
     | '/signup'
     | '/app/ai-brain'
@@ -310,12 +343,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-search'
     | '/app'
     | '/auth'
+    | '/dashboard'
     | '/dialpad'
     | '/inbox'
     | '/mobile-preview'
     | '/onboarding'
+    | '/settings'
     | '/signin'
     | '/signup'
     | '/app/ai-brain'
@@ -339,12 +375,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiSearchRoute: typeof AiSearchRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRoute
   DialpadRoute: typeof DialpadRoute
   InboxRoute: typeof InboxRoute
   MobilePreviewRoute: typeof MobilePreviewRoute
   OnboardingRoute: typeof OnboardingRoute
+  SettingsRoute: typeof SettingsRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
 }
@@ -363,6 +402,13 @@ declare module '@tanstack/react-router' {
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -393,6 +439,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DialpadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -405,6 +458,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-search': {
+      id: '/ai-search'
+      path: '/ai-search'
+      fullPath: '/ai-search'
+      preLoaderRoute: typeof AiSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -580,12 +640,15 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiSearchRoute: AiSearchRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRoute,
   DialpadRoute: DialpadRoute,
   InboxRoute: InboxRoute,
   MobilePreviewRoute: MobilePreviewRoute,
   OnboardingRoute: OnboardingRoute,
+  SettingsRoute: SettingsRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
 }
