@@ -67,6 +67,25 @@ function InboxPage() {
   const [showContext, setShowContext] = useState(false);
   const [draft, setDraft] = useState("");
 
+  // Simulated data-fetch states
+  const [listLoading, setListLoading] = useState(true);
+  const [threadLoading, setThreadLoading] = useState(false);
+  const [contextLoading, setContextLoading] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setListLoading(false), 900);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!activeId) return;
+    setThreadLoading(true);
+    setContextLoading(true);
+    const t1 = setTimeout(() => setThreadLoading(false), 600);
+    const t2 = setTimeout(() => setContextLoading(false), 850);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [activeId]);
+
   const filtered = useMemo(() => {
     return THREADS.filter(t => {
       if (filter === "Unread" && t.unread === 0) return false;
