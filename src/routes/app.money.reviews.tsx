@@ -19,7 +19,7 @@ function Reviews() {
         <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">Average rating</div>
         <div className="flex items-baseline gap-2 mt-1">
           <div className="text-[42px] font-semibold tracking-tight text-[--color-ink]">4.8</div>
-          <div className="flex gap-0.5">{[0,1,2,3,4].map(i => <Star key={i} size={14} className="fill-amber-400 text-amber-400" />)}</div>
+          <div className="flex gap-0.5">{[0,1,2,3,4].map(i => <Star key={i} size={14} className="fill-[--color-warning] text-[--color-warning]" />)}</div>
         </div>
         <div className="text-[12px] text-[--color-muted]">132 reviews · 96% positive</div>
         <div className="space-y-1.5 mt-4">
@@ -43,7 +43,7 @@ function Reviews() {
                 <div className="text-[11px] text-[--color-muted]">{r.src} · {r.w} ago</div>
               </div>
               <div className="flex gap-0.5">
-                {[0,1,2,3,4].map(k => <Star key={k} size={13} className={k < r.r ? "fill-amber-400 text-amber-400" : "text-[--color-hairline]"} />)}
+                {[0,1,2,3,4].map(k => <Star key={k} size={13} className={k < r.r ? "fill-[--color-warning] text-[--color-warning]" : "text-[--color-hairline]"} />)}
               </div>
             </div>
             <div className="text-[13px] text-[--color-body] leading-relaxed">{r.t}</div>

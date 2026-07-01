@@ -51,7 +51,7 @@ function DashboardPage() {
           <div className="h-56 flex items-end gap-2">
             {[38, 52, 44, 60, 55, 72, 66, 58, 74, 80, 68, 84, 90, 96].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
-                <div className="w-full rounded-md" style={{ height: `${h}%`, background: i === 13 ? "var(--color-ink)" : "var(--color-brand-lavender)" }} />
+                <div className="w-full rounded-md" style={{ height: `${h}%`, background: i === 13 ? "var(--color-primary-deep)" : "var(--color-primary-subdued)" }} />
                 <span className="text-[9px] text-[--color-muted]">{18 + i}</span>
               </div>
             ))}
@@ -69,8 +69,8 @@ function DashboardPage() {
               <div className="text-[11px] text-white/50">Working 24/7</div>
             </div>
             <div className="ml-auto flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] text-emerald-300 font-semibold">LIVE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[--color-success] animate-pulse" />
+              <span className="text-[10px] text-[--color-success-subtle] font-semibold">LIVE</span>
             </div>
           </div>
           <div className="text-[15px] leading-relaxed mb-4">Handled <span className="font-semibold">42 tasks</span> today. <span className="text-white/60">7 waiting for your approval.</span></div>
@@ -132,7 +132,7 @@ function DashboardPage() {
             ].map((s, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="text-[11px] font-mono font-semibold text-[--color-muted] w-14 shrink-0">{s.t}</div>
-                <div className="flex-1 pl-3 border-l-2 border-[--color-brand-lavender]">
+                <div className="flex-1 pl-3 border-l-2 border-[--color-primary]">
                   <div className="text-[13px] font-medium">{s.j}</div>
                   <div className="text-[11px] text-[--color-muted]">{s.c}</div>
                 </div>
