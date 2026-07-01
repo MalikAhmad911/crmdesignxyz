@@ -82,18 +82,18 @@
 /* Interior SaaS palette — scoped to authenticated app shell only.
    Homepage keeps its cream canvas; /app/* gets the Revenue Sol indigo system. */
 .app-scope {
-  --color-canvas: #FAFAFA;
+  --color-canvas: #F7F8FF;
   --color-surface-soft: #FFFFFF;
   --color-surface-card: #FFFFFF;
-  --color-surface-strong: #F4F4F5;
-  --color-hairline: #E4E4E7;
-  --color-hairline-soft: #F4F4F5;
+  --color-surface-strong: #EEF0FF;
+  --color-hairline: #E0E4FF;
+  --color-hairline-soft: #EEF0FF;
 
-  --color-ink: #09090B;
-  --color-body-strong: #09090B;
-  --color-body: #52525B;
-  --color-muted: #52525B;
-  --color-muted-soft: #A1A1AA;
+  --color-ink: #1A1B4B;
+  --color-body-strong: #1A1B4B;
+  --color-body: #4C4F8A;
+  --color-muted: #6B6FA8;
+  --color-muted-soft: #9599C9;
 
   --color-primary: #6366F1;
   --color-primary-deep: #4F46E5;
