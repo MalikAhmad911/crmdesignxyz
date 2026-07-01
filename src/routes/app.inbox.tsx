@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { PageHeader, Card, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
-import { Search, Filter, Phone, Sparkles, Send, Paperclip, MoreHorizontal, Star } from "lucide-react";
+import { Card, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
+import { Search, Filter, Phone, Sparkles, Send, Paperclip, MoreHorizontal, Star, ArrowLeft, Info } from "lucide-react";
 
 export const Route = createFileRoute("/app/inbox")({
   head: () => ({ meta: [{ title: "Inbox · Revenue Sol" }] }),
@@ -18,12 +18,15 @@ const THREADS = [
 ];
 
 function InboxPage() {
-  const [selected, setSelected] = useState("1");
-  const active = THREADS.find(t => t.id === selected)!;
+  const [selected, setSelected] = useState<string | null>(null);
+  const [showContext, setShowContext] = useState(false);
+  const active = THREADS.find(t => t.id === selected) ?? THREADS[0];
+  const mobileView: "list" | "convo" = selected ? "convo" : "list";
+
   return (
-    <div className="flex h-[calc(100vh-56px)] min-h-0">
+    <div className="flex h-[calc(100dvh-56px)] min-h-0">
       {/* Thread list */}
-      <div className="w-[360px] border-r border-[--color-hairline] flex flex-col shrink-0">
+      <div className={`${mobileView === "list" ? "flex" : "hidden"} md:flex w-full md:w-[300px] lg:w-[360px] border-r border-[--color-hairline] flex-col shrink-0`}>
         <div className="p-4 border-b border-[--color-hairline]">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-[16px] font-semibold">Inbox</h2>
@@ -67,20 +70,24 @@ function InboxPage() {
       </div>
 
       {/* Conversation */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <div className="h-14 border-b border-[--color-hairline] flex items-center gap-3 px-6">
+      <div className={`${mobileView === "convo" ? "flex" : "hidden"} md:flex flex-1 flex-col min-w-0`}>
+        <div className="h-14 border-b border-[--color-hairline] flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
+          <button onClick={() => setSelected(null)} className="md:hidden w-8 h-8 grid place-items-center rounded-md hover:bg-[--color-surface-soft] shrink-0">
+            <ArrowLeft size={16} />
+          </button>
           <Avatar name={active.name} size={34} />
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="text-[14px] font-semibold truncate">{active.name}</div>
-            <div className="text-[11px] text-[--color-muted]">SMS · (512) 555-0111</div>
+            <div className="text-[11px] text-[--color-muted] truncate">SMS · (512) 555-0111</div>
           </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Btn variant="secondary" size="sm" icon={<Phone size={13} />}>Call</Btn>
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Btn variant="secondary" size="sm" icon={<Phone size={13} />}><span className="hidden sm:inline">Call</span></Btn>
+            <button onClick={() => setShowContext(v => !v)} className="xl:hidden w-8 h-8 grid place-items-center rounded-md hover:bg-[--color-surface-soft]"><Info size={15} /></button>
             <Btn variant="ghost" size="sm"><MoreHorizontal size={16} /></Btn>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[--color-surface-soft]/40">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[--color-surface-soft]/40">
           <Msg from="them" text="Hi — my AC stopped cooling this morning, can someone come today?" t="1:12 PM" />
           <Msg from="ai" text="Hi Priya, I have a 2pm slot open with Marcus. Should I book it?" t="1:13 PM" />
           <Msg from="them" text="Yes, 3pm would be better if possible." t="1:14 PM" />
@@ -91,7 +98,7 @@ function InboxPage() {
               <span className="text-[11px] font-semibold uppercase tracking-widest text-[--color-ai]">AI suggested reply</span>
             </div>
             <div className="text-[13px] text-[--color-body] leading-relaxed">"No problem — 3pm works. I'll send Marcus your way and text his ETA when he's on route."</div>
-            <div className="flex gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-3">
               <Btn size="sm">Approve & send</Btn>
               <Btn size="sm" variant="secondary">Edit</Btn>
               <Btn size="sm" variant="ghost">Dismiss</Btn>
@@ -99,37 +106,52 @@ function InboxPage() {
           </Card>
         </div>
 
-        <div className="border-t border-[--color-hairline] p-3 flex items-center gap-2">
-          <button className="w-9 h-9 grid place-items-center rounded-lg hover:bg-[--color-surface-soft] text-[--color-muted]"><Paperclip size={15} /></button>
-          <input placeholder="Type a message…" className="flex-1 h-10 px-4 rounded-lg border border-[--color-hairline] text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-[--color-ink]/10" />
-          <Btn icon={<Sparkles size={13} />} variant="secondary">AI draft</Btn>
-          <Btn icon={<Send size={13} />}>Send</Btn>
+        <div className="border-t border-[--color-hairline] p-2 sm:p-3 flex items-center gap-1.5 sm:gap-2">
+          <button className="w-9 h-9 grid place-items-center rounded-lg hover:bg-[--color-surface-soft] text-[--color-muted] shrink-0"><Paperclip size={15} /></button>
+          <input placeholder="Type a message…" className="flex-1 min-w-0 h-10 px-3 sm:px-4 rounded-lg border border-[--color-hairline] text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-[--color-ink]/10" />
+          <Btn icon={<Sparkles size={13} />} variant="secondary" size="sm" className="hidden sm:inline-flex">AI draft</Btn>
+          <Btn icon={<Send size={13} />} size="sm">Send</Btn>
         </div>
       </div>
 
-      {/* Context panel */}
+      {/* Context panel — desktop always, mobile as overlay */}
       <div className="w-[320px] border-l border-[--color-hairline] p-5 overflow-y-auto hidden xl:block">
-        <div className="flex flex-col items-center gap-2 pb-5 border-b border-[--color-hairline]">
-          <Avatar name={active.name} size={64} />
-          <div className="text-[15px] font-semibold">{active.name}</div>
-          <div className="flex gap-1.5"><Tag tone="success">Hot lead</Tag><Tag tone="primary">Score 92</Tag></div>
-        </div>
-        <div className="pt-5 space-y-4">
-          <Field k="Phone" v="(512) 555-0111" />
-          <Field k="Email" v="priya@mail.com" />
-          <Field k="Source" v="Website form" />
-          <Field k="Last job" v="AC service · Feb 2026" />
-          <Field k="Lifetime value" v="$2,180" />
-        </div>
-        <div className="mt-5 pt-5 border-t border-[--color-hairline]">
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-2">Recent</div>
-          <div className="space-y-2 text-[12px] text-[--color-body]">
-            <div className="flex items-center gap-2"><Star size={11} className="text-[--color-warning] fill-[--color-warning]" /> Left 5★ review · Feb</div>
-            <div className="flex items-center gap-2"><Phone size={11} /> Called 3 times this year</div>
+        <ContextPanel name={active.name} />
+      </div>
+      {showContext && (
+        <div className="xl:hidden fixed inset-0 z-40 bg-black/40" onClick={() => setShowContext(false)}>
+          <div className="absolute right-0 top-0 bottom-0 w-[300px] max-w-[85vw] bg-white p-5 overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <ContextPanel name={active.name} />
           </div>
         </div>
-      </div>
+      )}
     </div>
+  );
+}
+
+function ContextPanel({ name }: { name: string }) {
+  return (
+    <>
+      <div className="flex flex-col items-center gap-2 pb-5 border-b border-[--color-hairline]">
+        <Avatar name={name} size={64} />
+        <div className="text-[15px] font-semibold">{name}</div>
+        <div className="flex gap-1.5"><Tag tone="success">Hot lead</Tag><Tag tone="primary">Score 92</Tag></div>
+      </div>
+      <div className="pt-5 space-y-4">
+        <Field k="Phone" v="(512) 555-0111" />
+        <Field k="Email" v="priya@mail.com" />
+        <Field k="Source" v="Website form" />
+        <Field k="Last job" v="AC service · Feb 2026" />
+        <Field k="Lifetime value" v="$2,180" />
+      </div>
+      <div className="mt-5 pt-5 border-t border-[--color-hairline]">
+        <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-2">Recent</div>
+        <div className="space-y-2 text-[12px] text-[--color-body]">
+          <div className="flex items-center gap-2"><Star size={11} className="text-[--color-warning] fill-[--color-warning]" /> Left 5★ review · Feb</div>
+          <div className="flex items-center gap-2"><Phone size={11} /> Called 3 times this year</div>
+        </div>
+      </div>
+    </>
   );
 }
 
