@@ -43,43 +43,51 @@ function DashboardPage() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto space-y-6">
-      {/* Greeting */}
-      <div>
-        <Kicker>Wednesday, July 1, 2026</Kicker>
-        <div className="mt-1.5 flex flex-wrap items-start justify-between gap-3">
+      {/* Vibrant hero */}
+      <div
+        className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 text-white shadow-[0_20px_60px_-20px_rgba(139,92,246,0.55)]"
+        style={{ background: "var(--grad-sunset)" }}
+      >
+        <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full opacity-30 blur-3xl" style={{ background: "#FDE68A" }} />
+        <div className="absolute -left-10 -bottom-16 w-72 h-72 rounded-full opacity-25 blur-3xl" style={{ background: "#22D3EE" }} />
+        <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
-            <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-[--color-ink] leading-tight">
-              Good evening, {BUSINESS.name}
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
+              Wednesday · July 1, 2026
+            </div>
+            <h1 className="text-[26px] sm:text-[32px] font-semibold tracking-tight mt-1 leading-tight">
+              Good evening, {BUSINESS.name} ✨
             </h1>
-            <p className="text-[13px] text-[--color-muted] mt-1">
-              Your workspace overview — metrics, activity, and AI tools in one place.
+            <p className="text-[13px] text-white/85 mt-1.5 max-w-xl">
+              Your workspace overview — metrics, activity, and AI tools in one bright, focused place.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Btn variant="secondary" size="sm" icon={<CreditCard size={13} />}>Request payment</Btn>
-            <Btn variant="secondary" size="sm" icon={<MessageSquare size={13} />}>New message</Btn>
+            <button className="h-9 px-3.5 rounded-lg text-[12.5px] font-semibold bg-white/15 backdrop-blur border border-white/25 text-white hover:bg-white/25 flex items-center gap-1.5">
+              <CreditCard size={13} /> Request payment
+            </button>
+            <button className="h-9 px-3.5 rounded-lg text-[12.5px] font-semibold bg-white text-[--color-primary-deep] hover:bg-white/90 flex items-center gap-1.5 shadow-md">
+              <MessageSquare size={13} /> New message
+            </button>
           </div>
         </div>
       </div>
 
       {/* Trial banner */}
-      <div className="rounded-[14px] border border-amber-200 bg-[#FFFBEB] px-4 py-3 flex items-center gap-3 flex-wrap">
-        <div className="w-8 h-8 rounded-full grid place-items-center bg-amber-100 text-amber-700 shrink-0">
-          <Zap size={15} />
+      <div className="rounded-[16px] px-4 py-3 flex items-center gap-3 flex-wrap text-white shadow-[0_10px_30px_-12px_rgba(245,158,11,0.55)]" style={{ background: "var(--grad-amber)" }}>
+        <div className="w-9 h-9 rounded-full grid place-items-center bg-white/25 backdrop-blur text-white shrink-0">
+          <Zap size={16} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-[13px] font-semibold text-amber-900">
+          <div className="text-[13.5px] font-semibold">
             Your free trial ends in {BUSINESS.trialDaysLeft * 31} days
           </div>
-          <div className="text-[11.5px] text-amber-700 mt-0.5">Upgrade now to keep all features active.</div>
+          <div className="text-[11.5px] text-white/85 mt-0.5">Upgrade now to keep all features active.</div>
         </div>
-        <button
-          className="h-8 px-3.5 rounded-lg text-[12.5px] font-semibold text-white shrink-0"
-          style={{ background: "var(--color-brand-gradient)" }}
-        >
+        <button className="h-8 px-3.5 rounded-lg text-[12.5px] font-semibold text-[--color-ink] bg-white hover:bg-white/90 shrink-0 shadow">
           Upgrade now
         </button>
-        <button className="w-7 h-7 rounded-md grid place-items-center text-amber-700 hover:bg-amber-100 shrink-0">
+        <button className="w-7 h-7 rounded-md grid place-items-center text-white/90 hover:bg-white/20 shrink-0">
           <X size={14} />
         </button>
       </div>
@@ -90,27 +98,28 @@ function DashboardPage() {
         <SectionTitle title="Performance metrics" subtitle="Key numbers for your business this month" />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
           <MetricCard
-            icon={<MessageSquare size={16} />} iconTone="info"
+            icon={<MessageSquare size={16} />} tone="ocean"
             value="20" label="Open conversations" hint="3 need reply"
-            chip="↑ 100%" chipTone="success"
+            chip="↑ 100%"
           />
           <MetricCard
-            icon={<Star size={16} />} iconTone="warning"
+            icon={<Star size={16} />} tone="amber"
             value="0" label="Reviews this month" hint="No reviews yet"
-            chip="+ 0%" chipTone="neutral"
+            chip="+ 0%"
           />
           <MetricCard
-            icon={<DollarSign size={16} />} iconTone="success"
+            icon={<DollarSign size={16} />} tone="mint"
             value="$0" label="Revenue this month" hint="No pending requests"
-            chip="↑ 0%" chipTone="neutral"
+            chip="↑ 0%"
           />
           <MetricCard
-            icon={<Sparkles size={16} />} iconTone="ai"
+            icon={<Sparkles size={16} />} tone="berry"
             value="90%" label="AI resolution rate" hint="8 handled today"
-            chip="↑ 12.5%" chipTone="success"
+            chip="↑ 12.5%"
           />
         </div>
       </section>
+
 
       {/* Workspace shortcuts */}
       <section>
