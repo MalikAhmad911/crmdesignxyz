@@ -73,6 +73,12 @@
   --radius-3xl: 2.5rem;
 }
 
+@utility no-scrollbar {
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @layer base {
   * {
     border-color: var(--color-hairline);
