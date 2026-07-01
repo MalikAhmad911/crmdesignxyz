@@ -172,7 +172,32 @@ function InboxPage() {
       {/* Conversation */}
       <div className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}>
         {!active ? (
-          <div className="flex-1 grid place-items-center text-[13px] text-[--color-muted]">Select a conversation</div>
+          listLoading ? (
+            <div className="flex-1 grid place-items-center">
+              <div className="flex items-center gap-2 text-[12px] text-[--color-muted]">
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-[--color-hairline] border-t-[--color-primary] animate-spin" />
+                Loading conversations…
+              </div>
+            </div>
+          ) : (
+            <EmptyState icon={MessageCircle} title="Select a conversation" hint="Choose a thread from the list to start replying." />
+          )
+        ) : threadLoading ? (
+          <>
+            <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
+              <Shimmer className="w-9 h-9 !rounded-full" />
+              <div className="flex-1 space-y-1.5">
+                <Shimmer className="h-3 w-32" />
+                <Shimmer className="h-2.5 w-20" />
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
+              <MessageSkeleton />
+              <MessageSkeleton mine />
+              <MessageSkeleton />
+              <MessageSkeleton mine />
+            </div>
+          </>
         ) : (
           <>
             <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
