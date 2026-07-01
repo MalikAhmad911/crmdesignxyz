@@ -125,7 +125,16 @@ function InboxPage() {
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {filtered.map(t => {
+          {listLoading ? (
+            Array.from({ length: 7 }).map((_, i) => <ThreadSkeleton key={i} />)
+          ) : filtered.length === 0 ? (
+            <EmptyState
+              icon={q ? Search : InboxIcon}
+              title={q ? "No matches" : "Inbox zero"}
+              hint={q ? `Nothing found for "${q}"` : "New conversations will appear here."}
+            />
+          ) : (
+            filtered.map(t => {
             const c = CONTACTS.find(x => x.id === t.contactId)!;
             const Icon = CHANNEL_ICON[t.channel];
             const isActive = activeId === t.id;
@@ -154,9 +163,11 @@ function InboxPage() {
                 )}
               </button>
             );
-          })}
+          })
+          )}
         </div>
       </div>
+
 
       {/* Conversation */}
       <div className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}>
