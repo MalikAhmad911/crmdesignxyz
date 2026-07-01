@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Card, PageHeader, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
 import { THREADS, MESSAGES, CONTACTS, type Channel } from "@/lib/rs-mocks";
+import { useSwipe } from "@/hooks/useSwipe";
 
 export const Route = createFileRoute("/app/inbox")({ component: InboxPage });
 
@@ -103,6 +104,19 @@ function InboxPage() {
   const contact = active ? CONTACTS.find(c => c.id === active.contactId) : null;
   const messages = active ? MESSAGES.filter(m => m.threadId === active.id) : [];
 
+  // Swipe: on the conversation pane, right-from-left-edge = back to list,
+  // left-anywhere = open context slide-over.
+  const convoSwipe = useSwipe({
+    onSwipe: (dir, meta) => {
+      if (dir === "right" && meta.startX < 40) setActiveId(null);
+      else if (dir === "left" && active) setShowContext(true);
+    },
+  });
+  // Swipe: on the context slide-over, right dismisses.
+  const contextSwipe = useSwipe({
+    onSwipeRight: () => setShowContext(false),
+  });
+
   return (
     <div className="h-[calc(100dvh-56px-64px)] lg:h-[calc(100dvh-56px)] flex overflow-hidden">
       {/* Thread List */}
@@ -170,7 +184,10 @@ function InboxPage() {
 
 
       {/* Conversation */}
-      <div className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}>
+      <div
+        {...(active ? convoSwipe : {})}
+        className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}
+      >
         {!active ? (
           listLoading ? (
             <div className="flex-1 grid place-items-center">
@@ -302,8 +319,15 @@ function InboxPage() {
             <ContextPanel contact={contact!} />
           </div>
           {showContext && (
-            <div className="xl:hidden fixed inset-0 z-50 bg-black/40" onClick={() => setShowContext(false)}>
-              <div className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
+              <div
+                {...contextSwipe}
+                className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200"
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="sticky top-0 z-10 flex justify-center pt-2 pb-1 bg-white">
+                  <div className="w-10 h-1 rounded-full bg-[--color-hairline]" />
+                </div>
                 <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />
               </div>
             </div>
