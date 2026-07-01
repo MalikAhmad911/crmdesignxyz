@@ -16,7 +16,16 @@ import { Route as MobilePreviewRouteImport } from './routes/mobile-preview'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as DialpadRouteImport } from './routes/dialpad'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppMoneyRouteImport } from './routes/app.money'
+import { Route as AppJobsRouteImport } from './routes/app.jobs'
+import { Route as AppInboxRouteImport } from './routes/app.inbox'
+import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
+import { Route as AppContactsRouteImport } from './routes/app.contacts'
+import { Route as AppCalendarRouteImport } from './routes/app.calendar'
+import { Route as AppAiRouteImport } from './routes/app.ai'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -53,14 +62,60 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoneyRoute = AppMoneyRouteImport.update({
+  id: '/money',
+  path: '/money',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppJobsRoute = AppJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInboxRoute = AppInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContactsRoute = AppContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarRoute = AppCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAiRoute = AppAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
@@ -68,6 +123,14 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/calendar': typeof AppCalendarRoute
+  '/app/contacts': typeof AppContactsRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/inbox': typeof AppInboxRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/money': typeof AppMoneyRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,10 +141,19 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/calendar': typeof AppCalendarRoute
+  '/app/contacts': typeof AppContactsRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/inbox': typeof AppInboxRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/money': typeof AppMoneyRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/dialpad': typeof DialpadRoute
   '/inbox': typeof InboxRoute
@@ -89,11 +161,20 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/app/ai': typeof AppAiRoute
+  '/app/calendar': typeof AppCalendarRoute
+  '/app/contacts': typeof AppContactsRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/inbox': typeof AppInboxRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/money': typeof AppMoneyRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/auth'
     | '/dialpad'
     | '/inbox'
@@ -101,6 +182,14 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai'
+    | '/app/calendar'
+    | '/app/contacts'
+    | '/app/dashboard'
+    | '/app/inbox'
+    | '/app/jobs'
+    | '/app/money'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,9 +200,18 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai'
+    | '/app/calendar'
+    | '/app/contacts'
+    | '/app/dashboard'
+    | '/app/inbox'
+    | '/app/jobs'
+    | '/app/money'
+    | '/app'
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/auth'
     | '/dialpad'
     | '/inbox'
@@ -121,10 +219,19 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/signin'
     | '/signup'
+    | '/app/ai'
+    | '/app/calendar'
+    | '/app/contacts'
+    | '/app/dashboard'
+    | '/app/inbox'
+    | '/app/jobs'
+    | '/app/money'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   DialpadRoute: typeof DialpadRoute
   InboxRoute: typeof InboxRoute
@@ -185,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -192,11 +306,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/money': {
+      id: '/app/money'
+      path: '/money'
+      fullPath: '/app/money'
+      preLoaderRoute: typeof AppMoneyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/jobs': {
+      id: '/app/jobs'
+      path: '/jobs'
+      fullPath: '/app/jobs'
+      preLoaderRoute: typeof AppJobsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/inbox': {
+      id: '/app/inbox'
+      path: '/inbox'
+      fullPath: '/app/inbox'
+      preLoaderRoute: typeof AppInboxRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/dashboard': {
+      id: '/app/dashboard'
+      path: '/dashboard'
+      fullPath: '/app/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contacts': {
+      id: '/app/contacts'
+      path: '/contacts'
+      fullPath: '/app/contacts'
+      preLoaderRoute: typeof AppContactsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/calendar': {
+      id: '/app/calendar'
+      path: '/calendar'
+      fullPath: '/app/calendar'
+      preLoaderRoute: typeof AppCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/ai': {
+      id: '/app/ai'
+      path: '/ai'
+      fullPath: '/app/ai'
+      preLoaderRoute: typeof AppAiRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAiRoute: typeof AppAiRoute
+  AppCalendarRoute: typeof AppCalendarRoute
+  AppContactsRoute: typeof AppContactsRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppInboxRoute: typeof AppInboxRoute
+  AppJobsRoute: typeof AppJobsRoute
+  AppMoneyRoute: typeof AppMoneyRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAiRoute: AppAiRoute,
+  AppCalendarRoute: AppCalendarRoute,
+  AppContactsRoute: AppContactsRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppInboxRoute: AppInboxRoute,
+  AppJobsRoute: AppJobsRoute,
+  AppMoneyRoute: AppMoneyRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   DialpadRoute: DialpadRoute,
   InboxRoute: InboxRoute,
