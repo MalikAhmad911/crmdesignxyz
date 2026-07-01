@@ -1,145 +1,149 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Card, Btn, Tag, Avatar, StatCard } from "@/components/app-shell/AppShell";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  ArrowUpRight, Sparkles, PhoneCall, MessageSquare, CalendarCheck,
-  DollarSign, Plus, TrendingUp, CheckCircle2,
+  Sparkles, MessageSquare, Star, DollarSign, Calendar, ArrowUp, ArrowDown,
+  Phone, Bot, Wrench, TrendingUp, Send,
 } from "lucide-react";
+import { Card, PageHeader, StatCard, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
+import { ACTIVITY, REVIEWS, JOBS } from "@/lib/rs-mocks";
 
-export const Route = createFileRoute("/app/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard · Revenue Sol" }] }),
-  component: DashboardPage,
-});
+export const Route = createFileRoute("/app/dashboard")({ component: DashboardPage });
+
+const REVENUE = [
+  { d: "Mon", v: 3200 }, { d: "Tue", v: 4100 }, { d: "Wed", v: 3800 },
+  { d: "Thu", v: 5200 }, { d: "Fri", v: 6100 }, { d: "Sat", v: 4900 }, { d: "Sun", v: 5800 },
+];
 
 function DashboardPage() {
+  const max = Math.max(...REVENUE.map(r => r.v));
+  const todayJobs = [...JOBS.Scheduled, ...JOBS["En Route"], ...JOBS["In Progress"]].slice(0, 5);
+
   return (
-    <div className="p-8 max-w-[1440px] w-full">
+    <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <PageHeader
-        title="Good morning, Marcus"
-        subtitle="Tuesday, July 1 · Everything's running smoothly"
-        actions={
-          <>
-            <Btn variant="secondary" icon={<CalendarCheck size={14} />}>Today</Btn>
-            <Btn icon={<Plus size={14} />}>New job</Btn>
-          </>
-        }
+        title="Good morning, Mike 👋"
+        subtitle="Here's what's happening at ABC Plumbing today."
       />
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Revenue today"    value="$4,280"  trend="↑ 22% vs yesterday" />
-        <StatCard label="Jobs booked"      value="12"      trend="↑ 3 vs yesterday" />
-        <StatCard label="AI replies sent"  value="28"      trend="Working 24/7" trendTone="neutral" />
-        <StatCard label="Pending payments" value="$2,589"  trend="4 invoices open" trendTone="warning" />
+      {/* AI Command Bar */}
+      <Card className="mb-6 relative overflow-hidden" padded={false}>
+        <div className="absolute inset-0 opacity-[0.08]" style={{ background: "var(--color-brand-gradient)" }} />
+        <div className="relative p-5 flex items-center gap-3 flex-wrap">
+          <div className="w-10 h-10 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+            <Sparkles size={18} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[13px] font-semibold text-[--color-ink]">Ask AI anything about your business</div>
+            <div className="text-[11.5px] text-[--color-muted] mt-0.5">"How many leads did I get yesterday?" · "Send review requests to today's completed jobs"</div>
+          </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <input
+              placeholder="Ask AI..."
+              className="h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13px] w-full sm:w-64 focus:outline-none focus:border-[--color-primary]"
+            />
+            <Btn variant="gradient" icon={<Send size={14} />}>Ask</Btn>
+          </div>
+        </div>
+      </Card>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <StatCard label="Total Revenue" value="$32,450" trend="↑ 12% vs last week" trendTone="success" icon={<DollarSign size={18} />} iconTone="success" />
+        <StatCard label="New Leads" value="24" trend="↑ 8% vs last week" trendTone="success" icon={<TrendingUp size={18} />} iconTone="primary" />
+        <StatCard label="Conversion Rate" value="34%" trend="↓ 2% vs last week" trendTone="danger" icon={<Bot size={18} />} iconTone="ai" />
+        <StatCard label="Avg Response" value="1.2m" trend="↑ 45% faster" trendTone="success" icon={<MessageSquare size={18} />} iconTone="info" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Revenue chart */}
-        <Card className="lg:col-span-2">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="text-[13px] font-semibold">Revenue trend</div>
-              <div className="text-[11px] text-[--color-muted]">Last 14 days</div>
+      {/* 60/40 Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+        {/* Revenue chart + activity */}
+        <div className="lg:col-span-3 space-y-5">
+          <Card>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-[15px] font-semibold text-[--color-ink]">Revenue this week</h3>
+                <p className="text-[12px] text-[--color-muted] mt-0.5">Compared to last 7 days</p>
+              </div>
+              <Tag tone="success">↑ 12%</Tag>
             </div>
-            <div className="flex items-center gap-1">
-              {["7d", "14d", "30d"].map((r, i) => (
-                <button key={r} className={`text-[11px] px-2 py-1 rounded-md font-medium ${i === 1 ? "bg-[--color-ink] text-white" : "text-[--color-muted] hover:bg-[--color-surface-soft]"}`}>
-                  {r}
-                </button>
+            <div className="h-48 flex items-end gap-2 sm:gap-3">
+              {REVENUE.map(r => (
+                <div key={r.d} className="flex-1 flex flex-col items-center gap-2 min-w-0">
+                  <div className="w-full rounded-t-md transition hover:opacity-80" style={{
+                    height: `${(r.v / max) * 100}%`,
+                    background: "var(--color-brand-gradient)",
+                    minHeight: 8,
+                  }} />
+                  <div className="text-[10.5px] text-[--color-muted]">{r.d}</div>
+                </div>
               ))}
             </div>
-          </div>
-          <div className="h-56 flex items-end gap-2">
-            {[38, 52, 44, 60, 55, 72, 66, 58, 74, 80, 68, 84, 90, 96].map((h, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
-                <div className="w-full rounded-md" style={{ height: `${h}%`, background: i === 13 ? "var(--color-primary-deep)" : "var(--color-primary-subdued)" }} />
-                <span className="text-[9px] text-[--color-muted]">{18 + i}</span>
-              </div>
-            ))}
-          </div>
-        </Card>
+          </Card>
 
-        {/* AI Employee card */}
-        <Card className="bg-[--color-surface-dark] border-transparent text-white">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg grid place-items-center bg-white/10">
-              <Sparkles size={16} />
+          <Card padded={false}>
+            <div className="flex items-center justify-between p-5 pb-3">
+              <h3 className="text-[15px] font-semibold text-[--color-ink]">Recent Activity</h3>
+              <Link to="/app/inbox" className="text-[12px] font-semibold text-[--color-primary]">View all</Link>
             </div>
             <div>
-              <div className="text-[13px] font-semibold">AI Employee</div>
-              <div className="text-[11px] text-white/50">Working 24/7</div>
-            </div>
-            <div className="ml-auto flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[--color-success] animate-pulse" />
-              <span className="text-[10px] text-[--color-success-subtle] font-semibold">LIVE</span>
-            </div>
-          </div>
-          <div className="text-[15px] leading-relaxed mb-4">Handled <span className="font-semibold">42 tasks</span> today. <span className="text-white/60">7 waiting for your approval.</span></div>
-          <div className="grid grid-cols-2 gap-2 mb-4">
-            {[[MessageSquare,"28","Replies"],[PhoneCall,"12","Calls"],[CalendarCheck,"9","Bookings"],[DollarSign,"4","Payments"]].map(([I,v,l]:any,i) => (
-              <div key={i} className="p-2.5 rounded-lg bg-white/5">
-                <I size={13} className="text-white/60" />
-                <div className="text-[16px] font-semibold mt-1">{v}</div>
-                <div className="text-[10px] text-white/50">{l}</div>
-              </div>
-            ))}
-          </div>
-          <button className="w-full h-9 rounded-lg bg-white text-[--color-ink] text-[12px] font-semibold flex items-center justify-center gap-1">
-            Review approvals <ArrowUpRight size={13} />
-          </button>
-        </Card>
-
-        {/* Recent activity */}
-        <Card className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-[13px] font-semibold">Recent activity</div>
-            <button className="text-[11px] font-semibold text-[--color-muted] hover:text-[--color-ink]">See all</button>
-          </div>
-          <div className="space-y-1">
-            {[
-              { who: "AI Receptionist", what: "answered call from Priya Rao and booked 2pm today", t: "2m", tag: "AI", tone: "primary" as const },
-              { who: "Marcus L.",       what: "marked Furnace tune-up as en-route",                 t: "18m", tag: "Job", tone: "neutral" as const },
-              { who: "AI Employee",     what: "sent review request to Nina B.",                     t: "1h", tag: "AI", tone: "primary" as const },
-              { who: "Stripe",          what: "collected $1,450 from Aisha O.",                      t: "3h", tag: "Payment", tone: "success" as const },
-              { who: "AI Brain",        what: "created 3 follow-ups for unpaid invoices",           t: "yday", tag: "AI", tone: "primary" as const },
-            ].map((a, i) => (
-              <div key={i} className="flex items-start gap-3 py-2.5 border-b border-[--color-hairline] last:border-0">
-                <div className="w-8 h-8 rounded-full bg-[--color-surface-soft] grid place-items-center text-[11px] font-semibold shrink-0">
-                  {a.who.split(" ").map(x=>x[0]).slice(0,2).join("")}
+              {ACTIVITY.slice(0, 6).map(a => (
+                <div key={a.id} className="flex items-center gap-3 px-5 py-2.5 border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition">
+                  <div className="w-9 h-9 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] text-[13px] shrink-0">
+                    {a.icon === "message" ? "💬" : a.icon === "star" ? "⭐" : a.icon === "pay" ? "💰" : a.icon === "call" ? "📞" : "🤖"}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] text-[--color-ink] truncate">{a.text}</div>
+                    <div className="text-[11px] text-[--color-muted]">{a.time}</div>
+                  </div>
+                  <Btn variant="secondary" size="sm">{a.action}</Btn>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[13px]"><span className="font-semibold">{a.who}</span> <span className="text-[--color-body]">{a.what}</span></div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Tag tone={a.tone}>{a.tag}</Tag>
-                    <span className="text-[11px] text-[--color-muted]">{a.t}</span>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* Right column */}
+        <div className="lg:col-span-2 space-y-5">
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-[15px] font-semibold text-[--color-ink]">Latest Reviews</h3>
+              <Link to="/app/reviews" className="text-[12px] font-semibold text-[--color-primary]">All</Link>
+            </div>
+            <div className="space-y-3">
+              {REVIEWS.slice(0, 3).map(r => (
+                <div key={r.id} className="pb-3 border-b border-[--color-hairline-soft] last:border-0 last:pb-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Avatar name={r.name} size={26} />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[12.5px] font-semibold text-[--color-ink] truncate">{r.name}</div>
+                    </div>
+                    <div className="text-[12px]">{"⭐".repeat(r.rating)}</div>
+                  </div>
+                  <p className="text-[12px] text-[--color-body] line-clamp-2">{r.text}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-[15px] font-semibold text-[--color-ink]">Today's Jobs</h3>
+              <Link to="/app/jobs" className="text-[12px] font-semibold text-[--color-primary]">All</Link>
+            </div>
+            <div className="space-y-2">
+              {todayJobs.map(j => (
+                <div key={j.id} className="flex items-center gap-3 py-2 border-b border-[--color-hairline-soft] last:border-0">
+                  <div className="w-9 h-9 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
+                    <Wrench size={15} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] font-semibold text-[--color-ink] truncate">{j.title}</div>
+                    <div className="text-[11.5px] text-[--color-muted] truncate">{j.customer} · {j.time}</div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        {/* Today's schedule */}
-        <Card>
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-[13px] font-semibold">Today's schedule</div>
-            <span className="text-[11px] text-[--color-muted]">3 jobs</span>
-          </div>
-          <div className="space-y-3">
-            {[
-              { t: "2:00 PM", j: "AC diagnostic",   c: "Priya Rao",    a: Avatar },
-              { t: "4:30 PM", j: "Furnace tune-up", c: "Reyes HVAC",   a: Avatar },
-              { t: "6:00 PM", j: "Quote call",      c: "Aisha O.",     a: Avatar },
-            ].map((s, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="text-[11px] font-mono font-semibold text-[--color-muted] w-14 shrink-0">{s.t}</div>
-                <div className="flex-1 pl-3 border-l-2 border-[--color-primary]">
-                  <div className="text-[13px] font-medium">{s.j}</div>
-                  <div className="text-[11px] text-[--color-muted]">{s.c}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
+              ))}
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );
