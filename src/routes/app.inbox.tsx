@@ -1,14 +1,57 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Search, Filter, MoreVertical, Phone, Mail, MessageSquare, Facebook, Instagram,
   ArrowLeft, Info, Send, Sparkles, Paperclip, Smile, Bot, Check, CheckCheck,
-  Calendar, DollarSign, FileText, User,
+  Calendar, DollarSign, FileText, User, Inbox as InboxIcon, MessageCircle, UserX,
 } from "lucide-react";
 import { Card, PageHeader, Btn, Tag, Avatar } from "@/components/app-shell/AppShell";
 import { THREADS, MESSAGES, CONTACTS, type Channel } from "@/lib/rs-mocks";
 
 export const Route = createFileRoute("/app/inbox")({ component: InboxPage });
+
+function Shimmer({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse bg-[--color-surface-strong] rounded ${className}`} />;
+}
+function ThreadSkeleton() {
+  return (
+    <div className="px-4 py-3 border-b border-[--color-hairline-soft] flex gap-3">
+      <Shimmer className="w-10 h-10 !rounded-full shrink-0" />
+      <div className="flex-1 space-y-2 pt-1 min-w-0">
+        <div className="flex justify-between gap-2">
+          <Shimmer className="h-3 w-24" />
+          <Shimmer className="h-2.5 w-10" />
+        </div>
+        <Shimmer className="h-2.5 w-full" />
+        <Shimmer className="h-2.5 w-3/4" />
+      </div>
+    </div>
+  );
+}
+function MessageSkeleton({ mine = false }: { mine?: boolean }) {
+  return (
+    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+      <div className="space-y-1.5 max-w-[70%] flex flex-col">
+        <Shimmer className={`h-10 ${mine ? "w-48" : "w-56"} !rounded-2xl`} />
+        <Shimmer className={`h-2 w-12 ${mine ? "self-end" : ""}`} />
+      </div>
+    </div>
+  );
+}
+function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: string; hint?: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex-1 grid place-items-center p-8">
+      <div className="text-center max-w-xs">
+        <div className="w-14 h-14 rounded-2xl bg-[--color-surface-strong] grid place-items-center mx-auto mb-3">
+          <Icon size={22} className="text-[--color-muted]" />
+        </div>
+        <div className="text-[14px] font-semibold text-[--color-ink]">{title}</div>
+        {hint && <div className="text-[12px] text-[--color-muted] mt-1">{hint}</div>}
+        {action && <div className="mt-3">{action}</div>}
+      </div>
+    </div>
+  );
+}
 
 const CHANNEL_ICON: Record<Channel, any> = {
   sms: MessageSquare, email: Mail, fb: Facebook, ig: Instagram, call: Phone,
@@ -23,6 +66,25 @@ function InboxPage() {
   const [mode, setMode] = useState<"reply" | "note">("reply");
   const [showContext, setShowContext] = useState(false);
   const [draft, setDraft] = useState("");
+
+  // Simulated data-fetch states
+  const [listLoading, setListLoading] = useState(true);
+  const [threadLoading, setThreadLoading] = useState(false);
+  const [contextLoading, setContextLoading] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setListLoading(false), 900);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!activeId) return;
+    setThreadLoading(true);
+    setContextLoading(true);
+    const t1 = setTimeout(() => setThreadLoading(false), 600);
+    const t2 = setTimeout(() => setContextLoading(false), 850);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [activeId]);
 
   const filtered = useMemo(() => {
     return THREADS.filter(t => {
@@ -63,7 +125,16 @@ function InboxPage() {
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {filtered.map(t => {
+          {listLoading ? (
+            Array.from({ length: 7 }).map((_, i) => <ThreadSkeleton key={i} />)
+          ) : filtered.length === 0 ? (
+            <EmptyState
+              icon={q ? Search : InboxIcon}
+              title={q ? "No matches" : "Inbox zero"}
+              hint={q ? `Nothing found for "${q}"` : "New conversations will appear here."}
+            />
+          ) : (
+            filtered.map(t => {
             const c = CONTACTS.find(x => x.id === t.contactId)!;
             const Icon = CHANNEL_ICON[t.channel];
             const isActive = activeId === t.id;
@@ -92,14 +163,41 @@ function InboxPage() {
                 )}
               </button>
             );
-          })}
+          })
+          )}
         </div>
       </div>
+
 
       {/* Conversation */}
       <div className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}>
         {!active ? (
-          <div className="flex-1 grid place-items-center text-[13px] text-[--color-muted]">Select a conversation</div>
+          listLoading ? (
+            <div className="flex-1 grid place-items-center">
+              <div className="flex items-center gap-2 text-[12px] text-[--color-muted]">
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-[--color-hairline] border-t-[--color-primary] animate-spin" />
+                Loading conversations…
+              </div>
+            </div>
+          ) : (
+            <EmptyState icon={MessageCircle} title="Select a conversation" hint="Choose a thread from the list to start replying." />
+          )
+        ) : threadLoading ? (
+          <>
+            <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
+              <Shimmer className="w-9 h-9 !rounded-full" />
+              <div className="flex-1 space-y-1.5">
+                <Shimmer className="h-3 w-32" />
+                <Shimmer className="h-2.5 w-20" />
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
+              <MessageSkeleton />
+              <MessageSkeleton mine />
+              <MessageSkeleton />
+              <MessageSkeleton mine />
+            </div>
+          </>
         ) : (
           <>
             <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
@@ -117,7 +215,17 @@ function InboxPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
-              {messages.map(m => {
+              {messages.length === 0 ? (
+                <div className="h-full grid place-items-center">
+                  <div className="text-center max-w-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[--color-hairline] grid place-items-center mx-auto mb-2">
+                      <MessageCircle size={18} className="text-[--color-muted]" />
+                    </div>
+                    <div className="text-[13px] font-semibold text-[--color-ink]">No messages yet</div>
+                    <div className="text-[12px] text-[--color-muted] mt-1">Send the first message to start this thread.</div>
+                  </div>
+                </div>
+              ) : messages.map(m => {
                 if (m.from === "note") return (
                   <div key={m.id} className="mx-auto max-w-[75%] rounded-lg p-3 border border-dashed bg-[--color-warning-subtle] border-[--color-warning] text-[12px] text-[--color-ink]">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-[--color-warning] mb-1">Internal note</div>
