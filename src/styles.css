@@ -79,45 +79,60 @@
   scrollbar-width: none;
 }
 
-/* Interior SaaS palette — scoped to authenticated app shell only. */
+/* Airtable-inspired editorial palette — scoped to authenticated app shell only. */
 .app-scope {
-  --color-canvas: #F6F9FC;
-  --color-surface-soft: #FFFFFF;
-  --color-surface-card: #FFFFFF;
-  --color-surface-strong: #EEF2F7;
-  --color-hairline: #E6EBF1;
-  --color-hairline-soft: #EEF2F7;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-surface-card: #ffffff;
+  --color-surface-strong: #e0e2e6;
+  --color-surface-dark: #181d26;
+  --color-surface-dark-elevated: #1d1f25;
+  --color-hairline: #dddddd;
+  --color-hairline-soft: #eeeeee;
 
-  --color-ink: #0A2540;
-  --color-body-strong: #0A2540;
-  --color-body: #425466;
-  --color-muted: #697386;
-  --color-muted-soft: #8792A2;
+  --color-ink: #181d26;
+  --color-body-strong: #181d26;
+  --color-body: #333840;
+  --color-muted: #41454d;
+  --color-muted-soft: #9297a0;
 
-  --color-primary: #0052FF;
-  --color-primary-deep: #003ECF;
-  --color-primary-subdued: #E6EEFF;
-  --color-primary-glow: rgba(0, 82, 255, 0.12);
-  --color-accent-subtle: #F0F5FF;
-  --color-brand-gradient: linear-gradient(135deg, #0052FF 0%, #003ECF 100%);
-  --color-brand-gradient-2: linear-gradient(135deg, #0052FF 0%, #003ECF 100%);
-  --color-brand-gradient-subtle: linear-gradient(135deg, #E6EEFF 0%, #F0F5FF 100%);
+  /* Airtable primary = near-black ink, not blue */
+  --color-primary: #181d26;
+  --color-primary-deep: #0d1218;
+  --color-primary-subdued: #f8fafc;
+  --color-primary-glow: rgba(24, 29, 38, 0.08);
+  --color-accent-subtle: #f8fafc;
+  --color-brand-gradient: #181d26;
+  --color-brand-gradient-2: #181d26;
+  --color-brand-gradient-subtle: #f8fafc;
 
-  --color-success: #00D924;
-  --color-success-subtle: #E6FBEA;
-  --color-warning: #FFB020;
-  --color-warning-subtle: #FFF7E6;
-  --color-error: #FF4D4F;
-  --color-error-subtle: #FFECEC;
-  --color-info: #0052FF;
-  --color-info-subtle: #E6EEFF;
-  --color-ai: #7C3AED;
-  --color-ai-subtle: #F2ECFE;
+  /* Signature surface cards — brand voltage */
+  --color-signature-coral: #aa2d00;
+  --color-signature-forest: #0a2e0e;
+  --color-signature-cream: #f5e9d4;
+  --color-signature-peach: #fcab79;
+  --color-signature-mint: #a8d8c4;
+  --color-signature-yellow: #f4d35e;
+  --color-signature-mustard: #d9a441;
 
-  --color-sidebar-bg: #FFFFFF;
-  --color-sidebar-border: #E6EBF1;
-  --color-sidebar-active: #E6EEFF;
-  --color-sidebar-active-text: #003ECF;
+  /* Semantic — link blue is NOT primary */
+  --color-link: #1b61c9;
+  --color-link-active: #1a3866;
+  --color-success: #006400;
+  --color-success-subtle: #e6f4e6;
+  --color-warning: #d9a441;
+  --color-warning-subtle: #fdf4e0;
+  --color-error: #aa2d00;
+  --color-error-subtle: #fbeae2;
+  --color-info: #254fad;
+  --color-info-subtle: #e6ecf6;
+  --color-ai: #0a2e0e;
+  --color-ai-subtle: #e6ede6;
+
+  --color-sidebar-bg: #ffffff;
+  --color-sidebar-border: #dddddd;
+  --color-sidebar-active: #f8fafc;
+  --color-sidebar-active-text: #181d26;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
