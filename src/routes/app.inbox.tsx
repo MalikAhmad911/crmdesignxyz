@@ -31,7 +31,7 @@ function ThreadSkeleton() {
 }
 function MessageSkeleton({ mine = false }: { mine?: boolean }) {
   return (
-    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+    <div className={`flex ${mine ? "justify-end" : "justify-start"}`} aria-label="Loading message">
       <div className="space-y-1.5 max-w-[70%] flex flex-col">
         <Shimmer className={`h-10 ${mine ? "w-48" : "w-56"} !rounded-2xl`} />
         <Shimmer className={`h-2 w-12 ${mine ? "self-end" : ""}`} />
@@ -39,10 +39,47 @@ function MessageSkeleton({ mine = false }: { mine?: boolean }) {
     </div>
   );
 }
+function PanelSkeleton() {
+  return (
+    <div className="p-5 space-y-5" aria-label="Loading customer details">
+      <div className="flex items-center justify-between">
+        <Shimmer className="h-3 w-20" />
+        <Shimmer className="h-3 w-10" />
+      </div>
+      <div className="text-center pb-4 border-b border-[--color-hairline-soft] space-y-2">
+        <Shimmer className="h-16 w-16 !rounded-full mx-auto" />
+        <Shimmer className="h-3.5 w-32 mx-auto" />
+        <Shimmer className="h-2.5 w-24 mx-auto" />
+      </div>
+      <div className="space-y-2">
+        <Shimmer className="h-2.5 w-24" />
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: 4 }).map((_, i) => <Shimmer key={i} className="h-9 w-full" />)}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Shimmer className="h-2.5 w-24" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="flex gap-2.5">
+            <Shimmer className="h-7 w-7 shrink-0" />
+            <div className="flex-1 space-y-1.5 pt-0.5">
+              <Shimmer className="h-2.5 w-full" />
+              <Shimmer className="h-2 w-16" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="text-center text-[11.5px] font-medium text-[--color-body] pt-1" role="status" aria-live="polite">
+        Loading customer details…
+      </div>
+    </div>
+  );
+}
 function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: string; hint?: string; action?: React.ReactNode }) {
   return (
-    <div className="flex-1 grid place-items-center p-8">
+    <div className="flex-1 grid place-items-center p-8" role="status">
       <div className="text-center max-w-xs">
+
         <div className="w-14 h-14 rounded-2xl bg-[--color-surface-strong] grid place-items-center mx-auto mb-3">
           <Icon size={22} className="text-[--color-muted]" />
         </div>
