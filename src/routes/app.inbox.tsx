@@ -366,13 +366,32 @@ function InboxPage() {
                   placeholder={mode === "note" ? "Add an internal note..." : "Type a message..."}
                   className="w-full resize-none bg-transparent text-[13px] focus:outline-none min-h-[52px]" rows={2} />
                 <div className="flex items-center gap-1 mt-1">
-                  <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"><Paperclip size={15} /></button>
-                  <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"><Smile size={15} /></button>
-                  <button className="hidden sm:inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[--color-ai] text-[11.5px] font-semibold">
+                  <button
+                    onClick={() => notify("Attachments coming soon")}
+                    aria-label="Attach file"
+                    className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"
+                  ><Paperclip size={15} /></button>
+                  <button
+                    onClick={() => setDraft(d => d + " 👍")}
+                    aria-label="Insert emoji"
+                    className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"
+                  ><Smile size={15} /></button>
+                  <button
+                    onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); notify("AI draft ready"); }}
+                    className="hidden sm:inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[--color-ai] text-[11.5px] font-semibold"
+                  >
                     <Sparkles size={13} /> AI Draft
                   </button>
                   <div className="flex-1" />
-                  <Btn variant={mode === "note" ? "primary" : "gradient"} icon={<Send size={13} />} onClick={() => setDraft("")}>Send</Btn>
+                  <Btn
+                    variant={mode === "note" ? "primary" : "gradient"}
+                    icon={<Send size={13} />}
+                    onClick={() => {
+                      if (!draft.trim()) return;
+                      setDraft("");
+                      notify(mode === "note" ? "Note saved" : "Message sent");
+                    }}
+                  >Send</Btn>
                 </div>
               </div>
             </div>
