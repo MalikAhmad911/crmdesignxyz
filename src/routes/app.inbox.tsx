@@ -425,6 +425,15 @@ function InboxPage() {
             </div>
         </>
       )}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-[60] px-3.5 py-2 rounded-full bg-[--color-ink] text-white text-[12.5px] font-medium shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-150"
+        >
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
