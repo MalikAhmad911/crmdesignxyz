@@ -684,7 +684,7 @@ const TONE_STROKE: Record<string, string> = {
 };
 
 function Sparkline({ data, color }: { data: number[]; color: string }) {
-  const w = 96, h = 28, pad = 2;
+  const w = 68, h = 26, pad = 2;
   const min = Math.min(...data), max = Math.max(...data);
   const range = max - min || 1;
   const step = (w - pad * 2) / (data.length - 1);
