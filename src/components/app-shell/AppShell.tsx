@@ -374,7 +374,7 @@ export function Btn({
     danger: "bg-[--color-error] text-white hover:opacity-90",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : size === "lg" ? "h-11 px-5 text-[14px]" : "h-9 px-4 text-[13px]";
-  const style = variant === "gradient" ? { background: "var(--color-brand-gradient)" } : undefined;
+  const style = variant === "gradient" ? { background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" } : undefined;
   return (
     <button
       onClick={onClick}
