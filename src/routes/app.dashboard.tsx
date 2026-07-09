@@ -1,427 +1,730 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import {
-  MessageSquare, Star, DollarSign, Sparkles, Inbox, Users, Calendar, Megaphone,
-  Reply, PhoneMissed, ChevronRight, Send, Zap, CreditCard, Rocket, Bot, X,
+  MessageSquare, Star, DollarSign, Bot, TrendingUp, TrendingDown,
+  Inbox, Users, Calendar, Megaphone, PhoneMissed, CheckCircle2, Circle,
+  Sparkles, Send, CreditCard, Zap, X, ArrowUpRight, Clock, Phone,
+  Reply, ChevronRight, Search, Plug, AlertTriangle, CheckCircle,
+  ShieldCheck, Activity,
 } from "lucide-react";
-import { Card, Btn } from "@/components/app-shell/AppShell";
-import { BUSINESS } from "@/lib/rs-mocks";
+import { PageHeader, Card, Tag, Btn } from "@/components/app-shell/AppShell";
+import { BUSINESS, THREADS, CONTACTS, REVIEWS, PAYMENTS, CALLS } from "@/lib/rs-mocks";
 
 export const Route = createFileRoute("/app/dashboard")({ component: DashboardPage });
 
-const PULSE = [
-  { d: "THU", msg: 12, pay: 4 },
-  { d: "FRI", msg: 18, pay: 6 },
-  { d: "SAT", msg: 9, pay: 3 },
-  { d: "SUN", msg: 22, pay: 8 },
-  { d: "MON", msg: 34, pay: 12 },
-  { d: "TUE", msg: 41, pay: 15 },
-  { d: "WED", msg: 27, pay: 9 },
+/* -------------------------------------------------- helpers */
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "Good morning";
+  if (h < 18) return "Good afternoon";
+  return "Good evening";
+}
+function formatDate() {
+  return new Date().toLocaleDateString(undefined, {
+    weekday: "long", month: "long", day: "numeric", year: "numeric",
+  });
+}
+function initials(name: string) {
+  return name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+}
+
+/* -------------------------------------------------- data */
+const ONBOARDING = [
+  { id: 1, label: "Connect a phone number", done: true },
+  { id: 2, label: "Add your first contact", done: true },
+  { id: 3, label: "Send your first message", done: true },
+  { id: 4, label: "Turn on AI Autopilot", done: false },
+  { id: 5, label: "Request your first payment", done: false },
+];
+
+const METRICS = [
+  { key: "conv",  label: "Open Conversations", value: "24",     delta: "+12%", up: true,  icon: MessageSquare, tone: "info" as const, hint: "vs last week" },
+  { key: "rev",   label: "Reviews This Month", value: "18",     delta: "+6",   up: true,  icon: Star,          tone: "warning" as const, hint: "4.9 avg rating" },
+  { key: "money", label: "Revenue This Month", value: "$12,480",delta: "+8.2%",up: true,  icon: DollarSign,    tone: "success" as const, hint: "vs last month" },
+  { key: "ai",    label: "AI Resolution Rate", value: "87%",    delta: "-2%",  up: false, icon: Bot,           tone: "ai" as const,      hint: "past 7 days" },
 ];
 
 const SHORTCUTS = [
-  { to: "/app/inbox", icon: Inbox, label: "Inbox", sub: "Messages" },
-  { to: "/app/contacts", icon: Users, label: "Leads", sub: "Pipeline" },
-  { to: "/app/calendar", icon: Calendar, label: "Calendar", sub: "Appointments" },
-  { to: "/app/campaigns", icon: Megaphone, label: "Campaigns", sub: "Broadcasts" },
+  { to: "/app/inbox",     label: "Inbox",     desc: "Messages",     icon: Inbox,     tone: "info" as const,    count: "3 unread" },
+  { to: "/app/contacts",  label: "Leads",     desc: "Pipeline",     icon: Users,     tone: "primary" as const, count: "12 open" },
+  { to: "/app/calendar",  label: "Calendar",  desc: "Appointments", icon: Calendar,  tone: "success" as const, count: "4 today" },
+  { to: "/app/campaigns", label: "Campaigns", desc: "Broadcasts",   icon: Megaphone, tone: "ai" as const,      count: "2 live" },
 ];
 
-
-
-const QUICK_ACTIONS = [
-  { icon: Star, label: "Send review request", sub: "Ask happy customers for a Google review", tone: "warning" as const },
-  { icon: CreditCard, label: "Request payment", sub: "Collect via SMS payment link", tone: "success" as const },
-  { icon: Rocket, label: "Launch campaign", sub: "Reach customers in one broadcast", tone: "primary" as const },
+const ATTENTION = [
+  { key: "inbox",  icon: Reply,       label: "Inbox replies",   count: 6, tone: "info" as const,    to: "/app/inbox" },
+  { key: "review", icon: Star,        label: "Review replies",  count: 3, tone: "warning" as const, to: "/app/reviews" },
+  { key: "pay",    icon: CreditCard,  label: "Pending payments",count: 4, tone: "success" as const, to: "/app/payments" },
+  { key: "call",   icon: PhoneMissed, label: "Missed calls",    count: 2, tone: "danger" as const,  to: "/app/calls" },
+  { key: "ai",     icon: Bot,         label: "AI approvals",    count: 5, tone: "ai" as const,      to: "/app/ai-employee" },
 ];
 
-const REPLIES = [
-  { name: "SMS with +14097526784", preview: "\"Your verification code is …\"", time: "1d ago" },
-  { name: "SMS with +18569261156", preview: "\"Your verification code is …\"", time: "1d ago" },
+const WEEK = [
+  { d: "Mon", m: 32, p: 8  },
+  { d: "Tue", m: 41, p: 12 },
+  { d: "Wed", m: 28, p: 6  },
+  { d: "Thu", m: 55, p: 14 },
+  { d: "Fri", m: 62, p: 18 },
+  { d: "Sat", m: 24, p: 5  },
+  { d: "Sun", m: 18, p: 3  },
 ];
 
-const AGENT_CHIPS = ["Follow up leads", "Review requests", "Payment reminders", "Weekly report", "Reply unread"];
+const PIPE = [
+  { k: "New",       n: 24, color: "#0052FF" },
+  { k: "Contacted", n: 18, color: "#7C3AED" },
+  { k: "Qualified", n: 12, color: "#FFB020" },
+  { k: "Won",       n: 9,  color: "#00D924" },
+  { k: "Lost",      n: 4,  color: "#FF4D4F" },
+];
 
+const AI_CHIPS = [
+  "Follow up leads", "Review requests", "Payment reminders", "Weekly report", "Reply unread",
+];
+
+const INTEGRATIONS = [
+  { name: "Twilio",      status: "Healthy"  as const, desc: "SMS + Voice" },
+  { name: "RingCentral", status: "Healthy"  as const, desc: "Phone system" },
+  { name: "Retell",      status: "Degraded" as const, desc: "Voice AI" },
+  { name: "Trigger",     status: "Healthy"  as const, desc: "Workflows" },
+  { name: "Supabase",    status: "Healthy"  as const, desc: "Database" },
+];
+
+/* -------------------------------------------------- component */
 function DashboardPage() {
-  const pulseMax = Math.max(...PULSE.map(p => p.msg + p.pay));
+  const [trialOpen, setTrialOpen] = useState(true);
+  const [aiCommand, setAiCommand] = useState("");
+  const [autopilot, setAutopilot] = useState(true);
+  const [dlg, setDlg] = useState<null | "message" | "payment" | "review">(null);
+
+  const done = ONBOARDING.filter(o => o.done).length;
+  const total = ONBOARDING.length;
+  const progress = Math.round((done / total) * 100);
+
+  const inboxNeedsReply = useMemo(
+    () => THREADS.filter(t => t.unread > 0).slice(0, 4),
+    []
+  );
+  const todaysAppts = [
+    { time: "10:00 AM", customer: "John Smith",    title: "AC Repair",         status: "Confirmed" as const },
+    { time: "12:30 PM", customer: "Sarah Kim",     title: "Plumbing Estimate", status: "En Route" as const },
+    { time: "2:00 PM",  customer: "Priya Reddy",   title: "Water Heater",      status: "Confirmed" as const },
+    { time: "4:15 PM",  customer: "Alicia Weber",  title: "Furnace Tune-up",   status: "Pending" as const },
+  ];
+  const hotLeads = CONTACTS.filter(c => c.score >= 80).slice(0, 4);
+
+  const avgRating = (REVIEWS.reduce((s, r) => s + r.rating, 0) / REVIEWS.length).toFixed(1);
+  const ratingDist = [5, 4, 3, 2, 1].map(star => ({
+    star,
+    n: REVIEWS.filter(r => r.rating === star).length,
+  }));
+  const unanswered = REVIEWS.filter(r => !r.replied).length;
+
+  const pendingPayments = PAYMENTS.filter(p => p.status === "Pending").length;
+  const missedCalls = CALLS.filter(c => c.outcome === "Missed").length;
+
+  const maxWeek = Math.max(...WEEK.map(w => w.m + w.p));
+  const pipeTotal = PIPE.reduce((s, p) => s + p.n, 0);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto space-y-6">
-      {/* Greeting */}
-      <div>
-        <Kicker>Wednesday, July 1, 2026</Kicker>
-        <div className="mt-1.5 flex flex-wrap items-start justify-between gap-3">
-          <div className="min-w-0">
-            <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-[--color-ink] leading-tight">
-              Good evening, {BUSINESS.name}
-            </h1>
-            <p className="text-[13px] text-[--color-muted] mt-1">
-              Your workspace overview — metrics, activity, and AI tools in one place.
-            </p>
+    <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1440px] mx-auto">
+      {/* 1. Page header */}
+      <div className="mb-5">
+        <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-1.5">
+          {formatDate()}
+        </div>
+        <PageHeader
+          title={`${greeting()}, ${BUSINESS.name}`}
+          subtitle="Your workspace overview — metrics, activity, and AI tools in one place."
+          actions={
+            <>
+              <Btn variant="secondary" icon={<CreditCard size={14} />} onClick={() => setDlg("payment")}>
+                Request payment
+              </Btn>
+              <Btn variant="gradient" icon={<Send size={14} />} onClick={() => setDlg("message")}>
+                New message
+              </Btn>
+            </>
+          }
+        />
+      </div>
+
+      {/* 2. Trial banner */}
+      {trialOpen && (
+        <div className="mb-5 rounded-[14px] border border-[--color-warning]/30 bg-[--color-warning-subtle] p-4 flex items-center gap-3 flex-wrap">
+          <div className="w-9 h-9 rounded-lg grid place-items-center bg-white text-[--color-warning] shrink-0">
+            <Zap size={16} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[13.5px] font-semibold text-[--color-ink]">
+              {BUSINESS.trialDaysLeft > 0
+                ? `${BUSINESS.trialDaysLeft} days left in your free trial`
+                : "Your free trial has expired"}
+            </div>
+            <div className="text-[12px] text-[--color-body]">
+              Unlock unlimited AI conversations, advanced automations, and priority support.
+            </div>
+          </div>
+          <Btn variant="gradient" size="sm">
+            {BUSINESS.trialDaysLeft > 0 ? "Upgrade now" : "Choose plan"}
+          </Btn>
+          <button
+            onClick={() => setTrialOpen(false)}
+            className="w-8 h-8 grid place-items-center rounded-lg hover:bg-white/60 text-[--color-body]"
+            aria-label="Dismiss"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
+      {/* 3. Getting started */}
+      <Card className="mb-5">
+        <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+          <div>
+            <div className="text-[15px] font-semibold text-[--color-ink]">Getting started</div>
+            <div className="text-[12px] text-[--color-muted]">Finish setup to unlock the full workspace.</div>
           </div>
           <div className="flex items-center gap-2">
-            <Btn variant="secondary" size="sm" icon={<CreditCard size={13} />}>Request payment</Btn>
-            <Btn variant="secondary" size="sm" icon={<MessageSquare size={13} />}>New message</Btn>
+            <div className="w-32 sm:w-48 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
+              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-brand-gradient)" }} />
+            </div>
+            <span className="text-[12px] font-semibold text-[--color-ink]">{done}/{total} done</span>
           </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+          {ONBOARDING.map(o => (
+            <div key={o.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${o.done ? "border-[--color-hairline-soft] bg-[--color-success-subtle]/40" : "border-[--color-hairline] hover:bg-[--color-surface-strong]"} cursor-pointer transition`}>
+              {o.done ? <CheckCircle2 size={16} className="text-[--color-success] shrink-0" /> : <Circle size={16} className="text-[--color-muted] shrink-0" />}
+              <span className={`text-[12.5px] ${o.done ? "line-through text-[--color-muted]" : "text-[--color-ink] font-medium"}`}>{o.label}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* 4. Performance metrics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+        {METRICS.map(({ key, ...m }) => (
+          <MetricCard key={key} {...m} />
+        ))}
+      </div>
+
+      {/* 5. Workspace shortcuts */}
+      <div className="mb-5">
+        <SectionTitle title="Workspace shortcuts" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {SHORTCUTS.map(s => (
+            <Link key={s.to} to={s.to}>
+              <Card className="!p-4 h-full">
+                <div className="flex items-start justify-between mb-3">
+                  <IconTile icon={s.icon} tone={s.tone} />
+                  <ArrowUpRight size={14} className="text-[--color-muted]" />
+                </div>
+                <div className="text-[15px] font-semibold text-[--color-ink]">{s.label}</div>
+                <div className="text-[12px] text-[--color-muted]">{s.desc}</div>
+                <div className="text-[11px] font-semibold mt-2 text-[--color-primary-deep]">{s.count}</div>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
 
-      {/* Trial banner */}
-      <div className="rounded-[14px] border border-[--color-hairline] bg-white px-4 py-3 flex items-center gap-3 flex-wrap">
-        <div className="w-8 h-8 rounded-full grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
-          <Zap size={15} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-[13px] font-semibold text-[--color-ink]">
-            Your free trial ends in {BUSINESS.trialDaysLeft * 31} days
-          </div>
-          <div className="text-[11.5px] text-[--color-muted] mt-0.5">Upgrade now to keep all features active.</div>
-        </div>
-        <button
-          className="h-8 px-3.5 rounded-lg text-[12.5px] font-semibold text-white shrink-0"
-          style={{ background: "var(--color-brand-gradient)" }}
-        >
-          Upgrade now
-        </button>
-        <button className="w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] shrink-0">
-          <X size={14} />
-        </button>
-      </div>
-
-      {/* Performance metrics */}
-      <section>
-        <Kicker>Overview</Kicker>
-        <SectionTitle title="Performance metrics" subtitle="Key numbers for your business this month" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
-          <MetricCard
-            icon={<MessageSquare size={16} />} tone="info"
-            value="20" label="Open conversations" hint="3 need reply"
-            chip="↑ 100%" chipTone="success"
-          />
-          <MetricCard
-            icon={<Star size={16} />} tone="warning"
-            value="0" label="Reviews this month" hint="No reviews yet"
-            chip="+ 0%" chipTone="neutral"
-          />
-          <MetricCard
-            icon={<DollarSign size={16} />} tone="success"
-            value="$0" label="Revenue this month" hint="No pending requests"
-            chip="↑ 0%" chipTone="neutral"
-          />
-          <MetricCard
-            icon={<Sparkles size={16} />} tone="ai"
-            value="90%" label="AI resolution rate" hint="8 handled today"
-            chip="↑ 12.5%" chipTone="success"
-          />
-        </div>
-      </section>
-
-
-
-      {/* Workspace shortcuts */}
-      <section>
-        <Kicker>Navigate</Kicker>
-        <SectionTitle title="Workspace shortcuts" subtitle="Jump straight into your core tools" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-          {SHORTCUTS.map(s => {
-            const I = s.icon;
+      {/* 6. Needs your attention */}
+      <div className="mb-5">
+        <SectionTitle title="Needs your attention" />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          {ATTENTION.filter(a => a.count > 0).map(a => {
+            const I = a.icon;
             return (
-              <Link
-                key={s.to}
-                to={s.to}
-                className="group bg-white rounded-[14px] border border-[--color-hairline] px-4 py-4 flex items-center gap-3 transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] hover:border-[--color-primary]"
-              >
-                <div className="w-10 h-10 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
-                  <I size={17} />
-                </div>
-
-
-                <div className="min-w-0 flex-1">
-                  <div className="text-[13.5px] font-semibold text-[--color-ink] truncate">{s.label}</div>
-                  <div className="text-[11.5px] text-[--color-muted] truncate">{s.sub}</div>
-                </div>
-                <ChevronRight size={15} className="text-[--color-muted-soft] group-hover:text-[--color-primary] shrink-0" />
+              <Link key={a.key} to={a.to}>
+                <Card className="!p-3.5 h-full">
+                  <div className="flex items-center gap-2.5">
+                    <IconTile icon={I} tone={a.tone} size="sm" />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[13px] font-semibold text-[--color-ink] truncate">{a.count} {a.label}</div>
+                      <div className="text-[11px] text-[--color-muted]">Tap to review</div>
+                    </div>
+                  </div>
+                </Card>
               </Link>
             );
           })}
         </div>
-      </section>
+      </div>
 
-      {/* Needs attention */}
-      <section>
-        <Kicker>Action needed</Kicker>
-        <SectionTitle title="Needs your attention" subtitle="Items that need a response or decision today" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <AttentionCard
-            icon={<Reply size={16} />} tone="info"
-            title="Inbox replies" count={3}
-            sub="Conversations waiting for your reply" to="/app/inbox"
-          />
-          <AttentionCard
-            icon={<PhoneMissed size={16} />} tone="danger"
-            title="Missed calls" count={5}
-            sub="Calls to return this week" to="/app/calls"
-          />
-        </div>
-      </section>
-
-      {/* Pulse + Pipeline */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      {/* 7. Business overview row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
         <Card>
-          <div className="mb-4">
-            <h3 className="text-[15px] font-semibold text-[--color-ink]">Weekly pulse</h3>
-            <p className="text-[12px] text-[--color-muted] mt-0.5">Messages and payments over the last 7 days</p>
-          </div>
-          <div className="h-48 flex items-end gap-2 sm:gap-3">
-            {PULSE.map(p => {
-              const total = p.msg + p.pay;
-              const totalPct = (total / pulseMax) * 100;
-              const msgShare = (p.msg / total) * totalPct;
-              const payShare = (p.pay / total) * totalPct;
+          <SectionTitle title="Weekly Pulse" hint="Messages & payments · last 7 days" inline />
+          <div className="flex items-end gap-3 h-40 mt-4">
+            {WEEK.map(w => {
+              const totalH = ((w.m + w.p) / maxWeek) * 100;
+              const mH = (w.m / (w.m + w.p)) * totalH;
+              const pH = (w.p / (w.m + w.p)) * totalH;
               return (
-                <div key={p.d} className="flex-1 flex flex-col items-center gap-2 min-w-0">
-                  <div className="w-full flex flex-col justify-end" style={{ height: "100%" }}>
-                    <div className="w-full rounded-t-md" style={{ height: `${payShare}%`, background: "var(--color-primary-deep)", minHeight: 3 }} />
-                    <div className="w-full" style={{ height: `${msgShare}%`, background: "var(--color-primary)", minHeight: 4 }} />
+                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5">
+                  <div className="w-full flex flex-col justify-end h-full">
+                    <div className="w-full rounded-t-md" style={{ height: `${pH}%`, background: "var(--color-success)" }} />
+                    <div className="w-full" style={{ height: `${mH}%`, background: "var(--color-primary)" }} />
                   </div>
-                  <div className="text-[10.5px] font-medium text-[--color-muted]">{p.d}</div>
+                  <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
               );
             })}
           </div>
-          <div className="mt-3 flex items-center gap-4 text-[11.5px] text-[--color-muted]">
-            <LegendDot color="var(--color-primary)" /> Messages
-            <LegendDot color="var(--color-primary-deep)" /> Payments
+          <div className="flex items-center gap-4 mt-3 text-[11.5px]">
+            <LegendDot color="var(--color-primary)" label="Messages" />
+            <LegendDot color="var(--color-success)" label="Payments" />
           </div>
         </Card>
 
         <Card>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-[15px] font-semibold text-[--color-ink]">Pipeline snapshot</h3>
-              <p className="text-[12px] text-[--color-muted] mt-0.5">Where your leads are right now</p>
-            </div>
-            <Link to="/app/contacts" className="text-[12px] font-semibold text-[--color-primary]">View all →</Link>
-          </div>
-          <div className="h-2 rounded-full bg-[--color-surface-strong] overflow-hidden flex">
-            <div style={{ width: "62%", background: "var(--color-primary)" }} />
-            <div style={{ width: "6%", background: "var(--color-info)" }} />
-            <div style={{ width: "4%", background: "var(--color-success)" }} />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5">
-            <PipelineStat dot="var(--color-primary)" label="New" value="15" />
-            <PipelineStat dot="var(--color-info)" label="Contacted" value="1" />
-            <PipelineStat dot="var(--color-success)" label="Qualified" value="0" />
-            <PipelineStat dot="var(--color-muted-soft)" label="Won" value="0" />
-            <PipelineStat dot="var(--color-error)" label="Lost" value="0" />
-          </div>
-        </Card>
-      </div>
-
-      {/* Infinite Agent + Quick actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-        <Card className="lg:col-span-3">
-          <div className="flex items-start justify-between gap-3 mb-3">
-            <div>
-              <h3 className="text-[15px] font-semibold text-[--color-ink]">Infinite Agent</h3>
-              <p className="text-[12px] text-[--color-muted] mt-0.5">Tell the AI what to do — you'll preview every action before it sends.</p>
-            </div>
-            <Link to="/app/ai-brain" className="text-[12px] font-semibold text-[--color-primary] shrink-0">AI Brain →</Link>
-          </div>
-          <div className="relative">
-            <input
-              placeholder="e.g. Follow up with all new leads who haven't replied…"
-              className="w-full h-11 pl-3.5 pr-11 rounded-lg border border-[--color-hairline] bg-white text-[13px] focus:outline-none focus:border-[--color-primary]"
-            />
-            <button
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-md grid place-items-center text-white"
-              style={{ background: "var(--color-brand-gradient)" }}
-            >
-              <Send size={14} />
-            </button>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {AGENT_CHIPS.map(c => (
-              <button key={c} className="text-[11.5px] font-medium text-[--color-body] px-2.5 py-1 rounded-full border border-[--color-hairline] bg-white hover:border-[--color-primary] hover:text-[--color-primary]">
-                {c}
-              </button>
+          <SectionTitle title="Pipeline Snapshot" hint={`${pipeTotal} total leads`} inline />
+          <div className="flex h-2.5 rounded-full overflow-hidden mt-4 bg-[--color-surface-strong]">
+            {PIPE.map(p => (
+              <div key={p.k} style={{ width: `${(p.n / pipeTotal) * 100}%`, background: p.color }} />
             ))}
           </div>
-        </Card>
-
-        <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5 pb-3">
-            <h3 className="text-[15px] font-semibold text-[--color-ink]">Quick actions</h3>
-          </div>
-          <div>
-            {QUICK_ACTIONS.map((q, i) => {
-              const I = q.icon;
-              const toneMap: Record<string, string> = {
-                warning: "bg-[--color-warning-subtle] text-[--color-warning]",
-                success: "bg-[--color-success-subtle] text-[--color-success]",
-                primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
-              };
-              return (
-                <button key={i} className="w-full flex items-center gap-3 px-5 py-3 border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition text-left">
-                  <div className={`w-8 h-8 rounded-lg grid place-items-center shrink-0 ${toneMap[q.tone]}`}>
-                    <I size={15} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[13px] font-semibold text-[--color-ink] truncate">{q.label}</div>
-                    <div className="text-[11.5px] text-[--color-muted] truncate">{q.sub}</div>
-                  </div>
-                  <ChevronRight size={14} className="text-[--color-muted-soft] shrink-0" />
-                </button>
-              );
-            })}
-          </div>
-        </Card>
-      </div>
-
-      {/* Needs reply + AI Autopilot */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-        <Card className="lg:col-span-3" padded={false}>
-          <div className="flex items-center justify-between p-5 pb-3">
-            <div className="flex items-center gap-2">
-              <h3 className="text-[15px] font-semibold text-[--color-ink]">Needs your reply</h3>
-              <span className="text-[10.5px] font-semibold text-[--color-error] bg-[--color-error-subtle] px-1.5 py-0.5 rounded-full">2</span>
-            </div>
-            <Link to="/app/inbox" className="text-[12px] font-semibold text-[--color-primary]">Open inbox →</Link>
-          </div>
-          <div>
-            {REPLIES.map((r, i) => (
-              <div key={i} className="flex items-center gap-3 px-5 py-3 border-t border-[--color-hairline-soft]">
-                <div className="w-9 h-9 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] text-[10.5px] font-bold shrink-0">SM</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[13px] font-semibold text-[--color-ink] truncate">{r.name}</div>
-                  <div className="text-[11.5px] text-[--color-muted] truncate">{r.preview}</div>
+          <div className="grid grid-cols-5 gap-2 mt-4">
+            {PIPE.map(p => (
+              <div key={p.k} className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ background: p.color }} />
+                  <span className="text-[11px] text-[--color-muted] truncate">{p.k}</span>
                 </div>
-                <div className="text-[11px] text-[--color-muted-soft] shrink-0">{r.time}</div>
-                <button className="h-7 px-2.5 rounded-md text-[11.5px] font-semibold text-[--color-primary] hover:bg-[--color-primary-subdued] shrink-0">
-                  Reply →
-                </button>
+                <div className="text-[18px] font-semibold text-[--color-ink] mt-0.5">{p.n}</div>
               </div>
             ))}
           </div>
         </Card>
+      </div>
 
-        <Card className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <h3 className="text-[15px] font-semibold text-[--color-ink]">AI Autopilot</h3>
-              <span className="text-[10px] font-semibold text-[--color-ai] bg-[--color-ai-subtle] px-1.5 py-0.5 rounded-full uppercase tracking-wider">Active</span>
+      {/* 8. Main two-column area */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Left column */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Infinite Agent */}
+          <Card>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>
+                <Sparkles size={15} />
+              </div>
+              <div>
+                <div className="text-[14px] font-semibold text-[--color-ink]">Infinite Agent</div>
+                <div className="text-[11.5px] text-[--color-muted]">Ask anything or trigger an action</div>
+              </div>
             </div>
-            <Link to="/app/ai-employee" className="text-[12px] font-semibold text-[--color-primary]">View all →</Link>
-          </div>
-          <div className="text-[28px] font-semibold text-[--color-ink] tracking-tight">0 <span className="text-[13px] font-normal text-[--color-muted]">actions today</span></div>
-          <div className="mt-4 flex items-center gap-2 text-[12px] text-[--color-muted]">
-            <Bot size={14} className="text-[--color-muted-soft]" />
-            No automated actions yet
-          </div>
-        </Card>
+            <div className="flex items-center gap-2 rounded-lg border border-[--color-hairline] bg-[--color-surface-strong] px-3 h-11">
+              <Search size={15} className="text-[--color-muted]" />
+              <input
+                value={aiCommand}
+                onChange={e => setAiCommand(e.target.value)}
+                placeholder="e.g. Send review requests to last week's paid customers"
+                className="flex-1 h-full bg-transparent focus:outline-none text-[13px] text-[--color-ink] placeholder:text-[--color-muted]"
+              />
+              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient)" }}>
+                Run
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {AI_CHIPS.map(c => (
+                <button
+                  key={c}
+                  onClick={() => setAiCommand(c)}
+                  className="text-[11.5px] font-medium px-2.5 py-1 rounded-full border border-[--color-hairline] text-[--color-body] hover:bg-[--color-primary-subdued] hover:border-[--color-primary] hover:text-[--color-primary-deep] transition"
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </Card>
+
+          {/* Needs your reply */}
+          <Card padded={false}>
+            <div className="p-5 pb-3 flex items-center justify-between">
+              <SectionTitle title="Needs your reply" inline />
+              <Link to="/app/inbox" className="text-[12px] font-semibold text-[--color-primary] flex items-center gap-1">
+                View inbox <ChevronRight size={12} />
+              </Link>
+            </div>
+            <div>
+              {inboxNeedsReply.map(t => {
+                const c = CONTACTS.find(x => x.id === t.contactId);
+                return (
+                  <div key={t.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong] transition">
+                    <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                      {initials(c?.name ?? "??")}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="text-[13.5px] font-semibold text-[--color-ink] truncate">{c?.name}</div>
+                        <span className="text-[11px] text-[--color-muted] shrink-0">· {t.time}</span>
+                      </div>
+                      <div className="text-[12.5px] text-[--color-body] truncate">{t.preview}</div>
+                    </div>
+                    <Btn variant="secondary" size="sm" icon={<Reply size={12} />}>Reply</Btn>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+
+          {/* Today's schedule */}
+          <Card padded={false}>
+            <div className="p-5 pb-3 flex items-center justify-between">
+              <SectionTitle title="Today's schedule" inline />
+              <Link to="/app/calendar" className="text-[12px] font-semibold text-[--color-primary] flex items-center gap-1">
+                Open calendar <ChevronRight size={12} />
+              </Link>
+            </div>
+            <div>
+              {todaysAppts.map((a, i) => (
+                <div key={i} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft]">
+                  <div className="text-[12px] font-mono font-semibold text-[--color-ink] w-16 shrink-0">{a.time}</div>
+                  <div className="w-8 h-8 rounded-lg grid place-items-center bg-[--color-primary-subdued] text-[--color-primary-deep] shrink-0">
+                    <Calendar size={14} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] font-semibold text-[--color-ink] truncate">{a.title}</div>
+                    <div className="text-[12px] text-[--color-muted] truncate">{a.customer}</div>
+                  </div>
+                  <Tag tone={a.status === "Confirmed" ? "success" : a.status === "En Route" ? "warning" : "neutral"}>
+                    {a.status}
+                  </Tag>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Hot leads */}
+          <Card padded={false}>
+            <div className="p-5 pb-3 flex items-center justify-between">
+              <SectionTitle title="Hot leads" inline />
+              <Link to="/app/contacts" className="text-[12px] font-semibold text-[--color-primary] flex items-center gap-1">
+                View all <ChevronRight size={12} />
+              </Link>
+            </div>
+            <div>
+              {hotLeads.map(l => (
+                <div key={l.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft]">
+                  <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                    {initials(l.name)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13.5px] font-semibold text-[--color-ink] truncate">{l.name}</div>
+                    <div className="text-[11.5px] text-[--color-muted] truncate">{l.stage} · Score {l.score} · {l.activity}</div>
+                  </div>
+                  <Tag tone="success">Hot</Tag>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* Right column */}
+        <div className="space-y-4">
+          {/* Quick actions */}
+          <Card>
+            <SectionTitle title="Quick actions" inline />
+            <div className="space-y-1.5 mt-3">
+              <QuickAction icon={Star} label="Send review request" onClick={() => setDlg("review")} tone="warning" />
+              <QuickAction icon={CreditCard} label="Request payment" onClick={() => setDlg("payment")} tone="success" />
+              <QuickAction icon={Megaphone} label="Launch campaign" onClick={() => {}} tone="ai" />
+            </div>
+          </Card>
+
+          {/* AI Autopilot */}
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg grid place-items-center bg-[--color-ai-subtle] text-[--color-ai]">
+                  <Bot size={15} />
+                </div>
+                <div>
+                  <div className="text-[14px] font-semibold text-[--color-ink]">AI Autopilot</div>
+                  <div className="text-[11.5px] text-[--color-muted]">Handles inbound while you work</div>
+                </div>
+              </div>
+              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${autopilot ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>
+                {autopilot ? "Active" : "Paused"}
+              </span>
+            </div>
+            <div className="rounded-lg bg-[--color-surface-strong] p-3 mb-3">
+              <div className="text-[22px] font-semibold text-[--color-ink]">42</div>
+              <div className="text-[11.5px] text-[--color-muted]">actions today</div>
+            </div>
+            <div className="space-y-1.5 text-[12px]">
+              <ActivityRow label="Replies sent" value={18} />
+              <ActivityRow label="Bookings" value={9} />
+              <ActivityRow label="Review asks" value={7} />
+              <ActivityRow label="Payment nudges" value={8} />
+            </div>
+            <button
+              onClick={() => setAutopilot(v => !v)}
+              className={`mt-3 w-full h-9 rounded-lg text-[12.5px] font-semibold transition ${autopilot ? "border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]" : "text-white"}`}
+              style={autopilot ? undefined : { background: "var(--color-brand-gradient)" }}
+            >
+              {autopilot ? "Pause autopilot" : "Activate autopilot"}
+            </button>
+          </Card>
+
+          {/* Reviews */}
+          <Card>
+            <SectionTitle title="Reviews" inline />
+            <div className="flex items-baseline gap-2 mt-3">
+              <div className="text-[28px] font-semibold text-[--color-ink] leading-none">{avgRating}</div>
+              <div className="text-[11.5px] text-[--color-muted]">avg · {REVIEWS.length} total</div>
+            </div>
+            <div className="flex gap-0.5 mt-1.5 mb-3">
+              {[1,2,3,4,5].map(i => (
+                <Star key={i} size={14} className={i <= Math.round(Number(avgRating)) ? "text-[--color-warning] fill-[--color-warning]" : "text-[--color-hairline]"} />
+              ))}
+            </div>
+            <div className="space-y-1 mb-3">
+              {ratingDist.map(r => {
+                const pct = (r.n / REVIEWS.length) * 100;
+                return (
+                  <div key={r.star} className="flex items-center gap-2 text-[11px]">
+                    <span className="w-3 text-[--color-muted]">{r.star}</span>
+                    <div className="flex-1 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
+                      <div className="h-full rounded-full bg-[--color-warning]" style={{ width: `${pct}%` }} />
+                    </div>
+                    <span className="w-4 text-right text-[--color-muted]">{r.n}</span>
+                  </div>
+                );
+              })}
+            </div>
+            {unanswered > 0 && (
+              <div className="flex items-center gap-2 rounded-lg bg-[--color-warning-subtle] p-2.5 text-[12px]">
+                <AlertTriangle size={14} className="text-[--color-warning] shrink-0" />
+                <span className="text-[--color-ink]">{unanswered} reviews awaiting reply</span>
+              </div>
+            )}
+          </Card>
+
+          {/* AI Search */}
+          <Link to="/app/ai-search">
+            <Card className="!p-4 hover:border-[--color-primary] transition">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                  <Sparkles size={15} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[13.5px] font-semibold text-[--color-ink]">AI Search</div>
+                  <div className="text-[11.5px] text-[--color-muted]">Ask anything about your business</div>
+                </div>
+                <ChevronRight size={16} className="text-[--color-muted]" />
+              </div>
+            </Card>
+          </Link>
+
+          {/* Integrations health */}
+          <Card>
+            <SectionTitle title="Integrations" inline />
+            <div className="mt-3 space-y-2">
+              {INTEGRATIONS.map(i => (
+                <div key={i.name} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-md grid place-items-center bg-[--color-surface-strong] text-[--color-body] shrink-0">
+                    <Plug size={13} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[12.5px] font-semibold text-[--color-ink]">{i.name}</div>
+                    <div className="text-[11px] text-[--color-muted]">{i.desc}</div>
+                  </div>
+                  <StatusPill status={i.status} />
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
       </div>
+
+      {/* Dialogs */}
+      {dlg === "message" && (
+        <Dialog title="New message" onClose={() => setDlg(null)} icon={<Send size={15} />}>
+          <Field label="To">
+            <input placeholder="Search contacts..." className="input" />
+          </Field>
+          <Field label="Channel">
+            <div className="flex gap-2">
+              {["SMS", "Email", "WhatsApp"].map(c => (
+                <button key={c} className="flex-1 h-9 rounded-lg border border-[--color-hairline] text-[12.5px] font-medium hover:bg-[--color-surface-strong]">{c}</button>
+              ))}
+            </div>
+          </Field>
+          <Field label="Message">
+            <textarea rows={4} placeholder="Write your message..." className="input resize-none" />
+          </Field>
+          <DialogFooter onClose={() => setDlg(null)} primary="Send message" />
+        </Dialog>
+      )}
+      {dlg === "payment" && (
+        <Dialog title="Request payment" onClose={() => setDlg(null)} icon={<CreditCard size={15} />}>
+          <Field label="Customer"><input placeholder="Search customers..." className="input" /></Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Amount"><input placeholder="$0.00" className="input" /></Field>
+            <Field label="Due"><input type="date" className="input" /></Field>
+          </div>
+          <Field label="Description"><input placeholder="e.g. AC Repair - 123 Main St" className="input" /></Field>
+          <DialogFooter onClose={() => setDlg(null)} primary="Send request" />
+        </Dialog>
+      )}
+      {dlg === "review" && (
+        <Dialog title="Send review request" onClose={() => setDlg(null)} icon={<Star size={15} />}>
+          <Field label="Customer"><input placeholder="Search customers..." className="input" /></Field>
+          <Field label="Send via">
+            <div className="flex gap-2">
+              {["SMS", "Email", "Both"].map(c => (
+                <button key={c} className="flex-1 h-9 rounded-lg border border-[--color-hairline] text-[12.5px] font-medium hover:bg-[--color-surface-strong]">{c}</button>
+              ))}
+            </div>
+          </Field>
+          <Field label="Platform">
+            <div className="flex gap-2">
+              {["Google", "Facebook", "Yelp"].map(c => (
+                <button key={c} className="flex-1 h-9 rounded-lg border border-[--color-hairline] text-[12.5px] font-medium hover:bg-[--color-surface-strong]">{c}</button>
+              ))}
+            </div>
+          </Field>
+          <DialogFooter onClose={() => setDlg(null)} primary="Send request" />
+        </Dialog>
+      )}
+
+      {/* input styles */}
+      <style>{`
+        .input {
+          width: 100%;
+          height: 38px;
+          padding: 0 12px;
+          border-radius: 8px;
+          border: 1px solid var(--color-hairline);
+          background: #fff;
+          font-size: 13px;
+          color: var(--color-ink);
+          outline: none;
+          transition: border-color .15s, box-shadow .15s;
+        }
+        textarea.input { height: auto; padding: 10px 12px; }
+        .input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-glow); }
+      `}</style>
     </div>
   );
 }
 
-/* ---------- helpers ---------- */
+/* -------------------------------------------------- pieces */
 
-function Kicker({ children }: { children: React.ReactNode }) {
+function SectionTitle({ title, hint, inline }: { title: string; hint?: string; inline?: boolean }) {
   return (
-    <div className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[--color-muted]">
-      {children}
+    <div className={inline ? "flex items-baseline justify-between gap-2" : "mb-3 flex items-baseline justify-between gap-2"}>
+      <h2 className="text-[15px] font-semibold text-[--color-ink]">{title}</h2>
+      {hint && <span className="text-[11.5px] text-[--color-muted]">{hint}</span>}
     </div>
   );
 }
 
-function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
-  return (
-    <div className="mt-1">
-      <h2 className="text-[18px] font-semibold text-[--color-ink] tracking-tight">{title}</h2>
-      {subtitle && <p className="text-[12.5px] text-[--color-muted] mt-0.5">{subtitle}</p>}
-    </div>
-  );
-}
-
-function MetricCard({
-  icon, tone, value, label, hint, chip, chipTone,
-}: {
-  icon: React.ReactNode;
-  tone: "info" | "warning" | "success" | "ai" | "primary";
-  value: string; label: string; hint: string;
-  chip: string;
-  chipTone: "success" | "warning" | "danger" | "neutral";
-}) {
-  const iconBg: Record<string, string> = {
-    info: "bg-[--color-info-subtle] text-[--color-info]",
-    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
-    success: "bg-[--color-success-subtle] text-[--color-success]",
-    ai: "bg-[--color-ai-subtle] text-[--color-ai]",
+function IconTile({ icon: I, tone, size = "md" }: { icon: any; tone: "primary" | "info" | "success" | "warning" | "danger" | "ai"; size?: "sm" | "md" }) {
+  const map: Record<string, string> = {
     primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    danger:  "bg-[--color-error-subtle] text-[--color-error]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
   };
-  const chipCls: Record<string, string> = {
-    success: "text-[--color-success] bg-[--color-success-subtle]",
-    warning: "text-[--color-warning] bg-[--color-warning-subtle]",
-    danger: "text-[--color-error] bg-[--color-error-subtle]",
-    neutral: "text-[--color-muted] bg-[--color-surface-strong]",
-  };
+  const s = size === "sm" ? "w-8 h-8" : "w-10 h-10";
+  const isize = size === "sm" ? 14 : 17;
+  return <div className={`${s} rounded-lg grid place-items-center shrink-0 ${map[tone]}`}><I size={isize} /></div>;
+}
+
+function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
+  label: string; value: string; delta: string; up: boolean;
+  icon: any; tone: "info" | "success" | "warning" | "ai"; hint: string;
+}) {
   return (
-    <Card>
-      <div className="flex items-center justify-between">
-        <div className={`w-8 h-8 rounded-lg grid place-items-center ${iconBg[tone]}`}>{icon}</div>
-        <span className={`text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full ${chipCls[chipTone]}`}>{chip}</span>
+    <Card className="!p-4">
+      <div className="flex items-start justify-between mb-2">
+        <IconTile icon={I} tone={tone} size="sm" />
+        <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
+          {up ? <TrendingUp size={11} /> : <TrendingDown size={11} />}{delta}
+        </span>
       </div>
-      <div className="text-[28px] font-semibold tracking-tight mt-3 text-[--color-ink] leading-none">{value}</div>
-      <div className="text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] mt-1.5">{label}</div>
-      <div className="text-[11.5px] text-[--color-muted-soft] mt-1">{hint}</div>
+      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mt-1">{label}</div>
+      <div className="text-[24px] font-semibold text-[--color-ink] leading-tight mt-1">{value}</div>
+      <div className="text-[11.5px] text-[--color-muted] mt-0.5">{hint}</div>
     </Card>
   );
 }
 
-
-
-function AttentionCard({
-  icon, tone, title, count, sub, to,
-}: {
-  icon: React.ReactNode;
-  tone: "info" | "danger";
-  title: string; count: number; sub: string; to: string;
-}) {
-  const iconBg = tone === "danger"
-    ? "bg-[--color-error-subtle] text-[--color-error]"
-    : "bg-[--color-info-subtle] text-[--color-info]";
+function LegendDot({ color, label }: { color: string; label: string }) {
   return (
-    <Link
-      to={to}
-      className="group bg-white rounded-[14px] border border-[--color-hairline] px-4 py-4 flex items-center gap-3 transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)]"
-    >
-      <div className={`w-9 h-9 rounded-lg grid place-items-center shrink-0 ${iconBg}`}>{icon}</div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="text-[13.5px] font-semibold text-[--color-ink]">{title}</span>
-          <span className={`text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full ${tone === "danger" ? "bg-[--color-error-subtle] text-[--color-error]" : "bg-[--color-info-subtle] text-[--color-info]"}`}>{count}</span>
-        </div>
-        <div className="text-[11.5px] text-[--color-muted] mt-0.5 truncate">{sub}</div>
-      </div>
-      <ChevronRight size={15} className="text-[--color-muted-soft] group-hover:text-[--color-primary] shrink-0" />
-    </Link>
+    <div className="flex items-center gap-1.5">
+      <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+      <span className="text-[--color-muted]">{label}</span>
+    </div>
   );
 }
 
-function LegendDot({ color }: { color: string }) {
+function QuickAction({ icon: I, label, tone, onClick }: { icon: any; label: string; tone: "warning" | "success" | "ai"; onClick: () => void }) {
   return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className="w-2 h-2 rounded-full inline-block" style={{ background: color }} />
+    <button onClick={onClick} className="w-full flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-[--color-surface-strong] transition text-left">
+      <IconTile icon={I} tone={tone} size="sm" />
+      <span className="flex-1 text-[13px] font-medium text-[--color-ink]">{label}</span>
+      <ChevronRight size={14} className="text-[--color-muted]" />
+    </button>
+  );
+}
+
+function ActivityRow({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-[--color-body]">{label}</span>
+      <span className="font-semibold text-[--color-ink]">{value}</span>
+    </div>
+  );
+}
+
+function StatusPill({ status }: { status: "Healthy" | "Degraded" | "Down" }) {
+  const m = {
+    Healthy:  { bg: "bg-[--color-success-subtle]", tx: "text-[--color-success]", I: CheckCircle },
+    Degraded: { bg: "bg-[--color-warning-subtle]", tx: "text-[--color-warning]", I: AlertTriangle },
+    Down:     { bg: "bg-[--color-error-subtle]",   tx: "text-[--color-error]",   I: X },
+  }[status];
+  const I = m.I;
+  return (
+    <span className={`inline-flex items-center gap-1 text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full ${m.bg} ${m.tx}`}>
+      <I size={10} />{status}
     </span>
   );
 }
 
-function PipelineStat({ dot, label, value }: { dot: string; label: string; value: string }) {
+function Dialog({ title, icon, children, onClose }: { title: string; icon: React.ReactNode; children: React.ReactNode; onClose: () => void }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="w-2 h-2 rounded-full" style={{ background: dot }} />
-      <div className="min-w-0">
-        <div className="text-[11px] text-[--color-muted]">{label}</div>
-        <div className="text-[15px] font-semibold text-[--color-ink] leading-tight">{value}</div>
+    <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-[rgba(10,37,64,0.45)]" onClick={onClose}>
+      <div className="w-full max-w-md bg-white rounded-[16px] border border-[--color-hairline] shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center gap-2 px-5 py-4 border-b border-[--color-hairline]">
+          <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>{icon}</div>
+          <div className="text-[15px] font-semibold text-[--color-ink] flex-1">{title}</div>
+          <button onClick={onClose} className="w-8 h-8 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] text-[--color-body]">
+            <X size={14} />
+          </button>
+        </div>
+        <div className="p-5 space-y-3">{children}</div>
       </div>
+    </div>
+  );
+}
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-1.5">{label}</div>
+      {children}
+    </label>
+  );
+}
+function DialogFooter({ onClose, primary }: { onClose: () => void; primary: string }) {
+  return (
+    <div className="flex justify-end gap-2 pt-2">
+      <Btn variant="secondary" onClick={onClose}>Cancel</Btn>
+      <Btn variant="gradient" onClick={onClose}>{primary}</Btn>
     </div>
   );
 }
