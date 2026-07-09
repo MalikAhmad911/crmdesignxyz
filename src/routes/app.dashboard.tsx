@@ -796,7 +796,7 @@ function Dialog({ title, icon, children, onClose }: { title: string; icon: React
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-1.5">{label}</div>
+      <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-[--color-body-strong] mb-1.5">{label}</div>
       {children}
     </label>
   );
