@@ -91,10 +91,11 @@
   --color-hairline-soft: #EDF1F6;
 
   --color-ink: #0A2540;
-  --color-body-strong: #1A2E4F;
-  --color-body: #425466;
-  --color-muted: #697386;
-  --color-muted-soft: #8898AA;
+  --color-body-strong: #0A2540;
+  --color-body: #2A3B5B;
+  --color-muted: #4C5A73;
+  --color-muted-soft: #6B7A93;
+
 
   /* Stripe indigo primary */
   --color-primary: #635BFF;
