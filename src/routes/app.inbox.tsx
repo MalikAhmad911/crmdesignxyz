@@ -354,7 +354,7 @@ function InboxPage() {
       {active && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} loading={contextLoading} />}
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} />}
           </div>
           {showContext && (
             <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
