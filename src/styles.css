@@ -226,3 +226,48 @@
   font-weight: 700;
   letter-spacing: 0.12em;
 }
+
+/* Placeholders: readable but visually distinct from filled values */
+.app-scope input::placeholder,
+.app-scope textarea::placeholder {
+  color: var(--color-muted-soft);
+  opacity: 1;
+  font-weight: 450;
+}
+
+/* Radix popovers/dropdowns render to document.body (outside .app-scope).
+   Re-apply the app palette so table filters, selects, and menus don't
+   inherit undefined tokens or look washed out. */
+[data-radix-popper-content-wrapper],
+[role="menu"],
+[role="listbox"],
+[role="dialog"] {
+  --color-ink: #0A2540;
+  --color-body-strong: #0A2540;
+  --color-body: #2A3B5B;
+  --color-muted: #425A7C;
+  --color-muted-soft: #5B6E88;
+  --color-hairline: #E3E8EE;
+  --color-surface-strong: #EFF4FA;
+  --color-primary: #635BFF;
+  --color-primary-deep: #4F46E5;
+  --color-primary-subdued: #EFEFFE;
+  color: var(--color-body);
+  font-weight: 450;
+}
+[data-radix-popper-content-wrapper] .text-\[10px\],
+[data-radix-popper-content-wrapper] .text-\[10\.5px\],
+[data-radix-popper-content-wrapper] .text-\[11px\],
+[data-radix-popper-content-wrapper] .text-\[11\.5px\],
+[data-radix-popper-content-wrapper] .text-\[12px\],
+[data-radix-popper-content-wrapper] .text-\[12\.5px\] {
+  font-weight: 500;
+}
+
+/* Table cells: ensure body text hits our darker body token, headers hit ink */
+.app-scope table { color: var(--color-body); }
+.app-scope th {
+  color: var(--color-body-strong);
+  font-weight: 700;
+}
+.app-scope td { color: var(--color-body); }
