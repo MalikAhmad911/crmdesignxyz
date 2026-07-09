@@ -108,7 +108,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Sidebar — dark, desktop only */}
         <aside className="hidden lg:flex fixed inset-y-0 left-0 w-[240px] flex-col border-r border-[--color-sidebar-border]" style={{ background: "var(--color-sidebar-bg)", color: "var(--color-body)" }}>
           <div className="h-[60px] flex items-center gap-2.5 px-4 shrink-0 border-b border-[--color-sidebar-border]">
-            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)]" style={{ background: "var(--color-brand-gradient)" }}>
+            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)]" style={{ background: "var(--color-brand-gradient-2)" }}>
               ⚡
             </div>
             <div className="min-w-0 flex-1">
@@ -163,7 +163,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
 
             <div className="flex items-center gap-2.5 px-2">
-              <div className="w-8 h-8 rounded-full grid place-items-center text-white text-[12px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+              <div className="w-8 h-8 rounded-full grid place-items-center text-white text-[12px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                 MW
               </div>
               <div className="min-w-0 flex-1">
@@ -183,7 +183,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div ref={wrap} className="flex-1 min-w-0 flex flex-col lg:pl-[240px]">
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
-            <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+            <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
               ⚡
             </div>
             <div className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
@@ -202,7 +202,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <button
                   onClick={() => { setNewOpen(v => !v); setNotifOpen(false); setUserOpen(false); }}
                   className="h-9 px-3 rounded-lg text-[13px] font-medium text-white flex items-center gap-1.5 transition hover:opacity-90 active:scale-[0.97]"
-                  style={{ background: "var(--color-brand-gradient)" }}
+                  style={{ background: "var(--color-brand-gradient-2)" }}
                 >
                   <Plus size={14} /> New <ChevronDown size={12} />
                 </button>
@@ -261,7 +261,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <button
                   onClick={() => { setUserOpen(v => !v); setNotifOpen(false); setNewOpen(false); }}
                   className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-bold"
-                  style={{ background: "var(--color-brand-gradient)" }}
+                  style={{ background: "var(--color-brand-gradient-2)" }}
                 >
                   MW
                 </button>
@@ -327,12 +327,14 @@ export function Card({
 }: { children: React.ReactNode; className?: string; padded?: boolean }) {
   return (
     <div
-      className={`bg-white rounded-[14px] border border-[--color-hairline] transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] ${padded ? "p-5" : ""} ${className}`}
+      className={`bg-white rounded-2xl border border-[--color-hairline] transition hover:-translate-y-[1px] ${padded ? "p-5" : ""} ${className}`}
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
       {children}
     </div>
   );
 }
+
 
 export function Tag({
   children, tone = "neutral",
@@ -372,7 +374,7 @@ export function Btn({
     danger: "bg-[--color-error] text-white hover:opacity-90",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : size === "lg" ? "h-11 px-5 text-[14px]" : "h-9 px-4 text-[13px]";
-  const style = variant === "gradient" ? { background: "var(--color-brand-gradient)" } : undefined;
+  const style = variant === "gradient" ? { background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" } : undefined;
   return (
     <button
       onClick={onClick}

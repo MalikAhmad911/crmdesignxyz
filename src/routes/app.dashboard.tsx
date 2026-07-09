@@ -126,27 +126,60 @@ function DashboardPage() {
   const pipeTotal = PIPE.reduce((s, p) => s + p.n, 0);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1440px] mx-auto">
-      {/* 1. Page header */}
-      <div className="mb-5">
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-1.5">
-          {formatDate()}
+    <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto">
+      {/* 1. Aurora hero band */}
+      <div
+        className="relative overflow-hidden rounded-2xl mb-5 p-5 sm:p-7 lg:p-8"
+        style={{
+          background: "var(--color-brand-gradient)",
+          boxShadow: "var(--shadow-elev)",
+        }}
+      >
+        {/* mesh orbs for depth */}
+        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
+        {/* subtle grain */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")" }} />
+
+        <div className="relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:gap-6">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-widest text-white/80 bg-white/12 border border-white/20 rounded-full px-2.5 py-1 mb-3 backdrop-blur-sm">
+              <Sparkles size={11} /> <span className="truncate">{formatDate()}</span>
+            </div>
+            <h1 className="text-[22px] sm:text-[28px] lg:text-[32px] font-semibold tracking-tight text-white leading-tight truncate">
+              {greeting()}, {BUSINESS.name}
+            </h1>
+            <p className="text-[13px] sm:text-[14px] text-white/75 mt-1.5 max-w-lg">
+              Your workspace overview — metrics, activity, and AI tools in one place.
+            </p>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setDlg("payment")}
+              className="h-10 px-4 rounded-lg text-[13px] font-semibold text-white bg-white/12 hover:bg-white/20 border border-white/25 backdrop-blur-sm inline-flex items-center gap-1.5 transition"
+            >
+              <CreditCard size={14} /> Request payment
+            </button>
+            <button
+              onClick={() => setDlg("message")}
+              className="h-10 px-4 rounded-lg text-[13px] font-semibold text-[--color-ink] bg-white hover:bg-white/95 inline-flex items-center gap-1.5 transition shadow-sm"
+            >
+              <Send size={14} /> New message
+            </button>
+          </div>
         </div>
-        <PageHeader
-          title={`${greeting()}, ${BUSINESS.name}`}
-          subtitle="Your workspace overview — metrics, activity, and AI tools in one place."
-          actions={
-            <>
-              <Btn variant="secondary" icon={<CreditCard size={14} />} onClick={() => setDlg("payment")}>
-                Request payment
-              </Btn>
-              <Btn variant="gradient" icon={<Send size={14} />} onClick={() => setDlg("message")}>
-                New message
-              </Btn>
-            </>
-          }
-        />
+        {/* mobile CTAs */}
+        <div className="relative sm:hidden grid grid-cols-2 gap-2 mt-4">
+          <button onClick={() => setDlg("payment")} className="h-10 rounded-lg text-[12.5px] font-semibold text-white bg-white/12 border border-white/25 inline-flex items-center justify-center gap-1.5 backdrop-blur-sm">
+            <CreditCard size={13} /> Payment
+          </button>
+          <button onClick={() => setDlg("message")} className="h-10 rounded-lg text-[12.5px] font-semibold text-[--color-ink] bg-white inline-flex items-center justify-center gap-1.5 shadow-sm">
+            <Send size={13} /> Message
+          </button>
+        </div>
       </div>
+
+
 
       {/* 2. Trial banner */}
       {trialOpen && (
@@ -186,7 +219,7 @@ function DashboardPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-32 sm:w-48 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
-              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-brand-gradient)" }} />
+              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-brand-gradient-2)" }} />
             </div>
             <span className="text-[12px] font-semibold text-[--color-ink]">{done}/{total} done</span>
           </div>
@@ -255,22 +288,24 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
         <Card>
           <SectionTitle title="Weekly Pulse" hint="Messages & payments · last 7 days" inline />
-          <div className="flex items-end gap-3 h-40 mt-4">
+          <div className="flex items-end gap-2 sm:gap-3 h-40 mt-4">
             {WEEK.map(w => {
-              const totalH = ((w.m + w.p) / maxWeek) * 100;
-              const mH = (w.m / (w.m + w.p)) * totalH;
+              const H = 140;
+              const totalH = ((w.m + w.p) / maxWeek) * H;
               const pH = (w.p / (w.m + w.p)) * totalH;
+              const mH = totalH - pH;
               return (
-                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5">
-                  <div className="w-full flex flex-col justify-end h-full">
-                    <div className="w-full rounded-t-md" style={{ height: `${pH}%`, background: "var(--color-success)" }} />
-                    <div className="w-full" style={{ height: `${mH}%`, background: "var(--color-primary)" }} />
+                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0">
+                  <div className="w-full flex flex-col justify-end" style={{ height: H }}>
+                    <div className="w-full rounded-t-md" style={{ height: pH, background: "var(--color-success)" }} />
+                    <div className="w-full" style={{ height: mH, background: "var(--color-primary)" }} />
                   </div>
                   <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
               );
             })}
           </div>
+
           <div className="flex items-center gap-4 mt-3 text-[11.5px]">
             <LegendDot color="var(--color-primary)" label="Messages" />
             <LegendDot color="var(--color-success)" label="Payments" />
@@ -305,7 +340,7 @@ function DashboardPage() {
           {/* Infinite Agent */}
           <Card>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>
+              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient-2)" }}>
                 <Sparkles size={15} />
               </div>
               <div>
@@ -321,7 +356,7 @@ function DashboardPage() {
                 placeholder="e.g. Send review requests to last week's paid customers"
                 className="flex-1 h-full bg-transparent focus:outline-none text-[13px] text-[--color-ink] placeholder:text-[--color-muted]"
               />
-              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient)" }}>
+              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient-2)" }}>
                 Run
               </button>
             </div>
@@ -351,7 +386,7 @@ function DashboardPage() {
                 const c = CONTACTS.find(x => x.id === t.contactId);
                 return (
                   <div key={t.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong] transition">
-                    <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                    <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                       {initials(c?.name ?? "??")}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -406,7 +441,7 @@ function DashboardPage() {
             <div>
               {hotLeads.map(l => (
                 <div key={l.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft]">
-                  <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                  <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                     {initials(l.name)}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -461,7 +496,7 @@ function DashboardPage() {
             <button
               onClick={() => setAutopilot(v => !v)}
               className={`mt-3 w-full h-9 rounded-lg text-[12.5px] font-semibold transition ${autopilot ? "border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]" : "text-white"}`}
-              style={autopilot ? undefined : { background: "var(--color-brand-gradient)" }}
+              style={autopilot ? undefined : { background: "var(--color-brand-gradient-2)" }}
             >
               {autopilot ? "Pause autopilot" : "Activate autopilot"}
             </button>
@@ -505,7 +540,7 @@ function DashboardPage() {
           <Link to="/app/ai-search">
             <Card className="!p-4 hover:border-[--color-primary] transition">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                   <Sparkles size={15} />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -635,24 +670,68 @@ function IconTile({ icon: I, tone, size = "md" }: { icon: any; tone: "primary" |
   return <div className={`${s} rounded-lg grid place-items-center shrink-0 ${map[tone]}`}><I size={isize} /></div>;
 }
 
+const SPARK: Record<string, number[]> = {
+  info:    [8, 12, 10, 14, 11, 17, 16, 21, 19, 24],
+  warning: [3, 4, 6, 5, 8, 7, 10, 12, 14, 18],
+  success: [40, 55, 48, 62, 70, 68, 82, 90, 105, 124],
+  ai:      [70, 72, 74, 73, 76, 75, 82, 85, 88, 87],
+};
+const TONE_STROKE: Record<string, string> = {
+  info: "var(--color-primary)",
+  warning: "var(--color-warning)",
+  success: "var(--color-success)",
+  ai: "var(--color-ai)",
+};
+
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const w = 68, h = 26, pad = 2;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const step = (w - pad * 2) / (data.length - 1);
+  const pts = data.map((v, i) => `${pad + i * step},${pad + (h - pad * 2) * (1 - (v - min) / range)}`).join(" ");
+  const areaPts = `${pad},${h - pad} ${pts} ${w - pad},${h - pad}`;
+  const gid = `sg-${color.replace(/[^a-z0-9]/gi, "")}`;
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
+      <defs>
+        <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.28" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polyline points={areaPts} fill={`url(#${gid})`} stroke="none" />
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
   label: string; value: string; delta: string; up: boolean;
   icon: any; tone: "info" | "success" | "warning" | "ai"; hint: string;
 }) {
   return (
-    <Card className="!p-4">
-      <div className="flex items-start justify-between mb-2">
+    <div className="relative bg-white rounded-2xl border border-[--color-hairline] p-4 transition hover:-translate-y-[1px]" style={{ boxShadow: "var(--shadow-card)" }}>
+      <div className="flex items-start justify-between gap-2 mb-3">
         <IconTile icon={I} tone={tone} size="sm" />
-        <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
-          {up ? <TrendingUp size={11} /> : <TrendingDown size={11} />}{delta}
+        <span className={`inline-flex items-center gap-1 text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
+          {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}{delta}
         </span>
       </div>
-      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mt-1">{label}</div>
-      <div className="text-[24px] font-semibold text-[--color-ink] leading-tight mt-1">{value}</div>
-      <div className="text-[11.5px] text-[--color-muted] mt-0.5">{hint}</div>
-    </Card>
+      <div className="text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted] truncate">{label}</div>
+      <div className="flex items-end justify-between gap-2 mt-1">
+        <div className="min-w-0 flex-1">
+          <div className="text-[20px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
+          <div className="text-[10.5px] sm:text-[11px] text-[--color-muted] mt-0.5 truncate">{hint}</div>
+        </div>
+        <div className="hidden sm:block shrink-0 opacity-90">
+          <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
+        </div>
+      </div>
+
+    </div>
   );
 }
+
 
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
@@ -701,7 +780,7 @@ function Dialog({ title, icon, children, onClose }: { title: string; icon: React
     <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-[rgba(10,37,64,0.45)]" onClick={onClose}>
       <div className="w-full max-w-md bg-white rounded-[16px] border border-[--color-hairline] shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-2 px-5 py-4 border-b border-[--color-hairline]">
-          <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>{icon}</div>
+          <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient-2)" }}>{icon}</div>
           <div className="text-[15px] font-semibold text-[--color-ink] flex-1">{title}</div>
           <button onClick={onClose} className="w-8 h-8 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] text-[--color-body]">
             <X size={14} />
