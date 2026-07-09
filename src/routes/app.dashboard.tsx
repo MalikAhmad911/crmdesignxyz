@@ -219,7 +219,7 @@ function DashboardPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-32 sm:w-48 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
-              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-brand-gradient)" }} />
+              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-brand-gradient-2)" }} />
             </div>
             <span className="text-[12px] font-semibold text-[--color-ink]">{done}/{total} done</span>
           </div>
@@ -338,7 +338,7 @@ function DashboardPage() {
           {/* Infinite Agent */}
           <Card>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>
+              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient-2)" }}>
                 <Sparkles size={15} />
               </div>
               <div>
@@ -354,7 +354,7 @@ function DashboardPage() {
                 placeholder="e.g. Send review requests to last week's paid customers"
                 className="flex-1 h-full bg-transparent focus:outline-none text-[13px] text-[--color-ink] placeholder:text-[--color-muted]"
               />
-              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient)" }}>
+              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient-2)" }}>
                 Run
               </button>
             </div>
@@ -384,7 +384,7 @@ function DashboardPage() {
                 const c = CONTACTS.find(x => x.id === t.contactId);
                 return (
                   <div key={t.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong] transition">
-                    <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                    <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                       {initials(c?.name ?? "??")}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -439,7 +439,7 @@ function DashboardPage() {
             <div>
               {hotLeads.map(l => (
                 <div key={l.id} className="px-5 py-3 flex items-center gap-3 border-t border-[--color-hairline-soft]">
-                  <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                  <div className="w-9 h-9 rounded-full grid place-items-center text-white text-[12px] font-semibold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                     {initials(l.name)}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -494,7 +494,7 @@ function DashboardPage() {
             <button
               onClick={() => setAutopilot(v => !v)}
               className={`mt-3 w-full h-9 rounded-lg text-[12.5px] font-semibold transition ${autopilot ? "border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]" : "text-white"}`}
-              style={autopilot ? undefined : { background: "var(--color-brand-gradient)" }}
+              style={autopilot ? undefined : { background: "var(--color-brand-gradient-2)" }}
             >
               {autopilot ? "Pause autopilot" : "Activate autopilot"}
             </button>
@@ -538,7 +538,7 @@ function DashboardPage() {
           <Link to="/app/ai-search">
             <Card className="!p-4 hover:border-[--color-primary] transition">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient)" }}>
+                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
                   <Sparkles size={15} />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -777,7 +777,7 @@ function Dialog({ title, icon, children, onClose }: { title: string; icon: React
     <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-[rgba(10,37,64,0.45)]" onClick={onClose}>
       <div className="w-full max-w-md bg-white rounded-[16px] border border-[--color-hairline] shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-2 px-5 py-4 border-b border-[--color-hairline]">
-          <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient)" }}>{icon}</div>
+          <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient-2)" }}>{icon}</div>
           <div className="text-[15px] font-semibold text-[--color-ink] flex-1">{title}</div>
           <button onClick={onClose} className="w-8 h-8 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] text-[--color-body]">
             <X size={14} />
