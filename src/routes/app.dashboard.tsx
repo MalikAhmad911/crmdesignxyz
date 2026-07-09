@@ -717,16 +717,17 @@ function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
           {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}{delta}
         </span>
       </div>
-      <div className="text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted] truncate">{label}</div>
+      <div className="text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted] truncate">{label}</div>
       <div className="flex items-end justify-between gap-2 mt-1">
-        <div className="min-w-0">
-          <div className="text-[22px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
-          <div className="text-[11px] text-[--color-muted] mt-0.5 truncate">{hint}</div>
+        <div className="min-w-0 flex-1">
+          <div className="text-[20px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
+          <div className="text-[10.5px] sm:text-[11px] text-[--color-muted] mt-0.5 truncate">{hint}</div>
         </div>
-        <div className="shrink-0 opacity-90">
+        <div className="hidden sm:block shrink-0 opacity-90">
           <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
         </div>
       </div>
+
     </div>
   );
 }
