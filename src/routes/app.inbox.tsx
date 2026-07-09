@@ -363,13 +363,12 @@ function InboxPage() {
       </div>
 
       {/* Context Panel */}
-      {active && (
+      {active && showContext && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} />}
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
           </div>
-          {showContext && (
-            <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
+          <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
               <div
                 {...contextSwipe}
                 className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200"
