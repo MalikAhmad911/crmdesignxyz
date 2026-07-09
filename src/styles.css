@@ -198,3 +198,10 @@
   color: var(--color-body-strong);
 }
 
+
+/* Small labels/captions on cards need extra weight to stay legible at 11-12px */
+.app-scope .text-\[11px\],
+.app-scope .text-\[11\.5px\],
+.app-scope .text-\[12px\] {
+  font-weight: 500;
+}

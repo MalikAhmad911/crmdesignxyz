@@ -273,8 +273,9 @@ function DashboardPage() {
                   <div className="flex items-center gap-2.5">
                     <IconTile icon={I} tone={a.tone} size="sm" />
                     <div className="min-w-0 flex-1">
-                      <div className="text-[13px] font-semibold text-[--color-ink] truncate">{a.count} {a.label}</div>
-                      <div className="text-[11px] text-[--color-muted]">Tap to review</div>
+                      <div className="text-[13px] font-semibold text-[--color-ink] leading-tight">{a.count} {a.label}</div>
+                      <div className="text-[11.5px] font-medium text-[--color-muted] mt-0.5">Tap to review</div>
+
                     </div>
                   </div>
                 </Card>
