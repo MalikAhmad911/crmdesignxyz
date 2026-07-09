@@ -259,13 +259,25 @@ function InboxPage() {
               <button onClick={() => setActiveId(null)} className="lg:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]">
                 <ArrowLeft size={16} />
               </button>
-              <Avatar name={contact!.name} size={36} />
-              <div className="min-w-0 flex-1">
-                <div className="text-[14px] font-semibold text-[--color-ink] truncate">{contact!.name}</div>
-                <div className="text-[11px] text-[--color-muted] truncate">{contact!.phone}</div>
-              </div>
+              <button
+                onClick={() => setShowContext(v => !v)}
+                className="flex items-center gap-3 min-w-0 flex-1 text-left rounded-lg px-1 -mx-1 py-1 hover:bg-[--color-surface-strong] transition-colors"
+                aria-label="Open customer details"
+              >
+                <Avatar name={contact!.name} size={36} />
+                <div className="min-w-0 flex-1">
+                  <div className="text-[14px] font-semibold text-[--color-ink] truncate">{contact!.name}</div>
+                  <div className="text-[11px] font-medium text-[--color-body] truncate">{contact!.phone}</div>
+                </div>
+              </button>
               <button className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"><Phone size={16} /></button>
-              <button onClick={() => setShowContext(true)} className="xl:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"><Info size={16} /></button>
+              <button
+                onClick={() => setShowContext(v => !v)}
+                aria-pressed={showContext}
+                className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
+              >
+                <Info size={16} />
+              </button>
               <button className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong]"><MoreVertical size={16} /></button>
             </div>
 
@@ -351,13 +363,12 @@ function InboxPage() {
       </div>
 
       {/* Context Panel */}
-      {active && (
+      {active && showContext && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} />}
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
           </div>
-          {showContext && (
-            <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
+          <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
               <div
                 {...contextSwipe}
                 className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200"
@@ -375,8 +386,6 @@ function InboxPage() {
 
               </div>
             </div>
-          )}
-
         </>
       )}
     </div>
