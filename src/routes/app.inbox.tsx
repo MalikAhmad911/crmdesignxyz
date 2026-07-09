@@ -105,6 +105,13 @@ function InboxPage() {
   const [mode, setMode] = useState<"reply" | "note">("reply");
   const [showContext, setShowContext] = useState(false);
   const [draft, setDraft] = useState("");
+  const [aiVisible, setAiVisible] = useState(true);
+  const [toast, setToast] = useState<string | null>(null);
+  const notify = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
+  const AI_SUGGESTION = "You're all set, John! Our tech Mike will arrive at 2pm. He'll text when he's 15 min out.";
 
   // Simulated data-fetch states
   const [listLoading, setListLoading] = useState(true);
@@ -270,15 +277,24 @@ function InboxPage() {
                   <div className="text-[11px] font-medium text-[--color-body] truncate">{contact!.phone}</div>
                 </div>
               </button>
-              <button className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"><Phone size={16} /></button>
+              <button
+                onClick={() => notify(`Calling ${contact!.name}…`)}
+                aria-label="Call customer"
+                className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"
+              ><Phone size={16} /></button>
               <button
                 onClick={() => setShowContext(v => !v)}
                 aria-pressed={showContext}
+                aria-label="Toggle customer details"
                 className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
               >
                 <Info size={16} />
               </button>
-              <button className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong]"><MoreVertical size={16} /></button>
+              <button
+                onClick={() => notify("More actions coming soon")}
+                aria-label="More actions"
+                className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong]"
+              ><MoreVertical size={16} /></button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
@@ -315,20 +331,22 @@ function InboxPage() {
               })}
 
               {/* AI Suggested Reply */}
-              <div className="rounded-xl border border-[--color-ai]/30 bg-[--color-ai-subtle] p-3">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <Sparkles size={13} className="text-[--color-ai]" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[--color-ai]">AI suggested reply</span>
+              {aiVisible && (
+                <div className="rounded-xl border border-[--color-ai]/30 bg-[--color-ai-subtle] p-3">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Sparkles size={13} className="text-[--color-ai]" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[--color-ai]">AI suggested reply</span>
+                  </div>
+                  <div className="text-[13px] text-[--color-ink] mb-2">
+                    "{AI_SUGGESTION}"
+                  </div>
+                  <div className="flex gap-2">
+                    <Btn size="sm" variant="gradient" onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}>Send</Btn>
+                    <Btn size="sm" variant="secondary" onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}>Edit</Btn>
+                    <Btn size="sm" variant="ghost" onClick={() => setAiVisible(false)}>Dismiss</Btn>
+                  </div>
                 </div>
-                <div className="text-[13px] text-[--color-ink] mb-2">
-                  "You're all set, John! Our tech Mike will arrive at 2pm. He'll text when he's 15 min out."
-                </div>
-                <div className="flex gap-2">
-                  <Btn size="sm" variant="gradient">Send</Btn>
-                  <Btn size="sm" variant="secondary">Edit</Btn>
-                  <Btn size="sm" variant="ghost">Dismiss</Btn>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Composer */}
@@ -348,13 +366,32 @@ function InboxPage() {
                   placeholder={mode === "note" ? "Add an internal note..." : "Type a message..."}
                   className="w-full resize-none bg-transparent text-[13px] focus:outline-none min-h-[52px]" rows={2} />
                 <div className="flex items-center gap-1 mt-1">
-                  <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"><Paperclip size={15} /></button>
-                  <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"><Smile size={15} /></button>
-                  <button className="hidden sm:inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[--color-ai] text-[11.5px] font-semibold">
+                  <button
+                    onClick={() => notify("Attachments coming soon")}
+                    aria-label="Attach file"
+                    className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"
+                  ><Paperclip size={15} /></button>
+                  <button
+                    onClick={() => setDraft(d => d + " 👍")}
+                    aria-label="Insert emoji"
+                    className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-muted]"
+                  ><Smile size={15} /></button>
+                  <button
+                    onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); notify("AI draft ready"); }}
+                    className="hidden sm:inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[--color-ai] text-[11.5px] font-semibold"
+                  >
                     <Sparkles size={13} /> AI Draft
                   </button>
                   <div className="flex-1" />
-                  <Btn variant={mode === "note" ? "primary" : "gradient"} icon={<Send size={13} />} onClick={() => setDraft("")}>Send</Btn>
+                  <Btn
+                    variant={mode === "note" ? "primary" : "gradient"}
+                    icon={<Send size={13} />}
+                    onClick={() => {
+                      if (!draft.trim()) return;
+                      setDraft("");
+                      notify(mode === "note" ? "Note saved" : "Message sent");
+                    }}
+                  >Send</Btn>
                 </div>
               </div>
             </div>
@@ -366,7 +403,7 @@ function InboxPage() {
       {active && showContext && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} onAction={notify} />}
           </div>
           <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
               <div
@@ -382,17 +419,27 @@ function InboxPage() {
                 </div>
                 {contextLoading
                   ? <PanelSkeleton />
-                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
+                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} onAction={notify} />}
 
               </div>
             </div>
         </>
       )}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-[60] px-3.5 py-2 rounded-full bg-[--color-ink] text-white text-[12.5px] font-medium shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-150"
+        >
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
 
-function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void }) {
+function ContextPanel({ contact, onClose, onAction }: { contact: any; onClose?: () => void; onAction?: (msg: string) => void }) {
+  const act = (msg: string) => onAction?.(msg);
   const timeline = [
     { i: "📞", t: "Called for AC repair", d: "Today" },
     { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
@@ -419,10 +466,10 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       <div>
         <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Quick Actions</div>
         <div className="grid grid-cols-2 gap-2">
-          <Btn variant="secondary" size="sm" icon={<Phone size={12} />}>Call</Btn>
-          <Btn variant="secondary" size="sm" icon={<Calendar size={12} />}>Book</Btn>
-          <Btn variant="secondary" size="sm" icon={<FileText size={12} />}>Quote</Btn>
-          <Btn variant="secondary" size="sm" icon={<DollarSign size={12} />}>Charge</Btn>
+          <Btn variant="secondary" size="sm" icon={<Phone size={12} />} onClick={() => act(`Calling ${contact.name}…`)}>Call</Btn>
+          <Btn variant="secondary" size="sm" icon={<Calendar size={12} />} onClick={() => act("Opening booking…")}>Book</Btn>
+          <Btn variant="secondary" size="sm" icon={<FileText size={12} />} onClick={() => act("Creating quote…")}>Quote</Btn>
+          <Btn variant="secondary" size="sm" icon={<DollarSign size={12} />} onClick={() => act("Starting charge…")}>Charge</Btn>
         </div>
       </div>
 
