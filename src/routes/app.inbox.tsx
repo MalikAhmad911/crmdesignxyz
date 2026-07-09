@@ -457,10 +457,10 @@ function ContextPanel({ contact, onClose, onAction }: { contact: any; onClose?: 
       <div>
         <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Quick Actions</div>
         <div className="grid grid-cols-2 gap-2">
-          <Btn variant="secondary" size="sm" icon={<Phone size={12} />}>Call</Btn>
-          <Btn variant="secondary" size="sm" icon={<Calendar size={12} />}>Book</Btn>
-          <Btn variant="secondary" size="sm" icon={<FileText size={12} />}>Quote</Btn>
-          <Btn variant="secondary" size="sm" icon={<DollarSign size={12} />}>Charge</Btn>
+          <Btn variant="secondary" size="sm" icon={<Phone size={12} />} onClick={() => act(`Calling ${contact.name}…`)}>Call</Btn>
+          <Btn variant="secondary" size="sm" icon={<Calendar size={12} />} onClick={() => act("Opening booking…")}>Book</Btn>
+          <Btn variant="secondary" size="sm" icon={<FileText size={12} />} onClick={() => act("Creating quote…")}>Quote</Btn>
+          <Btn variant="secondary" size="sm" icon={<DollarSign size={12} />} onClick={() => act("Starting charge…")}>Charge</Btn>
         </div>
       </div>
 
