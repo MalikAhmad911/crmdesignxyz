@@ -354,7 +354,7 @@ function InboxPage() {
       {active && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            <ContextPanel contact={contact!} />
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} loading={contextLoading} />}
           </div>
           {showContext && (
             <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
@@ -362,14 +362,20 @@ function InboxPage() {
                 {...contextSwipe}
                 className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200"
                 onClick={e => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Customer details"
               >
                 <div className="sticky top-0 z-10 flex justify-center pt-2 pb-1 bg-white">
                   <div className="w-10 h-1 rounded-full bg-[--color-hairline]" />
                 </div>
-                <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />
+                {contextLoading
+                  ? <PanelSkeleton />
+                  : <ContextPanel contact={contact!} loading={contextLoading} onClose={() => setShowContext(false)} />}
               </div>
             </div>
           )}
+
         </>
       )}
     </div>
