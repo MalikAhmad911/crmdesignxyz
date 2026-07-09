@@ -327,12 +327,14 @@ export function Card({
 }: { children: React.ReactNode; className?: string; padded?: boolean }) {
   return (
     <div
-      className={`bg-white rounded-[14px] border border-[--color-hairline] transition hover:-translate-y-[1px] hover:shadow-[0_4px_16px_rgba(9,9,11,0.05)] ${padded ? "p-5" : ""} ${className}`}
+      className={`bg-white rounded-2xl border border-[--color-hairline] transition hover:-translate-y-[1px] ${padded ? "p-5" : ""} ${className}`}
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
       {children}
     </div>
   );
 }
+
 
 export function Tag({
   children, tone = "neutral",
