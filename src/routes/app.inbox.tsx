@@ -419,7 +419,7 @@ function InboxPage() {
                 </div>
                 {contextLoading
                   ? <PanelSkeleton />
-                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
+                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} onAction={notify} />}
 
               </div>
             </div>
