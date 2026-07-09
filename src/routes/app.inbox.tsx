@@ -331,20 +331,22 @@ function InboxPage() {
               })}
 
               {/* AI Suggested Reply */}
-              <div className="rounded-xl border border-[--color-ai]/30 bg-[--color-ai-subtle] p-3">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <Sparkles size={13} className="text-[--color-ai]" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[--color-ai]">AI suggested reply</span>
+              {aiVisible && (
+                <div className="rounded-xl border border-[--color-ai]/30 bg-[--color-ai-subtle] p-3">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Sparkles size={13} className="text-[--color-ai]" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[--color-ai]">AI suggested reply</span>
+                  </div>
+                  <div className="text-[13px] text-[--color-ink] mb-2">
+                    "{AI_SUGGESTION}"
+                  </div>
+                  <div className="flex gap-2">
+                    <Btn size="sm" variant="gradient" onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}>Send</Btn>
+                    <Btn size="sm" variant="secondary" onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}>Edit</Btn>
+                    <Btn size="sm" variant="ghost" onClick={() => setAiVisible(false)}>Dismiss</Btn>
+                  </div>
                 </div>
-                <div className="text-[13px] text-[--color-ink] mb-2">
-                  "You're all set, John! Our tech Mike will arrive at 2pm. He'll text when he's 15 min out."
-                </div>
-                <div className="flex gap-2">
-                  <Btn size="sm" variant="gradient">Send</Btn>
-                  <Btn size="sm" variant="secondary">Edit</Btn>
-                  <Btn size="sm" variant="ghost">Dismiss</Btn>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Composer */}
