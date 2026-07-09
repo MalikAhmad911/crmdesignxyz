@@ -79,60 +79,60 @@
   scrollbar-width: none;
 }
 
-/* Airtable-inspired editorial palette — scoped to authenticated app shell only. */
+/* Clay.com-inspired cream canvas palette — scoped to authenticated app shell only. */
 .app-scope {
-  --color-canvas: #ffffff;
-  --color-surface-soft: #f8fafc;
-  --color-surface-card: #ffffff;
-  --color-surface-strong: #e0e2e6;
-  --color-surface-dark: #181d26;
-  --color-surface-dark-elevated: #1d1f25;
-  --color-hairline: #dddddd;
-  --color-hairline-soft: #eeeeee;
+  --color-canvas: #fffaf0;
+  --color-surface-soft: #faf5e8;
+  --color-surface-card: #f5f0e0;
+  --color-surface-strong: #ebe6d6;
+  --color-surface-dark: #0a1a1a;
+  --color-surface-dark-elevated: #1a2a2a;
+  --color-hairline: #e7e1d1;
+  --color-hairline-soft: #efeada;
 
-  --color-ink: #181d26;
-  --color-body-strong: #181d26;
-  --color-body: #333840;
-  --color-muted: #41454d;
-  --color-muted-soft: #9297a0;
+  --color-ink: #0a0a0a;
+  --color-body-strong: #1a1a1a;
+  --color-body: #3a3a3a;
+  --color-muted: #6a6a6a;
+  --color-muted-soft: #9a9a9a;
 
-  /* Airtable primary = near-black ink, not blue */
-  --color-primary: #181d26;
-  --color-primary-deep: #0d1218;
-  --color-primary-subdued: #f8fafc;
-  --color-primary-glow: rgba(24, 29, 38, 0.08);
-  --color-accent-subtle: #f8fafc;
-  --color-brand-gradient: #181d26;
-  --color-brand-gradient-2: #181d26;
-  --color-brand-gradient-subtle: #f8fafc;
+  /* Primary = warm near-black */
+  --color-primary: #0a0a0a;
+  --color-primary-deep: #000000;
+  --color-primary-subdued: #f5f0e0;
+  --color-primary-glow: rgba(10, 10, 10, 0.08);
+  --color-accent-subtle: #faf5e8;
+  --color-brand-gradient: #0a0a0a;
+  --color-brand-gradient-2: #0a0a0a;
+  --color-brand-gradient-subtle: #f5f0e0;
 
-  /* Signature surface cards — brand voltage */
-  --color-signature-coral: #aa2d00;
-  --color-signature-forest: #0a2e0e;
-  --color-signature-cream: #f5e9d4;
-  --color-signature-peach: #fcab79;
-  --color-signature-mint: #a8d8c4;
-  --color-signature-yellow: #f4d35e;
-  --color-signature-mustard: #d9a441;
+  /* Clay's 6-color saturated feature palette */
+  --color-brand-pink: #ff4d8b;
+  --color-brand-teal: #1a3a3a;
+  --color-brand-lavender: #b8a4ed;
+  --color-brand-peach: #ffb084;
+  --color-brand-ochre: #e8b94a;
+  --color-brand-mint: #a4d4c5;
+  --color-brand-coral: #ff6b5a;
 
-  /* Semantic — link blue is NOT primary */
-  --color-link: #1b61c9;
-  --color-link-active: #1a3866;
-  --color-success: #006400;
-  --color-success-subtle: #e6f4e6;
-  --color-warning: #d9a441;
+  /* Semantic */
+  --color-link: #0a0a0a;
+  --color-link-active: #000000;
+  --color-success: #22c55e;
+  --color-success-subtle: #e6f7ec;
+  --color-warning: #f59e0b;
   --color-warning-subtle: #fdf4e0;
-  --color-error: #aa2d00;
-  --color-error-subtle: #fbeae2;
-  --color-info: #254fad;
-  --color-info-subtle: #e6ecf6;
-  --color-ai: #0a2e0e;
-  --color-ai-subtle: #e6ede6;
+  --color-error: #ef4444;
+  --color-error-subtle: #fdecec;
+  --color-info: #1a3a3a;
+  --color-info-subtle: #e0ece8;
+  --color-ai: #b8a4ed;
+  --color-ai-subtle: #f2ecfc;
 
-  --color-sidebar-bg: #ffffff;
-  --color-sidebar-border: #dddddd;
-  --color-sidebar-active: #f8fafc;
-  --color-sidebar-active-text: #181d26;
+  --color-sidebar-bg: #fffaf0;
+  --color-sidebar-border: #e7e1d1;
+  --color-sidebar-active: #f5f0e0;
+  --color-sidebar-active-text: #0a0a0a;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
