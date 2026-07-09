@@ -271,3 +271,14 @@
   font-weight: 700;
 }
 .app-scope td { color: var(--color-body); }
+
+/* Skeleton shimmer: slightly stronger tint so pulses don't disappear on white cards */
+.app-scope .animate-pulse.bg-\[--color-surface-strong\] {
+  background-color: color-mix(in oklab, var(--color-hairline) 65%, var(--color-surface-strong));
+}
+
+/* Inline loading spinners paired with text — ensure the text stays legible */
+.app-scope .animate-spin + *,
+.app-scope :has(> .animate-spin) {
+  color: var(--color-body);
+}
