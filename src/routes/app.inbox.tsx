@@ -429,7 +429,8 @@ function InboxPage() {
   );
 }
 
-function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void }) {
+function ContextPanel({ contact, onClose, onAction }: { contact: any; onClose?: () => void; onAction?: (msg: string) => void }) {
+  const act = (msg: string) => onAction?.(msg);
   const timeline = [
     { i: "📞", t: "Called for AC repair", d: "Today" },
     { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
