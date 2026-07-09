@@ -668,24 +668,67 @@ function IconTile({ icon: I, tone, size = "md" }: { icon: any; tone: "primary" |
   return <div className={`${s} rounded-lg grid place-items-center shrink-0 ${map[tone]}`}><I size={isize} /></div>;
 }
 
+const SPARK: Record<string, number[]> = {
+  info:    [8, 12, 10, 14, 11, 17, 16, 21, 19, 24],
+  warning: [3, 4, 6, 5, 8, 7, 10, 12, 14, 18],
+  success: [40, 55, 48, 62, 70, 68, 82, 90, 105, 124],
+  ai:      [70, 72, 74, 73, 76, 75, 82, 85, 88, 87],
+};
+const TONE_STROKE: Record<string, string> = {
+  info: "var(--color-primary)",
+  warning: "var(--color-warning)",
+  success: "var(--color-success)",
+  ai: "var(--color-ai)",
+};
+
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const w = 96, h = 28, pad = 2;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const step = (w - pad * 2) / (data.length - 1);
+  const pts = data.map((v, i) => `${pad + i * step},${pad + (h - pad * 2) * (1 - (v - min) / range)}`).join(" ");
+  const areaPts = `${pad},${h - pad} ${pts} ${w - pad},${h - pad}`;
+  const gid = `sg-${color.replace(/[^a-z0-9]/gi, "")}`;
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
+      <defs>
+        <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.28" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polyline points={areaPts} fill={`url(#${gid})`} stroke="none" />
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
   label: string; value: string; delta: string; up: boolean;
   icon: any; tone: "info" | "success" | "warning" | "ai"; hint: string;
 }) {
   return (
-    <Card className="!p-4">
-      <div className="flex items-start justify-between mb-2">
+    <div className="relative bg-white rounded-2xl border border-[--color-hairline] p-4 transition hover:-translate-y-[1px]" style={{ boxShadow: "var(--shadow-card)" }}>
+      <div className="flex items-start justify-between gap-2 mb-3">
         <IconTile icon={I} tone={tone} size="sm" />
-        <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
-          {up ? <TrendingUp size={11} /> : <TrendingDown size={11} />}{delta}
+        <span className={`inline-flex items-center gap-1 text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
+          {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}{delta}
         </span>
       </div>
-      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mt-1">{label}</div>
-      <div className="text-[24px] font-semibold text-[--color-ink] leading-tight mt-1">{value}</div>
-      <div className="text-[11.5px] text-[--color-muted] mt-0.5">{hint}</div>
-    </Card>
+      <div className="text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted] truncate">{label}</div>
+      <div className="flex items-end justify-between gap-2 mt-1">
+        <div className="min-w-0">
+          <div className="text-[22px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
+          <div className="text-[11px] text-[--color-muted] mt-0.5 truncate">{hint}</div>
+        </div>
+        <div className="shrink-0 opacity-90">
+          <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
+        </div>
+      </div>
+    </div>
   );
 }
+
 
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
