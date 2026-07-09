@@ -371,7 +371,8 @@ function InboxPage() {
                 </div>
                 {contextLoading
                   ? <PanelSkeleton />
-                  : <ContextPanel contact={contact!} loading={contextLoading} onClose={() => setShowContext(false)} />}
+                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
+
               </div>
             </div>
           )}
