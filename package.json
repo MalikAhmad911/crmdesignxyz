@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "visual": "node tests/visual/visual.mjs",
-    "visual:update": "node tests/visual/visual.mjs --update"
+    "visual:update": "node tests/visual/visual.mjs --update",
+    "e2e:inbox": "node tests/e2e/inbox-buttons.mjs"
   },
 
   "dependencies": {
