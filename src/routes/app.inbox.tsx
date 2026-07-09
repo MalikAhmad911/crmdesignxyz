@@ -384,6 +384,13 @@ function InboxPage() {
 }
 
 function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void }) {
+  const timeline = [
+    { i: "📞", t: "Called for AC repair", d: "Today" },
+    { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
+    { i: "⭐", t: "Left 5-star review", d: "Jun 20" },
+    { i: "🔧", t: "HVAC install completed", d: "Jun 15" },
+  ];
+  const note = "Prefers afternoon appointments. Has 2 dogs — call ahead.";
   return (
     <div className="p-5 space-y-4">
       <div className="flex items-center justify-between">
@@ -393,7 +400,7 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       <div className="text-center pb-4 border-b border-[--color-hairline-soft]">
         <div className="mx-auto"><Avatar name={contact.name} size={64} /></div>
         <div className="text-[16px] font-semibold text-[--color-ink] mt-2">{contact.name}</div>
-        <div className="text-[12px] text-[--color-muted]">{contact.phone}</div>
+        <div className="text-[12px] font-medium text-[--color-body]">{contact.phone}</div>
         <div className="mt-2 flex justify-center gap-1.5 flex-wrap">
           <Tag tone="primary">{contact.stage}</Tag>
           {contact.tags?.map((t: string) => <Tag key={t} tone="ai">{t}</Tag>)}
@@ -401,7 +408,7 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Quick Actions</div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Quick Actions</div>
         <div className="grid grid-cols-2 gap-2">
           <Btn variant="secondary" size="sm" icon={<Phone size={12} />}>Call</Btn>
           <Btn variant="secondary" size="sm" icon={<Calendar size={12} />}>Book</Btn>
@@ -411,31 +418,41 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Timeline</div>
-        <div className="space-y-2.5">
-          {[
-            { i: "📞", t: "Called for AC repair", d: "Today" },
-            { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
-            { i: "⭐", t: "Left 5-star review", d: "Jun 20" },
-            { i: "🔧", t: "HVAC install completed", d: "Jun 15" },
-          ].map((e, i) => (
-            <div key={i} className="flex gap-2.5">
-              <div className="w-7 h-7 rounded-lg grid place-items-center bg-[--color-surface-strong] shrink-0 text-[12px]">{e.i}</div>
-              <div className="min-w-0">
-                <div className="text-[12.5px] text-[--color-ink]">{e.t}</div>
-                <div className="text-[11px] text-[--color-muted]">{e.d}</div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Timeline</div>
+        {timeline.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-[--color-hairline] p-3 text-center">
+            <div className="text-[12.5px] font-semibold text-[--color-ink]">No activity yet</div>
+            <div className="text-[11.5px] font-medium text-[--color-body] mt-0.5">Calls, payments, and reviews will appear here.</div>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            {timeline.map((e, i) => (
+              <div key={i} className="flex gap-2.5">
+                <div className="w-7 h-7 rounded-lg grid place-items-center bg-[--color-surface-strong] shrink-0 text-[12px]">{e.i}</div>
+                <div className="min-w-0">
+                  <div className="text-[12.5px] font-medium text-[--color-ink]">{e.t}</div>
+                  <div className="text-[11px] font-medium text-[--color-muted]">{e.d}</div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Team Notes</div>
-        <div className="rounded-lg bg-[--color-warning-subtle] border border-[--color-warning]/30 p-2.5 text-[12px] text-[--color-ink]">
-          Prefers afternoon appointments. Has 2 dogs — call ahead.
-        </div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Team Notes</div>
+        {note ? (
+          <div className="rounded-lg bg-[--color-warning-subtle] border border-[--color-warning]/30 p-2.5 text-[12px] font-medium text-[--color-ink] leading-relaxed">
+            {note}
+          </div>
+        ) : (
+          <div className="rounded-lg border border-dashed border-[--color-hairline] p-3 text-center">
+            <div className="text-[12.5px] font-semibold text-[--color-ink]">No notes yet</div>
+            <div className="text-[11.5px] font-medium text-[--color-body] mt-0.5">Add context your team can see on every reply.</div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
