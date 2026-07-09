@@ -150,19 +150,23 @@
     background-color: var(--color-canvas);
     color: var(--color-body);
     font-family: var(--font-sans);
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.55;
+    font-weight: 450;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  p { line-height: 1.55; }
+  p { line-height: 1.55; color: var(--color-body); }
   h1, h2, h3, h4 {
     color: var(--color-ink);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
+  strong, b { color: var(--color-ink); font-weight: 600; }
+  label { color: var(--color-body-strong); font-weight: 500; }
 }
+
 
 @utility display-xl {
   font-size: clamp(2.75rem, 7vw, 4.5rem);
