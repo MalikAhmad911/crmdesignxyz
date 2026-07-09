@@ -47,7 +47,8 @@ function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: str
           <Icon size={22} className="text-[--color-muted]" />
         </div>
         <div className="text-[14px] font-semibold text-[--color-ink]">{title}</div>
-        {hint && <div className="text-[12px] text-[--color-muted] mt-1">{hint}</div>}
+        {hint && <div className="text-[12.5px] font-medium text-[--color-body] mt-1 leading-relaxed">{hint}</div>}
+
         {action && <div className="mt-3">{action}</div>}
       </div>
     </div>
