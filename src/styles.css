@@ -216,3 +216,13 @@
   font-weight: 700;
 }
 
+
+/* Uppercase small-caps eyebrows on any app route: stronger ink for legibility */
+.app-scope .uppercase.text-\[10px\],
+.app-scope .uppercase.text-\[10\.5px\],
+.app-scope .uppercase.text-\[11px\],
+.app-scope .uppercase.text-\[11\.5px\] {
+  color: var(--color-body-strong);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
