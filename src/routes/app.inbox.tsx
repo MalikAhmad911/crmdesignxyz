@@ -47,7 +47,8 @@ function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: str
           <Icon size={22} className="text-[--color-muted]" />
         </div>
         <div className="text-[14px] font-semibold text-[--color-ink]">{title}</div>
-        {hint && <div className="text-[12px] text-[--color-muted] mt-1">{hint}</div>}
+        {hint && <div className="text-[12.5px] font-medium text-[--color-body] mt-1 leading-relaxed">{hint}</div>}
+
         {action && <div className="mt-3">{action}</div>}
       </div>
     </div>
@@ -191,7 +192,7 @@ function InboxPage() {
         {!active ? (
           listLoading ? (
             <div className="flex-1 grid place-items-center">
-              <div className="flex items-center gap-2 text-[12px] text-[--color-muted]">
+              <div className="flex items-center gap-2 text-[12.5px] font-medium text-[--color-body]">
                 <div className="w-3.5 h-3.5 rounded-full border-2 border-[--color-hairline] border-t-[--color-primary] animate-spin" />
                 Loading conversations…
               </div>
