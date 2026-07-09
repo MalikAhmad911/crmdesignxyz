@@ -120,9 +120,13 @@ async function main() {
   ensureDir(BASELINE_DIR);
   ensureDir(DIFF_DIR);
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH || undefined,
+  });
   const context = await browser.newContext();
   const page = await context.newPage();
+
 
   const failures = [];
   const runLog = [];
