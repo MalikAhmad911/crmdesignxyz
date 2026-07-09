@@ -192,7 +192,7 @@ function InboxPage() {
         {!active ? (
           listLoading ? (
             <div className="flex-1 grid place-items-center">
-              <div className="flex items-center gap-2 text-[12px] text-[--color-muted]">
+              <div className="flex items-center gap-2 text-[12.5px] font-medium text-[--color-body]">
                 <div className="w-3.5 h-3.5 rounded-full border-2 border-[--color-hairline] border-t-[--color-primary] animate-spin" />
                 Loading conversations…
               </div>
