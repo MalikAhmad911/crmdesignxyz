@@ -31,7 +31,7 @@ function ThreadSkeleton() {
 }
 function MessageSkeleton({ mine = false }: { mine?: boolean }) {
   return (
-    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+    <div className={`flex ${mine ? "justify-end" : "justify-start"}`} aria-label="Loading message">
       <div className="space-y-1.5 max-w-[70%] flex flex-col">
         <Shimmer className={`h-10 ${mine ? "w-48" : "w-56"} !rounded-2xl`} />
         <Shimmer className={`h-2 w-12 ${mine ? "self-end" : ""}`} />
@@ -39,10 +39,47 @@ function MessageSkeleton({ mine = false }: { mine?: boolean }) {
     </div>
   );
 }
+function PanelSkeleton() {
+  return (
+    <div className="p-5 space-y-5" aria-label="Loading customer details">
+      <div className="flex items-center justify-between">
+        <Shimmer className="h-3 w-20" />
+        <Shimmer className="h-3 w-10" />
+      </div>
+      <div className="text-center pb-4 border-b border-[--color-hairline-soft] space-y-2">
+        <Shimmer className="h-16 w-16 !rounded-full mx-auto" />
+        <Shimmer className="h-3.5 w-32 mx-auto" />
+        <Shimmer className="h-2.5 w-24 mx-auto" />
+      </div>
+      <div className="space-y-2">
+        <Shimmer className="h-2.5 w-24" />
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: 4 }).map((_, i) => <Shimmer key={i} className="h-9 w-full" />)}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Shimmer className="h-2.5 w-24" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="flex gap-2.5">
+            <Shimmer className="h-7 w-7 shrink-0" />
+            <div className="flex-1 space-y-1.5 pt-0.5">
+              <Shimmer className="h-2.5 w-full" />
+              <Shimmer className="h-2 w-16" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="text-center text-[11.5px] font-medium text-[--color-body] pt-1" role="status" aria-live="polite">
+        Loading customer details…
+      </div>
+    </div>
+  );
+}
 function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: string; hint?: string; action?: React.ReactNode }) {
   return (
-    <div className="flex-1 grid place-items-center p-8">
+    <div className="flex-1 grid place-items-center p-8" role="status">
       <div className="text-center max-w-xs">
+
         <div className="w-14 h-14 rounded-2xl bg-[--color-surface-strong] grid place-items-center mx-auto mb-3">
           <Icon size={22} className="text-[--color-muted]" />
         </div>
@@ -317,7 +354,7 @@ function InboxPage() {
       {active && (
         <>
           <div className={`hidden xl:flex w-[320px] shrink-0 border-l border-[--color-hairline] bg-white flex-col overflow-y-auto`}>
-            <ContextPanel contact={contact!} />
+            {contextLoading ? <PanelSkeleton /> : <ContextPanel contact={contact!} />}
           </div>
           {showContext && (
             <div className="xl:hidden fixed inset-0 z-50 bg-black/40 animate-in fade-in duration-150" onClick={() => setShowContext(false)}>
@@ -325,14 +362,21 @@ function InboxPage() {
                 {...contextSwipe}
                 className="absolute right-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-white overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200"
                 onClick={e => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Customer details"
               >
                 <div className="sticky top-0 z-10 flex justify-center pt-2 pb-1 bg-white">
                   <div className="w-10 h-1 rounded-full bg-[--color-hairline]" />
                 </div>
-                <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />
+                {contextLoading
+                  ? <PanelSkeleton />
+                  : <ContextPanel contact={contact!} onClose={() => setShowContext(false)} />}
+
               </div>
             </div>
           )}
+
         </>
       )}
     </div>
@@ -340,6 +384,13 @@ function InboxPage() {
 }
 
 function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void }) {
+  const timeline = [
+    { i: "📞", t: "Called for AC repair", d: "Today" },
+    { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
+    { i: "⭐", t: "Left 5-star review", d: "Jun 20" },
+    { i: "🔧", t: "HVAC install completed", d: "Jun 15" },
+  ];
+  const note = "Prefers afternoon appointments. Has 2 dogs — call ahead.";
   return (
     <div className="p-5 space-y-4">
       <div className="flex items-center justify-between">
@@ -349,7 +400,7 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       <div className="text-center pb-4 border-b border-[--color-hairline-soft]">
         <div className="mx-auto"><Avatar name={contact.name} size={64} /></div>
         <div className="text-[16px] font-semibold text-[--color-ink] mt-2">{contact.name}</div>
-        <div className="text-[12px] text-[--color-muted]">{contact.phone}</div>
+        <div className="text-[12px] font-medium text-[--color-body]">{contact.phone}</div>
         <div className="mt-2 flex justify-center gap-1.5 flex-wrap">
           <Tag tone="primary">{contact.stage}</Tag>
           {contact.tags?.map((t: string) => <Tag key={t} tone="ai">{t}</Tag>)}
@@ -357,7 +408,7 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Quick Actions</div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Quick Actions</div>
         <div className="grid grid-cols-2 gap-2">
           <Btn variant="secondary" size="sm" icon={<Phone size={12} />}>Call</Btn>
           <Btn variant="secondary" size="sm" icon={<Calendar size={12} />}>Book</Btn>
@@ -367,31 +418,41 @@ function ContextPanel({ contact, onClose }: { contact: any; onClose?: () => void
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Timeline</div>
-        <div className="space-y-2.5">
-          {[
-            { i: "📞", t: "Called for AC repair", d: "Today" },
-            { i: "💰", t: "Paid $450 invoice", d: "Jun 28" },
-            { i: "⭐", t: "Left 5-star review", d: "Jun 20" },
-            { i: "🔧", t: "HVAC install completed", d: "Jun 15" },
-          ].map((e, i) => (
-            <div key={i} className="flex gap-2.5">
-              <div className="w-7 h-7 rounded-lg grid place-items-center bg-[--color-surface-strong] shrink-0 text-[12px]">{e.i}</div>
-              <div className="min-w-0">
-                <div className="text-[12.5px] text-[--color-ink]">{e.t}</div>
-                <div className="text-[11px] text-[--color-muted]">{e.d}</div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Timeline</div>
+        {timeline.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-[--color-hairline] p-3 text-center">
+            <div className="text-[12.5px] font-semibold text-[--color-ink]">No activity yet</div>
+            <div className="text-[11.5px] font-medium text-[--color-body] mt-0.5">Calls, payments, and reviews will appear here.</div>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            {timeline.map((e, i) => (
+              <div key={i} className="flex gap-2.5">
+                <div className="w-7 h-7 rounded-lg grid place-items-center bg-[--color-surface-strong] shrink-0 text-[12px]">{e.i}</div>
+                <div className="min-w-0">
+                  <div className="text-[12.5px] font-medium text-[--color-ink]">{e.t}</div>
+                  <div className="text-[11px] font-medium text-[--color-muted]">{e.d}</div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-muted] mb-2">Team Notes</div>
-        <div className="rounded-lg bg-[--color-warning-subtle] border border-[--color-warning]/30 p-2.5 text-[12px] text-[--color-ink]">
-          Prefers afternoon appointments. Has 2 dogs — call ahead.
-        </div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[--color-body-strong] mb-2">Team Notes</div>
+        {note ? (
+          <div className="rounded-lg bg-[--color-warning-subtle] border border-[--color-warning]/30 p-2.5 text-[12px] font-medium text-[--color-ink] leading-relaxed">
+            {note}
+          </div>
+        ) : (
+          <div className="rounded-lg border border-dashed border-[--color-hairline] p-3 text-center">
+            <div className="text-[12.5px] font-semibold text-[--color-ink]">No notes yet</div>
+            <div className="text-[11.5px] font-medium text-[--color-body] mt-0.5">Add context your team can see on every reply.</div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
