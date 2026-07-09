@@ -105,6 +105,13 @@ function InboxPage() {
   const [mode, setMode] = useState<"reply" | "note">("reply");
   const [showContext, setShowContext] = useState(false);
   const [draft, setDraft] = useState("");
+  const [aiVisible, setAiVisible] = useState(true);
+  const [toast, setToast] = useState<string | null>(null);
+  const notify = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
+  const AI_SUGGESTION = "You're all set, John! Our tech Mike will arrive at 2pm. He'll text when he's 15 min out.";
 
   // Simulated data-fetch states
   const [listLoading, setListLoading] = useState(true);
