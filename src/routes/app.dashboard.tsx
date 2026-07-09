@@ -288,22 +288,24 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
         <Card>
           <SectionTitle title="Weekly Pulse" hint="Messages & payments · last 7 days" inline />
-          <div className="flex items-end gap-3 h-40 mt-4">
+          <div className="flex items-end gap-2 sm:gap-3 h-40 mt-4">
             {WEEK.map(w => {
-              const totalH = ((w.m + w.p) / maxWeek) * 100;
-              const mH = (w.m / (w.m + w.p)) * totalH;
+              const H = 140;
+              const totalH = ((w.m + w.p) / maxWeek) * H;
               const pH = (w.p / (w.m + w.p)) * totalH;
+              const mH = totalH - pH;
               return (
-                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5">
-                  <div className="w-full flex flex-col justify-end h-full">
-                    <div className="w-full rounded-t-md" style={{ height: `${pH}%`, background: "var(--color-success)" }} />
-                    <div className="w-full" style={{ height: `${mH}%`, background: "var(--color-primary)" }} />
+                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0">
+                  <div className="w-full flex flex-col justify-end" style={{ height: H }}>
+                    <div className="w-full rounded-t-md" style={{ height: pH, background: "var(--color-success)" }} />
+                    <div className="w-full" style={{ height: mH, background: "var(--color-primary)" }} />
                   </div>
                   <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
               );
             })}
           </div>
+
           <div className="flex items-center gap-4 mt-3 text-[11.5px]">
             <LegendDot color="var(--color-primary)" label="Messages" />
             <LegendDot color="var(--color-success)" label="Payments" />
