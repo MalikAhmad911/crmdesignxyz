@@ -718,11 +718,12 @@ function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
           {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}{delta}
         </span>
       </div>
-      <div className="text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted] truncate">{label}</div>
+      <div className="text-[10.5px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[--color-body-strong] leading-snug">{label}</div>
       <div className="flex items-end justify-between gap-2 mt-1">
         <div className="min-w-0 flex-1">
           <div className="text-[20px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
-          <div className="text-[10.5px] sm:text-[11px] text-[--color-muted] mt-0.5 truncate">{hint}</div>
+          <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5">{hint}</div>
+
         </div>
         <div className="hidden sm:block shrink-0 opacity-90">
           <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
@@ -795,7 +796,7 @@ function Dialog({ title, icon, children, onClose }: { title: string; icon: React
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[11px] font-semibold uppercase tracking-widest text-[--color-muted] mb-1.5">{label}</div>
+      <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-[--color-body-strong] mb-1.5">{label}</div>
       {children}
     </label>
   );
