@@ -860,11 +860,17 @@ function ContactsPage() {
                         <Td className="hidden 2xl:table-cell"><span className="text-[11.5px] text-[--color-body-strong]">{c.pipeline}</span></Td>
                         <Td><span className="font-bold text-[--color-ink]">${c.ltv.toLocaleString()}</span></Td>
                         <Td className="hidden lg:table-cell">
-                          <div className="flex items-center gap-1">
-                            <span className="font-semibold text-[--color-ink]">{c.jobsDone}</span>
-                            {c.openJobs > 0 && <Pill tone="warning">{c.openJobs} open</Pill>}
+                          <div className="inline-flex items-center gap-1.5">
+                            <span className="font-semibold text-[--color-ink] tabular-nums">{c.jobsDone}</span>
+                            {c.openJobs > 0 && (
+                              <span className="inline-flex items-center gap-1 text-[10.5px] font-medium text-amber-700/90">
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                {c.openJobs} open
+                              </span>
+                            )}
                           </div>
                         </Td>
+
                         <Td className="hidden lg:table-cell">
                           {c.balance > 0 ? <span className="font-bold text-rose-600">${c.balance}</span> : <span className="text-[--color-muted]">—</span>}
                         </Td>
