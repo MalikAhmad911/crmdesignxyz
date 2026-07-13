@@ -240,9 +240,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main column */}
-        <div ref={wrap} className="flex-1 min-w-0 flex flex-col transition-[padding] duration-200" style={{ paddingLeft: `var(--rs-pl, 0px)` }}>
-          <style>{`@media (min-width: 1024px) { .app-scope [data-rs-main] { padding-left: ${sidebarW}px; } }`}</style>
-          <div data-rs-main style={{ display: "contents" }} />
+        <div
+          ref={wrap}
+          className="flex-1 min-w-0 flex flex-col transition-[padding] duration-200 lg:pl-[var(--rs-sbw)]"
+          style={{ ["--rs-sbw" as string]: `${sidebarW}px` }}
+        >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
             <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
