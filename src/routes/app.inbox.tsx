@@ -947,6 +947,9 @@ function InboxPage() {
                         </button>
                       </div>
 
+                      <span className="hidden sm:inline text-[10.5px] font-mono text-[--color-muted] mr-1">⌘↵</span>
+
+
                       <button
                         onClick={() => {
                           if (!draft.trim()) return;
