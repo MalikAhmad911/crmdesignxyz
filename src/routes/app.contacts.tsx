@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Search, Filter, Plus, Download, Upload, Phone, Mail, MessageSquare, MoreHorizontal,
   Star, Users, UserPlus, Crown, Clock, Bookmark, Tag as TagIcon, Archive, Building2,
@@ -197,17 +197,62 @@ function LeftRail({ active, onSelect }: { active: RailKey; onSelect: (k: RailKey
 // ---------- Contact profile drawer ----------
 function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) {
   const [tab, setTab] = useState<"timeline" | "jobs" | "financials" | "files" | "ai" | "notes">("timeline");
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startX = useRef<number | null>(null);
+
   useEffect(() => {
     if (!c) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [c]);
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
+  }, [c, onClose]);
+
   if (!c) return null;
+
+  const onTouchStart = (e: React.TouchEvent) => { startX.current = e.touches[0].clientX; setDragging(true); };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (startX.current == null) return;
+    const dx = e.touches[0].clientX - startX.current;
+    if (dx > 0) setDragX(dx);
+  };
+  const onTouchEnd = () => {
+    setDragging(false);
+    if (dragX > 120) { onClose(); }
+    setDragX(0);
+    startX.current = null;
+  };
+
   return (
     <>
-      <div onClick={onClose} className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px]" />
-      <aside className="fixed top-0 right-0 z-50 h-full w-full sm:w-[440px] bg-white border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-hidden">
+      <div
+        onClick={onClose}
+        aria-hidden
+        className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-[3px] animate-in fade-in duration-200"
+      />
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${c.name} profile`}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{ transform: `translateX(${dragX}px)`, transition: dragging ? "none" : "transform 220ms cubic-bezier(0.22,1,0.36,1)" }}
+        className="fixed top-0 right-0 z-40 h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200"
+      >
+        {/* Mobile swipe grabber */}
+        <div className="sm:hidden absolute top-1/2 -translate-y-1/2 left-1 w-1 h-14 rounded-full bg-slate-300/80" aria-hidden />
+        {/* Prominent close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close profile"
+          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-[--color-hairline] shadow-md grid place-items-center text-[--color-ink] hover:bg-white hover:shadow-lg active:scale-95 transition"
+        >
+          <X size={16} />
+        </button>
+
 
         {/* Hero */}
         <div className="relative overflow-hidden">
