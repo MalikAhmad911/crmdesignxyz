@@ -176,65 +176,119 @@ function LeftRail({
   activeKey, onSelect,
 }: { activeKey: string; onSelect: (k: string) => void }) {
   return (
-    <aside className="hidden lg:flex w-[240px] shrink-0 flex-col border-r border-[--color-hairline] bg-[--color-surface-soft]/60 backdrop-blur">
-      <div className="px-3 pt-4 pb-2">
+    <>
+      {/* Compact icon rail — lg to xl */}
+      <aside className="hidden lg:flex xl:hidden w-14 shrink-0 flex-col items-center border-r border-[--color-hairline] bg-[--color-surface-soft]/60 backdrop-blur py-3 gap-1">
         <button
-          className="w-full h-9 rounded-lg text-[12.5px] font-semibold text-white flex items-center justify-center gap-1.5 shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition"
+          className="w-9 h-9 rounded-lg grid place-items-center text-white shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition mb-1"
           style={{ background: ACCENT_GRAD }}
+          title="New Conversation"
+          aria-label="New Conversation"
         >
-          <Plus size={13} /> New Conversation
+          <Plus size={15} />
         </button>
-      </div>
-
-      <nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-4">
-        <div>
-          <div className="px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Inbox</div>
-          {RAIL_FOLDERS.map(it => (
-            <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
-          ))}
-        </div>
-
-        <div>
-          <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
-            <span>Channels</span>
-            <ChevronDown size={11} />
-          </div>
-          {RAIL_CHANNELS.map(it => (
-            <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
-          ))}
-        </div>
-
-        <div>
-          <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
-            <span>Labels</span>
-            <Plus size={11} />
-          </div>
-          {RAIL_LABELS.map(l => (
-            <button key={l.key} className="w-full h-8 px-2.5 rounded-lg flex items-center gap-2.5 text-[12.5px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] transition">
-              <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
-              <span className="flex-1 truncate text-left">{l.label}</span>
+        {RAIL_FOLDERS.map(it => {
+          const I = it.icon;
+          const active = activeKey === it.key;
+          return (
+            <button
+              key={it.key}
+              onClick={() => onSelect(it.key)}
+              title={it.label}
+              aria-label={it.label}
+              className="relative w-9 h-9 rounded-lg grid place-items-center text-[--color-body] hover:bg-[--color-surface-strong] transition"
+              style={active ? { background: ACCENT_SOFT, color: ACCENT } : undefined}
+            >
+              <I size={15} />
+              {typeof it.count === "number" && it.count > 0 && (
+                <span
+                  className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-1 rounded-full text-[9px] font-bold text-white grid place-items-center"
+                  style={{ background: ACCENT }}
+                >{it.count}</span>
+              )}
             </button>
-          ))}
+          );
+        })}
+        <div className="h-px w-6 bg-[--color-hairline] my-1" />
+        {RAIL_CHANNELS.map(it => {
+          const I = it.icon;
+          const active = activeKey === it.key;
+          return (
+            <button
+              key={it.key}
+              onClick={() => onSelect(it.key)}
+              title={it.label}
+              aria-label={it.label}
+              className="w-9 h-9 rounded-lg grid place-items-center text-[--color-body] hover:bg-[--color-surface-strong] transition"
+              style={active ? { background: ACCENT_SOFT, color: ACCENT } : undefined}
+            >
+              <I size={14} />
+            </button>
+          );
+        })}
+      </aside>
+
+      {/* Full rail — xl+ */}
+      <aside className="hidden xl:flex w-[220px] shrink-0 flex-col border-r border-[--color-hairline] bg-[--color-surface-soft]/60 backdrop-blur">
+        <div className="px-3 pt-4 pb-2">
+          <button
+            className="w-full h-9 rounded-lg text-[12.5px] font-semibold text-white flex items-center justify-center gap-1.5 shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition"
+            style={{ background: ACCENT_GRAD }}
+          >
+            <Plus size={13} /> New Conversation
+          </button>
         </div>
 
-        <div>
-          <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Team</div>
-          <RailRow item={{ key: "shared", label: "Shared Inbox", icon: Users, count: 4 }} />
-          <RailRow item={{ key: "notes",  label: "Internal Notes", icon: FileText }} />
-          <RailRow item={{ key: "spam",   label: "Spam", icon: Trash2 }} />
-        </div>
-      </nav>
-
-      <div className="border-t border-[--color-hairline] p-3">
-        <div className="rounded-xl p-3 text-[11.5px] leading-snug" style={{ background: ACCENT_SOFT, color: "var(--color-ink)" }}>
-          <div className="flex items-center gap-1.5 font-semibold mb-0.5" style={{ color: ACCENT }}>
-            <Sparkles size={12} /> AI handled today
+        <nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-4">
+          <div>
+            <div className="px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Inbox</div>
+            {RAIL_FOLDERS.map(it => (
+              <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
+            ))}
           </div>
-          <div className="font-bold text-[15px] text-[--color-ink]">27 conversations</div>
-          <div className="text-[--color-body] mt-0.5">Saved ~3h 42m of team time.</div>
+
+          <div>
+            <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
+              <span>Channels</span>
+              <ChevronDown size={11} />
+            </div>
+            {RAIL_CHANNELS.map(it => (
+              <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
+            ))}
+          </div>
+
+          <div>
+            <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
+              <span>Labels</span>
+              <Plus size={11} />
+            </div>
+            {RAIL_LABELS.map(l => (
+              <button key={l.key} className="w-full h-8 px-2.5 rounded-lg flex items-center gap-2.5 text-[12.5px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] transition">
+                <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
+                <span className="flex-1 truncate text-left">{l.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div>
+            <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Team</div>
+            <RailRow item={{ key: "shared", label: "Shared Inbox", icon: Users, count: 4 }} />
+            <RailRow item={{ key: "notes",  label: "Internal Notes", icon: FileText }} />
+            <RailRow item={{ key: "spam",   label: "Spam", icon: Trash2 }} />
+          </div>
+        </nav>
+
+        <div className="border-t border-[--color-hairline] p-3">
+          <div className="rounded-xl p-3 text-[11.5px] leading-snug" style={{ background: ACCENT_SOFT, color: "var(--color-ink)" }}>
+            <div className="flex items-center gap-1.5 font-semibold mb-0.5" style={{ color: ACCENT }}>
+              <Sparkles size={12} /> AI handled today
+            </div>
+            <div className="font-bold text-[15px] text-[--color-ink]">27 conversations</div>
+            <div className="text-[--color-body] mt-0.5">Saved ~3h 42m of team time.</div>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }
 
