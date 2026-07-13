@@ -165,7 +165,7 @@ function InboxPage() {
   return (
     <div className="h-[calc(100dvh-56px-64px)] lg:h-[calc(100dvh-56px)] flex overflow-hidden">
       {/* Thread List */}
-      <div className={`w-full lg:w-[340px] shrink-0 border-r border-[--color-hairline] bg-white flex-col ${activeId ? "hidden lg:flex" : "flex"}`}>
+      <div className={`w-full md:w-[280px] lg:w-[340px] shrink-0 border-r border-[--color-hairline] bg-white flex-col ${activeId ? "hidden md:flex" : "flex"}`}>
         <div className="p-4 border-b border-[--color-hairline]">
           <div className="flex items-center gap-2 h-10 px-3 rounded-lg bg-[--color-surface-strong] mb-3">
             <Search size={14} className="text-[--color-muted]" />
@@ -231,7 +231,7 @@ function InboxPage() {
       {/* Conversation */}
       <div
         {...(active ? convoSwipe : {})}
-        className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}
+        className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden md:flex"}`}
       >
         {!active ? (
           listLoading ? (
@@ -263,7 +263,7 @@ function InboxPage() {
         ) : (
           <>
             <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
-              <button onClick={() => setActiveId(null)} className="lg:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]">
+              <button onClick={() => setActiveId(null)} className="md:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0">
                 <ArrowLeft size={16} />
               </button>
               <button
@@ -280,20 +280,20 @@ function InboxPage() {
               <button
                 onClick={() => notify(`Calling ${contact!.name}…`)}
                 aria-label="Call customer"
-                className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"
+                className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0"
               ><Phone size={16} /></button>
               <button
                 onClick={() => setShowContext(v => !v)}
                 aria-pressed={showContext}
                 aria-label="Toggle customer details"
-                className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
+                className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0 ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
               >
                 <Info size={16} />
               </button>
               <button
                 onClick={() => notify("More actions coming soon")}
                 aria-label="More actions"
-                className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong]"
+                className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong] shrink-0"
               ><MoreVertical size={16} /></button>
             </div>
 
