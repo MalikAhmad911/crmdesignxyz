@@ -240,22 +240,24 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         style={{ transform: `translateX(${dragX}px)`, transition: dragging ? "none" : "transform 220ms cubic-bezier(0.22,1,0.36,1)" }}
-        className="fixed top-0 right-0 z-[80] h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-y-auto overscroll-contain animate-in slide-in-from-right duration-200"
+        className="fixed top-0 right-0 z-[80] h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200"
       >
         {/* Mobile swipe grabber */}
-        <div className="sm:hidden absolute top-1/2 -translate-y-1/2 left-1 w-1 h-14 rounded-full bg-slate-300/80" aria-hidden />
-        {/* Prominent close button */}
+        <div className="sm:hidden absolute top-1/2 -translate-y-1/2 left-1 w-1 h-14 rounded-full bg-slate-300/80 z-20" aria-hidden />
+        {/* Pinned close button — stays put while content scrolls */}
         <button
           onClick={onClose}
           aria-label="Close profile"
-          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-[--color-hairline] shadow-md grid place-items-center text-[--color-ink] hover:bg-white hover:shadow-lg active:scale-95 transition"
+          className="absolute top-3 right-3 z-30 w-9 h-9 rounded-full bg-white/95 border border-[--color-hairline] shadow-md grid place-items-center text-[--color-ink] hover:bg-white hover:shadow-lg hover:text-rose-600 active:scale-95 transition backdrop-blur"
         >
           <X size={16} />
         </button>
 
-
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
         {/* Hero */}
         <div className="relative overflow-hidden">
+
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg,#EEF0FF 0%,#F5F3FF 100%)" }} />
           <div className="absolute -top-14 -right-14 w-48 h-48 rounded-full" style={{ background: "radial-gradient(closest-side,rgba(99,91,255,0.22),transparent)" }} />
           <div className="relative p-5">
@@ -386,10 +388,12 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
           {tab === "ai" && <AiTab c={c} />}
           {tab === "notes" && <NotesTab c={c} />}
         </div>
+        </div>
       </aside>
     </>
   );
 }
+
 
 function MiniKpi({ label, value, sub, icon: I, tone = "neutral" }: {
   label: string; value: string; sub?: string;
