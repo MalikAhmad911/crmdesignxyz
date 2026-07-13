@@ -232,7 +232,7 @@ function PaymentsPage() {
       <div className="mb-3 sm:mb-4 border-b border-[--color-hairline] -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1 min-w-max">
           {([
-            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: ROWS.length },
+            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: allRows.length },
             { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
             { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
             { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
