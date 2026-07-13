@@ -840,122 +840,130 @@ function InboxPage() {
 
                 {/* AI Suggested Reply */}
                 {aiVisible && (
-                  <div className="mt-4 rounded-2xl p-4 relative overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(99,91,255,0.09),rgba(99,91,255,0.02))", border: "1px solid rgba(99,91,255,0.28)" }}>
-                    <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(closest-side,rgba(99,91,255,0.18),transparent)" }} />
-                    <div className="flex items-center gap-2 mb-2 relative flex-wrap">
-                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white shrink-0" style={{ background: ACCENT_GRAD }}>
-                        <Sparkles size={12} />
+                  <div className="mt-4 rounded-2xl p-4 bg-[#F5F7FF] border border-indigo-100 shadow-sm">
+                    <div className="flex items-center justify-between mb-3 gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-5 h-5 rounded-md grid place-items-center shrink-0" style={{ background: ACCENT }}>
+                          <Sparkles size={11} className="text-white" />
+                        </div>
+                        <span className="text-[10px] font-bold tracking-wider uppercase truncate" style={{ color: ACCENT }}>AI Suggested Reply</span>
                       </div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: ACCENT }}>AI suggested reply</span>
-                      <span className="sm:ml-auto text-[10.5px] font-semibold text-[--color-muted] truncate">
-                        <span className="hidden sm:inline">RevenueSol AI · </span>97% confidence
-                      </span>
+                      <span className="text-[10px] font-medium text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100/60 shrink-0">97% confidence</span>
                     </div>
 
-                    <div className="text-[13.5px] text-[--color-ink] leading-snug mb-3 relative">
+                    <p className="text-[14px] leading-relaxed text-[--color-ink] mb-4">
                       "{AI_SUGGESTION}"
-                    </div>
-                    <div className="flex flex-wrap gap-2 relative">
-                      <button
-                        onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}
-                        className="h-8 px-3.5 rounded-lg text-[12px] font-semibold text-white shadow-[0_4px_12px_-4px_rgba(99,91,255,0.6)] hover:opacity-95 active:scale-[0.98] transition inline-flex items-center gap-1.5"
-                        style={{ background: ACCENT_GRAD }}
-                      >
-                        <Send size={12} /> Send
-                      </button>
-                      <button
-                        onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}
-                        className="h-8 px-3 rounded-lg text-[12px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong]"
-                      >Edit</button>
-                      <button
-                        onClick={() => setAiVisible(false)}
-                        className="h-8 px-3 rounded-lg text-[12px] font-semibold text-[--color-body] hover:bg-[--color-surface-strong]"
-                      >Dismiss</button>
-                      <div className="ml-auto flex items-center gap-1 text-[--color-body]">
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Rewrite"><Wand2 size={13} /></button>
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Translate"><Languages size={13} /></button>
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Create task"><ClipboardList size={13} /></button>
+                    </p>
+
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}
+                          className="h-8 px-3.5 rounded-lg text-[13px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm active:scale-[0.98] transition"
+                          style={{ background: ACCENT }}
+                        >
+                          <Send size={13} /> Send
+                        </button>
+                        <button
+                          onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}
+                          className="h-8 px-3.5 rounded-lg text-[13px] font-medium bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong]"
+                        >Edit</button>
+                      </div>
+                      <div className="flex items-center gap-1 text-[--color-muted]">
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Rewrite"><Wand2 size={14} /></button>
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Translate"><Languages size={14} /></button>
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Create task"><ClipboardList size={14} /></button>
+                        <button
+                          onClick={() => setAiVisible(false)}
+                          className="text-[13px] font-medium text-[--color-muted] hover:text-[--color-body-strong] ml-1 px-1"
+                        >Dismiss</button>
                       </div>
                     </div>
                   </div>
                 )}
+
               </div>
             </div>
 
             {/* Composer */}
-            <div className="shrink-0 border-t border-[--color-hairline] bg-white px-4 sm:px-6 py-3">
+            <div className="shrink-0 bg-[--color-canvas] px-4 sm:px-6 py-3">
               <div className="mx-auto max-w-[820px]">
-                <div className="flex items-center gap-1 mb-2">
-                  <button onClick={() => setMode("reply")}
-                    className={`h-7 px-3 rounded-full text-[11.5px] font-semibold transition inline-flex items-center gap-1 ${
-                      mode === "reply" ? "text-white" : "text-[--color-body] hover:bg-[--color-surface-strong]"
-                    }`}
-                    style={mode === "reply" ? { background: ACCENT } : undefined}
-                  ><Reply size={11} /> Reply</button>
-                  <button onClick={() => setMode("note")}
-                    className={`h-7 px-3 rounded-full text-[11.5px] font-semibold transition inline-flex items-center gap-1 ${
-                      mode === "note" ? "bg-amber-500 text-white" : "text-[--color-body] hover:bg-[--color-surface-strong]"
-                    }`}
-                  ><Pin size={11} /> Internal Note</button>
-                  <div className="ml-auto text-[10.5px] text-[--color-muted] hidden sm:flex items-center gap-1">
-                    <Headphones size={11} /> Sending as <span className="font-semibold text-[--color-body-strong]">SMS</span>
-                    <ChevronDown size={11} />
+                <div className={`bg-white border rounded-2xl overflow-hidden shadow-sm transition ${
+                  mode === "note" ? "border-amber-300" : "border-[--color-hairline] focus-within:shadow-[0_0_0_4px_rgba(99,91,255,0.10)]"
+                }`}>
+                  {/* Mode Toggle */}
+                  <div className="flex p-1 gap-1 bg-slate-50 border-b border-slate-100">
+                    <button
+                      onClick={() => setMode("reply")}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[12px] rounded-lg transition ${
+                        mode === "reply" ? "bg-white shadow-sm font-semibold" : "text-[--color-body] font-medium hover:text-[--color-body-strong]"
+                      }`}
+                      style={mode === "reply" ? { color: ACCENT } : undefined}
+                    >
+                      <Reply size={13} /> Reply
+                    </button>
+                    <button
+                      onClick={() => setMode("note")}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[12px] rounded-lg transition ${
+                        mode === "note" ? "bg-white shadow-sm font-semibold text-amber-600" : "text-[--color-body] font-medium hover:text-[--color-body-strong]"
+                      }`}
+                    >
+                      <Pin size={13} /> Internal Note
+                    </button>
                   </div>
-                </div>
-                <div
-                  className={`rounded-2xl border px-3 pt-2 pb-1.5 transition ${
-                    mode === "note"
-                      ? "border-amber-300 bg-amber-50"
-                      : "border-[--color-hairline] bg-white focus-within:border-[--color-hairline] focus-within:shadow-[0_0_0_4px_rgba(99,91,255,0.10)]"
-                  }`}
-                >
-                  <textarea
-                    value={draft}
-                    onChange={e => setDraft(e.target.value)}
-                    placeholder={mode === "note" ? "Add an internal note. Use @ to mention teammates." : `Message ${contact!.name.split(" ")[0]} · Press ⌘⏎ to send`}
-                    className="w-full resize-none bg-transparent text-[13.5px] leading-[1.5] focus:outline-none min-h-[56px] placeholder:text-[--color-muted]"
-                    rows={2}
-                  />
-                  <div className="flex items-center gap-1 pt-1">
-                    <button
-                      onClick={() => notify("Attachments coming soon")}
-                      aria-label="Attach file"
-                      className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-body]"
-                    ><Paperclip size={15} /></button>
-                    <button
-                      onClick={() => setDraft(d => d + " 👍")}
-                      aria-label="Insert emoji"
-                      className="w-8 h-8 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] text-[--color-body]"
-                    ><Smile size={15} /></button>
-                    <button
-                      onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); notify("AI draft ready"); }}
-                      className="inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[11.5px] font-semibold"
-                      style={{ color: ACCENT }}
-                    >
-                      <Sparkles size={13} /> AI Draft
-                    </button>
-                    <button className="hidden md:inline-flex items-center gap-1 h-8 px-2.5 rounded-lg hover:bg-[--color-surface-strong] text-[--color-body] text-[11.5px] font-semibold">
-                      <Zap size={13} /> Templates
-                    </button>
 
-                    <div className="flex-1" />
+                  {/* Input Area */}
+                  <div className={`p-3 ${mode === "note" ? "bg-amber-50/40" : ""}`}>
+                    <textarea
+                      value={draft}
+                      onChange={e => setDraft(e.target.value)}
+                      placeholder={mode === "note" ? "Add an internal note. Use @ to mention teammates." : `Message ${contact!.name.split(" ")[0]}… Press ⌘⏎ to send`}
+                      className="w-full resize-none bg-transparent text-[14px] leading-[1.5] text-[--color-ink] placeholder:text-[--color-muted] focus:outline-none min-h-[72px]"
+                      rows={2}
+                    />
 
-                    <span className="hidden sm:inline text-[10.5px] font-mono text-[--color-muted] pr-1">⌘⏎</span>
-                    <button
-                      onClick={() => {
-                        if (!draft.trim()) return;
-                        setDraft("");
-                        notify(mode === "note" ? "Note saved" : "Message sent");
-                      }}
-                      className="h-8 px-3.5 rounded-lg text-[12px] font-semibold text-white shadow-[0_4px_12px_-4px_rgba(99,91,255,0.55)] hover:opacity-95 active:scale-[0.98] transition inline-flex items-center gap-1.5 disabled:opacity-50"
-                      style={{ background: mode === "note" ? "#F59E0B" : ACCENT_GRAD as string }}
-                    >
-                      Send <Send size={12} />
-                    </button>
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50 gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+                        <button
+                          onClick={() => notify("Attachments coming soon")}
+                          aria-label="Attach file"
+                          className="w-8 h-8 rounded-lg grid place-items-center text-[--color-muted] hover:text-[--color-body-strong] hover:bg-[--color-surface-strong] shrink-0"
+                        ><Paperclip size={16} /></button>
+                        <button
+                          onClick={() => setDraft(d => d + " 👍")}
+                          aria-label="Insert emoji"
+                          className="w-8 h-8 rounded-lg grid place-items-center text-[--color-muted] hover:text-[--color-body-strong] hover:bg-[--color-surface-strong] shrink-0"
+                        ><Smile size={16} /></button>
+                        <button
+                          onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); notify("AI draft ready"); }}
+                          className="inline-flex items-center gap-1 h-8 px-2 rounded-lg hover:bg-indigo-50 text-[12px] font-semibold shrink-0"
+                          style={{ color: ACCENT }}
+                        >
+                          <Sparkles size={14} /> AI Draft
+                        </button>
+                        <button className="hidden md:inline-flex items-center gap-1 h-8 px-2 rounded-lg hover:bg-[--color-surface-strong] text-[--color-body] text-[12px] font-semibold shrink-0">
+                          <Zap size={13} /> Templates
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          if (!draft.trim()) return;
+                          setDraft("");
+                          notify(mode === "note" ? "Note saved" : "Message sent");
+                        }}
+                        aria-label="Send"
+                        className="w-9 h-9 rounded-full grid place-items-center text-white shadow-md active:scale-90 transition shrink-0 disabled:opacity-50"
+                        style={{ background: mode === "note" ? "#F59E0B" : (ACCENT_GRAD as string) }}
+                      >
+                        <Send size={15} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </>
         )}
       </div>
