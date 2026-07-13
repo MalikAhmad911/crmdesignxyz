@@ -606,7 +606,7 @@ function QuickActionModal({ mode, onClose, onCreate, nextIndex }: {
           </Field>
 
           <Field label={tab === "invoice" ? "Accepted Payment Method" : "Payment Method"}>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-1.5">
               {methods.map(m => {
                 const active = method === m.id;
                 return (
