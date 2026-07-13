@@ -487,7 +487,7 @@ function InboxPage() {
           </div>
 
           {/* Mobile-only folder switcher (LeftRail is hidden below lg) */}
-          <div className="lg:hidden -mx-1 mb-2 overflow-x-auto no-scrollbar">
+          <div className="lg:hidden -mx-1 mb-1 overflow-x-auto no-scrollbar">
             <div className="flex gap-1 px-1">
               {RAIL_FOLDERS.map(it => {
                 const active = railKey === it.key;
@@ -496,16 +496,16 @@ function InboxPage() {
                   <button
                     key={it.key}
                     onClick={() => setRailKey(it.key)}
-                    className={`shrink-0 h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11.5px] font-semibold border transition ${
+                    className={`shrink-0 h-7 px-2 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold border transition ${
                       active ? "text-white border-transparent" : "bg-white border-[--color-hairline] text-[--color-body]"
                     }`}
                     style={active ? { background: ACCENT } : undefined}
                   >
-                    <I size={12} />
-                    <span>{it.label}</span>
+                    <I size={11} />
+                    <span>{it.short ?? it.label}</span>
                     {typeof it.count === "number" && (
                       <span
-                        className={`text-[10px] font-bold px-1.5 rounded-full ${active ? "bg-white/25 text-white" : "bg-[--color-surface-strong] text-[--color-body-strong]"}`}
+                        className={`text-[9.5px] font-bold px-1 rounded-full ${active ? "bg-white/25 text-white" : "bg-[--color-surface-strong] text-[--color-body-strong]"}`}
                       >{it.count}</span>
                     )}
                   </button>
@@ -514,7 +514,8 @@ function InboxPage() {
             </div>
           </div>
 
-          <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
+          {/* Filter chips — desktop only (mobile uses folder switcher above) */}
+          <div className="hidden lg:flex gap-1.5 overflow-x-auto no-scrollbar">
             {FILTERS.map(f => (
               <button key={f} onClick={() => setFilter(f)}
                 className={`shrink-0 h-7 px-2.5 rounded-full text-[11.5px] font-semibold border transition ${
@@ -525,6 +526,7 @@ function InboxPage() {
             ))}
           </div>
         </div>
+
 
 
         {/* List */}
