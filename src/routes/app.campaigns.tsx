@@ -944,8 +944,8 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
             {WIZ_STEPS.map((s, i) => (
               <div key={s} className="flex items-center gap-1 shrink-0">
-                <div className={`h-1.5 w-8 sm:w-14 rounded-full ${i <= step ? "bg-[--color-primary]" : "bg-[--color-surface-strong]"}`} />
-                <span className={`text-[11px] font-semibold pr-2 ${i === step ? "text-[--color-ink]" : "text-[--color-muted]"}`}>{s}</span>
+                <div className={`h-1.5 w-6 sm:w-14 rounded-full ${i <= step ? "bg-[--color-primary]" : "bg-[--color-surface-strong]"}`} />
+                <span className={`text-[10.5px] sm:text-[11px] font-semibold pr-1.5 sm:pr-2 ${i === step ? "text-[--color-ink]" : "text-[--color-muted]"}`}>{s}</span>
               </div>
             ))}
           </div>
