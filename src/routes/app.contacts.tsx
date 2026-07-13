@@ -279,37 +279,42 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
                   <div className="text-[11px] text-[--color-muted] mt-0.5">Owner · {c.assigned} · {c.source}</div>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 text-[--color-body]" title="Favorite"><Star size={14} /></button>
-                <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 text-[--color-body]" title="More"><MoreHorizontal size={14} /></button>
-                <button onClick={onClose} className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 text-[--color-body]"><X size={14} /></button>
+              <div className="flex items-center gap-1 shrink-0 pr-10">
+                <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 text-[--color-body] transition" title="Favorite"><Star size={14} /></button>
+                <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 text-[--color-body] transition" title="More"><MoreHorizontal size={14} /></button>
               </div>
             </div>
 
             {/* Contact chips */}
             <div className="flex flex-wrap gap-1.5 mt-4">
-              <a className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-ink] font-medium shadow-sm hover:shadow" href="#"><Phone size={11} className="text-emerald-600" /> {c.phone}</a>
-              <a className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-ink] font-medium shadow-sm" href="#"><Mail size={11} className="text-sky-600" /> {c.email}</a>
-              <span className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-body] font-medium"><MapPin size={11} className="text-rose-500" /> {c.address}</span>
+              <a className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-ink] font-medium shadow-sm hover:shadow hover:border-emerald-200 transition" href="#"><Phone size={11} className="text-emerald-600" /> {c.phone}</a>
+              <a className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-ink] font-medium shadow-sm hover:shadow hover:border-sky-200 transition" href="#"><Mail size={11} className="text-sky-600" /> {c.email}</a>
+              <span className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-body] font-medium max-w-full truncate"><MapPin size={11} className="text-rose-500 shrink-0" /> <span className="truncate">{c.address}</span></span>
               <span className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-body] font-medium"><Globe size={11} className="text-indigo-500" /> {c.website}</span>
               <span className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-white border border-[--color-hairline] text-[11.5px] text-[--color-body] font-medium"><Cake size={11} className="text-amber-500" /> {c.birthday}</span>
             </div>
 
             {/* Quick actions */}
             <div className="grid grid-cols-5 gap-1.5 mt-4">
-              {[
-                { i: Phone, l: "Call", tone: "emerald" },
-                { i: MessageSquare, l: "SMS", tone: "sky" },
-                { i: Mail, l: "Email", tone: "indigo" },
-                { i: Video, l: "Meet", tone: "purple" },
-                { i: CalendarDays, l: "Book", tone: "amber" },
-              ].map(a => (
-                <button key={a.l} className="flex flex-col items-center gap-1 py-2 rounded-xl bg-white border border-[--color-hairline] hover:shadow-sm transition">
-                  <a.i size={15} className="text-[--color-ink]" />
-                  <span className="text-[10.5px] font-semibold text-[--color-body]">{a.l}</span>
+              {([
+                { i: Phone, l: "Call", bg: "bg-emerald-50", fg: "text-emerald-600", hover: "hover:border-emerald-300 hover:bg-emerald-50/60" },
+                { i: MessageSquare, l: "SMS", bg: "bg-sky-50", fg: "text-sky-600", hover: "hover:border-sky-300 hover:bg-sky-50/60" },
+                { i: Mail, l: "Email", bg: "bg-indigo-50", fg: "text-indigo-600", hover: "hover:border-indigo-300 hover:bg-indigo-50/60" },
+                { i: Video, l: "Meet", bg: "bg-purple-50", fg: "text-purple-600", hover: "hover:border-purple-300 hover:bg-purple-50/60" },
+                { i: CalendarDays, l: "Book", bg: "bg-amber-50", fg: "text-amber-600", hover: "hover:border-amber-300 hover:bg-amber-50/60" },
+              ] as const).map(a => (
+                <button
+                  key={a.l}
+                  className={`group flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl bg-white/90 border border-[--color-hairline] shadow-sm hover:shadow-md active:scale-[0.97] transition-all ${a.hover}`}
+                >
+                  <div className={`w-7 h-7 rounded-lg grid place-items-center ${a.bg} ${a.fg} group-hover:scale-110 transition-transform`}>
+                    <a.i size={13} />
+                  </div>
+                  <span className="text-[10.5px] font-semibold text-[--color-body-strong]">{a.l}</span>
                 </button>
               ))}
             </div>
+
           </div>
         </div>
 
