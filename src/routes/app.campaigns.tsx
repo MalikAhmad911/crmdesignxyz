@@ -1048,7 +1048,7 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
 
           {step === 3 && (
             <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {([
                   { id:"now",       label:"Send now",      desc:"Immediate delivery",     icon:<Send size={13} /> },
                   { id:"later",     label:"Schedule",      desc:"Pick date & time",       icon:<Calendar size={13} /> },
