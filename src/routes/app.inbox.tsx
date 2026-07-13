@@ -176,110 +176,63 @@ function LeftRail({
   activeKey, onSelect,
 }: { activeKey: string; onSelect: (k: string) => void }) {
   return (
-    <>
-      {/* Compact icon rail — lg to xl */}
-      <aside className="hidden lg:flex xl:hidden w-14 shrink-0 flex-col items-center border-r border-[--color-hairline] bg-[--color-surface-soft]/60 backdrop-blur py-3 gap-1">
-        <button
-          className="w-9 h-9 rounded-lg grid place-items-center text-white shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition mb-1"
-          style={{ background: ACCENT_GRAD }}
-          title="New Conversation"
-          aria-label="New Conversation"
-        >
-          <Plus size={15} />
-        </button>
-        {RAIL_FOLDERS.map(it => {
-          const I = it.icon;
-          const active = activeKey === it.key;
-          return (
-            <button
-              key={it.key}
-              onClick={() => onSelect(it.key)}
-              title={it.label}
-              aria-label={it.label}
-              className="relative w-9 h-9 rounded-lg grid place-items-center text-[--color-body] hover:bg-[--color-surface-strong] transition"
-              style={active ? { background: ACCENT_SOFT, color: ACCENT } : undefined}
-            >
-              <I size={15} />
-              {typeof it.count === "number" && it.count > 0 && (
-                <span
-                  className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-1 rounded-full text-[9px] font-bold text-white grid place-items-center"
-                  style={{ background: ACCENT }}
-                >{it.count}</span>
-              )}
-            </button>
-          );
-        })}
-        <div className="h-px w-6 bg-[--color-hairline] my-1" />
-        {RAIL_CHANNELS.map(it => {
-          const I = it.icon;
-          const active = activeKey === it.key;
-          return (
-            <button
-              key={it.key}
-              onClick={() => onSelect(it.key)}
-              title={it.label}
-              aria-label={it.label}
-              className="w-9 h-9 rounded-lg grid place-items-center text-[--color-body] hover:bg-[--color-surface-strong] transition"
-              style={active ? { background: ACCENT_SOFT, color: ACCENT } : undefined}
-            >
-              <I size={14} />
-            </button>
-          );
-        })}
-      </aside>
-
-      {/* Full rail — xl+ */}
-      <aside className="hidden xl:flex w-[220px] shrink-0 flex-col border-r border-[--color-hairline] bg-[--color-surface-soft]/60 backdrop-blur">
-        <div className="px-3 pt-4 pb-2">
+    // Reserved 56px space; inner panel overlays and expands to 240px on hover
+    <div className="hidden lg:block relative w-14 shrink-0 z-30">
+      <aside
+        className="group/rail absolute inset-y-0 left-0 w-14 hover:w-[240px] focus-within:w-[240px] transition-[width] duration-200 ease-out flex flex-col border-r border-[--color-hairline] bg-[--color-surface-soft]/95 backdrop-blur overflow-hidden shadow-[0_10px_40px_-20px_rgba(15,15,45,0.15)]"
+      >
+        <div className="px-2.5 pt-3 pb-2">
           <button
-            className="w-full h-9 rounded-lg text-[12.5px] font-semibold text-white flex items-center justify-center gap-1.5 shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition"
+            className="h-9 rounded-lg text-white flex items-center gap-1.5 shadow-[0_6px_20px_-8px_rgba(99,91,255,0.7)] hover:opacity-95 active:scale-[0.98] transition
+                       w-9 group-hover/rail:w-full group-focus-within/rail:w-full justify-center px-0 group-hover/rail:px-3 group-focus-within/rail:px-3"
             style={{ background: ACCENT_GRAD }}
+            title="New Conversation"
+            aria-label="New Conversation"
           >
-            <Plus size={13} /> New Conversation
+            <Plus size={14} className="shrink-0" />
+            <span className="text-[12.5px] font-semibold whitespace-nowrap opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity">
+              New Conversation
+            </span>
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-4">
-          <div>
-            <div className="px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Inbox</div>
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 pb-4 space-y-3">
+          <RailSection title="Inbox">
             {RAIL_FOLDERS.map(it => (
-              <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
+              <RailRowCollapsible key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
             ))}
-          </div>
+          </RailSection>
 
-          <div>
-            <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
-              <span>Channels</span>
-              <ChevronDown size={11} />
-            </div>
+          <RailSection title="Channels" trailing={<ChevronDown size={11} />}>
             {RAIL_CHANNELS.map(it => (
-              <RailRow key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
+              <RailRowCollapsible key={it.key} item={it} active={activeKey === it.key} onClick={() => onSelect(it.key)} />
             ))}
-          </div>
+          </RailSection>
 
-          <div>
-            <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">
-              <span>Labels</span>
-              <Plus size={11} />
-            </div>
+          <RailSection title="Labels" trailing={<Plus size={11} />}>
             {RAIL_LABELS.map(l => (
-              <button key={l.key} className="w-full h-8 px-2.5 rounded-lg flex items-center gap-2.5 text-[12.5px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] transition">
-                <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
-                <span className="flex-1 truncate text-left">{l.label}</span>
+              <button
+                key={l.key}
+                title={l.label}
+                className="w-full h-8 px-2 rounded-lg flex items-center gap-2.5 text-[12.5px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] transition"
+              >
+                <span className="w-2.5 h-2.5 rounded-sm shrink-0 ml-1" style={{ background: l.color }} />
+                <span className="flex-1 truncate text-left whitespace-nowrap opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity">
+                  {l.label}
+                </span>
               </button>
             ))}
-          </div>
+          </RailSection>
 
-          <div>
-            <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-[--color-muted]">Team</div>
-            <RailRow item={{ key: "shared", label: "Shared Inbox", icon: Users, count: 4 }} />
-            <RailRow item={{ key: "notes",  label: "Internal Notes", icon: FileText }} />
-            <RailRow item={{ key: "spam",   label: "Spam", icon: Trash2 }} />
-          </div>
+          <RailSection title="Team">
+            <RailRowCollapsible item={{ key: "shared", label: "Shared Inbox", icon: Users, count: 4 }} />
+            <RailRowCollapsible item={{ key: "notes",  label: "Internal Notes", icon: FileText }} />
+            <RailRowCollapsible item={{ key: "spam",   label: "Spam", icon: Trash2 }} />
+          </RailSection>
         </nav>
 
-        <div className="border-t border-[--color-hairline] p-3">
-          <div className="rounded-xl p-3 text-[11.5px] leading-snug" style={{ background: ACCENT_SOFT, color: "var(--color-ink)" }}>
+        <div className="border-t border-[--color-hairline] p-2 opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity">
+          <div className="rounded-xl p-3 text-[11.5px] leading-snug whitespace-nowrap" style={{ background: ACCENT_SOFT, color: "var(--color-ink)" }}>
             <div className="flex items-center gap-1.5 font-semibold mb-0.5" style={{ color: ACCENT }}>
               <Sparkles size={12} /> AI handled today
             </div>
@@ -288,7 +241,63 @@ function LeftRail({
           </div>
         </div>
       </aside>
-    </>
+    </div>
+  );
+}
+
+function RailSection({ title, trailing, children }: { title: string; trailing?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="px-2 pb-1 pt-1 h-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-[--color-muted] whitespace-nowrap opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity">
+        <span>{title}</span>
+        {trailing}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function RailRowCollapsible({
+  item, active, onClick,
+}: { item: RailItem; active?: boolean; onClick?: () => void }) {
+  const I = item.icon;
+  return (
+    <button
+      onClick={onClick}
+      title={item.label}
+      aria-label={item.label}
+      className="relative w-full h-9 px-1.5 rounded-lg flex items-center gap-2.5 text-[12.5px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] transition"
+      style={active ? { background: ACCENT_SOFT, color: ACCENT } : undefined}
+    >
+      <span className="w-9 h-9 grid place-items-center shrink-0">
+        {item.dot ? (
+          <span className="w-2 h-2 rounded-full" style={{ background: item.dot }} />
+        ) : I ? (
+          <I size={15} style={active ? { color: ACCENT } : undefined} />
+        ) : null}
+      </span>
+      <span className="flex-1 truncate text-left whitespace-nowrap opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity">
+        {item.label}
+      </span>
+      {typeof item.count === "number" && item.count > 0 && (
+        <>
+          {/* Collapsed count badge on icon */}
+          <span
+            className="absolute top-1 left-6 min-w-[15px] h-[15px] px-1 rounded-full text-[9px] font-bold text-white grid place-items-center group-hover/rail:opacity-0 group-focus-within/rail:opacity-0 transition-opacity"
+            style={{ background: active ? ACCENT : "var(--color-muted)" }}
+          >{item.count}</span>
+          {/* Expanded count pill */}
+          <span
+            className="text-[10.5px] font-semibold px-1.5 rounded-full mr-1 whitespace-nowrap opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100 transition-opacity"
+            style={
+              active
+                ? { background: ACCENT, color: "white" }
+                : { background: "var(--color-surface-strong)", color: "var(--color-body-strong)" }
+            }
+          >{item.count}</span>
+        </>
+      )}
+    </button>
   );
 }
 
