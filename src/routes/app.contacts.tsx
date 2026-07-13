@@ -106,12 +106,12 @@ function KpiCard({ label, value, sub, icon: I, tone = "brand" }: {
     info: "text-sky-600 bg-sky-50",
   };
   return (
-    <div className="rounded-2xl bg-white border border-[--color-hairline] px-4 py-3 shadow-sm flex items-center gap-3 min-w-0">
-      <div className={`w-9 h-9 rounded-xl grid place-items-center shrink-0 ${toneMap[tone]}`}><I size={16} /></div>
-      <div className="min-w-0">
-        <div className="text-[10.5px] uppercase tracking-wider font-semibold text-[--color-muted] truncate">{label}</div>
-        <div className="text-[17px] font-bold text-[--color-ink] leading-tight truncate">{value}</div>
-        {sub && <div className="text-[10.5px] text-[--color-muted] truncate">{sub}</div>}
+    <div className="rounded-2xl bg-white border border-[--color-hairline] px-3 sm:px-4 py-2.5 sm:py-3 shadow-sm flex items-center gap-2.5 sm:gap-3 min-w-0">
+      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl grid place-items-center shrink-0 ${toneMap[tone]}`}><I size={15} /></div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[9.5px] sm:text-[10.5px] uppercase tracking-wider font-semibold text-[--color-muted] truncate">{label}</div>
+        <div className="text-[15px] sm:text-[17px] font-bold text-[--color-ink] leading-tight truncate">{value}</div>
+        {sub && <div className="text-[10px] sm:text-[10.5px] text-[--color-muted] truncate">{sub}</div>}
       </div>
     </div>
   );
@@ -610,39 +610,40 @@ function ContactsPage() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top header */}
         <div className="shrink-0 bg-white border-b border-[--color-hairline]">
-          <div className="px-4 sm:px-6 py-3 flex items-center gap-3 flex-wrap">
+          <div className="px-3 sm:px-6 py-3 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 sm:flex sm:flex-wrap sm:items-center">
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h1 className="text-[20px] sm:text-[22px] font-bold tracking-tight text-[--color-ink]">Contacts</h1>
-                <Pill tone="brand">{filtered.length} shown</Pill>
+              <div className="flex items-center gap-2 min-w-0">
+                <h1 className="text-[18px] sm:text-[22px] font-bold tracking-tight text-[--color-ink] truncate">Contacts</h1>
+                <Pill tone="brand">{filtered.length}</Pill>
               </div>
-              <div className="text-[12px] text-[--color-muted]">One unified profile per customer — 360° across calls, jobs, payments, and AI.</div>
+              <div className="text-[11.5px] sm:text-[12px] text-[--color-muted] mt-0.5 line-clamp-2 sm:line-clamp-none">One unified profile per customer — 360° across calls, jobs, payments, and AI.</div>
             </div>
-            <div className="ml-auto flex items-center gap-1.5 flex-wrap">
-              <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] inline-flex items-center gap-1.5"><Upload size={13} /> Import</button>
-              <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] inline-flex items-center gap-1.5"><Download size={13} /> Export</button>
-              <button className="h-9 px-3.5 rounded-lg text-[12.5px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm" style={{ background: ACCENT_GRAD }}><Plus size={13} /> Add Contact</button>
+            <div className="sm:ml-auto flex items-center gap-1.5 shrink-0">
+              <button aria-label="Import" className="hidden sm:inline-flex h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] items-center gap-1.5"><Upload size={13} /> Import</button>
+              <button aria-label="Export" className="hidden sm:inline-flex h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] items-center gap-1.5"><Download size={13} /> Export</button>
+              <button aria-label="Import" className="sm:hidden w-9 h-9 rounded-lg bg-white border border-[--color-hairline] text-[--color-body-strong] grid place-items-center"><Upload size={14} /></button>
+              <button className="h-9 px-3 sm:px-3.5 rounded-lg text-[12.5px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm" style={{ background: ACCENT_GRAD }}><Plus size={13} /><span className="hidden xs:inline sm:inline">Add</span><span className="hidden sm:inline"> Contact</span></button>
             </div>
           </div>
 
           {/* KPI strip */}
-          <div className="px-4 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="px-3 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             <KpiCard label="Total" value={String(totals.all)} sub="in CRM" icon={Users} tone="brand" />
             <KpiCard label="Customers" value={String(totals.customers)} sub="active" icon={CheckCircle2} tone="success" />
             <KpiCard label="Leads" value={String(totals.leads)} sub="in pipeline" icon={UserPlus} tone="info" />
             <KpiCard label="VIPs" value={String(totals.vips)} sub="high value" icon={Crown} tone="warning" />
-            <KpiCard label="Lifetime Value" value={`$${(totals.ltv/1000).toFixed(1)}k`} sub="all customers" icon={TrendingUp} tone="brand" />
-            <KpiCard label="Outstanding" value={`$${totals.outstanding}`} sub="unpaid" icon={AlertTriangle} tone="danger" />
+            <KpiCard label="LTV" value={`$${(totals.ltv/1000).toFixed(1)}k`} sub="lifetime" icon={TrendingUp} tone="brand" />
+            <KpiCard label="Unpaid" value={`$${totals.outstanding}`} sub="outstanding" icon={AlertTriangle} tone="danger" />
           </div>
 
           {/* Toolbar */}
-          <div className="px-4 sm:px-6 pb-3 flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 min-w-[220px] max-w-[440px]">
-              <Search size={14} className="text-[--color-muted]" />
-              <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search contacts by name, phone, email, company…" className="bg-transparent flex-1 text-[13px] focus:outline-none" />
+          <div className="px-3 sm:px-6 pb-3 flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 min-w-0 sm:min-w-[220px] sm:max-w-[440px]">
+              <Search size={14} className="text-[--color-muted] shrink-0" />
+              <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search contacts…" className="bg-transparent flex-1 min-w-0 text-[13px] focus:outline-none" />
               <kbd className="hidden sm:inline text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline] text-[--color-muted]">⌘K</kbd>
             </div>
-            <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] inline-flex items-center gap-1.5"><Filter size={12} /> Filters <Pill tone="brand">2</Pill></button>
+            <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] inline-flex items-center gap-1.5 shrink-0"><Filter size={12} /> <span className="hidden sm:inline">Filters</span> <Pill tone="brand">2</Pill></button>
             <div className="hidden md:inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5">
               {(["ltv","score","name","activity"] as const).map(k => (
                 <button key={k} onClick={() => setSortBy(k)} className={`h-7 px-2.5 rounded-md text-[11.5px] font-semibold capitalize ${sortBy === k ? "bg-[--color-surface-strong] text-[--color-ink]" : "text-[--color-muted]"}`}>{k}</button>
@@ -656,17 +657,17 @@ function ContactsPage() {
 
           {/* Bulk bar */}
           {selected.size > 0 && (
-            <div className="mx-4 sm:mx-6 mb-3 flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50/60 px-3 py-2 flex-wrap">
-              <span className="text-[12px] font-bold text-indigo-700">{selected.size} selected</span>
-              <div className="w-px h-4 bg-indigo-200" />
-              <BulkBtn icon={MessageSquare} label="Bulk SMS" />
-              <BulkBtn icon={Mail} label="Bulk Email" />
+            <div className="mx-3 sm:mx-6 mb-3 flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/60 px-2.5 py-2 overflow-x-auto no-scrollbar">
+              <span className="text-[12px] font-bold text-indigo-700 shrink-0">{selected.size} selected</span>
+              <div className="w-px h-4 bg-indigo-200 shrink-0" />
+              <BulkBtn icon={MessageSquare} label="SMS" />
+              <BulkBtn icon={Mail} label="Email" />
               <BulkBtn icon={Zap} label="Automation" />
               <BulkBtn icon={TagIcon} label="Tag" />
               <BulkBtn icon={ShieldCheck} label="Assign" />
               <BulkBtn icon={Layers} label="Merge" />
               <BulkBtn icon={Archive} label="Archive" />
-              <button onClick={() => setSelected(new Set())} className="ml-auto text-[11.5px] font-semibold text-indigo-700 hover:underline">Clear</button>
+              <button onClick={() => setSelected(new Set())} className="ml-auto text-[11.5px] font-semibold text-indigo-700 hover:underline shrink-0">Clear</button>
             </div>
           )}
         </div>
@@ -674,7 +675,48 @@ function ContactsPage() {
         {/* List area */}
         <div className="flex-1 overflow-auto">
           {view === "table" ? (
-            <div className="min-w-[1100px]">
+            <>
+            {/* Mobile: card list */}
+            <div className="md:hidden p-3 space-y-2">
+              {filtered.map(c => (
+                <button key={c.id} onClick={() => setActive(c)} className="w-full text-left rounded-2xl border border-[--color-hairline] bg-white p-3 active:scale-[0.99] transition">
+                  <div className="flex items-center gap-3">
+                    <Avatar name={c.name} size={40} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1 min-w-0">
+                        <span className="font-bold text-[14px] text-[--color-ink] truncate">{c.name}</span>
+                        {c.isFav && <Star size={11} className="text-amber-500 fill-amber-500 shrink-0" />}
+                        {c.tags.includes("VIP") && <Crown size={11} className="text-amber-500 shrink-0" />}
+                      </div>
+                      <div className="text-[11.5px] text-[--color-muted] truncate">{c.company} · {c.pipeline}</div>
+                      <div className="text-[11px] text-[--color-muted] truncate">{c.phone}</div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-[13px] font-bold text-[--color-ink]">${(c.ltv/1000).toFixed(1)}k</div>
+                      <Pill tone={c.stage === "Customer" ? "success" : c.stage === "Lead" ? "brand" : "neutral"}>{c.stage}</Pill>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-2.5 pt-2.5 border-t border-[--color-hairline-soft]">
+                    <div className="flex items-center gap-1 text-[11px] text-[--color-body]"><Briefcase size={11} className="text-[--color-muted]" /> {c.jobsDone}{c.openJobs > 0 && <span className="text-amber-600 font-semibold"> · {c.openJobs} open</span>}</div>
+                    <div className="flex items-center gap-1 text-[11px] text-[--color-body]"><Star size={11} className="text-amber-500 fill-amber-500" /> {c.rating.toFixed(1)}</div>
+                    {c.balance > 0 && <div className="text-[11px] font-bold text-rose-600">${c.balance} due</div>}
+                    <div className="ml-auto flex items-center gap-0.5">
+                      <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
+                      <IconBtn onClick={e => e.stopPropagation()}><MessageSquare size={12} /></IconBtn>
+                    </div>
+                  </div>
+                </button>
+              ))}
+              {filtered.length === 0 && (
+                <div className="py-16 text-center">
+                  <div className="w-14 h-14 rounded-2xl bg-white border border-[--color-hairline] grid place-items-center mx-auto mb-2"><Users size={22} className="text-[--color-muted]" /></div>
+                  <div className="text-[13.5px] font-bold text-[--color-ink]">No matches</div>
+                  <div className="text-[12px] text-[--color-muted] mt-1">Try clearing filters or search.</div>
+                </div>
+              )}
+            </div>
+            {/* Desktop: full table */}
+            <div className="hidden md:block min-w-[1100px]">
               <table className="w-full text-[12.5px]">
                 <thead className="sticky top-0 z-10 bg-[--color-canvas]/95 backdrop-blur">
                   <tr className="text-left text-[10.5px] uppercase tracking-wider text-[--color-muted] font-bold">
@@ -782,6 +824,7 @@ function ContactsPage() {
                 </div>
               )}
             </div>
+            </>
           ) : (
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {filtered.map(c => (
