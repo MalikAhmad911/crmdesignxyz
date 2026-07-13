@@ -111,14 +111,14 @@ function EmptyState({ icon: Icon, title, hint, action }: { icon: any; title: str
 
 type RailItem = { key: string; label: string; icon: any; count?: number; dot?: string };
 
-const RAIL_FOLDERS: RailItem[] = [
-  { key: "All",       label: "All Conversations", icon: InboxIcon, count: 8 },
-  { key: "Unread",    label: "Unread",            icon: Circle,    count: 6 },
-  { key: "Assigned",  label: "Assigned to me",    icon: AtSign,    count: 3 },
-  { key: "AI",        label: "AI Handled",        icon: Sparkles,  count: 12 },
-  { key: "Needs",     label: "Needs Reply",       icon: AlertTriangle, count: 4 },
-  { key: "Starred",   label: "Starred",           icon: Star },
-  { key: "Archived",  label: "Archived",          icon: Archive },
+const RAIL_FOLDERS: (RailItem & { short?: string })[] = [
+  { key: "All",       label: "All Conversations", short: "All",      icon: InboxIcon, count: 8 },
+  { key: "Unread",    label: "Unread",            short: "Unread",   icon: Circle,    count: 6 },
+  { key: "Assigned",  label: "Assigned to me",    short: "Assigned", icon: AtSign,    count: 3 },
+  { key: "AI",        label: "AI Handled",        short: "AI",       icon: Sparkles,  count: 12 },
+  { key: "Needs",     label: "Needs Reply",       short: "Needs",    icon: AlertTriangle, count: 4 },
+  { key: "Starred",   label: "Starred",           short: "Starred",  icon: Star },
+  { key: "Archived",  label: "Archived",          short: "Archive",  icon: Archive },
 ];
 
 const RAIL_CHANNELS: RailItem[] = [
