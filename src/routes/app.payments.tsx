@@ -87,11 +87,15 @@ const FILTERS = [
 
 /* ─────────────── Page ─────────────── */
 
+type View = "payments" | "invoices" | "deposits" | "partial";
+
 function PaymentsPage() {
+  const [view, setView] = useState<View>("payments");
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<Row | null>(null);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
+
 
   const rows = useMemo(() => {
     return ROWS.filter(r => {
@@ -213,7 +217,36 @@ function PaymentsPage() {
         </Card>
       </div>
 
-      {/* FILTER CHIPS */}
+      {/* VIEW TABS */}
+      <div className="mb-3 sm:mb-4 border-b border-[--color-hairline] -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1 min-w-max">
+          {([
+            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: ROWS.length },
+            { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
+            { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
+            { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
+          ] as { id: View; label: string; icon: React.ReactNode; count: number }[]).map(t => {
+            const active = view === t.id;
+            return (
+              <button
+                key={t.id}
+                onClick={() => { setView(t.id); setChecked(new Set()); }}
+                className={`relative inline-flex items-center gap-1.5 px-3 sm:px-4 py-2.5 text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap transition ${
+                  active ? "text-[--color-ink]" : "text-[--color-muted] hover:text-[--color-body]"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+                <span className={`text-[10.5px] font-bold px-1.5 py-0.5 rounded-full tabular-nums ${active ? "bg-[--color-primary]/10 text-[--color-primary-deep]" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>{t.count}</span>
+                {active && <span className="absolute left-2 right-2 -bottom-px h-0.5 rounded-full bg-[--color-ink]" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {view === "payments" && <>
+
       <div className="mb-3 -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1.5 min-w-max pb-1">
           {FILTERS.map(f => (
@@ -376,8 +409,14 @@ function PaymentsPage() {
           </div>
         )}
       </Card>
+      </>}
+
+      {view === "invoices" && <InvoicesView query={query} setQuery={setQuery} />}
+      {view === "deposits" && <DepositsView query={query} setQuery={setQuery} />}
+      {view === "partial"  && <PartialsView query={query} setQuery={setQuery} />}
 
       {selected && <DetailsDrawer row={selected} onClose={() => setSelected(null)} />}
+
     </div>
   );
 }
@@ -602,3 +641,338 @@ function Meta({ k, v }: { k: string; v: string }) {
     </div>
   );
 }
+
+/* ─────────────── Invoices / Deposits / Partial data ─────────────── */
+
+type InvoiceStatus = "Paid" | "Sent" | "Overdue" | "Draft";
+interface Invoice {
+  id: string; number: string; customer: string; issued: string; due: string;
+  amount: number; status: InvoiceStatus; items: number;
+}
+const INVOICES: Invoice[] = [
+  { id: "i1", number: "INV-2026-1042", customer: "John Smith",    issued: "Jul 1",  due: "Jul 15", amount: 450,  status: "Paid",    items: 3 },
+  { id: "i2", number: "INV-2026-1043", customer: "Sarah Kim",     issued: "Jul 2",  due: "Jul 16", amount: 289,  status: "Sent",    items: 2 },
+  { id: "i3", number: "INV-2026-1044", customer: "Mike Johnson",  issued: "Jun 30", due: "Jul 14", amount: 1200, status: "Paid",    items: 5 },
+  { id: "i4", number: "INV-2026-1045", customer: "Jane Doe",      issued: "Jul 2",  due: "Jul 05", amount: 175,  status: "Overdue", items: 1 },
+  { id: "i5", number: "INV-2026-1046", customer: "James Rivera",  issued: "Jun 29", due: "Jul 13", amount: 620,  status: "Paid",    items: 2 },
+  { id: "i6", number: "INV-2026-1047", customer: "Priya Reddy",   issued: "Jun 15", due: "Jun 29", amount: 2100, status: "Overdue", items: 4 },
+  { id: "i7", number: "INV-2026-1048", customer: "Alicia Weber",  issued: "Jul 3",  due: "Jul 17", amount: 320,  status: "Draft",   items: 2 },
+];
+
+type DepositStatus = "Held" | "Applied" | "Refunded";
+interface Deposit {
+  id: string; customer: string; job: string; amount: number; total: number;
+  received: string; status: DepositStatus; method: Method;
+}
+const DEPOSITS: Deposit[] = [
+  { id: "d1", customer: "Mike Johnson",  job: "HVAC Install",         amount: 400,  total: 1200, received: "Jun 28", status: "Applied",  method: "card" },
+  { id: "d2", customer: "Priya Reddy",   job: "Water Heater Install", amount: 700,  total: 2100, received: "Jun 14", status: "Applied",  method: "ach"  },
+  { id: "d3", customer: "Ana Delgado",   job: "Roof Repair",          amount: 500,  total: 1800, received: "Jul 5",  status: "Held",     method: "card" },
+  { id: "d4", customer: "Owen Park",     job: "Kitchen Remodel",      amount: 1500, total: 6200, received: "Jul 8",  status: "Held",     method: "bank" },
+  { id: "d5", customer: "Nora Patel",    job: "Deck Build",           amount: 900,  total: 3400, received: "Jul 6",  status: "Refunded", method: "card" },
+];
+
+interface Partial {
+  id: string; customer: string; invoice: string; total: number; paid: number;
+  next: string; installments: number; done: number;
+}
+const PARTIALS: Partial[] = [
+  { id: "pp1", customer: "Owen Park",    invoice: "INV-2026-1051", total: 6200, paid: 2400, next: "Jul 20", installments: 4, done: 2 },
+  { id: "pp2", customer: "Ana Delgado",  invoice: "INV-2026-1053", total: 1800, paid: 500,  next: "Jul 18", installments: 3, done: 1 },
+  { id: "pp3", customer: "Nora Patel",   invoice: "INV-2026-1054", total: 3400, paid: 1700, next: "Jul 25", installments: 4, done: 2 },
+  { id: "pp4", customer: "Luis Ortega",  invoice: "INV-2026-1058", total: 950,  paid: 300,  next: "Jul 22", installments: 3, done: 1 },
+];
+
+/* ─────────────── Shared toolbar ─────────────── */
+
+function ViewToolbar({
+  query, setQuery, placeholder, primary,
+}: { query: string; setQuery: (v: string) => void; placeholder: string; primary: { label: string; icon: React.ReactNode } }) {
+  return (
+    <Card padded={false} className="mb-3">
+      <div className="flex items-center gap-2 p-2 sm:p-2.5">
+        <div className="flex-1 relative min-w-0">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[--color-muted]" />
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder={placeholder}
+            className="w-full h-9 pl-9 pr-3 text-[13px] rounded-lg bg-[--color-surface-strong] border border-transparent focus:border-[--color-primary] focus:bg-white outline-none transition"
+          />
+        </div>
+        <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden sm:inline-flex">Filters</Btn>
+        <Btn size="sm" variant="secondary" icon={<Download size={13} />} className="hidden md:inline-flex">Export</Btn>
+        <Btn size="sm" variant="gradient" icon={primary.icon}>{primary.label}</Btn>
+      </div>
+    </Card>
+  );
+}
+
+/* ─────────────── View: Invoices ─────────────── */
+
+function InvoicesView({ query, setQuery }: { query: string; setQuery: (v: string) => void }) {
+  const tone: Record<InvoiceStatus, "success" | "info" | "danger" | "neutral"> = {
+    Paid: "success", Sent: "info", Overdue: "danger", Draft: "neutral",
+  };
+  const rows = INVOICES.filter(i =>
+    !query || `${i.customer} ${i.number}`.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const stats = {
+    outstanding: INVOICES.filter(i => i.status !== "Paid" && i.status !== "Draft").reduce((a, i) => a + i.amount, 0),
+    overdue:     INVOICES.filter(i => i.status === "Overdue").reduce((a, i) => a + i.amount, 0),
+    paid:        INVOICES.filter(i => i.status === "Paid").reduce((a, i) => a + i.amount, 0),
+    drafts:      INVOICES.filter(i => i.status === "Draft").length,
+  };
+
+  return (
+    <div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+        <MiniCard label="Outstanding" value={`$${stats.outstanding.toLocaleString()}`} tone="warning" />
+        <MiniCard label="Overdue"     value={`$${stats.overdue.toLocaleString()}`}     tone="danger" />
+        <MiniCard label="Paid (30d)"  value={`$${stats.paid.toLocaleString()}`}        tone="success" />
+        <MiniCard label="Drafts"      value={String(stats.drafts)}                     tone="neutral" />
+      </div>
+
+      <ViewToolbar query={query} setQuery={setQuery} placeholder="Search invoices…" primary={{ label: "New Invoice", icon: <Plus size={14} /> }} />
+
+      <Card padded={false} className="overflow-hidden">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-[13px]">
+            <thead>
+              <tr className="border-b border-[--color-hairline] bg-[--color-surface-strong]/40">
+                {["Status","Invoice","Customer","Issued","Due","Items","Amount",""].map(h => (
+                  <th key={h} className="text-left px-3 py-2.5 text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted] whitespace-nowrap">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(i => (
+                <tr key={i.id} className="border-b border-[--color-hairline] last:border-0 hover:bg-[--color-surface-strong]/40 cursor-pointer transition">
+                  <td className="px-3 py-3"><Tag tone={tone[i.status]}>{i.status}</Tag></td>
+                  <td className="px-3 py-3 font-mono text-[12px] text-[--color-body] whitespace-nowrap">{i.number}</td>
+                  <td className="px-3 py-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Avatar name={i.customer} size={28} />
+                      <span className="font-semibold text-[--color-ink] truncate">{i.customer}</span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-3 text-[--color-muted] whitespace-nowrap">{i.issued}</td>
+                  <td className={`px-3 py-3 whitespace-nowrap ${i.status === "Overdue" ? "text-rose-600 font-semibold" : "text-[--color-muted]"}`}>{i.due}</td>
+                  <td className="px-3 py-3 text-[--color-body] tabular-nums">{i.items}</td>
+                  <td className="px-3 py-3 font-semibold text-[--color-ink] tabular-nums whitespace-nowrap">${i.amount.toLocaleString()}</td>
+                  <td className="px-2 py-3 text-right pr-4">
+                    <div className="flex justify-end gap-1">
+                      <IconBtn2 icon={<Send size={13} />} />
+                      <IconBtn2 icon={<Download size={13} />} />
+                      <IconBtn2 icon={<MoreHorizontal size={13} />} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="md:hidden divide-y divide-[--color-hairline]">
+          {rows.map(i => (
+            <div key={i.id} className="p-3">
+              <div className="flex items-start gap-2.5">
+                <Avatar name={i.customer} size={36} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-semibold text-[13px] text-[--color-ink] truncate">{i.customer}</div>
+                      <div className="text-[11px] text-[--color-muted] truncate">{i.number} · {i.items} items</div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="font-semibold text-[13.5px] text-[--color-ink] tabular-nums">${i.amount.toLocaleString()}</div>
+                      <div className={`text-[10.5px] ${i.status === "Overdue" ? "text-rose-600 font-semibold" : "text-[--color-muted]"}`}>Due {i.due}</div>
+                    </div>
+                  </div>
+                  <div className="mt-1.5"><Tag tone={tone[i.status]}>{i.status}</Tag></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+/* ─────────────── View: Deposits ─────────────── */
+
+function DepositsView({ query, setQuery }: { query: string; setQuery: (v: string) => void }) {
+  const tone: Record<DepositStatus, "warning" | "success" | "info"> = {
+    Held: "warning", Applied: "success", Refunded: "info",
+  };
+  const rows = DEPOSITS.filter(d =>
+    !query || `${d.customer} ${d.job}`.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const held = DEPOSITS.filter(d => d.status === "Held").reduce((a, d) => a + d.amount, 0);
+  const applied = DEPOSITS.filter(d => d.status === "Applied").reduce((a, d) => a + d.amount, 0);
+
+  return (
+    <div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+        <MiniCard label="Currently Held" value={`$${held.toLocaleString()}`}    tone="warning" />
+        <MiniCard label="Applied (30d)"  value={`$${applied.toLocaleString()}`} tone="success" />
+        <MiniCard label="Avg Deposit"    value="$800"                            tone="primary" />
+        <MiniCard label="Deposit Rate"   value="42%"                             tone="neutral" />
+      </div>
+
+      <ViewToolbar query={query} setQuery={setQuery} placeholder="Search deposits by customer or job…" primary={{ label: "Collect Deposit", icon: <Plus size={14} /> }} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {rows.map(d => {
+          const pct = Math.round((d.amount / d.total) * 100);
+          return (
+            <Card key={d.id} className="!p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <Avatar name={d.customer} size={36} />
+                  <div className="min-w-0">
+                    <div className="font-semibold text-[13.5px] text-[--color-ink] truncate">{d.customer}</div>
+                    <div className="text-[11.5px] text-[--color-muted] truncate">{d.job}</div>
+                  </div>
+                </div>
+                <Tag tone={tone[d.status]}>{d.status}</Tag>
+              </div>
+
+              <div className="mt-3 flex items-baseline gap-2">
+                <span className="text-[20px] font-semibold tabular-nums text-[--color-ink]">${d.amount.toLocaleString()}</span>
+                <span className="text-[11.5px] text-[--color-muted]">of ${d.total.toLocaleString()}</span>
+              </div>
+              <div className="h-1.5 mt-2 rounded-full bg-[--color-surface-strong] overflow-hidden">
+                <div className="h-full rounded-full bg-gradient-to-r from-[--color-primary] to-[--color-primary-deep]" style={{ width: `${pct}%` }} />
+              </div>
+              <div className="flex items-center justify-between mt-2 text-[11px] text-[--color-muted]">
+                <span>{pct}% of job total</span>
+                <span>Received {d.received}</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-[--color-hairline]">
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold ${METHOD_META[d.method].tint}`}>
+                  {METHOD_META[d.method].icon}
+                  {METHOD_META[d.method].label.split(" ")[0]}
+                </span>
+                <div className="ml-auto flex gap-1">
+                  <Btn size="sm" variant="ghost">Apply</Btn>
+                  <Btn size="sm" variant="ghost">Refund</Btn>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────── View: Partial Payments ─────────────── */
+
+function PartialsView({ query, setQuery }: { query: string; setQuery: (v: string) => void }) {
+  const rows = PARTIALS.filter(p =>
+    !query || `${p.customer} ${p.invoice}`.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const scheduled = PARTIALS.reduce((a, p) => a + (p.total - p.paid), 0);
+  const collected = PARTIALS.reduce((a, p) => a + p.paid, 0);
+
+  return (
+    <div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+        <MiniCard label="Balance Remaining" value={`$${scheduled.toLocaleString()}`} tone="warning" />
+        <MiniCard label="Collected"         value={`$${collected.toLocaleString()}`} tone="success" />
+        <MiniCard label="Active Plans"      value={String(PARTIALS.length)}          tone="primary" />
+        <MiniCard label="On-time Rate"      value="96%"                              tone="success" />
+      </div>
+
+      <ViewToolbar query={query} setQuery={setQuery} placeholder="Search installment plans…" primary={{ label: "New Plan", icon: <Plus size={14} /> }} />
+
+      <div className="space-y-3">
+        {rows.map(p => {
+          const pct = Math.round((p.paid / p.total) * 100);
+          const remaining = p.total - p.paid;
+          return (
+            <Card key={p.id} className="!p-4 sm:!p-5">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-3 min-w-0">
+                  <Avatar name={p.customer} size={40} />
+                  <div className="min-w-0">
+                    <div className="font-semibold text-[14px] text-[--color-ink] truncate">{p.customer}</div>
+                    <div className="text-[11.5px] text-[--color-muted] truncate">{p.invoice} · {p.done}/{p.installments} installments paid</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] uppercase tracking-widest font-semibold text-[--color-muted]">Next payment</div>
+                  <div className="text-[13px] font-semibold text-[--color-ink]">{p.next}</div>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-[12px] text-[--color-muted]">
+                    <span className="text-[--color-ink] font-semibold tabular-nums">${p.paid.toLocaleString()}</span> paid of ${p.total.toLocaleString()}
+                  </span>
+                  <span className="text-[12px] font-semibold text-[--color-primary-deep] tabular-nums">{pct}%</span>
+                </div>
+                <div className="h-2 rounded-full bg-[--color-surface-strong] overflow-hidden flex">
+                  {Array.from({ length: p.installments }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex-1 ${idx < p.installments - 1 ? "border-r-2 border-white" : ""} ${
+                        idx < p.done ? "bg-gradient-to-r from-emerald-500 to-teal-500" : "bg-transparent"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="text-[11px] text-[--color-muted] mt-1.5">
+                  Balance remaining <span className="text-rose-600 font-semibold tabular-nums">${remaining.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-[--color-hairline]">
+                <Btn size="sm" variant="gradient" icon={<Zap size={12} />}>Charge Next</Btn>
+                <Btn size="sm" variant="secondary" icon={<Send size={12} />}>Send Reminder</Btn>
+                <Btn size="sm" variant="ghost" icon={<PauseCircle size={12} />}>Pause</Btn>
+                <Btn size="sm" variant="ghost" icon={<MoreHorizontal size={12} />}>More</Btn>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────── Shared bits ─────────────── */
+
+function MiniCard({ label, value, tone }: {
+  label: string; value: string; tone: "success" | "warning" | "danger" | "primary" | "neutral";
+}) {
+  const c: Record<string, string> = {
+    success: "text-emerald-600",
+    warning: "text-amber-600",
+    danger:  "text-rose-600",
+    primary: "text-[--color-primary-deep]",
+    neutral: "text-[--color-ink]",
+  };
+  return (
+    <div className="rounded-xl bg-white border border-[--color-hairline] p-3 sm:p-4" style={{ boxShadow: "var(--shadow-card)" }}>
+      <div className="text-[10px] sm:text-[10.5px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
+      <div className={`text-[17px] sm:text-[20px] font-semibold tabular-nums tracking-tight mt-1 ${c[tone]}`}>{value}</div>
+    </div>
+  );
+}
+
+function IconBtn2({ icon }: { icon: React.ReactNode }) {
+  return (
+    <button className="w-7 h-7 grid place-items-center rounded-md hover:bg-[--color-surface-strong] text-[--color-muted]">
+      {icon}
+    </button>
+  );
+}
+
