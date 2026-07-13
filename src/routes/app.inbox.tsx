@@ -648,29 +648,34 @@ function InboxPage() {
               </div>
 
               {/* Intel bar */}
-              <div className="hidden lg:flex px-5 pb-2.5 items-center gap-4 text-[11px]">
-                {[
-                  { icon: TrendingUp, label: "LTV",     value: "$4,180", color: "#10B981" },
-                  { icon: Briefcase,  label: "Open jobs", value: "2",     color: ACCENT },
-                  { icon: Calendar,   label: "Next appt", value: "Today 2 PM", color: "#F59E0B" },
-                  { icon: ReceiptText,label: "Outstanding", value: "$0",   color: "#6B7280" },
-                  { icon: Building2,  label: "Pipeline", value: "Customer", color: "#3B82F6" },
-                ].map(m => {
-                  const MI = m.icon;
-                  return (
-                    <div key={m.label} className="flex items-center gap-1.5">
-                      <MI size={11} style={{ color: m.color }} />
-                      <span className="text-[--color-muted]">{m.label}</span>
-                      <span className="font-semibold text-[--color-ink]">{m.value}</span>
-                    </div>
-                  );
-                })}
-                <div className="ml-auto flex items-center gap-1">
-                  <button onClick={() => notify("Creating job…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold bg-[--color-surface-strong] text-[--color-body-strong] hover:bg-[--color-hairline]">Create Job</button>
-                  <button onClick={() => notify("Review request queued…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold bg-[--color-surface-strong] text-[--color-body-strong] hover:bg-[--color-hairline]">Request Review</button>
-                  <button onClick={() => notify("Opening payment…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold text-white" style={{ background: ACCENT }}>Take Payment</button>
+              <div className="hidden lg:block px-5 pb-2.5">
+                <div className="flex items-center gap-x-4 gap-y-2 text-[11px] flex-wrap">
+                  <div className="flex items-center gap-x-4 gap-y-1.5 flex-wrap min-w-0">
+                    {[
+                      { icon: TrendingUp, label: "LTV",     value: "$4,180", color: "#10B981" },
+                      { icon: Briefcase,  label: "Open jobs", value: "2",     color: ACCENT },
+                      { icon: Calendar,   label: "Next appt", value: "Today 2 PM", color: "#F59E0B" },
+                      { icon: ReceiptText,label: "Outstanding", value: "$0",   color: "#6B7280" },
+                      { icon: Building2,  label: "Pipeline", value: "Customer", color: "#3B82F6" },
+                    ].map(m => {
+                      const MI = m.icon;
+                      return (
+                        <div key={m.label} className="flex items-center gap-1.5 shrink-0">
+                          <MI size={11} style={{ color: m.color }} />
+                          <span className="text-[--color-muted]">{m.label}</span>
+                          <span className="font-semibold text-[--color-ink]">{m.value}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex items-center gap-1 flex-wrap w-full xl:w-auto xl:ml-auto">
+                    <button onClick={() => notify("Creating job…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold bg-[--color-surface-strong] text-[--color-body-strong] hover:bg-[--color-hairline] whitespace-nowrap">Create Job</button>
+                    <button onClick={() => notify("Review request queued…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold bg-[--color-surface-strong] text-[--color-body-strong] hover:bg-[--color-hairline] whitespace-nowrap">Request Review</button>
+                    <button onClick={() => notify("Opening payment…")} className="h-7 px-2.5 rounded-md text-[11px] font-semibold text-white whitespace-nowrap" style={{ background: ACCENT }}>Take Payment</button>
+                  </div>
                 </div>
               </div>
+
             </div>
 
             {/* Messages */}
