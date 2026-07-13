@@ -658,11 +658,11 @@ function QuickActionModal({ mode, onClose, onCreate, nextIndex }: {
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-5 border-t border-[--color-hairline] flex items-center gap-2 flex-wrap">
-          <Btn variant="ghost" size="md" onClick={onClose}>Cancel</Btn>
-          <div className="ml-auto flex items-center gap-2">
+        <div className="p-3 sm:p-5 border-t border-[--color-hairline] flex flex-col-reverse sm:flex-row sm:items-center gap-2">
+          <Btn variant="ghost" size="md" onClick={onClose} className="w-full sm:w-auto justify-center">Cancel</Btn>
+          <div className="sm:ml-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {tab === "invoice" && (
-              <Btn variant="secondary" size="md" icon={<Copy size={13} />} onClick={submit}>
+              <Btn variant="secondary" size="md" icon={<Copy size={13} />} onClick={submit} className="w-full sm:w-auto justify-center">
                 Save as Draft
               </Btn>
             )}
@@ -671,6 +671,7 @@ function QuickActionModal({ mode, onClose, onCreate, nextIndex }: {
               size="md"
               icon={tab === "invoice" ? <Send size={13} /> : <CheckCircle size={13} />}
               onClick={submit}
+              className="w-full sm:w-auto justify-center"
             >
               {tab === "invoice" ? (sendEmail ? "Send Invoice" : "Save Draft") : "Record Payment"}
             </Btn>
