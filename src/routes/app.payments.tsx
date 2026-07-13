@@ -51,7 +51,7 @@ const METHOD_META: Record<Method, { label: string; icon: React.ReactNode; tint: 
   bank:   { label: "Bank Transfer", icon: <Building2 size={13} />,  tint: "bg-teal-50 text-teal-700" },
 };
 
-const ROWS: Row[] = PAYMENTS.map((p, i) => {
+const SEED_ROWS: Row[] = PAYMENTS.map((p, i) => {
   const methods: Method[] = ["card", "ach", "apple", "google", "paypal", "cash", "check", "bank"];
   const techs = ["Marcus L.", "Elena R.", "David C.", "Priya S.", "Jonah W."];
   const gws = ["Stripe", "Square", "PayPal"];
