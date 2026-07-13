@@ -1036,7 +1036,7 @@ function RecurringView({ query, setQuery }: { query: string; setQuery: (v: strin
   const failedCount = items.filter(r => r.status === "Failed").length;
   const pausedCount = items.filter(r => r.status === "Paused").length;
 
-  function update(id: string, patch: Partial<Recurring>) {
+  function update(id: string, patch: {[K in keyof Recurring]?: Recurring[K]}) {
     setItems(prev => prev.map(r => r.id === id ? { ...r, ...patch } : r));
   }
 
