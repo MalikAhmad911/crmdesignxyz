@@ -840,45 +840,48 @@ function InboxPage() {
 
                 {/* AI Suggested Reply */}
                 {aiVisible && (
-                  <div className="mt-4 rounded-2xl p-4 relative overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(99,91,255,0.09),rgba(99,91,255,0.02))", border: "1px solid rgba(99,91,255,0.28)" }}>
-                    <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(closest-side,rgba(99,91,255,0.18),transparent)" }} />
-                    <div className="flex items-center gap-2 mb-2 relative flex-wrap">
-                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white shrink-0" style={{ background: ACCENT_GRAD }}>
-                        <Sparkles size={12} />
+                  <div className="mt-4 rounded-2xl p-4 bg-[#F5F7FF] border border-indigo-100 shadow-sm">
+                    <div className="flex items-center justify-between mb-3 gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-5 h-5 rounded-md grid place-items-center shrink-0" style={{ background: ACCENT }}>
+                          <Sparkles size={11} className="text-white" />
+                        </div>
+                        <span className="text-[10px] font-bold tracking-wider uppercase truncate" style={{ color: ACCENT }}>AI Suggested Reply</span>
                       </div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: ACCENT }}>AI suggested reply</span>
-                      <span className="sm:ml-auto text-[10.5px] font-semibold text-[--color-muted] truncate">
-                        <span className="hidden sm:inline">RevenueSol AI · </span>97% confidence
-                      </span>
+                      <span className="text-[10px] font-medium text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100/60 shrink-0">97% confidence</span>
                     </div>
 
-                    <div className="text-[13.5px] text-[--color-ink] leading-snug mb-3 relative">
+                    <p className="text-[14px] leading-relaxed text-[--color-ink] mb-4">
                       "{AI_SUGGESTION}"
-                    </div>
-                    <div className="flex flex-wrap gap-2 relative">
-                      <button
-                        onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}
-                        className="h-8 px-3.5 rounded-lg text-[12px] font-semibold text-white shadow-[0_4px_12px_-4px_rgba(99,91,255,0.6)] hover:opacity-95 active:scale-[0.98] transition inline-flex items-center gap-1.5"
-                        style={{ background: ACCENT_GRAD }}
-                      >
-                        <Send size={12} /> Send
-                      </button>
-                      <button
-                        onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}
-                        className="h-8 px-3 rounded-lg text-[12px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong]"
-                      >Edit</button>
-                      <button
-                        onClick={() => setAiVisible(false)}
-                        className="h-8 px-3 rounded-lg text-[12px] font-semibold text-[--color-body] hover:bg-[--color-surface-strong]"
-                      >Dismiss</button>
-                      <div className="ml-auto flex items-center gap-1 text-[--color-body]">
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Rewrite"><Wand2 size={13} /></button>
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Translate"><Languages size={13} /></button>
-                        <button className="h-8 w-8 rounded-lg grid place-items-center hover:bg-white" title="Create task"><ClipboardList size={13} /></button>
+                    </p>
+
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => { setAiVisible(false); setDraft(""); notify("Reply sent"); }}
+                          className="h-8 px-3.5 rounded-lg text-[13px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm active:scale-[0.98] transition"
+                          style={{ background: ACCENT }}
+                        >
+                          <Send size={13} /> Send
+                        </button>
+                        <button
+                          onClick={() => { setDraft(AI_SUGGESTION); setMode("reply"); }}
+                          className="h-8 px-3.5 rounded-lg text-[13px] font-medium bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong]"
+                        >Edit</button>
+                      </div>
+                      <div className="flex items-center gap-1 text-[--color-muted]">
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Rewrite"><Wand2 size={14} /></button>
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Translate"><Languages size={14} /></button>
+                        <button className="w-8 h-8 rounded-lg grid place-items-center hover:bg-white/70 hover:text-[--color-body-strong]" title="Create task"><ClipboardList size={14} /></button>
+                        <button
+                          onClick={() => setAiVisible(false)}
+                          className="text-[13px] font-medium text-[--color-muted] hover:text-[--color-body-strong] ml-1 px-1"
+                        >Dismiss</button>
                       </div>
                     </div>
                   </div>
                 )}
+
               </div>
             </div>
 
