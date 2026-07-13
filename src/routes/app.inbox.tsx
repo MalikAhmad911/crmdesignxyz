@@ -165,7 +165,7 @@ function InboxPage() {
   return (
     <div className="h-[calc(100dvh-56px-64px)] lg:h-[calc(100dvh-56px)] flex overflow-hidden">
       {/* Thread List */}
-      <div className={`w-full lg:w-[340px] shrink-0 border-r border-[--color-hairline] bg-white flex-col ${activeId ? "hidden lg:flex" : "flex"}`}>
+      <div className={`w-full md:w-[280px] lg:w-[340px] shrink-0 border-r border-[--color-hairline] bg-white flex-col ${activeId ? "hidden md:flex" : "flex"}`}>
         <div className="p-4 border-b border-[--color-hairline]">
           <div className="flex items-center gap-2 h-10 px-3 rounded-lg bg-[--color-surface-strong] mb-3">
             <Search size={14} className="text-[--color-muted]" />
