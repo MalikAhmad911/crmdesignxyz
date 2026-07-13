@@ -627,7 +627,7 @@ function ContactsPage() {
           </div>
 
           {/* KPI strip */}
-          <div className="px-3 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="px-3 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-6 gap-2">
             <KpiCard label="Total" value={String(totals.all)} sub="in CRM" icon={Users} tone="brand" />
             <KpiCard label="Customers" value={String(totals.customers)} sub="active" icon={CheckCircle2} tone="success" />
             <KpiCard label="Leads" value={String(totals.leads)} sub="in pipeline" icon={UserPlus} tone="info" />
@@ -716,23 +716,23 @@ function ContactsPage() {
               )}
             </div>
             {/* Desktop: full table */}
-            <div className="hidden md:block min-w-[1100px]">
+            <div className="hidden md:block">
               <table className="w-full text-[12.5px]">
                 <thead className="sticky top-0 z-10 bg-[--color-canvas]/95 backdrop-blur">
                   <tr className="text-left text-[10.5px] uppercase tracking-wider text-[--color-muted] font-bold">
                     <Th className="w-8 pl-4"><input type="checkbox" checked={allSelected} onChange={toggleAll} className="accent-indigo-600" /></Th>
                     <Th>Customer</Th>
-                    <Th>Company</Th>
+                    <Th className="hidden xl:table-cell">Company</Th>
                     <Th>Contact</Th>
                     <Th>Stage</Th>
-                    <Th>Pipeline</Th>
+                    <Th className="hidden 2xl:table-cell">Pipeline</Th>
                     <Th>Revenue</Th>
-                    <Th>Jobs</Th>
-                    <Th>Balance</Th>
-                    <Th>Reviews</Th>
-                    <Th>Assigned</Th>
-                    <Th>AI Score</Th>
-                    <Th>Last</Th>
+                    <Th className="hidden lg:table-cell">Jobs</Th>
+                    <Th className="hidden lg:table-cell">Balance</Th>
+                    <Th className="hidden 2xl:table-cell">Reviews</Th>
+                    <Th className="hidden 2xl:table-cell">Assigned</Th>
+                    <Th>AI</Th>
+                    <Th className="hidden xl:table-cell">Last</Th>
                     <Th className="pr-4 text-right">Actions</Th>
                   </tr>
                 </thead>
@@ -758,7 +758,7 @@ function ContactsPage() {
                             </div>
                           </div>
                         </Td>
-                        <Td><span className="text-[--color-body]">{c.company}</span></Td>
+                        <Td className="hidden xl:table-cell"><span className="text-[--color-body]">{c.company}</span></Td>
                         <Td>
                           <div className="flex flex-col leading-tight">
                             <span className="text-[--color-ink]">{c.phone}</span>
@@ -768,25 +768,25 @@ function ContactsPage() {
                         <Td>
                           <Pill tone={c.stage === "Customer" ? "success" : c.stage === "Lead" ? "brand" : "neutral"}>{c.stage}</Pill>
                         </Td>
-                        <Td><span className="text-[11.5px] text-[--color-body-strong]">{c.pipeline}</span></Td>
+                        <Td className="hidden 2xl:table-cell"><span className="text-[11.5px] text-[--color-body-strong]">{c.pipeline}</span></Td>
                         <Td><span className="font-bold text-[--color-ink]">${c.ltv.toLocaleString()}</span></Td>
-                        <Td>
+                        <Td className="hidden lg:table-cell">
                           <div className="flex items-center gap-1">
                             <span className="font-semibold text-[--color-ink]">{c.jobsDone}</span>
                             {c.openJobs > 0 && <Pill tone="warning">{c.openJobs} open</Pill>}
                           </div>
                         </Td>
-                        <Td>
+                        <Td className="hidden lg:table-cell">
                           {c.balance > 0 ? <span className="font-bold text-rose-600">${c.balance}</span> : <span className="text-[--color-muted]">—</span>}
                         </Td>
-                        <Td>
+                        <Td className="hidden 2xl:table-cell">
                           <div className="flex items-center gap-1">
                             <Star size={11} className="text-amber-500 fill-amber-500" />
                             <span className="font-semibold text-[--color-ink]">{c.rating.toFixed(1)}</span>
                             <span className="text-[10.5px] text-[--color-muted]">({c.reviews})</span>
                           </div>
                         </Td>
-                        <Td>
+                        <Td className="hidden 2xl:table-cell">
                           <div className="inline-flex items-center gap-1.5 h-6 px-1.5 rounded-full bg-[--color-surface-strong] text-[11px] font-semibold text-[--color-body-strong]">
                             <div className="w-4 h-4 rounded-full bg-indigo-100 grid place-items-center text-[9px] text-indigo-700 font-bold">{c.assigned.split(" ")[0][0]}</div>
                             {c.assigned}
@@ -794,13 +794,13 @@ function ContactsPage() {
                         </Td>
                         <Td>
                           <div className="flex items-center gap-1.5">
-                            <div className="w-14 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                            <div className="w-10 lg:w-14 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                               <div className="h-full rounded-full" style={{ width: `${c.aiScore}%`, background: ACCENT_GRAD }} />
                             </div>
                             <span className="text-[11.5px] font-bold text-[--color-ink] tabular-nums">{c.aiScore}</span>
                           </div>
                         </Td>
-                        <Td><span className="text-[10.5px] text-[--color-muted]">{c.activity}</span></Td>
+                        <Td className="hidden xl:table-cell"><span className="text-[10.5px] text-[--color-muted]">{c.activity}</span></Td>
                         <Td className="pr-4">
                           <div className="flex items-center gap-0.5 justify-end opacity-70 group-hover:opacity-100 transition">
                             <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
