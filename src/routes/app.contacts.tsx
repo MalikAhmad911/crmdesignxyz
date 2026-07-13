@@ -824,6 +824,7 @@ function ContactsPage() {
                 </div>
               )}
             </div>
+            </>
           ) : (
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {filtered.map(c => (
