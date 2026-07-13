@@ -924,7 +924,7 @@ function ContactsPage() {
           ) : (
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {filtered.map(c => (
-                <button key={c.id} onClick={() => setActive(c)} className="text-left rounded-2xl border border-[--color-hairline] bg-white p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                <div key={c.id} role="button" tabIndex={0} onClick={() => setActive(c)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(c); } }} className="text-left rounded-2xl border border-[--color-hairline] bg-white p-4 hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer">
                   <div className="flex items-center gap-3">
                     <Avatar name={c.name} size={44} />
                     <div className="min-w-0 flex-1">
@@ -941,13 +941,14 @@ function ContactsPage() {
                     <MiniKpi label="AI" value={String(c.aiScore)} tone="brand" />
                   </div>
                   <div className="mt-3 flex items-center gap-1">
-                    <IconBtn><Phone size={12} /></IconBtn>
-                    <IconBtn><MessageSquare size={12} /></IconBtn>
-                    <IconBtn><Mail size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><MessageSquare size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><Mail size={12} /></IconBtn>
                     <span className="ml-auto text-[10.5px] text-[--color-muted]">{c.activity}</span>
                   </div>
-                </button>
+                </div>
               ))}
+
             </div>
           )}
         </div>
