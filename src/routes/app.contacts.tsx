@@ -95,7 +95,7 @@ function Pill({ children, tone = "neutral", className = "" }: {
 }
 
 function KpiCard({ label, value, sub, icon: I, tone = "brand" }: {
-  label: string; value: string; sub?: string; icon: React.ComponentType<{ size?: number }>;
+  label: string; value: string; sub?: string; icon: React.ComponentType<{ size?: number; className?: string }>;
   tone?: "brand" | "success" | "warning" | "danger" | "info";
 }) {
   const toneMap: Record<string, string> = {
@@ -122,7 +122,7 @@ type RailKey =
   | "all" | "companies" | "leads" | "customers" | "vip" | "recent"
   | "fav" | "assigned" | "follow" | "smart" | "archived";
 
-const RAIL: { key: RailKey; label: string; icon: React.ComponentType<{ size?: number }>; count?: number }[] = [
+const RAIL: { key: RailKey; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; count?: number }[] = [
   { key: "all",       label: "All Contacts",     icon: Users, count: ROWS.length },
   { key: "companies", label: "Companies",        icon: Building2, count: 6 },
   { key: "leads",     label: "Leads",            icon: UserPlus, count: ROWS.filter(r => r.stage === "Lead").length },
@@ -828,7 +828,7 @@ function Td({ children, className = "" }: { children: React.ReactNode; className
 function IconBtn({ children, onClick }: { children: React.ReactNode; onClick?: (e: React.MouseEvent) => void }) {
   return <button onClick={onClick} className="w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] hover:text-[--color-ink]">{children}</button>;
 }
-function BulkBtn({ icon: I, label }: { icon: React.ComponentType<{ size?: number }>; label: string }) {
+function BulkBtn({ icon: I, label }: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string }) {
   return (
     <button className="h-7 px-2.5 rounded-lg text-[11.5px] font-semibold bg-white border border-indigo-200 text-indigo-700 inline-flex items-center gap-1 hover:bg-white">
       <I size={11} /> {label}
