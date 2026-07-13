@@ -4,7 +4,6 @@ import {
   LayoutDashboard, Inbox, Users, Star, CreditCard, Megaphone, Phone,
   Brain, Bot, Mic, Wrench, FileText, Calendar, BarChart3, Sparkles,
   Settings, Search, Bell, Plus, ChevronDown, HelpCircle, Home, MoreHorizontal,
-  PanelLeftClose, PanelLeftOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
@@ -89,16 +88,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [newOpen, setNewOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem("rs-sidebar-collapsed") === "1";
-  });
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("rs-sidebar-collapsed", collapsed ? "1" : "0");
-    }
-  }, [collapsed]);
-  const sidebarW = collapsed ? 68 : 240;
+  const [hovered, setHovered] = useState(false);
+  const expanded = hovered;
+  const RAIL_W = 68;
+  const FULL_W = 240;
+  const sidebarW = expanded ? FULL_W : RAIL_W;
+  const collapsed = !expanded;
 
   const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -116,43 +111,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="app-scope min-h-[100dvh] bg-[--color-canvas] text-[--color-ink]">
       <div className="flex">
-        {/* Sidebar — dark, desktop only */}
+        {/* Sidebar — auto-expands on hover */}
         <aside
-          className="hidden lg:flex fixed inset-y-0 left-0 flex-col border-r border-[--color-sidebar-border] transition-[width] duration-200"
-          style={{ background: "var(--color-sidebar-bg)", color: "var(--color-body)", width: sidebarW }}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          className="hidden lg:flex fixed inset-y-0 left-0 z-40 flex-col border-r border-[--color-sidebar-border] transition-[width] duration-200 ease-out"
+          style={{
+            background: "var(--color-sidebar-bg)",
+            color: "var(--color-body)",
+            width: sidebarW,
+            boxShadow: expanded ? "0 20px 48px -12px rgba(15,15,45,0.18)" : undefined,
+          }}
         >
           <div className={`h-[60px] flex items-center gap-2.5 shrink-0 border-b border-[--color-sidebar-border] ${collapsed ? "px-0 justify-center" : "px-4"}`}>
             <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)] shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
               ⚡
             </div>
             {!collapsed && (
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 flex-1 overflow-hidden">
                 <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
                 <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
               </div>
             )}
-            {!collapsed && (
-              <button
-                onClick={() => setCollapsed(true)}
-                className="w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] hover:text-[--color-ink] transition"
-                title="Collapse sidebar"
-                aria-label="Collapse sidebar"
-              >
-                <PanelLeftClose size={15} />
-              </button>
-            )}
           </div>
 
-          {collapsed && (
-            <button
-              onClick={() => setCollapsed(false)}
-              className="mx-auto mt-2 w-9 h-9 rounded-lg grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] hover:text-[--color-ink] transition"
-              title="Expand sidebar"
-              aria-label="Expand sidebar"
-            >
-              <PanelLeftOpen size={16} />
-            </button>
-          )}
 
           <nav className="flex-1 overflow-y-auto py-3">
             {NAV.map(sec => (
@@ -242,8 +224,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Main column */}
         <div
           ref={wrap}
-          className="flex-1 min-w-0 flex flex-col transition-[padding] duration-200 lg:pl-[var(--rs-sbw)]"
-          style={{ ["--rs-sbw" as string]: `${sidebarW}px` }}
+          className="flex-1 min-w-0 flex flex-col lg:pl-[var(--rs-sbw)]"
+          style={{ ["--rs-sbw" as string]: `${RAIL_W}px` }}
         >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
