@@ -675,7 +675,48 @@ function ContactsPage() {
         {/* List area */}
         <div className="flex-1 overflow-auto">
           {view === "table" ? (
-            <div className="min-w-[1100px]">
+            <>
+            {/* Mobile: card list */}
+            <div className="md:hidden p-3 space-y-2">
+              {filtered.map(c => (
+                <button key={c.id} onClick={() => setActive(c)} className="w-full text-left rounded-2xl border border-[--color-hairline] bg-white p-3 active:scale-[0.99] transition">
+                  <div className="flex items-center gap-3">
+                    <Avatar name={c.name} size={40} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1 min-w-0">
+                        <span className="font-bold text-[14px] text-[--color-ink] truncate">{c.name}</span>
+                        {c.isFav && <Star size={11} className="text-amber-500 fill-amber-500 shrink-0" />}
+                        {c.tags.includes("VIP") && <Crown size={11} className="text-amber-500 shrink-0" />}
+                      </div>
+                      <div className="text-[11.5px] text-[--color-muted] truncate">{c.company} · {c.pipeline}</div>
+                      <div className="text-[11px] text-[--color-muted] truncate">{c.phone}</div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-[13px] font-bold text-[--color-ink]">${(c.ltv/1000).toFixed(1)}k</div>
+                      <Pill tone={c.stage === "Customer" ? "success" : c.stage === "Lead" ? "brand" : "neutral"}>{c.stage}</Pill>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-2.5 pt-2.5 border-t border-[--color-hairline-soft]">
+                    <div className="flex items-center gap-1 text-[11px] text-[--color-body]"><Briefcase size={11} className="text-[--color-muted]" /> {c.jobsDone}{c.openJobs > 0 && <span className="text-amber-600 font-semibold"> · {c.openJobs} open</span>}</div>
+                    <div className="flex items-center gap-1 text-[11px] text-[--color-body]"><Star size={11} className="text-amber-500 fill-amber-500" /> {c.rating.toFixed(1)}</div>
+                    {c.balance > 0 && <div className="text-[11px] font-bold text-rose-600">${c.balance} due</div>}
+                    <div className="ml-auto flex items-center gap-0.5">
+                      <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
+                      <IconBtn onClick={e => e.stopPropagation()}><MessageSquare size={12} /></IconBtn>
+                    </div>
+                  </div>
+                </button>
+              ))}
+              {filtered.length === 0 && (
+                <div className="py-16 text-center">
+                  <div className="w-14 h-14 rounded-2xl bg-white border border-[--color-hairline] grid place-items-center mx-auto mb-2"><Users size={22} className="text-[--color-muted]" /></div>
+                  <div className="text-[13.5px] font-bold text-[--color-ink]">No matches</div>
+                  <div className="text-[12px] text-[--color-muted] mt-1">Try clearing filters or search.</div>
+                </div>
+              )}
+            </div>
+            {/* Desktop: full table */}
+            <div className="hidden md:block min-w-[1100px]">
               <table className="w-full text-[12.5px]">
                 <thead className="sticky top-0 z-10 bg-[--color-canvas]/95 backdrop-blur">
                   <tr className="text-left text-[10.5px] uppercase tracking-wider text-[--color-muted] font-bold">
