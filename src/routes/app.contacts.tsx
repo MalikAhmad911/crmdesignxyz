@@ -683,20 +683,45 @@ function ContactsPage() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top header */}
         <div className="shrink-0 bg-white border-b border-[--color-hairline]">
-          <div className="px-3 sm:px-6 py-3 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 sm:flex sm:flex-wrap sm:items-center">
-            <div className="min-w-0">
+          <div className="px-3 sm:px-6 py-2.5 sm:py-3 flex items-start sm:items-center gap-2 flex-wrap">
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 min-w-0">
-                <h1 className="text-[18px] sm:text-[22px] font-bold tracking-tight text-[--color-ink] truncate">Contacts</h1>
+                <h1 className="text-[17px] sm:text-[22px] font-bold tracking-tight text-[--color-ink] truncate">Contacts</h1>
                 <Pill tone="brand">{filtered.length}</Pill>
               </div>
-              <div className="text-[11.5px] sm:text-[12px] text-[--color-muted] mt-0.5 line-clamp-2 sm:line-clamp-none">One unified profile per customer — 360° across calls, jobs, payments, and AI.</div>
+              <div className="hidden sm:block text-[12px] text-[--color-muted] mt-0.5">One unified profile per customer — 360° across calls, jobs, payments, and AI.</div>
             </div>
-            <div className="sm:ml-auto flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button aria-label="Import" className="hidden sm:inline-flex h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] items-center gap-1.5"><Upload size={13} /> Import</button>
               <button aria-label="Export" className="hidden sm:inline-flex h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] hover:bg-[--color-surface-strong] items-center gap-1.5"><Download size={13} /> Export</button>
               <button aria-label="Import" className="sm:hidden w-9 h-9 rounded-lg bg-white border border-[--color-hairline] text-[--color-body-strong] grid place-items-center"><Upload size={14} /></button>
-              <button className="h-9 px-3 sm:px-3.5 rounded-lg text-[12.5px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm" style={{ background: ACCENT_GRAD }}><Plus size={13} /><span className="hidden xs:inline sm:inline">Add</span><span className="hidden sm:inline"> Contact</span></button>
+              <button aria-label="Add contact" className="h-9 px-3 sm:px-3.5 rounded-lg text-[12.5px] font-semibold text-white inline-flex items-center gap-1.5 shadow-sm" style={{ background: ACCENT_GRAD }}><Plus size={13} /><span className="hidden sm:inline">Add Contact</span><span className="sm:hidden">Add</span></button>
             </div>
+          </div>
+
+          {/* Mobile / tablet list chips (replaces hidden sidebar) */}
+          <div className="lg:hidden px-3 sm:px-6 pb-2 flex gap-1.5 overflow-x-auto no-scrollbar">
+            {RAIL.map(it => {
+              const on = rail === it.key;
+              const I = it.icon;
+              return (
+                <button
+                  key={it.key}
+                  onClick={() => setRail(it.key)}
+                  className={`shrink-0 inline-flex items-center gap-1.5 h-8 px-2.5 rounded-full text-[12px] font-semibold border transition ${
+                    on
+                      ? "bg-indigo-50 text-indigo-700 border-indigo-200 shadow-sm"
+                      : "bg-white text-[--color-body] border-[--color-hairline] hover:border-indigo-200"
+                  }`}
+                >
+                  <I size={12} className={on ? "text-indigo-600" : "text-[--color-muted]"} />
+                  <span className="whitespace-nowrap">{it.label}</span>
+                  {typeof it.count === "number" && (
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${on ? "bg-white/70 text-indigo-700" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>{it.count}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* KPI strip */}
