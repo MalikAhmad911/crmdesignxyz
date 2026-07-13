@@ -224,8 +224,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Main column */}
         <div
           ref={wrap}
-          className="flex-1 min-w-0 flex flex-col lg:pl-[var(--rs-sbw)]"
-          style={{ ["--rs-sbw" as string]: `${RAIL_W}px` }}
+          className="flex-1 min-w-0 flex flex-col transition-[padding] duration-200 ease-out lg:pl-[var(--rs-sbw)]"
+          style={{ ["--rs-sbw" as string]: `${sidebarW}px` }}
         >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
