@@ -754,9 +754,9 @@ function AnalyticsView() {
         <div className="space-y-3">
           {rows.map(r => (
             <div key={r.label}>
-              <div className="flex items-center justify-between text-[12px] mb-1">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-[12px] mb-1 gap-0.5">
                 <span className="font-semibold text-[--color-ink]">{r.label}</span>
-                <span className="text-[--color-muted] tabular-nums">Open {r.open}% · Click {r.click}% · Conv {r.conv}%</span>
+                <span className="text-[--color-muted] tabular-nums text-[11.5px] sm:text-[12px]">Open {r.open}% · Click {r.click}% · Conv {r.conv}%</span>
               </div>
               <div className="flex h-2 rounded-full overflow-hidden bg-[--color-surface-strong]">
                 <div style={{ width: `${r.open}%`, background: "#635BFF" }} />
