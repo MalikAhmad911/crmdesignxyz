@@ -87,7 +87,7 @@ const FILTERS = [
 
 /* ─────────────── Page ─────────────── */
 
-type View = "payments" | "invoices" | "deposits" | "partial";
+type View = "payments" | "invoices" | "deposits" | "partial" | "recurring";
 
 function PaymentsPage() {
   const [view, setView] = useState<View>("payments");
