@@ -200,8 +200,8 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
   if (!c) return null;
   return (
     <>
-      <div onClick={onClose} className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px] xl:hidden" />
-      <aside className="fixed xl:static top-0 right-0 z-50 h-full w-full sm:w-[440px] xl:w-[420px] xl:shrink-0 bg-white border-l border-[--color-hairline] flex flex-col shadow-2xl xl:shadow-none">
+      <div onClick={onClose} className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px]" />
+      <aside className="fixed top-0 right-0 z-50 h-full w-full sm:w-[440px] bg-white border-l border-[--color-hairline] flex flex-col shadow-2xl">
         {/* Hero */}
         <div className="relative overflow-hidden">
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg,#EEF0FF 0%,#F5F3FF 100%)" }} />
