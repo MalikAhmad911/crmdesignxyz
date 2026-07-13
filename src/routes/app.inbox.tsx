@@ -231,7 +231,7 @@ function InboxPage() {
       {/* Conversation */}
       <div
         {...(active ? convoSwipe : {})}
-        className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden lg:flex"}`}
+        className={`flex-1 min-w-0 bg-[--color-canvas] flex-col ${activeId ? "flex" : "hidden md:flex"}`}
       >
         {!active ? (
           listLoading ? (
