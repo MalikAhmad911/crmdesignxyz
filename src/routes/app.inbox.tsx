@@ -840,13 +840,16 @@ function InboxPage() {
                 {aiVisible && (
                   <div className="mt-4 rounded-2xl p-4 relative overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(99,91,255,0.09),rgba(99,91,255,0.02))", border: "1px solid rgba(99,91,255,0.28)" }}>
                     <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(closest-side,rgba(99,91,255,0.18),transparent)" }} />
-                    <div className="flex items-center gap-2 mb-2 relative">
-                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white" style={{ background: ACCENT_GRAD }}>
+                    <div className="flex items-center gap-2 mb-2 relative flex-wrap">
+                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white shrink-0" style={{ background: ACCENT_GRAD }}>
                         <Sparkles size={12} />
                       </div>
                       <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: ACCENT }}>AI suggested reply</span>
-                      <span className="ml-auto text-[10.5px] font-semibold text-[--color-muted]">RevenueSol AI · 97% confidence</span>
+                      <span className="sm:ml-auto text-[10.5px] font-semibold text-[--color-muted] truncate">
+                        <span className="hidden sm:inline">RevenueSol AI · </span>97% confidence
+                      </span>
                     </div>
+
                     <div className="text-[13.5px] text-[--color-ink] leading-snug mb-3 relative">
                       "{AI_SUGGESTION}"
                     </div>
