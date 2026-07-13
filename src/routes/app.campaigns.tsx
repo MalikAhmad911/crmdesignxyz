@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-  Plus, Search, Filter, Download, Upload, Sparkles, LayoutTemplate,
+  Plus, Search, Download, Upload, Sparkles, LayoutTemplate,
   Mail, MessageSquare, Phone, Mic, Star, Zap, Users, Layers, Split,
   BarChart3, Archive, LayoutDashboard, Megaphone,
-  Play, Pause, Copy, Trash2, MoreHorizontal, X, ChevronRight, ChevronLeft,
+  Play, Pause, Copy, MoreHorizontal, X, ChevronRight, ChevronLeft,
   Send, Calendar, Clock, Wand2, Image as ImageIcon, Type, Bold, Italic,
   Link2, Smile, Gift, Tag as TagIcon, Eye, Monitor, Tablet, Smartphone,
-  Moon, Sun, TrendingUp, TrendingDown, CheckCircle, ArrowUpRight, Bot,
-  Target, Globe, Repeat, MessageCircle, ThumbsUp, DollarSign, Percent,
-  Timer, Activity, Flame, ShieldCheck, Languages, ListChecks,
+  Moon, Sun, TrendingUp, TrendingDown, ArrowUpRight, Bot,
+  Target, Repeat, MessageCircle, ThumbsUp, DollarSign, Percent,
+  Activity, Flame, ShieldCheck, Languages, ListChecks,
   Filter as FilterIcon, CircleDot,
 } from "lucide-react";
 import { Card, PageHeader, Btn, Tag } from "@/components/app-shell/AppShell";
