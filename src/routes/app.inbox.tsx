@@ -478,12 +478,40 @@ function InboxPage() {
           </div>
 
           <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] mb-3">
-            <Search size={13} className="text-[--color-muted]" />
+            <Search size={13} className="text-[--color-muted] shrink-0" />
             <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search or ask AI…"
-              className="bg-transparent flex-1 text-[12.5px] focus:outline-none placeholder:text-[--color-muted]" />
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline] text-[--color-muted] flex items-center gap-0.5">
+              className="bg-transparent flex-1 min-w-0 text-[12.5px] focus:outline-none placeholder:text-[--color-muted]" />
+            <span className="hidden sm:flex text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline] text-[--color-muted] items-center gap-0.5 shrink-0">
               <Command size={9} />K
             </span>
+          </div>
+
+          {/* Mobile-only folder switcher (LeftRail is hidden below lg) */}
+          <div className="lg:hidden -mx-1 mb-2 overflow-x-auto no-scrollbar">
+            <div className="flex gap-1 px-1">
+              {RAIL_FOLDERS.map(it => {
+                const active = railKey === it.key;
+                const I = it.icon;
+                return (
+                  <button
+                    key={it.key}
+                    onClick={() => setRailKey(it.key)}
+                    className={`shrink-0 h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11.5px] font-semibold border transition ${
+                      active ? "text-white border-transparent" : "bg-white border-[--color-hairline] text-[--color-body]"
+                    }`}
+                    style={active ? { background: ACCENT } : undefined}
+                  >
+                    <I size={12} />
+                    <span>{it.label}</span>
+                    {typeof it.count === "number" && (
+                      <span
+                        className={`text-[10px] font-bold px-1.5 rounded-full ${active ? "bg-white/25 text-white" : "bg-[--color-surface-strong] text-[--color-body-strong]"}`}
+                      >{it.count}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
@@ -497,6 +525,7 @@ function InboxPage() {
             ))}
           </div>
         </div>
+
 
         {/* List */}
         <div className="flex-1 overflow-y-auto">
@@ -811,13 +840,16 @@ function InboxPage() {
                 {aiVisible && (
                   <div className="mt-4 rounded-2xl p-4 relative overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(99,91,255,0.09),rgba(99,91,255,0.02))", border: "1px solid rgba(99,91,255,0.28)" }}>
                     <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(closest-side,rgba(99,91,255,0.18),transparent)" }} />
-                    <div className="flex items-center gap-2 mb-2 relative">
-                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white" style={{ background: ACCENT_GRAD }}>
+                    <div className="flex items-center gap-2 mb-2 relative flex-wrap">
+                      <div className="w-6 h-6 rounded-lg grid place-items-center text-white shrink-0" style={{ background: ACCENT_GRAD }}>
                         <Sparkles size={12} />
                       </div>
                       <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: ACCENT }}>AI suggested reply</span>
-                      <span className="ml-auto text-[10.5px] font-semibold text-[--color-muted]">RevenueSol AI · 97% confidence</span>
+                      <span className="sm:ml-auto text-[10.5px] font-semibold text-[--color-muted] truncate">
+                        <span className="hidden sm:inline">RevenueSol AI · </span>97% confidence
+                      </span>
                     </div>
+
                     <div className="text-[13.5px] text-[--color-ink] leading-snug mb-3 relative">
                       "{AI_SUGGESTION}"
                     </div>
