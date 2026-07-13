@@ -36,6 +36,19 @@ function ReviewsPage() {
             <h3 className="text-[13px] sm:text-[14px] font-semibold text-[--color-ink]">Rating Distribution</h3>
             <span className="text-[11px] text-[--color-muted] tabular-nums">{total} reviews</span>
           </div>
+
+          {/* KPI summary */}
+          <div className="flex items-center gap-4 p-3 sm:p-4 rounded-xl bg-[--color-surface-strong] mb-4">
+            <div className="min-w-0">
+              <div className="text-[32px] sm:text-[36px] font-semibold leading-none tracking-tight text-[--color-ink] tabular-nums">4.8</div>
+              <div className="text-[11px] text-[--color-muted] mt-1">out of 5</div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[14px] text-[--color-warning] leading-none">⭐⭐⭐⭐⭐</div>
+              <div className="text-[11px] text-[--color-muted] mt-1.5">Based on {total} reviews</div>
+            </div>
+          </div>
+
           <div className="space-y-1.5 sm:space-y-2">
             {dist.map((count, i) => (
               <div key={i} className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px]">
@@ -49,6 +62,7 @@ function ReviewsPage() {
             ))}
           </div>
         </Card>
+
 
 
         <div className="lg:col-span-2 space-y-3">
