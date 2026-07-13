@@ -768,7 +768,7 @@ function ContactsPage() {
             {/* Mobile: card list */}
             <div className="md:hidden p-3 space-y-2">
               {filtered.map(c => (
-                <button key={c.id} onClick={() => setActive(c)} className="w-full text-left rounded-2xl border border-[--color-hairline] bg-white p-3 active:scale-[0.99] transition">
+                <div key={c.id} role="button" tabIndex={0} onClick={() => setActive(c)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(c); } }} className="w-full text-left rounded-2xl border border-[--color-hairline] bg-white p-3 active:scale-[0.99] transition cursor-pointer">
                   <div className="flex items-center gap-3">
                     <Avatar name={c.name} size={40} />
                     <div className="min-w-0 flex-1">
@@ -794,8 +794,9 @@ function ContactsPage() {
                       <IconBtn onClick={e => e.stopPropagation()}><MessageSquare size={12} /></IconBtn>
                     </div>
                   </div>
-                </button>
+                </div>
               ))}
+
               {filtered.length === 0 && (
                 <div className="py-16 text-center">
                   <div className="w-14 h-14 rounded-2xl bg-white border border-[--color-hairline] grid place-items-center mx-auto mb-2"><Users size={22} className="text-[--color-muted]" /></div>
@@ -923,7 +924,7 @@ function ContactsPage() {
           ) : (
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {filtered.map(c => (
-                <button key={c.id} onClick={() => setActive(c)} className="text-left rounded-2xl border border-[--color-hairline] bg-white p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                <div key={c.id} role="button" tabIndex={0} onClick={() => setActive(c)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(c); } }} className="text-left rounded-2xl border border-[--color-hairline] bg-white p-4 hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer">
                   <div className="flex items-center gap-3">
                     <Avatar name={c.name} size={44} />
                     <div className="min-w-0 flex-1">
@@ -940,13 +941,14 @@ function ContactsPage() {
                     <MiniKpi label="AI" value={String(c.aiScore)} tone="brand" />
                   </div>
                   <div className="mt-3 flex items-center gap-1">
-                    <IconBtn><Phone size={12} /></IconBtn>
-                    <IconBtn><MessageSquare size={12} /></IconBtn>
-                    <IconBtn><Mail size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><MessageSquare size={12} /></IconBtn>
+                    <IconBtn onClick={e => e.stopPropagation()}><Mail size={12} /></IconBtn>
                     <span className="ml-auto text-[10.5px] text-[--color-muted]">{c.activity}</span>
                   </div>
-                </button>
+                </div>
               ))}
+
             </div>
           )}
         </div>
