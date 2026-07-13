@@ -693,7 +693,7 @@ function ContactsPage() {
             <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 min-w-0 sm:min-w-[220px] sm:max-w-[440px]">
               <Search size={14} className="text-[--color-muted] shrink-0" />
               <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search contacts…" className="bg-transparent flex-1 min-w-0 text-[13px] focus:outline-none" />
-              <kbd className="hidden sm:inline text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[--color-hairline] text-[--color-muted]">⌘K</kbd>
+              
             </div>
             <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] inline-flex items-center gap-1.5 shrink-0"><Filter size={12} /> <span className="hidden sm:inline">Filters</span> <Pill tone="brand">2</Pill></button>
             <div className="hidden md:inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5">
