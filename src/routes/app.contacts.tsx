@@ -627,7 +627,7 @@ function ContactsPage() {
           </div>
 
           {/* KPI strip */}
-          <div className="px-3 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="px-3 sm:px-6 pb-3 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2">
             <KpiCard label="Total" value={String(totals.all)} sub="in CRM" icon={Users} tone="brand" />
             <KpiCard label="Customers" value={String(totals.customers)} sub="active" icon={CheckCircle2} tone="success" />
             <KpiCard label="Leads" value={String(totals.leads)} sub="in pipeline" icon={UserPlus} tone="info" />
