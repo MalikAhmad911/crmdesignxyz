@@ -128,9 +128,9 @@ function PaymentsPage() {
         subtitle="Financial control center — invoices, subscriptions, refunds & revenue"
         actions={
           <>
-            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="!hidden md:!inline-flex">Import</Btn>
-            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="!hidden md:!inline-flex">Export</Btn>
-            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="!hidden sm:!inline-flex" onClick={() => setQuickOpen("invoice")}>
+            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden! md:inline-flex!">Import</Btn>
+            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden! md:inline-flex!">Export</Btn>
+            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden! sm:inline-flex!" onClick={() => setQuickOpen("invoice")}>
               Send Invoice
             </Btn>
             <button
@@ -301,9 +301,9 @@ function PaymentsPage() {
               className="w-full h-9 pl-9 pr-3 text-[13px] rounded-lg bg-[--color-surface-strong] border border-transparent focus:border-[--color-primary] focus:bg-white outline-none transition"
             />
           </div>
-          <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="!hidden sm:!inline-flex">Filters</Btn>
-          <Btn size="sm" variant="secondary" icon={<Link2 size={13} />} className="!hidden md:!inline-flex">Payment Link</Btn>
-          <Btn size="sm" variant="secondary" icon={<FileText size={13} />} className="!hidden lg:!inline-flex">Invoice</Btn>
+          <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden! sm:inline-flex!">Filters</Btn>
+          <Btn size="sm" variant="secondary" icon={<Link2 size={13} />} className="hidden! md:inline-flex!">Payment Link</Btn>
+          <Btn size="sm" variant="secondary" icon={<FileText size={13} />} className="hidden! lg:inline-flex!">Invoice</Btn>
           <button className="w-9 h-9 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] text-[--color-muted]" aria-label="More">
             <MoreHorizontal size={16} />
           </button>
@@ -971,8 +971,8 @@ function ViewToolbar({
             className="w-full h-9 pl-9 pr-3 text-[13px] rounded-lg bg-[--color-surface-strong] border border-transparent focus:border-[--color-primary] focus:bg-white outline-none transition"
           />
         </div>
-        <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="!hidden sm:!inline-flex">Filters</Btn>
-        <Btn size="sm" variant="secondary" icon={<Download size={13} />} className="!hidden md:!inline-flex">Export</Btn>
+        <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden! sm:inline-flex!">Filters</Btn>
+        <Btn size="sm" variant="secondary" icon={<Download size={13} />} className="hidden! md:inline-flex!">Export</Btn>
         <button className="sm:hidden w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-white border border-[--color-hairline] text-[--color-body]" aria-label="Filters">
           <Filter size={14} />
         </button>
