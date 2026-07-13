@@ -130,7 +130,10 @@ function PaymentsPage() {
           <>
             <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden md:inline-flex">Import</Btn>
             <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden sm:inline-flex">Export</Btn>
-            <Btn variant="gradient" size="sm" icon={<Plus size={14} />}>
+            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden sm:inline-flex" onClick={() => setQuickOpen("invoice")}>
+              Send Invoice
+            </Btn>
+            <Btn variant="gradient" size="sm" icon={<Plus size={14} />} onClick={() => setQuickOpen("payment")}>
               <span className="hidden sm:inline">New Payment</span>
               <span className="sm:hidden">New</span>
             </Btn>
