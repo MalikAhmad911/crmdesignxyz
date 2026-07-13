@@ -230,7 +230,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
       <div
         onClick={onClose}
         aria-hidden
-        className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-[3px] animate-in fade-in duration-200"
+        className="fixed inset-0 z-[70] bg-slate-950/60 backdrop-blur-[4px] animate-in fade-in duration-200"
       />
       <aside
         role="dialog"
