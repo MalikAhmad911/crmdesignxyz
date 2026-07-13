@@ -74,21 +74,6 @@ const SEED_ROWS: Row[] = PAYMENTS.map((p, i) => {
   };
 });
 
-const FILTERS = [
-  { id: "all", label: "All Payments", count: ROWS.length, icon: <Wallet size={14} /> },
-  { id: "Paid", label: "Successful", count: ROWS.filter(r => r.status === "Paid").length, icon: <CheckCircle size={14} /> },
-  { id: "Pending", label: "Pending", count: ROWS.filter(r => r.status === "Pending").length, icon: <Clock size={14} /> },
-  { id: "Failed", label: "Failed", count: ROWS.filter(r => r.status === "Failed").length, icon: <AlertCircle size={14} /> },
-  { id: "Refunded", label: "Refunded", count: ROWS.filter(r => r.status === "Refunded").length, icon: <RefreshCcw size={14} /> },
-  { id: "Partial", label: "Partially Paid", count: ROWS.filter(r => r.status === "Partial").length, icon: <Package size={14} /> },
-  { id: "Recurring", label: "Recurring", count: 12, icon: <Repeat size={14} /> },
-  { id: "Invoices", label: "Invoices", count: 24, icon: <FileText size={14} /> },
-  { id: "Quotes", label: "Quotes", count: 8, icon: <Receipt size={14} /> },
-  { id: "Subscriptions", label: "Subscriptions", count: 15, icon: <Repeat size={14} /> },
-  { id: "Links", label: "Payment Links", count: 6, icon: <Link2 size={14} /> },
-  { id: "Disputes", label: "Disputes", count: 1, icon: <AlertCircle size={14} /> },
-];
-
 /* ─────────────── Page ─────────────── */
 
 type View = "payments" | "invoices" | "deposits" | "partial" | "recurring";
@@ -99,20 +84,42 @@ function PaymentsPage() {
   const [selected, setSelected] = useState<Row | null>(null);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
+  const [allRows, setAllRows] = useState<Row[]>(SEED_ROWS);
+  const [quickOpen, setQuickOpen] = useState<null | "payment" | "invoice">(null);
 
+  const FILTERS = useMemo(() => ([
+    { id: "all", label: "All Payments", count: allRows.length, icon: <Wallet size={14} /> },
+    { id: "Paid", label: "Successful", count: allRows.filter(r => r.status === "Paid").length, icon: <CheckCircle size={14} /> },
+    { id: "Pending", label: "Pending", count: allRows.filter(r => r.status === "Pending").length, icon: <Clock size={14} /> },
+    { id: "Failed", label: "Failed", count: allRows.filter(r => r.status === "Failed").length, icon: <AlertCircle size={14} /> },
+    { id: "Refunded", label: "Refunded", count: allRows.filter(r => r.status === "Refunded").length, icon: <RefreshCcw size={14} /> },
+    { id: "Partial", label: "Partially Paid", count: allRows.filter(r => r.status === "Partial").length, icon: <Package size={14} /> },
+    { id: "Recurring", label: "Recurring", count: 12, icon: <Repeat size={14} /> },
+    { id: "Invoices", label: "Invoices", count: 24, icon: <FileText size={14} /> },
+    { id: "Quotes", label: "Quotes", count: 8, icon: <Receipt size={14} /> },
+    { id: "Subscriptions", label: "Subscriptions", count: 15, icon: <Repeat size={14} /> },
+    { id: "Links", label: "Payment Links", count: 6, icon: <Link2 size={14} /> },
+    { id: "Disputes", label: "Disputes", count: 1, icon: <AlertCircle size={14} /> },
+  ]), [allRows]);
 
   const rows = useMemo(() => {
-    return ROWS.filter(r => {
+    return allRows.filter(r => {
       if (query && !`${r.contact} ${r.invoice} ${r.description}`.toLowerCase().includes(query.toLowerCase())) return false;
       if (filter === "all") return true;
       if (["Paid","Pending","Refunded","Failed","Partial"].includes(filter)) return r.status === filter;
       return true;
     });
-  }, [filter, query]);
+  }, [allRows, filter, query]);
 
-  const paid = ROWS.filter(r => r.status === "Paid").reduce((a, r) => a + r.amount, 0);
-  const pending = ROWS.filter(r => r.status === "Pending").reduce((a, r) => a + r.amount, 0);
-  const refunded = ROWS.filter(r => r.status === "Refunded").reduce((a, r) => a + r.amount, 0);
+  const paid = allRows.filter(r => r.status === "Paid").reduce((a, r) => a + r.amount, 0);
+  const pending = allRows.filter(r => r.status === "Pending").reduce((a, r) => a + r.amount, 0);
+  const refunded = allRows.filter(r => r.status === "Refunded").reduce((a, r) => a + r.amount, 0);
+
+  function handleCreate(row: Row) {
+    setAllRows(prev => [row, ...prev]);
+    setQuickOpen(null);
+  }
+
 
   return (
     <div className="px-3 sm:px-6 lg:px-8 py-4 sm:py-6 max-w-[1500px] mx-auto">
