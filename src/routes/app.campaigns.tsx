@@ -1070,13 +1070,15 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
                   <FieldRow label="Time"><input type="time" className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13px]" /></FieldRow>
                 </div>
               )}
-              <div className="rounded-xl p-3 bg-gradient-to-br from-[--color-primary-subdued] to-white border border-violet-100 flex items-start gap-2">
-                <Sparkles size={14} className="text-[--color-primary-deep] mt-0.5" />
-                <div className="min-w-0">
-                  <div className="text-[12.5px] font-semibold text-[--color-ink]">AI Best Send Time</div>
-                  <div className="text-[11.5px] text-[--color-muted]">For this audience: <b className="text-[--color-ink]">Tuesday 10:14 AM local</b> — projected +18% opens.</div>
+              <div className="rounded-xl p-3 bg-gradient-to-br from-[--color-primary-subdued] to-white border border-violet-100 flex flex-col sm:flex-row sm:items-start gap-2">
+                <div className="flex items-start gap-2 min-w-0">
+                  <Sparkles size={14} className="text-[--color-primary-deep] mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-[12.5px] font-semibold text-[--color-ink]">AI Best Send Time</div>
+                    <div className="text-[11.5px] text-[--color-muted]">For this audience: <b className="text-[--color-ink]">Tuesday 10:14 AM local</b> — projected +18% opens.</div>
+                  </div>
                 </div>
-                <button className="ml-auto text-[11px] font-semibold text-[--color-primary-deep] whitespace-nowrap">Use time</button>
+                <button className="sm:ml-auto shrink-0 self-start text-[11px] font-semibold text-[--color-primary-deep] whitespace-nowrap">Use time</button>
               </div>
             </div>
           )}
