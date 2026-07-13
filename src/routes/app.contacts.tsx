@@ -716,23 +716,23 @@ function ContactsPage() {
               )}
             </div>
             {/* Desktop: full table */}
-            <div className="hidden md:block min-w-[1100px]">
+            <div className="hidden md:block">
               <table className="w-full text-[12.5px]">
                 <thead className="sticky top-0 z-10 bg-[--color-canvas]/95 backdrop-blur">
                   <tr className="text-left text-[10.5px] uppercase tracking-wider text-[--color-muted] font-bold">
                     <Th className="w-8 pl-4"><input type="checkbox" checked={allSelected} onChange={toggleAll} className="accent-indigo-600" /></Th>
                     <Th>Customer</Th>
-                    <Th>Company</Th>
+                    <Th className="hidden xl:table-cell">Company</Th>
                     <Th>Contact</Th>
                     <Th>Stage</Th>
-                    <Th>Pipeline</Th>
+                    <Th className="hidden 2xl:table-cell">Pipeline</Th>
                     <Th>Revenue</Th>
-                    <Th>Jobs</Th>
-                    <Th>Balance</Th>
-                    <Th>Reviews</Th>
-                    <Th>Assigned</Th>
-                    <Th>AI Score</Th>
-                    <Th>Last</Th>
+                    <Th className="hidden lg:table-cell">Jobs</Th>
+                    <Th className="hidden lg:table-cell">Balance</Th>
+                    <Th className="hidden 2xl:table-cell">Reviews</Th>
+                    <Th className="hidden 2xl:table-cell">Assigned</Th>
+                    <Th>AI</Th>
+                    <Th className="hidden xl:table-cell">Last</Th>
                     <Th className="pr-4 text-right">Actions</Th>
                   </tr>
                 </thead>
