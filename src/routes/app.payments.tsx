@@ -277,7 +277,7 @@ function PaymentsPage() {
               onClick={() => setFilter(f.id)}
               className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[12px] font-semibold whitespace-nowrap transition ${
                 filter === f.id
-                  ? "bg-[--color-ink] text-white"
+                  ? "bg-[var(--color-ink)] text-white"
                   : "bg-white border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]"
               }`}
             >
