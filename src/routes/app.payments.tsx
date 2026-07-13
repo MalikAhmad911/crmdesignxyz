@@ -225,6 +225,7 @@ function PaymentsPage() {
             { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
             { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
             { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
+            { id: "recurring", label: "Recurring",        icon: <Repeat size={14} />,    count: RECURRING.length },
           ] as { id: View; label: string; icon: React.ReactNode; count: number }[]).map(t => {
             const active = view === t.id;
             return (
