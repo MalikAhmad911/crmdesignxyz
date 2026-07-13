@@ -87,7 +87,7 @@ const FILTERS = [
 
 /* ─────────────── Page ─────────────── */
 
-type View = "payments" | "invoices" | "deposits" | "partial";
+type View = "payments" | "invoices" | "deposits" | "partial" | "recurring";
 
 function PaymentsPage() {
   const [view, setView] = useState<View>("payments");
@@ -225,6 +225,7 @@ function PaymentsPage() {
             { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
             { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
             { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
+            { id: "recurring", label: "Recurring",        icon: <Repeat size={14} />,    count: RECURRING.length },
           ] as { id: View; label: string; icon: React.ReactNode; count: number }[]).map(t => {
             const active = view === t.id;
             return (
@@ -414,6 +415,7 @@ function PaymentsPage() {
       {view === "invoices" && <InvoicesView query={query} setQuery={setQuery} />}
       {view === "deposits" && <DepositsView query={query} setQuery={setQuery} />}
       {view === "partial"  && <PartialsView query={query} setQuery={setQuery} />}
+      {view === "recurring" && <RecurringView query={query} setQuery={setQuery} />}
 
       {selected && <DetailsDrawer row={selected} onClose={() => setSelected(null)} />}
 
@@ -976,3 +978,243 @@ function IconBtn2({ icon }: { icon: React.ReactNode }) {
   );
 }
 
+
+/* ─────────────── View: Recurring / Subscriptions ─────────────── */
+
+type RecurStatus = "Active" | "Paused" | "Canceled" | "Failed" | "Trialing";
+type Cadence = "Weekly" | "Monthly" | "Quarterly" | "Yearly";
+
+interface Recurring {
+  id: string;
+  customer: string;
+  plan: string;
+  amount: number;
+  cadence: Cadence;
+  status: RecurStatus;
+  nextRun: string;
+  lastRun: string;
+  cyclesDone: number;
+  cyclesTotal: number | null; // null = open-ended
+  method: Method;
+  failReason?: string;
+  mrr: number;
+}
+
+const RECURRING_SEED: Recurring[] = [
+  { id: "sub_9021", customer: "Acme Roofing Co.",    plan: "Pro Plan · Monthly",     amount: 249,  cadence: "Monthly",   status: "Active",   nextRun: "Nov 12, 2026", lastRun: "Oct 12, 2026", cyclesDone: 14, cyclesTotal: null, method: "card",  mrr: 249 },
+  { id: "sub_9022", customer: "Bloom HVAC LLC",      plan: "Maintenance Contract",   amount: 189,  cadence: "Monthly",   status: "Active",   nextRun: "Nov 04, 2026", lastRun: "Oct 04, 2026", cyclesDone: 9,  cyclesTotal: 24,   method: "ach",   mrr: 189 },
+  { id: "sub_9023", customer: "Cedar Landscape",     plan: "Weekly Lawn Service",    amount: 65,   cadence: "Weekly",    status: "Paused",   nextRun: "—",             lastRun: "Sep 28, 2026", cyclesDone: 22, cyclesTotal: null, method: "card",  mrr: 0 },
+  { id: "sub_9024", customer: "Delta Plumbing",      plan: "Annual Service Plan",    amount: 1200, cadence: "Yearly",    status: "Active",   nextRun: "Jan 15, 2027", lastRun: "Jan 15, 2026", cyclesDone: 2,  cyclesTotal: null, method: "bank",  mrr: 100 },
+  { id: "sub_9025", customer: "Everest Cleaning",    plan: "Bi-weekly Deep Clean",   amount: 340,  cadence: "Monthly",   status: "Failed",   nextRun: "Retry Nov 08", lastRun: "Nov 01, 2026", cyclesDone: 6,  cyclesTotal: 12,   method: "card",  mrr: 340, failReason: "Card declined · insufficient funds" },
+  { id: "sub_9026", customer: "Foxtail Electric",    plan: "Quarterly Inspection",   amount: 480,  cadence: "Quarterly", status: "Trialing", nextRun: "Nov 30, 2026", lastRun: "—",             cyclesDone: 0,  cyclesTotal: 8,    method: "card",  mrr: 160 },
+  { id: "sub_9027", customer: "Grove Interiors",     plan: "Design Retainer",        amount: 950,  cadence: "Monthly",   status: "Canceled", nextRun: "—",             lastRun: "Aug 20, 2026", cyclesDone: 5,  cyclesTotal: null, method: "card",  mrr: 0 },
+  { id: "sub_9028", customer: "Harbor Auto Detail",  plan: "Fleet Wash · Monthly",   amount: 1450, cadence: "Monthly",   status: "Active",   nextRun: "Nov 21, 2026", lastRun: "Oct 21, 2026", cyclesDone: 18, cyclesTotal: null, method: "ach",   mrr: 1450 },
+];
+
+const RECURRING: Recurring[] = RECURRING_SEED;
+
+const RECUR_STATUS_STYLES: Record<RecurStatus, { dot: string; badge: string; label: string }> = {
+  Active:   { dot: "bg-emerald-500", badge: "bg-emerald-50 text-emerald-700 border-emerald-200", label: "Active" },
+  Paused:   { dot: "bg-amber-500",   badge: "bg-amber-50 text-amber-700 border-amber-200",       label: "Paused" },
+  Canceled: { dot: "bg-slate-400",   badge: "bg-slate-100 text-slate-600 border-slate-200",      label: "Canceled" },
+  Failed:   { dot: "bg-rose-500",    badge: "bg-rose-50 text-rose-700 border-rose-200",          label: "Payment failed" },
+  Trialing: { dot: "bg-violet-500",  badge: "bg-violet-50 text-violet-700 border-violet-200",    label: "Trialing" },
+};
+
+function RecurringView({ query, setQuery }: { query: string; setQuery: (v: string) => void }) {
+  const [items, setItems] = useState<Recurring[]>(RECURRING_SEED);
+  const [statusFilter, setStatusFilter] = useState<"All" | RecurStatus>("All");
+
+  const rows = items.filter(r => {
+    if (statusFilter !== "All" && r.status !== statusFilter) return false;
+    if (query && !`${r.customer} ${r.plan} ${r.id}`.toLowerCase().includes(query.toLowerCase())) return false;
+    return true;
+  });
+
+  const mrr = items.filter(r => r.status === "Active" || r.status === "Trialing").reduce((a, r) => a + r.mrr, 0);
+  const activeCount = items.filter(r => r.status === "Active").length;
+  const failedCount = items.filter(r => r.status === "Failed").length;
+  const pausedCount = items.filter(r => r.status === "Paused").length;
+
+  function update(id: string, patch: Partial<Recurring>) {
+    setItems(prev => prev.map(r => r.id === id ? { ...r, ...patch } : r));
+  }
+
+  function nextDate(cadence: Cadence): string {
+    const d = new Date();
+    if (cadence === "Weekly") d.setDate(d.getDate() + 7);
+    else if (cadence === "Monthly") d.setMonth(d.getMonth() + 1);
+    else if (cadence === "Quarterly") d.setMonth(d.getMonth() + 3);
+    else d.setFullYear(d.getFullYear() + 1);
+    return d.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+  }
+
+  const pause  = (r: Recurring) => update(r.id, { status: "Paused",   nextRun: "—", mrr: 0 });
+  const resume = (r: Recurring) => update(r.id, { status: "Active",   nextRun: nextDate(r.cadence), mrr: r.amount / (r.cadence === "Yearly" ? 12 : r.cadence === "Quarterly" ? 3 : r.cadence === "Weekly" ? 0.25 : 1) });
+  const cancel = (r: Recurring) => update(r.id, { status: "Canceled", nextRun: "—", mrr: 0 });
+  const retry  = (r: Recurring) => update(r.id, { status: "Active",   nextRun: nextDate(r.cadence), failReason: undefined, mrr: r.amount / (r.cadence === "Yearly" ? 12 : r.cadence === "Quarterly" ? 3 : r.cadence === "Weekly" ? 0.25 : 1) });
+
+  const methodIcon: Record<Method, React.ReactNode> = {
+    card: <CreditCard size={12} />, ach: <Building2 size={12} />, apple: <CreditCard size={12} />,
+    google: <CreditCard size={12} />, paypal: <Wallet size={12} />, cash: <Banknote size={12} />,
+    check: <FileText size={12} />, bank: <Building2 size={12} />,
+  };
+
+  return (
+    <div>
+      {/* KPIs */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+        <MiniCard label="Recurring MRR"    value={`$${Math.round(mrr).toLocaleString()}`} tone="success" />
+        <MiniCard label="Active"            value={String(activeCount)}                     tone="primary" />
+        <MiniCard label="Paused"            value={String(pausedCount)}                     tone="warning" />
+        <MiniCard label="Failed / Retry"    value={String(failedCount)}                     tone="danger" />
+      </div>
+
+      <ViewToolbar query={query} setQuery={setQuery} placeholder="Search by customer, plan, or ID…" primary={{ label: "New Subscription", icon: <Plus size={14} /> }} />
+
+      {/* Status filter chips */}
+      <div className="mb-3 -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1.5 min-w-max pb-1">
+          {(["All","Active","Trialing","Paused","Failed","Canceled"] as const).map(s => {
+            const active = statusFilter === s;
+            const count = s === "All" ? items.length : items.filter(r => r.status === s).length;
+            return (
+              <button
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[12px] font-semibold whitespace-nowrap transition ${
+                  active ? "bg-[--color-ink] text-white" : "bg-white border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]"
+                }`}
+              >
+                {s}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full tabular-nums ${active ? "bg-white/20 text-white" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div className="space-y-3">
+        {rows.map(r => {
+          const s = RECUR_STATUS_STYLES[r.status];
+          const pct = r.cyclesTotal ? Math.round((r.cyclesDone / r.cyclesTotal) * 100) : null;
+          const canPause  = r.status === "Active" || r.status === "Trialing";
+          const canResume = r.status === "Paused";
+          const canRetry  = r.status === "Failed";
+          const canCancel = r.status !== "Canceled";
+          return (
+            <Card key={r.id} className="!p-4 sm:!p-5">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-3 min-w-0">
+                  <Avatar name={r.customer} size={40} />
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <div className="font-semibold text-[14px] text-[--color-ink] truncate">{r.customer}</div>
+                      <span className={`inline-flex items-center gap-1 h-5 px-1.5 rounded-full border text-[10.5px] font-semibold ${s.badge}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
+                        {s.label}
+                      </span>
+                    </div>
+                    <div className="text-[11.5px] text-[--color-muted] truncate mt-0.5">
+                      {r.plan} · <span className="tabular-nums">{r.id}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="text-[10px] uppercase tracking-widest font-semibold text-[--color-muted]">Amount</div>
+                  <div className="text-[16px] font-semibold text-[--color-ink] tabular-nums">
+                    ${r.amount.toLocaleString()}
+                    <span className="text-[11px] font-medium text-[--color-muted]"> /{r.cadence.toLowerCase().replace("ly","")}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Meta grid */}
+              <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                <MetaCell label="Next run" value={r.nextRun} accent={r.status === "Failed" ? "danger" : r.status === "Active" || r.status === "Trialing" ? "primary" : "muted"} icon={<Clock size={11} />} />
+                <MetaCell label="Last run" value={r.lastRun} icon={<CheckCircle size={11} />} />
+                <MetaCell label="Cadence" value={r.cadence} icon={<Repeat size={11} />} />
+                <MetaCell label="Method"  value={r.method.toUpperCase()} icon={methodIcon[r.method]} />
+              </div>
+
+              {/* Cycle progress */}
+              {r.cyclesTotal && (
+                <div className="mt-3">
+                  <div className="flex items-baseline justify-between mb-1">
+                    <span className="text-[11.5px] text-[--color-muted]">
+                      Cycle <span className="text-[--color-ink] font-semibold tabular-nums">{r.cyclesDone}</span> of <span className="tabular-nums">{r.cyclesTotal}</span>
+                    </span>
+                    <span className="text-[11.5px] font-semibold text-[--color-primary-deep] tabular-nums">{pct}%</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-violet-500 to-indigo-500" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              )}
+
+              {/* Failure alert */}
+              {r.status === "Failed" && r.failReason && (
+                <div className="mt-3 flex items-start gap-2 rounded-lg border border-rose-200 bg-rose-50 p-2.5">
+                  <AlertCircle size={14} className="text-rose-600 mt-0.5 shrink-0" />
+                  <div className="text-[11.5px] text-rose-700">
+                    <span className="font-semibold">Last charge failed.</span> {r.failReason}
+                  </div>
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-[--color-hairline]">
+                {canRetry && (
+                  <Btn size="sm" variant="gradient" icon={<RefreshCcw size={12} />} onClick={() => retry(r)}>Retry Now</Btn>
+                )}
+                {canResume && (
+                  <Btn size="sm" variant="gradient" icon={<Zap size={12} />} onClick={() => resume(r)}>Resume</Btn>
+                )}
+                {canPause && (
+                  <Btn size="sm" variant="secondary" icon={<PauseCircle size={12} />} onClick={() => pause(r)}>Pause</Btn>
+                )}
+                {canCancel && (
+                  <Btn size="sm" variant="ghost" icon={<X size={12} />} onClick={() => cancel(r)}>Cancel</Btn>
+                )}
+                <Btn size="sm" variant="ghost" icon={<Send size={12} />}>Notify Customer</Btn>
+                <Btn size="sm" variant="ghost" icon={<FileText size={12} />}>View History</Btn>
+                <div className="ml-auto">
+                  <IconBtn2 icon={<MoreHorizontal size={14} />} />
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+
+        {rows.length === 0 && (
+          <Card className="!p-10 text-center">
+            <div className="w-12 h-12 mx-auto rounded-2xl bg-[--color-surface-strong] grid place-items-center mb-3">
+              <Repeat size={20} className="text-[--color-muted]" />
+            </div>
+            <div className="text-[14px] font-semibold text-[--color-ink]">No subscriptions match</div>
+            <p className="text-[12px] text-[--color-muted] mt-1">Try changing the status filter or search.</p>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MetaCell({ label, value, icon, accent = "muted" }: {
+  label: string; value: string; icon?: React.ReactNode;
+  accent?: "primary" | "danger" | "muted";
+}) {
+  const tone =
+    accent === "primary" ? "text-[--color-primary-deep]" :
+    accent === "danger"  ? "text-rose-600" : "text-[--color-ink]";
+  return (
+    <div className="rounded-lg bg-[--color-surface-strong] px-2.5 py-2">
+      <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest font-semibold text-[--color-muted]">
+        {icon}{label}
+      </div>
+      <div className={`text-[12.5px] font-semibold mt-0.5 truncate ${tone}`}>{value}</div>
+    </div>
+  );
+}
