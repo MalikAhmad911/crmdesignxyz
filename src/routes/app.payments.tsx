@@ -128,11 +128,18 @@ function PaymentsPage() {
         subtitle="Financial control center — invoices, subscriptions, refunds & revenue"
         actions={
           <>
-            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden md:inline-flex">Import</Btn>
-            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden sm:inline-flex">Export</Btn>
-            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden sm:inline-flex" onClick={() => setQuickOpen("invoice")}>
+            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden! md:inline-flex!">Import</Btn>
+            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden! md:inline-flex!">Export</Btn>
+            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden! sm:inline-flex!" onClick={() => setQuickOpen("invoice")}>
               Send Invoice
             </Btn>
+            <button
+              onClick={() => setQuickOpen("invoice")}
+              className="sm:hidden w-9 h-9 grid place-items-center rounded-lg bg-white border border-[--color-hairline] text-[--color-body]"
+              aria-label="Send Invoice"
+            >
+              <Send size={14} />
+            </button>
             <Btn variant="gradient" size="sm" icon={<Plus size={14} />} onClick={() => setQuickOpen("payment")}>
               <span className="hidden sm:inline">New Payment</span>
               <span className="sm:hidden">New</span>
@@ -294,9 +301,9 @@ function PaymentsPage() {
               className="w-full h-9 pl-9 pr-3 text-[13px] rounded-lg bg-[--color-surface-strong] border border-transparent focus:border-[--color-primary] focus:bg-white outline-none transition"
             />
           </div>
-          <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden sm:inline-flex">Filters</Btn>
-          <Btn size="sm" variant="secondary" icon={<Link2 size={13} />} className="hidden md:inline-flex">Payment Link</Btn>
-          <Btn size="sm" variant="secondary" icon={<FileText size={13} />} className="hidden lg:inline-flex">Invoice</Btn>
+          <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden! sm:inline-flex!">Filters</Btn>
+          <Btn size="sm" variant="secondary" icon={<Link2 size={13} />} className="hidden! md:inline-flex!">Payment Link</Btn>
+          <Btn size="sm" variant="secondary" icon={<FileText size={13} />} className="hidden! lg:inline-flex!">Invoice</Btn>
           <button className="w-9 h-9 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] text-[--color-muted]" aria-label="More">
             <MoreHorizontal size={16} />
           </button>
@@ -954,7 +961,7 @@ function ViewToolbar({
 }: { query: string; setQuery: (v: string) => void; placeholder: string; primary: { label: string; icon: React.ReactNode } }) {
   return (
     <Card padded={false} className="mb-3">
-      <div className="flex items-center gap-2 p-2 sm:p-2.5">
+      <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5">
         <div className="flex-1 relative min-w-0">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[--color-muted]" />
           <input
@@ -964,9 +971,15 @@ function ViewToolbar({
             className="w-full h-9 pl-9 pr-3 text-[13px] rounded-lg bg-[--color-surface-strong] border border-transparent focus:border-[--color-primary] focus:bg-white outline-none transition"
           />
         </div>
-        <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden sm:inline-flex">Filters</Btn>
-        <Btn size="sm" variant="secondary" icon={<Download size={13} />} className="hidden md:inline-flex">Export</Btn>
-        <Btn size="sm" variant="gradient" icon={primary.icon}>{primary.label}</Btn>
+        <Btn size="sm" variant="secondary" icon={<Filter size={13} />} className="hidden! sm:inline-flex!">Filters</Btn>
+        <Btn size="sm" variant="secondary" icon={<Download size={13} />} className="hidden! md:inline-flex!">Export</Btn>
+        <button className="sm:hidden w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-white border border-[--color-hairline] text-[--color-body]" aria-label="Filters">
+          <Filter size={14} />
+        </button>
+        <Btn size="sm" variant="gradient" icon={primary.icon} className="shrink-0">
+          <span className="hidden xs:inline sm:inline">{primary.label}</span>
+          <span className="xs:hidden sm:hidden">{primary.label.split(" ")[0]}</span>
+        </Btn>
       </div>
     </Card>
   );
