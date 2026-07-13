@@ -372,7 +372,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         </div>
 
         {/* Tab content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="p-4">
           {tab === "timeline" && <Timeline c={c} />}
           {tab === "jobs" && <JobsTab c={c} />}
           {tab === "financials" && <FinancialsTab c={c} />}
