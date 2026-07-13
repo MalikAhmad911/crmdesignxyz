@@ -388,10 +388,12 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
           {tab === "ai" && <AiTab c={c} />}
           {tab === "notes" && <NotesTab c={c} />}
         </div>
+        </div>
       </aside>
     </>
   );
 }
+
 
 function MiniKpi({ label, value, sub, icon: I, tone = "neutral" }: {
   label: string; value: string; sub?: string;
