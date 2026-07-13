@@ -754,9 +754,9 @@ function AnalyticsView() {
         <div className="space-y-3">
           {rows.map(r => (
             <div key={r.label}>
-              <div className="flex items-center justify-between text-[12px] mb-1">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-[12px] mb-1 gap-0.5">
                 <span className="font-semibold text-[--color-ink]">{r.label}</span>
-                <span className="text-[--color-muted] tabular-nums">Open {r.open}% · Click {r.click}% · Conv {r.conv}%</span>
+                <span className="text-[--color-muted] tabular-nums text-[11.5px] sm:text-[12px]">Open {r.open}% · Click {r.click}% · Conv {r.conv}%</span>
               </div>
               <div className="flex h-2 rounded-full overflow-hidden bg-[--color-surface-strong]">
                 <div style={{ width: `${r.open}%`, background: "#635BFF" }} />
@@ -836,7 +836,7 @@ function DetailsDrawer({ c, onClose }: { c: Campaign; onClose: () => void }) {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             <MetricBox label="Sent"       v={c.sent ? c.sent.toLocaleString() : "—"} />
             <MetricBox label="Delivered"  v={c.delivered ? c.delivered.toLocaleString() : "—"} />
             <MetricBox label="Opened"     v={c.opened ? c.opened.toLocaleString() : "—"} />
@@ -944,8 +944,8 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
             {WIZ_STEPS.map((s, i) => (
               <div key={s} className="flex items-center gap-1 shrink-0">
-                <div className={`h-1.5 w-8 sm:w-14 rounded-full ${i <= step ? "bg-[--color-primary]" : "bg-[--color-surface-strong]"}`} />
-                <span className={`text-[11px] font-semibold pr-2 ${i === step ? "text-[--color-ink]" : "text-[--color-muted]"}`}>{s}</span>
+                <div className={`h-1.5 w-6 sm:w-14 rounded-full ${i <= step ? "bg-[--color-primary]" : "bg-[--color-surface-strong]"}`} />
+                <span className={`text-[10.5px] sm:text-[11px] font-semibold pr-1.5 sm:pr-2 ${i === step ? "text-[--color-ink]" : "text-[--color-muted]"}`}>{s}</span>
               </div>
             ))}
           </div>
@@ -1048,7 +1048,7 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
 
           {step === 3 && (
             <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {([
                   { id:"now",       label:"Send now",      desc:"Immediate delivery",     icon:<Send size={13} /> },
                   { id:"later",     label:"Schedule",      desc:"Pick date & time",       icon:<Calendar size={13} /> },
@@ -1070,13 +1070,15 @@ function CreateWizard({ onClose }: { onClose: () => void }) {
                   <FieldRow label="Time"><input type="time" className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13px]" /></FieldRow>
                 </div>
               )}
-              <div className="rounded-xl p-3 bg-gradient-to-br from-[--color-primary-subdued] to-white border border-violet-100 flex items-start gap-2">
-                <Sparkles size={14} className="text-[--color-primary-deep] mt-0.5" />
-                <div className="min-w-0">
-                  <div className="text-[12.5px] font-semibold text-[--color-ink]">AI Best Send Time</div>
-                  <div className="text-[11.5px] text-[--color-muted]">For this audience: <b className="text-[--color-ink]">Tuesday 10:14 AM local</b> — projected +18% opens.</div>
+              <div className="rounded-xl p-3 bg-gradient-to-br from-[--color-primary-subdued] to-white border border-violet-100 flex flex-col sm:flex-row sm:items-start gap-2">
+                <div className="flex items-start gap-2 min-w-0">
+                  <Sparkles size={14} className="text-[--color-primary-deep] mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-[12.5px] font-semibold text-[--color-ink]">AI Best Send Time</div>
+                    <div className="text-[11.5px] text-[--color-muted]">For this audience: <b className="text-[--color-ink]">Tuesday 10:14 AM local</b> — projected +18% opens.</div>
+                  </div>
                 </div>
-                <button className="ml-auto text-[11px] font-semibold text-[--color-primary-deep] whitespace-nowrap">Use time</button>
+                <button className="sm:ml-auto shrink-0 self-start text-[11px] font-semibold text-[--color-primary-deep] whitespace-nowrap">Use time</button>
               </div>
             </div>
           )}
