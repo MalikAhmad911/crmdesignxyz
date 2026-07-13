@@ -314,14 +314,15 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         </div>
 
         {/* KPI grid */}
-        <div className="px-4 py-3 grid grid-cols-3 gap-2 border-b border-[--color-hairline]">
-          <MiniKpi label="LTV" value={`$${c.ltv.toLocaleString()}`} tone="brand" />
-          <MiniKpi label="Jobs" value={String(c.jobsDone)} sub={`${c.openJobs} open`} tone="success" />
-          <MiniKpi label="Balance" value={c.balance ? `$${c.balance}` : "$0"} tone={c.balance ? "danger" : "neutral"} />
-          <MiniKpi label="Calls" value={String(c.calls)} tone="neutral" />
-          <MiniKpi label="Reviews" value={`${c.rating.toFixed(1)}★`} sub={`${c.reviews} left`} tone="warning" />
-          <MiniKpi label="AI Score" value={`${c.aiScore}`} tone="brand" />
+        <div className="px-3 sm:px-4 py-3 grid grid-cols-3 gap-1.5 sm:gap-2 border-b border-[--color-hairline]">
+          <MiniKpi label="LTV" value={c.ltv >= 10000 ? `$${(c.ltv/1000).toFixed(1)}k` : `$${c.ltv.toLocaleString()}`} icon={TrendingUp} tone="brand" />
+          <MiniKpi label="Jobs" value={String(c.jobsDone)} sub={c.openJobs > 0 ? `${c.openJobs} open` : "all done"} icon={Briefcase} tone="success" />
+          <MiniKpi label="Balance" value={c.balance ? `$${c.balance}` : "$0"} icon={DollarSign} tone={c.balance ? "danger" : "neutral"} />
+          <MiniKpi label="Calls" value={String(c.calls)} icon={Phone} tone="info" />
+          <MiniKpi label="Reviews" value={c.rating.toFixed(1)} sub={`${c.reviews} left`} icon={Star} tone="warning" />
+          <MiniKpi label="AI Score" value={String(c.aiScore)} icon={Sparkles} tone="brand" />
         </div>
+
 
         {/* Scores bars */}
         <div className="px-4 py-3 space-y-2 border-b border-[--color-hairline] bg-[--color-canvas]">
@@ -385,25 +386,36 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
   );
 }
 
-function MiniKpi({ label, value, sub, tone = "neutral" }: {
+function MiniKpi({ label, value, sub, icon: I, tone = "neutral" }: {
   label: string; value: string; sub?: string;
-  tone?: "brand" | "success" | "warning" | "danger" | "neutral";
+  icon?: React.ComponentType<{ size?: number; className?: string }>;
+  tone?: "brand" | "success" | "warning" | "danger" | "info" | "neutral";
 }) {
-  const map: Record<string, string> = {
-    brand: "text-indigo-700",
-    success: "text-emerald-700",
-    warning: "text-amber-700",
-    danger: "text-rose-700",
-    neutral: "text-[--color-ink]",
+  const map: Record<string, { text: string; iconBg: string; iconFg: string; ring: string }> = {
+    brand:   { text: "text-indigo-700",  iconBg: "bg-indigo-50",  iconFg: "text-indigo-600",  ring: "hover:border-indigo-200" },
+    success: { text: "text-emerald-700", iconBg: "bg-emerald-50", iconFg: "text-emerald-600", ring: "hover:border-emerald-200" },
+    warning: { text: "text-amber-700",   iconBg: "bg-amber-50",   iconFg: "text-amber-600",   ring: "hover:border-amber-200" },
+    danger:  { text: "text-rose-700",    iconBg: "bg-rose-50",    iconFg: "text-rose-600",    ring: "hover:border-rose-200" },
+    info:    { text: "text-sky-700",     iconBg: "bg-sky-50",     iconFg: "text-sky-600",     ring: "hover:border-sky-200" },
+    neutral: { text: "text-[--color-ink]", iconBg: "bg-slate-100", iconFg: "text-slate-500", ring: "hover:border-slate-200" },
   };
+  const t = map[tone];
   return (
-    <div className="rounded-xl bg-white border border-[--color-hairline] px-2.5 py-2">
-      <div className="text-[10px] uppercase font-bold tracking-wider text-[--color-muted]">{label}</div>
-      <div className={`text-[15px] font-bold leading-tight mt-0.5 ${map[tone]}`}>{value}</div>
-      {sub && <div className="text-[10px] text-[--color-muted]">{sub}</div>}
+    <div className={`group relative rounded-xl bg-white border border-[--color-hairline] px-2 py-2 min-w-0 transition-all hover:shadow-sm ${t.ring}`}>
+      <div className="flex items-center gap-1.5 min-w-0">
+        {I && (
+          <div className={`w-5 h-5 rounded-md grid place-items-center shrink-0 ${t.iconBg}`}>
+            <I size={10} className={t.iconFg} />
+          </div>
+        )}
+        <div className="text-[9.5px] uppercase font-bold tracking-wider text-[--color-muted] truncate">{label}</div>
+      </div>
+      <div className={`text-[15px] font-bold leading-tight mt-1 truncate ${t.text}`}>{value}</div>
+      {sub && <div className="text-[9.5px] text-[--color-muted] truncate mt-0.5">{sub}</div>}
     </div>
   );
 }
+
 
 function ScoreBar({ label, value, tone }: { label: string; value: number; tone: "emerald" | "indigo" | "rose" }) {
   const bar: Record<string, string> = {
