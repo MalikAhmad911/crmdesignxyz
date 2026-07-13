@@ -314,14 +314,15 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         </div>
 
         {/* KPI grid */}
-        <div className="px-4 py-3 grid grid-cols-3 gap-2 border-b border-[--color-hairline]">
-          <MiniKpi label="LTV" value={`$${c.ltv.toLocaleString()}`} tone="brand" />
-          <MiniKpi label="Jobs" value={String(c.jobsDone)} sub={`${c.openJobs} open`} tone="success" />
-          <MiniKpi label="Balance" value={c.balance ? `$${c.balance}` : "$0"} tone={c.balance ? "danger" : "neutral"} />
-          <MiniKpi label="Calls" value={String(c.calls)} tone="neutral" />
-          <MiniKpi label="Reviews" value={`${c.rating.toFixed(1)}★`} sub={`${c.reviews} left`} tone="warning" />
-          <MiniKpi label="AI Score" value={`${c.aiScore}`} tone="brand" />
+        <div className="px-3 sm:px-4 py-3 grid grid-cols-3 gap-1.5 sm:gap-2 border-b border-[--color-hairline]">
+          <MiniKpi label="LTV" value={c.ltv >= 10000 ? `$${(c.ltv/1000).toFixed(1)}k` : `$${c.ltv.toLocaleString()}`} icon={TrendingUp} tone="brand" />
+          <MiniKpi label="Jobs" value={String(c.jobsDone)} sub={c.openJobs > 0 ? `${c.openJobs} open` : "all done"} icon={Briefcase} tone="success" />
+          <MiniKpi label="Balance" value={c.balance ? `$${c.balance}` : "$0"} icon={DollarSign} tone={c.balance ? "danger" : "neutral"} />
+          <MiniKpi label="Calls" value={String(c.calls)} icon={Phone} tone="info" />
+          <MiniKpi label="Reviews" value={c.rating.toFixed(1)} sub={`${c.reviews} left`} icon={Star} tone="warning" />
+          <MiniKpi label="AI Score" value={String(c.aiScore)} icon={Sparkles} tone="brand" />
         </div>
+
 
         {/* Scores bars */}
         <div className="px-4 py-3 space-y-2 border-b border-[--color-hairline] bg-[--color-canvas]">
