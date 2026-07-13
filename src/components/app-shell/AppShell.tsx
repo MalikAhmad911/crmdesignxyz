@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Inbox, Users, Star, CreditCard, Megaphone, Phone,
   Brain, Bot, Mic, Wrench, FileText, Calendar, BarChart3, Sparkles,
   Settings, Search, Bell, Plus, ChevronDown, HelpCircle, Home, MoreHorizontal,
+  PanelLeftClose, PanelLeftOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
@@ -88,6 +89,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [newOpen, setNewOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("rs-sidebar-collapsed") === "1";
+  });
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("rs-sidebar-collapsed", collapsed ? "1" : "0");
+    }
+  }, [collapsed]);
+  const sidebarW = collapsed ? 68 : 240;
 
   const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -106,23 +117,51 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-scope min-h-[100dvh] bg-[--color-canvas] text-[--color-ink]">
       <div className="flex">
         {/* Sidebar — dark, desktop only */}
-        <aside className="hidden lg:flex fixed inset-y-0 left-0 w-[240px] flex-col border-r border-[--color-sidebar-border]" style={{ background: "var(--color-sidebar-bg)", color: "var(--color-body)" }}>
-          <div className="h-[60px] flex items-center gap-2.5 px-4 shrink-0 border-b border-[--color-sidebar-border]">
-            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)]" style={{ background: "var(--color-brand-gradient-2)" }}>
+        <aside
+          className="hidden lg:flex fixed inset-y-0 left-0 flex-col border-r border-[--color-sidebar-border] transition-[width] duration-200"
+          style={{ background: "var(--color-sidebar-bg)", color: "var(--color-body)", width: sidebarW }}
+        >
+          <div className={`h-[60px] flex items-center gap-2.5 shrink-0 border-b border-[--color-sidebar-border] ${collapsed ? "px-0 justify-center" : "px-4"}`}>
+            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)] shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
               ⚡
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
-              <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
-            </div>
+            {!collapsed && (
+              <div className="min-w-0 flex-1">
+                <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
+                <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
+              </div>
+            )}
+            {!collapsed && (
+              <button
+                onClick={() => setCollapsed(true)}
+                className="w-7 h-7 rounded-md grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] hover:text-[--color-ink] transition"
+                title="Collapse sidebar"
+                aria-label="Collapse sidebar"
+              >
+                <PanelLeftClose size={15} />
+              </button>
+            )}
           </div>
+
+          {collapsed && (
+            <button
+              onClick={() => setCollapsed(false)}
+              className="mx-auto mt-2 w-9 h-9 rounded-lg grid place-items-center text-[--color-muted] hover:bg-[--color-surface-strong] hover:text-[--color-ink] transition"
+              title="Expand sidebar"
+              aria-label="Expand sidebar"
+            >
+              <PanelLeftOpen size={16} />
+            </button>
+          )}
 
           <nav className="flex-1 overflow-y-auto py-3">
             {NAV.map(sec => (
               <div key={sec.section} className="mb-4">
-                <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-[--color-muted-soft]">
-                  {sec.section}
-                </div>
+                {!collapsed && (
+                  <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-[--color-muted-soft]">
+                    {sec.section}
+                  </div>
+                )}
                 {sec.items.map(it => {
                   const active = pathname === it.to || pathname.startsWith(it.to + "/");
                   const I = it.icon;
@@ -130,7 +169,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     <Link
                       key={it.to}
                       to={it.to}
-                      className={`mx-2 my-[1px] h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium transition ${
+                      title={collapsed ? it.label : undefined}
+                      aria-label={it.label}
+                      className={`relative my-[1px] rounded-lg text-[13px] font-medium transition flex items-center ${
+                        collapsed ? "mx-2 h-10 w-10 justify-center" : "mx-2 h-[38px] px-2.5 gap-2.5"
+                      } ${
                         active
                           ? "font-semibold"
                           : "text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink]"
@@ -138,8 +181,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       style={active ? { background: "var(--color-sidebar-active)", color: "var(--color-sidebar-active-text)" } : undefined}
                     >
                       <I size={17} className="shrink-0" />
-                      <span className="flex-1 truncate">{it.label}</span>
-                      {it.badge && (
+                      {!collapsed && <span className="flex-1 truncate">{it.label}</span>}
+                      {it.badge && !collapsed && (
                         <span
                           className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
                             it.badgeTone === "new"
@@ -150,6 +193,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                           {it.badge}
                         </span>
                       )}
+                      {it.badge && collapsed && (
+                        <span
+                          className={`absolute top-1 right-1 min-w-[8px] h-[8px] rounded-full ${
+                            it.badgeTone === "new" ? "bg-emerald-500" : "bg-[--color-primary]"
+                          }`}
+                        />
+                      )}
                     </Link>
                   );
                 })}
@@ -157,30 +207,44 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
 
-          <div className="border-t border-[--color-sidebar-border] px-3 py-3 shrink-0">
-            <Link to="/app/settings" className="h-[38px] px-2.5 flex items-center gap-2.5 rounded-lg text-[13px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink] mb-2">
-              <Settings size={17} /> Settings
+          <div className={`border-t border-[--color-sidebar-border] shrink-0 ${collapsed ? "py-3 px-2" : "px-3 py-3"}`}>
+            <Link
+              to="/app/settings"
+              title={collapsed ? "Settings" : undefined}
+              className={`rounded-lg text-[13px] font-medium text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink] mb-2 flex items-center ${
+                collapsed ? "h-10 w-10 mx-auto justify-center" : "h-[38px] px-2.5 gap-2.5"
+              }`}
+            >
+              <Settings size={17} /> {!collapsed && "Settings"}
             </Link>
 
-            <div className="flex items-center gap-2.5 px-2">
-              <div className="w-8 h-8 rounded-full grid place-items-center text-white text-[12px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
+            <div className={`flex items-center ${collapsed ? "justify-center" : "gap-2.5 px-2"}`}>
+              <div className="w-8 h-8 rounded-full grid place-items-center text-white text-[12px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }} title={collapsed ? BUSINESS.owner : undefined}>
                 MW
               </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-[13px] font-medium text-[--color-ink] truncate leading-tight">{BUSINESS.owner}</div>
-                <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.role}</div>
-              </div>
+              {!collapsed && (
+                <div className="min-w-0 flex-1">
+                  <div className="text-[13px] font-medium text-[--color-ink] truncate leading-tight">{BUSINESS.owner}</div>
+                  <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.role}</div>
+                </div>
+              )}
             </div>
 
-            <div className="mt-3 rounded-lg px-3 py-2 flex items-center justify-between gap-2 border border-amber-200" style={{ background: "#FFFBEB" }}>
-              <div className="text-[11px] font-semibold text-amber-700">{BUSINESS.trialDaysLeft} days left</div>
-              <button className="text-[11px] font-semibold text-amber-800 hover:text-amber-900">Upgrade</button>
-            </div>
+            {!collapsed && (
+              <div className="mt-3 rounded-lg px-3 py-2 flex items-center justify-between gap-2 border border-amber-200" style={{ background: "#FFFBEB" }}>
+                <div className="text-[11px] font-semibold text-amber-700">{BUSINESS.trialDaysLeft} days left</div>
+                <button className="text-[11px] font-semibold text-amber-800 hover:text-amber-900">Upgrade</button>
+              </div>
+            )}
           </div>
         </aside>
 
         {/* Main column */}
-        <div ref={wrap} className="flex-1 min-w-0 flex flex-col lg:pl-[240px]">
+        <div
+          ref={wrap}
+          className="flex-1 min-w-0 flex flex-col transition-[padding] duration-200 lg:pl-[var(--rs-sbw)]"
+          style={{ ["--rs-sbw" as string]: `${sidebarW}px` }}
+        >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
             <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
