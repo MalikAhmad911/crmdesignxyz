@@ -55,13 +55,17 @@ const ROWS: Row[] = PAYMENTS.map((p, i) => {
   const methods: Method[] = ["card", "ach", "apple", "google", "paypal", "cash", "check", "bank"];
   const techs = ["Marcus L.", "Elena R.", "David C.", "Priya S.", "Jonah W."];
   const gws = ["Stripe", "Square", "PayPal"];
+  // Sprinkle failed/partial statuses so filter chips have real data
+  const override: PaymentStatus | null =
+    i === 2 || i === 6 || i === 11 ? "Failed" :
+    i === 4 || i === 9 ? "Partial" : null;
   return {
     id: p.id,
     contact: p.contact,
     invoice: `INV-2026-${String(1000 + i).padStart(4, "0")}`,
     amount: p.amount,
     description: p.description,
-    status: p.status as PaymentStatus,
+    status: (override ?? p.status) as PaymentStatus,
     method: methods[i % methods.length],
     date: p.sent,
     technician: techs[i % techs.length],
@@ -74,9 +78,9 @@ const FILTERS = [
   { id: "all", label: "All Payments", count: ROWS.length, icon: <Wallet size={14} /> },
   { id: "Paid", label: "Successful", count: ROWS.filter(r => r.status === "Paid").length, icon: <CheckCircle size={14} /> },
   { id: "Pending", label: "Pending", count: ROWS.filter(r => r.status === "Pending").length, icon: <Clock size={14} /> },
-  { id: "Failed", label: "Failed", count: 3, icon: <AlertCircle size={14} /> },
+  { id: "Failed", label: "Failed", count: ROWS.filter(r => r.status === "Failed").length, icon: <AlertCircle size={14} /> },
   { id: "Refunded", label: "Refunded", count: ROWS.filter(r => r.status === "Refunded").length, icon: <RefreshCcw size={14} /> },
-  { id: "Partial", label: "Partially Paid", count: 2, icon: <Package size={14} /> },
+  { id: "Partial", label: "Partially Paid", count: ROWS.filter(r => r.status === "Partial").length, icon: <Package size={14} /> },
   { id: "Recurring", label: "Recurring", count: 12, icon: <Repeat size={14} /> },
   { id: "Invoices", label: "Invoices", count: 24, icon: <FileText size={14} /> },
   { id: "Quotes", label: "Quotes", count: 8, icon: <Receipt size={14} /> },
