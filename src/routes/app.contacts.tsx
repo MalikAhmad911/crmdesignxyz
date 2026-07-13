@@ -230,7 +230,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
       <div
         onClick={onClose}
         aria-hidden
-        className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-[3px] animate-in fade-in duration-200"
+        className="fixed inset-0 z-[70] bg-slate-950/60 backdrop-blur-[4px] animate-in fade-in duration-200"
       />
       <aside
         role="dialog"
@@ -240,7 +240,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         style={{ transform: `translateX(${dragX}px)`, transition: dragging ? "none" : "transform 220ms cubic-bezier(0.22,1,0.36,1)" }}
-        className="fixed top-0 right-0 z-40 h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-y-auto overscroll-contain animate-in slide-in-from-right duration-200"
+        className="fixed top-0 right-0 z-[80] h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-y-auto overscroll-contain animate-in slide-in-from-right duration-200"
       >
         {/* Mobile swipe grabber */}
         <div className="sm:hidden absolute top-1/2 -translate-y-1/2 left-1 w-1 h-14 rounded-full bg-slate-300/80" aria-hidden />
