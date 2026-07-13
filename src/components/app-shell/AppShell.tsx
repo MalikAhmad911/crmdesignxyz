@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Inbox, Users, Star, CreditCard, Megaphone, Phone,
   Brain, Bot, Mic, Wrench, FileText, Calendar, BarChart3, Sparkles,
   Settings, Search, Bell, Plus, ChevronDown, HelpCircle, Home, MoreHorizontal,
+  PanelLeftClose, PanelLeftOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
