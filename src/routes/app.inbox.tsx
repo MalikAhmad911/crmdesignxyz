@@ -280,20 +280,20 @@ function InboxPage() {
               <button
                 onClick={() => notify(`Calling ${contact!.name}…`)}
                 aria-label="Call customer"
-                className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]"
+                className="w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0"
               ><Phone size={16} /></button>
               <button
                 onClick={() => setShowContext(v => !v)}
                 aria-pressed={showContext}
                 aria-label="Toggle customer details"
-                className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
+                className={`w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0 ${showContext ? "bg-[--color-surface-strong] text-[--color-ink]" : ""}`}
               >
                 <Info size={16} />
               </button>
               <button
                 onClick={() => notify("More actions coming soon")}
                 aria-label="More actions"
-                className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong]"
+                className="hidden xl:grid w-9 h-9 rounded-lg place-items-center hover:bg-[--color-surface-strong] shrink-0"
               ><MoreVertical size={16} /></button>
             </div>
 
