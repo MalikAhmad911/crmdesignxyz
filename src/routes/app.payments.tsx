@@ -415,6 +415,7 @@ function PaymentsPage() {
       {view === "invoices" && <InvoicesView query={query} setQuery={setQuery} />}
       {view === "deposits" && <DepositsView query={query} setQuery={setQuery} />}
       {view === "partial"  && <PartialsView query={query} setQuery={setQuery} />}
+      {view === "recurring" && <RecurringView query={query} setQuery={setQuery} />}
 
       {selected && <DetailsDrawer row={selected} onClose={() => setSelected(null)} />}
 
