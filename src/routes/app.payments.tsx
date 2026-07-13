@@ -55,13 +55,17 @@ const ROWS: Row[] = PAYMENTS.map((p, i) => {
   const methods: Method[] = ["card", "ach", "apple", "google", "paypal", "cash", "check", "bank"];
   const techs = ["Marcus L.", "Elena R.", "David C.", "Priya S.", "Jonah W."];
   const gws = ["Stripe", "Square", "PayPal"];
+  // Sprinkle failed/partial statuses so filter chips have real data
+  const override: PaymentStatus | null =
+    i === 2 || i === 6 || i === 11 ? "Failed" :
+    i === 4 || i === 9 ? "Partial" : null;
   return {
     id: p.id,
     contact: p.contact,
     invoice: `INV-2026-${String(1000 + i).padStart(4, "0")}`,
     amount: p.amount,
     description: p.description,
-    status: p.status as PaymentStatus,
+    status: (override ?? p.status) as PaymentStatus,
     method: methods[i % methods.length],
     date: p.sent,
     technician: techs[i % techs.length],
