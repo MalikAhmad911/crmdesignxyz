@@ -740,14 +740,13 @@ function InboxPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5">
+            <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-5">
               <div className="mx-auto max-w-[820px]">
                 <AiSummaryCard />
 
-                <div className="flex items-center gap-3 my-3">
-                  <div className="flex-1 h-px bg-[--color-hairline]" />
-                  <span className="text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted]">Today</span>
-                  <div className="flex-1 h-px bg-[--color-hairline]" />
+                {/* Date chip — WhatsApp style */}
+                <div className="flex justify-center my-3">
+                  <span className="text-[10.5px] font-semibold uppercase tracking-wider text-[--color-muted] bg-white/80 border border-[--color-hairline] px-2.5 py-1 rounded-full shadow-sm">Today</span>
                 </div>
 
                 {messages.length === 0 ? (
@@ -761,11 +760,11 @@ function InboxPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-0.5">
                     {messages.map((m, idx) => {
                       if (m.from === "note") {
                         return (
-                          <div key={m.id} className="mx-auto max-w-[75%] rounded-xl p-3 border border-dashed bg-amber-50 border-amber-300 text-[12.5px] text-[--color-ink]">
+                          <div key={m.id} className="mx-auto max-w-[85%] sm:max-w-[75%] rounded-xl p-2.5 border border-dashed bg-amber-50 border-amber-300 text-[13px] text-[--color-ink] my-2">
                             <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700 mb-1 flex items-center gap-1">
                               <Pin size={10} /> Internal note
                             </div>
@@ -775,31 +774,34 @@ function InboxPage() {
                       }
                       const mine = m.from === "us";
                       const prev = messages[idx - 1];
-                      const showAvatar = !mine && (!prev || prev.from !== m.from);
+                      const next = messages[idx + 1];
+                      const sameAsPrev = prev && prev.from === m.from;
+                      const sameAsNext = next && next.from === m.from;
+                      const showAvatar = !mine && !sameAsNext;
                       return (
-                        <div key={m.id} className={`flex items-end gap-2 ${mine ? "justify-end" : "justify-start"}`}>
+                        <div key={m.id} className={`flex items-end gap-1.5 ${mine ? "justify-end" : "justify-start"} ${sameAsPrev ? "mt-0.5" : "mt-2"}`}>
                           {!mine && (
                             showAvatar
-                              ? <Avatar name={contact!.name} size={26} />
-                              : <div className="w-[26px] shrink-0" />
+                              ? <Avatar name={contact!.name} size={24} />
+                              : <div className="w-6 shrink-0" />
                           )}
-                          <div className="flex flex-col max-w-[72%]" style={{ alignItems: mine ? "flex-end" : "flex-start" }}>
-                            <div
-                              className={`rounded-2xl px-3.5 py-2 shadow-[0_1px_2px_rgba(15,15,45,0.04)] ${
-                                mine ? "text-white rounded-br-md" : "bg-white border border-[--color-hairline] rounded-bl-md text-[--color-ink]"
-                              }`}
-                              style={mine ? { background: ACCENT_GRAD } : undefined}
-                            >
-                              <div className="text-[13.5px] leading-[1.45] whitespace-pre-wrap">{m.text}</div>
-                            </div>
-                            <div className={`text-[10.5px] mt-1 flex items-center gap-1 ${mine ? "text-[--color-muted]" : "text-[--color-muted]"}`}>
+                          <div
+                            className={`relative max-w-[78%] sm:max-w-[72%] px-2.5 py-1.5 pr-14 shadow-[0_1px_1px_rgba(15,15,45,0.06)] ${
+                              mine
+                                ? `text-white rounded-2xl ${sameAsNext ? "rounded-br-2xl" : "rounded-br-md"}`
+                                : `bg-white text-[--color-ink] rounded-2xl ${sameAsNext ? "rounded-bl-2xl" : "rounded-bl-md"}`
+                            }`}
+                            style={mine ? { background: ACCENT_GRAD } : undefined}
+                          >
+                            <div className="text-[14.5px] leading-[1.35] whitespace-pre-wrap break-words">{m.text}</div>
+                            <div className={`absolute bottom-1 right-2 flex items-center gap-0.5 text-[10px] ${mine ? "text-white/75" : "text-[--color-muted]"}`}>
                               {m.ai && (
-                                <span className="flex items-center gap-0.5 font-semibold" style={{ color: ACCENT }}>
-                                  <Sparkles size={9} /> AI ·
+                                <span className="flex items-center gap-0.5 font-semibold mr-0.5">
+                                  <Sparkles size={8} />
                                 </span>
                               )}
                               <span>{m.time}</span>
-                              {mine && <CheckCheck size={11} style={{ color: ACCENT }} />}
+                              {mine && <CheckCheck size={11} className="text-white/90" />}
                             </div>
                           </div>
                         </div>
@@ -807,36 +809,34 @@ function InboxPage() {
                     })}
 
                     {/* Rich cards inline */}
-                    <div className="flex justify-start pl-[34px]">
-                      <div className="w-full max-w-[72%]">
+                    <div className="flex justify-start pl-[30px] pt-2">
+                      <div className="w-full max-w-[85%] sm:max-w-[72%]">
                         <AppointmentCard />
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 my-3">
-                      <div className="flex-1 h-px bg-[--color-hairline]" />
-                      <span className="text-[10.5px] font-semibold uppercase tracking-widest text-[--color-muted]">Just now</span>
-                      <div className="flex-1 h-px bg-[--color-hairline]" />
+                    <div className="flex justify-center my-3">
+                      <span className="text-[10.5px] font-semibold uppercase tracking-wider text-[--color-muted] bg-white/80 border border-[--color-hairline] px-2.5 py-1 rounded-full shadow-sm">Just now</span>
                     </div>
 
-                    <div className="flex justify-start pl-[34px]">
-                      <div className="w-full max-w-[72%]">
+                    <div className="flex justify-start pl-[30px]">
+                      <div className="w-full max-w-[85%] sm:max-w-[72%]">
                         <CallCard />
                       </div>
                     </div>
 
                     {/* Typing indicator */}
-                    <div className="flex items-center gap-2 pl-1 pt-1">
-                      <Avatar name={contact!.name} size={22} />
-                      <div className="flex items-center gap-1 rounded-full bg-white border border-[--color-hairline] px-3 py-1.5">
+                    <div className="flex items-center gap-1.5 pl-0 pt-2">
+                      <Avatar name={contact!.name} size={24} />
+                      <div className="flex items-center gap-1 rounded-2xl rounded-bl-md bg-white border border-[--color-hairline] px-3 py-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[--color-muted] animate-bounce" style={{ animationDelay: "0ms" }} />
                         <span className="w-1.5 h-1.5 rounded-full bg-[--color-muted] animate-bounce" style={{ animationDelay: "120ms" }} />
                         <span className="w-1.5 h-1.5 rounded-full bg-[--color-muted] animate-bounce" style={{ animationDelay: "240ms" }} />
                       </div>
-                      <span className="text-[11px] text-[--color-muted]">{contact!.name.split(" ")[0]} is typing…</span>
                     </div>
                   </div>
                 )}
+
 
                 {/* AI Suggested Reply */}
                 {aiVisible && (
