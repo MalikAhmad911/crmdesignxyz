@@ -89,6 +89,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [newOpen, setNewOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("rs-sidebar-collapsed") === "1";
+  });
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("rs-sidebar-collapsed", collapsed ? "1" : "0");
+    }
+  }, [collapsed]);
+  const sidebarW = collapsed ? 68 : 240;
 
   const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
