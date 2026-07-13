@@ -917,10 +917,11 @@ function InboxPage() {
                     <textarea
                       value={draft}
                       onChange={e => setDraft(e.target.value)}
-                      placeholder={mode === "note" ? "Add an internal note. Use @ to mention teammates." : `Message ${contact!.name.split(" ")[0]}… Press ⌘⏎ to send`}
-                      className="w-full resize-none bg-transparent text-[14px] leading-[1.5] text-[--color-ink] placeholder:text-[--color-muted] focus:outline-none min-h-[72px]"
+                      placeholder={mode === "note" ? "Add an internal note…" : `Message ${contact!.name.split(" ")[0]}…`}
+                      className="w-full resize-none bg-transparent text-[14px] leading-[1.5] text-[--color-ink] placeholder:text-[--color-muted] focus:outline-none min-h-[44px] sm:min-h-[64px]"
                       rows={2}
                     />
+
 
                     <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50 gap-2">
                       <div className="flex items-center gap-1 sm:gap-2 min-w-0">
@@ -945,6 +946,9 @@ function InboxPage() {
                           <Zap size={13} /> Templates
                         </button>
                       </div>
+
+                      <span className="hidden sm:inline text-[10.5px] font-mono text-[--color-muted] mr-1">⌘↵</span>
+
 
                       <button
                         onClick={() => {
