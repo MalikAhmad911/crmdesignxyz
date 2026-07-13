@@ -145,7 +145,7 @@ function LeftRail({ active, onSelect }: { active: RailKey; onSelect: (k: RailKey
         <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-white border border-[--color-hairline] shadow-sm">
           <Search size={13} className="text-[--color-muted]" />
           <input placeholder="Search lists…" className="bg-transparent flex-1 text-[12px] focus:outline-none placeholder:text-[--color-muted]" />
-          <kbd className="text-[9.5px] font-mono px-1 py-0.5 rounded bg-[--color-surface-strong] text-[--color-muted] inline-flex items-center gap-0.5"><Command size={9} />K</kbd>
+          
         </div>
       </div>
       <div className="p-2 flex-1 overflow-y-auto">
