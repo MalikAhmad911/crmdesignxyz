@@ -690,22 +690,59 @@ function ContactsPage() {
 
           {/* Toolbar */}
           <div className="px-3 sm:px-6 pb-3 flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 min-w-0 sm:min-w-[220px] sm:max-w-[440px]">
-              <Search size={14} className="text-[--color-muted] shrink-0" />
-              <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search contacts…" className="bg-transparent flex-1 min-w-0 text-[13px] focus:outline-none" />
-              
+            <div className="group flex items-center gap-2 h-9 px-3 rounded-lg bg-[--color-surface-strong] flex-1 min-w-0 sm:min-w-[220px] sm:max-w-[440px] border border-transparent hover:border-[--color-hairline] focus-within:border-indigo-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
+              <Search size={14} className="text-[--color-muted] shrink-0 group-focus-within:text-indigo-500 transition-colors" />
+              <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search contacts…" className="bg-transparent flex-1 min-w-0 text-[13px] focus:outline-none placeholder:text-[--color-muted]" />
+              {q && (
+                <button onClick={() => setQ("")} aria-label="Clear search" className="shrink-0 w-5 h-5 rounded-full grid place-items-center text-[--color-muted] hover:bg-white hover:text-[--color-ink] transition">
+                  <X size={11} />
+                </button>
+              )}
             </div>
-            <button className="h-9 px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] inline-flex items-center gap-1.5 shrink-0"><Filter size={12} /> <span className="hidden sm:inline">Filters</span> <Pill tone="brand">2</Pill></button>
-            <div className="hidden md:inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5">
+            <button className="h-9 px-2.5 sm:px-3 rounded-lg text-[12.5px] font-semibold bg-white border border-[--color-hairline] text-[--color-body-strong] inline-flex items-center gap-1.5 shrink-0 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-sm active:scale-[0.97] transition-all">
+              <Filter size={12} /> <span className="hidden sm:inline">Filters</span> <Pill tone="brand">2</Pill>
+            </button>
+            <div className="hidden md:inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5 shadow-sm">
               {(["ltv","score","name","activity"] as const).map(k => (
-                <button key={k} onClick={() => setSortBy(k)} className={`h-7 px-2.5 rounded-md text-[11.5px] font-semibold capitalize ${sortBy === k ? "bg-[--color-surface-strong] text-[--color-ink]" : "text-[--color-muted]"}`}>{k}</button>
+                <button
+                  key={k}
+                  onClick={() => setSortBy(k)}
+                  className={`h-7 px-2.5 rounded-md text-[11.5px] font-semibold capitalize transition-all ${
+                    sortBy === k
+                      ? "bg-[--color-surface-strong] text-[--color-ink] shadow-inner"
+                      : "text-[--color-muted] hover:text-[--color-ink] hover:bg-slate-50"
+                  }`}
+                >
+                  {k}
+                </button>
               ))}
             </div>
-            <div className="hidden md:inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5">
-              <button onClick={() => setView("table")} className={`w-7 h-7 rounded-md grid place-items-center ${view === "table" ? "bg-[--color-surface-strong] text-[--color-ink]" : "text-[--color-muted]"}`}><Rows3 size={13} /></button>
-              <button onClick={() => setView("cards")} className={`w-7 h-7 rounded-md grid place-items-center ${view === "cards" ? "bg-[--color-surface-strong] text-[--color-ink]" : "text-[--color-muted]"}`}><LayoutGrid size={13} /></button>
+            <div className="inline-flex items-center gap-1 rounded-lg bg-white border border-[--color-hairline] p-0.5 shadow-sm">
+              <button
+                onClick={() => setView("table")}
+                aria-label="Table view"
+                className={`w-7 h-7 rounded-md grid place-items-center transition-all ${
+                  view === "table"
+                    ? "bg-[--color-surface-strong] text-[--color-ink] shadow-inner"
+                    : "text-[--color-muted] hover:text-[--color-ink] hover:bg-slate-50"
+                }`}
+              >
+                <Rows3 size={13} />
+              </button>
+              <button
+                onClick={() => setView("cards")}
+                aria-label="Card view"
+                className={`w-7 h-7 rounded-md grid place-items-center transition-all ${
+                  view === "cards"
+                    ? "bg-[--color-surface-strong] text-[--color-ink] shadow-inner"
+                    : "text-[--color-muted] hover:text-[--color-ink] hover:bg-slate-50"
+                }`}
+              >
+                <LayoutGrid size={13} />
+              </button>
             </div>
           </div>
+
 
           {/* Bulk bar */}
           {selected.size > 0 && (
