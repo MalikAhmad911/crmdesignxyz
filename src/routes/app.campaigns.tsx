@@ -136,10 +136,10 @@ function CampaignsPage() {
         subtitle="AI-powered omnichannel marketing operating system"
         actions={
           <>
-            <Btn variant="secondary" size="md" icon={<Upload size={13} />} className="hidden sm:inline-flex">Import Audience</Btn>
-            <Btn variant="secondary" size="md" icon={<Download size={13} />} className="hidden md:inline-flex">Export</Btn>
-            <Btn variant="secondary" size="md" icon={<LayoutTemplate size={13} />} className="hidden md:inline-flex">Templates</Btn>
-            <Btn variant="secondary" size="md" icon={<Sparkles size={13} />} onClick={() => setAiOpen(true)} className="hidden sm:inline-flex">AI Builder</Btn>
+            <span className="hidden sm:inline-flex"><Btn variant="secondary" size="md" icon={<Upload size={13} />}>Import Audience</Btn></span>
+            <span className="hidden md:inline-flex"><Btn variant="secondary" size="md" icon={<Download size={13} />}>Export</Btn></span>
+            <span className="hidden md:inline-flex"><Btn variant="secondary" size="md" icon={<LayoutTemplate size={13} />}>Templates</Btn></span>
+            <span className="hidden sm:inline-flex"><Btn variant="secondary" size="md" icon={<Sparkles size={13} />} onClick={() => setAiOpen(true)}>AI Builder</Btn></span>
             <Btn variant="gradient" size="md" icon={<Plus size={14} />} onClick={() => setWizardOpen(true)}>New Campaign</Btn>
           </>
         }
