@@ -87,11 +87,15 @@ const FILTERS = [
 
 /* ─────────────── Page ─────────────── */
 
+type View = "payments" | "invoices" | "deposits" | "partial";
+
 function PaymentsPage() {
+  const [view, setView] = useState<View>("payments");
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<Row | null>(null);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
+
 
   const rows = useMemo(() => {
     return ROWS.filter(r => {
