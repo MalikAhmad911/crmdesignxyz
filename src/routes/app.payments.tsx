@@ -128,11 +128,18 @@ function PaymentsPage() {
         subtitle="Financial control center — invoices, subscriptions, refunds & revenue"
         actions={
           <>
-            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden md:inline-flex">Import</Btn>
-            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden sm:inline-flex">Export</Btn>
-            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden sm:inline-flex" onClick={() => setQuickOpen("invoice")}>
+            <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="!hidden md:!inline-flex">Import</Btn>
+            <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="!hidden md:!inline-flex">Export</Btn>
+            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="!hidden sm:!inline-flex" onClick={() => setQuickOpen("invoice")}>
               Send Invoice
             </Btn>
+            <button
+              onClick={() => setQuickOpen("invoice")}
+              className="sm:hidden w-9 h-9 grid place-items-center rounded-lg bg-white border border-[--color-hairline] text-[--color-body]"
+              aria-label="Send Invoice"
+            >
+              <Send size={14} />
+            </button>
             <Btn variant="gradient" size="sm" icon={<Plus size={14} />} onClick={() => setQuickOpen("payment")}>
               <span className="hidden sm:inline">New Payment</span>
               <span className="sm:hidden">New</span>
