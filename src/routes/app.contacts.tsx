@@ -758,7 +758,7 @@ function ContactsPage() {
                             </div>
                           </div>
                         </Td>
-                        <Td><span className="text-[--color-body]">{c.company}</span></Td>
+                        <Td className="hidden xl:table-cell"><span className="text-[--color-body]">{c.company}</span></Td>
                         <Td>
                           <div className="flex flex-col leading-tight">
                             <span className="text-[--color-ink]">{c.phone}</span>
@@ -768,25 +768,25 @@ function ContactsPage() {
                         <Td>
                           <Pill tone={c.stage === "Customer" ? "success" : c.stage === "Lead" ? "brand" : "neutral"}>{c.stage}</Pill>
                         </Td>
-                        <Td><span className="text-[11.5px] text-[--color-body-strong]">{c.pipeline}</span></Td>
+                        <Td className="hidden 2xl:table-cell"><span className="text-[11.5px] text-[--color-body-strong]">{c.pipeline}</span></Td>
                         <Td><span className="font-bold text-[--color-ink]">${c.ltv.toLocaleString()}</span></Td>
-                        <Td>
+                        <Td className="hidden lg:table-cell">
                           <div className="flex items-center gap-1">
                             <span className="font-semibold text-[--color-ink]">{c.jobsDone}</span>
                             {c.openJobs > 0 && <Pill tone="warning">{c.openJobs} open</Pill>}
                           </div>
                         </Td>
-                        <Td>
+                        <Td className="hidden lg:table-cell">
                           {c.balance > 0 ? <span className="font-bold text-rose-600">${c.balance}</span> : <span className="text-[--color-muted]">—</span>}
                         </Td>
-                        <Td>
+                        <Td className="hidden 2xl:table-cell">
                           <div className="flex items-center gap-1">
                             <Star size={11} className="text-amber-500 fill-amber-500" />
                             <span className="font-semibold text-[--color-ink]">{c.rating.toFixed(1)}</span>
                             <span className="text-[10.5px] text-[--color-muted]">({c.reviews})</span>
                           </div>
                         </Td>
-                        <Td>
+                        <Td className="hidden 2xl:table-cell">
                           <div className="inline-flex items-center gap-1.5 h-6 px-1.5 rounded-full bg-[--color-surface-strong] text-[11px] font-semibold text-[--color-body-strong]">
                             <div className="w-4 h-4 rounded-full bg-indigo-100 grid place-items-center text-[9px] text-indigo-700 font-bold">{c.assigned.split(" ")[0][0]}</div>
                             {c.assigned}
@@ -794,13 +794,13 @@ function ContactsPage() {
                         </Td>
                         <Td>
                           <div className="flex items-center gap-1.5">
-                            <div className="w-14 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                            <div className="w-10 lg:w-14 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                               <div className="h-full rounded-full" style={{ width: `${c.aiScore}%`, background: ACCENT_GRAD }} />
                             </div>
                             <span className="text-[11.5px] font-bold text-[--color-ink] tabular-nums">{c.aiScore}</span>
                           </div>
                         </Td>
-                        <Td><span className="text-[10.5px] text-[--color-muted]">{c.activity}</span></Td>
+                        <Td className="hidden xl:table-cell"><span className="text-[10.5px] text-[--color-muted]">{c.activity}</span></Td>
                         <Td className="pr-4">
                           <div className="flex items-center gap-0.5 justify-end opacity-70 group-hover:opacity-100 transition">
                             <IconBtn onClick={e => e.stopPropagation()}><Phone size={12} /></IconBtn>
