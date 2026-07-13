@@ -106,12 +106,12 @@ function KpiCard({ label, value, sub, icon: I, tone = "brand" }: {
     info: "text-sky-600 bg-sky-50",
   };
   return (
-    <div className="rounded-xl sm:rounded-2xl bg-white border border-[--color-hairline] px-2 sm:px-4 py-1.5 sm:py-3 shadow-sm flex items-center gap-2 sm:gap-3 min-w-0">
-      <div className={`w-6 h-6 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl grid place-items-center shrink-0 ${toneMap[tone]}`}><I size={12} /></div>
+    <div className="rounded-2xl bg-white border border-[--color-hairline] px-2.5 sm:px-4 py-2 sm:py-3 shadow-sm flex items-center gap-2 sm:gap-3 min-w-0">
+      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl grid place-items-center shrink-0 ${toneMap[tone]}`}><I size={14} /></div>
       <div className="min-w-0 flex-1 leading-tight">
-        <div className="text-[9px] sm:text-[10.5px] uppercase tracking-wider font-semibold text-[--color-muted] truncate">{label}</div>
-        <div className="text-[12.5px] sm:text-[17px] font-bold text-[--color-ink] leading-tight truncate">{value}</div>
-        {sub && <div className="hidden sm:block text-[10.5px] text-[--color-muted] truncate">{sub}</div>}
+        <div className="text-[9.5px] sm:text-[10.5px] uppercase tracking-wider font-semibold text-[--color-muted] truncate">{label}</div>
+        <div className="text-[14px] sm:text-[17px] font-bold text-[--color-ink] leading-tight truncate">{value}</div>
+        {sub && <div className="text-[10px] sm:text-[10.5px] text-[--color-muted] truncate">{sub}</div>}
       </div>
     </div>
   );
