@@ -51,7 +51,7 @@ const METHOD_META: Record<Method, { label: string; icon: React.ReactNode; tint: 
   bank:   { label: "Bank Transfer", icon: <Building2 size={13} />,  tint: "bg-teal-50 text-teal-700" },
 };
 
-const ROWS: Row[] = PAYMENTS.map((p, i) => {
+const SEED_ROWS: Row[] = PAYMENTS.map((p, i) => {
   const methods: Method[] = ["card", "ach", "apple", "google", "paypal", "cash", "check", "bank"];
   const techs = ["Marcus L.", "Elena R.", "David C.", "Priya S.", "Jonah W."];
   const gws = ["Stripe", "Square", "PayPal"];
@@ -74,21 +74,6 @@ const ROWS: Row[] = PAYMENTS.map((p, i) => {
   };
 });
 
-const FILTERS = [
-  { id: "all", label: "All Payments", count: ROWS.length, icon: <Wallet size={14} /> },
-  { id: "Paid", label: "Successful", count: ROWS.filter(r => r.status === "Paid").length, icon: <CheckCircle size={14} /> },
-  { id: "Pending", label: "Pending", count: ROWS.filter(r => r.status === "Pending").length, icon: <Clock size={14} /> },
-  { id: "Failed", label: "Failed", count: ROWS.filter(r => r.status === "Failed").length, icon: <AlertCircle size={14} /> },
-  { id: "Refunded", label: "Refunded", count: ROWS.filter(r => r.status === "Refunded").length, icon: <RefreshCcw size={14} /> },
-  { id: "Partial", label: "Partially Paid", count: ROWS.filter(r => r.status === "Partial").length, icon: <Package size={14} /> },
-  { id: "Recurring", label: "Recurring", count: 12, icon: <Repeat size={14} /> },
-  { id: "Invoices", label: "Invoices", count: 24, icon: <FileText size={14} /> },
-  { id: "Quotes", label: "Quotes", count: 8, icon: <Receipt size={14} /> },
-  { id: "Subscriptions", label: "Subscriptions", count: 15, icon: <Repeat size={14} /> },
-  { id: "Links", label: "Payment Links", count: 6, icon: <Link2 size={14} /> },
-  { id: "Disputes", label: "Disputes", count: 1, icon: <AlertCircle size={14} /> },
-];
-
 /* ─────────────── Page ─────────────── */
 
 type View = "payments" | "invoices" | "deposits" | "partial" | "recurring";
@@ -99,20 +84,42 @@ function PaymentsPage() {
   const [selected, setSelected] = useState<Row | null>(null);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
+  const [allRows, setAllRows] = useState<Row[]>(SEED_ROWS);
+  const [quickOpen, setQuickOpen] = useState<null | "payment" | "invoice">(null);
 
+  const FILTERS = useMemo(() => ([
+    { id: "all", label: "All Payments", count: allRows.length, icon: <Wallet size={14} /> },
+    { id: "Paid", label: "Successful", count: allRows.filter(r => r.status === "Paid").length, icon: <CheckCircle size={14} /> },
+    { id: "Pending", label: "Pending", count: allRows.filter(r => r.status === "Pending").length, icon: <Clock size={14} /> },
+    { id: "Failed", label: "Failed", count: allRows.filter(r => r.status === "Failed").length, icon: <AlertCircle size={14} /> },
+    { id: "Refunded", label: "Refunded", count: allRows.filter(r => r.status === "Refunded").length, icon: <RefreshCcw size={14} /> },
+    { id: "Partial", label: "Partially Paid", count: allRows.filter(r => r.status === "Partial").length, icon: <Package size={14} /> },
+    { id: "Recurring", label: "Recurring", count: 12, icon: <Repeat size={14} /> },
+    { id: "Invoices", label: "Invoices", count: 24, icon: <FileText size={14} /> },
+    { id: "Quotes", label: "Quotes", count: 8, icon: <Receipt size={14} /> },
+    { id: "Subscriptions", label: "Subscriptions", count: 15, icon: <Repeat size={14} /> },
+    { id: "Links", label: "Payment Links", count: 6, icon: <Link2 size={14} /> },
+    { id: "Disputes", label: "Disputes", count: 1, icon: <AlertCircle size={14} /> },
+  ]), [allRows]);
 
   const rows = useMemo(() => {
-    return ROWS.filter(r => {
+    return allRows.filter(r => {
       if (query && !`${r.contact} ${r.invoice} ${r.description}`.toLowerCase().includes(query.toLowerCase())) return false;
       if (filter === "all") return true;
       if (["Paid","Pending","Refunded","Failed","Partial"].includes(filter)) return r.status === filter;
       return true;
     });
-  }, [filter, query]);
+  }, [allRows, filter, query]);
 
-  const paid = ROWS.filter(r => r.status === "Paid").reduce((a, r) => a + r.amount, 0);
-  const pending = ROWS.filter(r => r.status === "Pending").reduce((a, r) => a + r.amount, 0);
-  const refunded = ROWS.filter(r => r.status === "Refunded").reduce((a, r) => a + r.amount, 0);
+  const paid = allRows.filter(r => r.status === "Paid").reduce((a, r) => a + r.amount, 0);
+  const pending = allRows.filter(r => r.status === "Pending").reduce((a, r) => a + r.amount, 0);
+  const refunded = allRows.filter(r => r.status === "Refunded").reduce((a, r) => a + r.amount, 0);
+
+  function handleCreate(row: Row) {
+    setAllRows(prev => [row, ...prev]);
+    setQuickOpen(null);
+  }
+
 
   return (
     <div className="px-3 sm:px-6 lg:px-8 py-4 sm:py-6 max-w-[1500px] mx-auto">
@@ -123,7 +130,10 @@ function PaymentsPage() {
           <>
             <Btn variant="secondary" size="sm" icon={<Upload size={13} />} className="hidden md:inline-flex">Import</Btn>
             <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden sm:inline-flex">Export</Btn>
-            <Btn variant="gradient" size="sm" icon={<Plus size={14} />}>
+            <Btn variant="secondary" size="sm" icon={<Send size={13} />} className="hidden sm:inline-flex" onClick={() => setQuickOpen("invoice")}>
+              Send Invoice
+            </Btn>
+            <Btn variant="gradient" size="sm" icon={<Plus size={14} />} onClick={() => setQuickOpen("payment")}>
               <span className="hidden sm:inline">New Payment</span>
               <span className="sm:hidden">New</span>
             </Btn>
@@ -225,7 +235,7 @@ function PaymentsPage() {
       <div className="mb-3 sm:mb-4 border-b border-[--color-hairline] -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1 min-w-max">
           {([
-            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: ROWS.length },
+            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: allRows.length },
             { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
             { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
             { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
@@ -423,7 +433,255 @@ function PaymentsPage() {
 
       {selected && <DetailsDrawer row={selected} onClose={() => setSelected(null)} />}
 
+      {selected && <DetailsDrawer row={selected} onClose={() => setSelected(null)} />}
+      {quickOpen && (
+        <QuickActionModal
+          mode={quickOpen}
+          onClose={() => setQuickOpen(null)}
+          onCreate={handleCreate}
+          nextIndex={allRows.length}
+        />
+      )}
+
     </div>
+  );
+}
+
+/* ─────────────── Quick Action Modal (New Payment / Send Invoice) ─────────────── */
+
+function QuickActionModal({ mode, onClose, onCreate, nextIndex }: {
+  mode: "payment" | "invoice";
+  onClose: () => void;
+  onCreate: (row: Row) => void;
+  nextIndex: number;
+}) {
+  const [tab, setTab] = useState<"payment" | "invoice">(mode);
+  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [method, setMethod] = useState<Method>("card");
+  const [dueDate, setDueDate] = useState("");
+  const [sendEmail, setSendEmail] = useState(true);
+
+  const invoiceNo = `INV-2026-${String(1000 + nextIndex + 1).padStart(4, "0")}`;
+  const canSubmit = contact.trim().length > 0 && Number(amount) > 0 &&
+    (tab === "payment" || email.trim().includes("@"));
+
+  function submit() {
+    if (!canSubmit) return;
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+    const row: Row = {
+      id: `pay_${Math.random().toString(36).slice(2, 9)}`,
+      contact: contact.trim(),
+      invoice: invoiceNo,
+      amount: Number(amount),
+      description: description.trim() || (tab === "invoice" ? "Invoice" : "Payment"),
+      status: tab === "invoice" ? "Pending" : "Paid",
+      method,
+      date: dateStr,
+      technician: "You",
+      gateway: method === "cash" || method === "check" ? "Manual" : method === "paypal" ? "PayPal" : "Stripe",
+      txn: `txn_${Math.random().toString(36).slice(2, 10)}`,
+    };
+    onCreate(row);
+  }
+
+  const methods: { id: Method; label: string; icon: React.ReactNode }[] = [
+    { id: "card",   label: "Card",       icon: <CreditCard size={14} /> },
+    { id: "ach",    label: "ACH",        icon: <Building2 size={14} /> },
+    { id: "bank",   label: "Bank",       icon: <Building2 size={14} /> },
+    { id: "apple",  label: "Apple Pay",  icon: <Wallet size={14} /> },
+    { id: "google", label: "Google Pay", icon: <Wallet size={14} /> },
+    { id: "paypal", label: "PayPal",     icon: <Wallet size={14} /> },
+    { id: "cash",   label: "Cash",       icon: <Banknote size={14} /> },
+    { id: "check",  label: "Check",      icon: <FileText size={14} /> },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-neutral-950/50 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="relative w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl border border-[--color-hairline] max-h-[92vh] flex flex-col"
+        style={{ boxShadow: "var(--shadow-elevated, 0 30px 60px -20px rgba(0,0,0,0.3))" }}>
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-[--color-hairline]">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className={`w-9 h-9 rounded-xl grid place-items-center text-white bg-gradient-to-br ${tab === "invoice" ? "from-violet-500 to-fuchsia-500" : "from-emerald-500 to-teal-500"}`}>
+              {tab === "invoice" ? <Send size={16} /> : <DollarSign size={16} />}
+            </div>
+            <div className="min-w-0">
+              <div className="text-[15px] font-semibold text-[--color-ink]">
+                {tab === "invoice" ? "Send Invoice" : "Record Payment"}
+              </div>
+              <div className="text-[11.5px] text-[--color-muted] truncate">
+                {tab === "invoice" ? "Email a payable invoice to a customer" : "Log a payment received from a customer"}
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} className="w-8 h-8 grid place-items-center rounded-lg hover:bg-[--color-surface-strong] shrink-0">
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="px-4 sm:px-5 pt-3">
+          <div className="inline-flex p-0.5 rounded-lg bg-[--color-surface-strong] w-full sm:w-auto">
+            {(["payment","invoice"] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`flex-1 sm:flex-none px-3 py-1.5 text-[12px] font-semibold rounded-md transition ${
+                  tab === t ? "bg-white text-[--color-ink] shadow-sm" : "text-[--color-muted]"
+                }`}
+              >
+                {t === "payment" ? "Record Payment" : "Send Invoice"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
+          <Field label="Customer / Lead" required>
+            <input
+              value={contact}
+              onChange={e => setContact(e.target.value)}
+              placeholder="e.g. Acme Roofing Co."
+              className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13.5px] focus:outline-none focus:ring-2 focus:ring-[--color-primary]/40"
+            />
+          </Field>
+
+          {tab === "invoice" && (
+            <Field label="Customer Email" required>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="billing@customer.com"
+                className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13.5px] focus:outline-none focus:ring-2 focus:ring-[--color-primary]/40"
+              />
+            </Field>
+          )}
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Amount (USD)" required>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-[--color-muted]">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  placeholder="0.00"
+                  className="w-full h-10 pl-6 pr-3 rounded-lg border border-[--color-hairline] bg-white text-[13.5px] tabular-nums focus:outline-none focus:ring-2 focus:ring-[--color-primary]/40"
+                />
+              </div>
+            </Field>
+            <Field label={tab === "invoice" ? "Due Date" : "Payment Date"}>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={e => setDueDate(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13.5px] focus:outline-none focus:ring-2 focus:ring-[--color-primary]/40"
+              />
+            </Field>
+          </div>
+
+          <Field label="Description">
+            <input
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder={tab === "invoice" ? "e.g. Roof inspection — 2 hrs" : "e.g. Deposit for job #123"}
+              className="w-full h-10 px-3 rounded-lg border border-[--color-hairline] bg-white text-[13.5px] focus:outline-none focus:ring-2 focus:ring-[--color-primary]/40"
+            />
+          </Field>
+
+          <Field label={tab === "invoice" ? "Accepted Payment Method" : "Payment Method"}>
+            <div className="grid grid-cols-4 gap-1.5">
+              {methods.map(m => {
+                const active = method === m.id;
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => setMethod(m.id)}
+                    className={`flex flex-col items-center gap-1 py-2 rounded-lg border text-[11px] font-semibold transition ${
+                      active
+                        ? "border-[--color-primary] bg-[--color-primary]/5 text-[--color-primary-deep]"
+                        : "border-[--color-hairline] bg-white text-[--color-body] hover:bg-[--color-surface-strong]"
+                    }`}
+                  >
+                    {m.icon}
+                    {m.label}
+                  </button>
+                );
+              })}
+            </div>
+          </Field>
+
+          {/* Invoice preview */}
+          <div className="rounded-xl bg-[--color-surface-strong] p-3">
+            <div className="flex items-center justify-between text-[11px] text-[--color-muted] uppercase tracking-widest font-semibold">
+              <span>{tab === "invoice" ? "Invoice #" : "Reference"}</span>
+              <span className="tabular-nums text-[--color-ink]">{invoiceNo}</span>
+            </div>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-[12px] text-[--color-muted]">Total</span>
+              <span className="text-[20px] font-semibold tabular-nums text-[--color-ink]">
+                ${Number(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+          </div>
+
+          {tab === "invoice" && (
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sendEmail}
+                onChange={e => setSendEmail(e.target.checked)}
+                className="mt-0.5 rounded"
+              />
+              <span className="text-[12px] text-[--color-body]">
+                Email invoice to customer immediately with a secure pay link
+                <span className="block text-[11px] text-[--color-muted]">Uncheck to save as draft</span>
+              </span>
+            </label>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 sm:p-5 border-t border-[--color-hairline] flex items-center gap-2 flex-wrap">
+          <Btn variant="ghost" size="md" onClick={onClose}>Cancel</Btn>
+          <div className="ml-auto flex items-center gap-2">
+            {tab === "invoice" && (
+              <Btn variant="secondary" size="md" icon={<Copy size={13} />} onClick={submit}>
+                Save as Draft
+              </Btn>
+            )}
+            <Btn
+              variant="gradient"
+              size="md"
+              icon={tab === "invoice" ? <Send size={13} /> : <CheckCircle size={13} />}
+              onClick={submit}
+            >
+              {tab === "invoice" ? (sendEmail ? "Send Invoice" : "Save Draft") : "Record Payment"}
+            </Btn>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <div className="text-[11px] font-semibold text-[--color-muted] uppercase tracking-widest mb-1.5">
+        {label}{required && <span className="text-rose-500 ml-0.5">*</span>}
+      </div>
+      {children}
+    </label>
   );
 }
 
