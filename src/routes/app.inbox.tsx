@@ -263,7 +263,7 @@ function InboxPage() {
         ) : (
           <>
             <div className="h-14 shrink-0 px-4 border-b border-[--color-hairline] bg-white flex items-center gap-3">
-              <button onClick={() => setActiveId(null)} className="lg:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong]">
+              <button onClick={() => setActiveId(null)} className="md:hidden w-9 h-9 rounded-lg grid place-items-center hover:bg-[--color-surface-strong] shrink-0">
                 <ArrowLeft size={16} />
               </button>
               <button
