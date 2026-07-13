@@ -240,7 +240,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         style={{ transform: `translateX(${dragX}px)`, transition: dragging ? "none" : "transform 220ms cubic-bezier(0.22,1,0.36,1)" }}
-        className="fixed top-0 right-0 z-40 h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200"
+        className="fixed top-0 right-0 z-40 h-full w-full sm:w-[440px] bg-white sm:border-l border-[--color-hairline] flex flex-col shadow-2xl overflow-y-auto overscroll-contain animate-in slide-in-from-right duration-200"
       >
         {/* Mobile swipe grabber */}
         <div className="sm:hidden absolute top-1/2 -translate-y-1/2 left-1 w-1 h-14 rounded-full bg-slate-300/80" aria-hidden />
@@ -372,7 +372,7 @@ function ProfileDrawer({ c, onClose }: { c: Rich | null; onClose: () => void }) 
         </div>
 
         {/* Tab content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="p-4">
           {tab === "timeline" && <Timeline c={c} />}
           {tab === "jobs" && <JobsTab c={c} />}
           {tab === "financials" && <FinancialsTab c={c} />}
