@@ -32,20 +32,24 @@ function ReviewsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-5">
         <Card className="lg:col-span-1 !p-4 sm:!p-5">
-          <h3 className="text-[13px] sm:text-[14px] font-semibold mb-3 text-[--color-ink]">Rating Distribution</h3>
-          <div className="space-y-2">
+          <div className="flex items-center justify-between mb-3 gap-2">
+            <h3 className="text-[13px] sm:text-[14px] font-semibold text-[--color-ink]">Rating Distribution</h3>
+            <span className="text-[11px] text-[--color-muted] tabular-nums">{total} reviews</span>
+          </div>
+          <div className="space-y-1.5 sm:space-y-2">
             {dist.map((count, i) => (
-              <div key={i} className="flex items-center gap-2 text-[12px]">
-                <span className="w-3 text-[--color-body]">{5 - i}</span>
+              <div key={i} className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px]">
+                <span className="w-2.5 sm:w-3 text-[--color-body] tabular-nums">{5 - i}</span>
                 <Star size={12} className="text-[--color-warning] shrink-0" fill="currentColor" />
-                <div className="flex-1 h-2 rounded-full bg-[--color-surface-strong] overflow-hidden min-w-0">
-                  <div className="h-full bg-[--color-warning] rounded-full" style={{ width: `${(count / total) * 100}%` }} />
+                <div className="flex-1 h-1.5 sm:h-2 rounded-full bg-[--color-surface-strong] overflow-hidden min-w-0">
+                  <div className="h-full bg-[--color-warning] rounded-full transition-all" style={{ width: `${(count / total) * 100}%` }} />
                 </div>
-                <span className="w-8 text-right text-[--color-muted] tabular-nums">{count}%</span>
+                <span className="w-7 sm:w-8 text-right text-[--color-muted] tabular-nums">{count}%</span>
               </div>
             ))}
           </div>
         </Card>
+
 
         <div className="lg:col-span-2 space-y-3">
           {REVIEWS.map(r => (
