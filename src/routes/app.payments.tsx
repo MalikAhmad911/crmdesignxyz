@@ -217,7 +217,36 @@ function PaymentsPage() {
         </Card>
       </div>
 
-      {/* FILTER CHIPS */}
+      {/* VIEW TABS */}
+      <div className="mb-3 sm:mb-4 border-b border-[--color-hairline] -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1 min-w-max">
+          {([
+            { id: "payments",  label: "Payments",         icon: <Wallet size={14} />,    count: ROWS.length },
+            { id: "invoices",  label: "Invoices",         icon: <FileText size={14} />,  count: INVOICES.length },
+            { id: "deposits",  label: "Deposits",         icon: <Banknote size={14} />,  count: DEPOSITS.length },
+            { id: "partial",   label: "Partial Payments", icon: <Package size={14} />,   count: PARTIALS.length },
+          ] as { id: View; label: string; icon: React.ReactNode; count: number }[]).map(t => {
+            const active = view === t.id;
+            return (
+              <button
+                key={t.id}
+                onClick={() => { setView(t.id); setChecked(new Set()); }}
+                className={`relative inline-flex items-center gap-1.5 px-3 sm:px-4 py-2.5 text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap transition ${
+                  active ? "text-[--color-ink]" : "text-[--color-muted] hover:text-[--color-body]"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+                <span className={`text-[10.5px] font-bold px-1.5 py-0.5 rounded-full tabular-nums ${active ? "bg-[--color-primary]/10 text-[--color-primary-deep]" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>{t.count}</span>
+                {active && <span className="absolute left-2 right-2 -bottom-px h-0.5 rounded-full bg-[--color-ink]" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {view === "payments" && <>
+
       <div className="mb-3 -mx-3 sm:mx-0 px-3 sm:px-0 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1.5 min-w-max pb-1">
           {FILTERS.map(f => (
