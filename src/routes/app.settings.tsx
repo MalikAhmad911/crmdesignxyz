@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
 import type { LucideIcon } from "lucide-react";
 import { z } from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,7 +8,7 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   UserCircle2, KeyRound, Bell, Globe, Info, Sun, Calendar as CalIcon,
   LifeBuoy, Phone, ChevronRight, Camera, LogOut, CreditCard, Users,
-  Link2, Bot, Shield, Palette, Building2, Check, Loader2, Sparkles,
+  Link2, Bot, Shield, Palette, Building2, Check, Loader2, Sparkles, Trash2,
 } from "lucide-react";
 import { PageHeader, Btn, Tag } from "@/components/app-shell/AppShell";
 import { BUSINESS } from "@/lib/rs-mocks";
@@ -159,20 +160,7 @@ function ProfileCard() {
         style={{ background: "var(--color-brand-gradient-2)" }}
       />
       <div className="flex items-center gap-4">
-        <div className="relative shrink-0">
-          <div
-            className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full grid place-items-center text-white text-[22px] font-bold ring-4 ring-white"
-            style={{ background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" }}
-          >
-            {initials}
-          </div>
-          <button
-            aria-label="Change photo"
-            className="absolute -bottom-0.5 -right-0.5 w-7 h-7 rounded-full bg-white border border-[--color-hairline] grid place-items-center text-[--color-body] hover:text-[--color-primary-deep] transition"
-          >
-            <Camera size={13} />
-          </button>
-        </div>
+        <AvatarUploader initials={initials} avatarUrl={acc.avatarUrl} />
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
@@ -186,6 +174,88 @@ function ProfileCard() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function AvatarUploader({ initials, avatarUrl }: { initials: string; avatarUrl?: string }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const onPick = () => inputRef.current?.click();
+
+  const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file.");
+      return;
+    }
+    if (file.size > 3 * 1024 * 1024) {
+      setError("Image must be under 3 MB.");
+      return;
+    }
+    setError(null);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const url = String(reader.result || "");
+      if (url) setAccount({ avatarUrl: url });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onRemove = () => {
+    setError(null);
+    setAccount({ avatarUrl: undefined });
+  };
+
+  return (
+    <div className="relative shrink-0">
+      <div
+        className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full overflow-hidden grid place-items-center text-white text-[22px] font-bold ring-4 ring-white"
+        style={{ background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" }}
+      >
+        {avatarUrl ? (
+          <img src={avatarUrl} alt="Profile" className="w-full h-full object-cover" />
+        ) : (
+          <span>{initials}</span>
+        )}
+      </div>
+
+      <button
+        type="button"
+        onClick={onPick}
+        aria-label="Change photo"
+        className="absolute -bottom-0.5 -right-0.5 w-7 h-7 rounded-full bg-white border border-[--color-hairline] grid place-items-center text-[--color-body] hover:text-[--color-primary-deep] transition"
+      >
+        <Camera size={13} />
+      </button>
+
+      {avatarUrl && (
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label="Remove photo"
+          className="absolute -top-0.5 -right-0.5 w-6 h-6 rounded-full bg-white border border-[--color-hairline] grid place-items-center text-[--color-error] hover:bg-[--color-error-subtle] transition"
+        >
+          <Trash2 size={12} />
+        </button>
+      )}
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={onFile}
+      />
+
+      {error && (
+        <div className="absolute left-0 top-full mt-1 whitespace-nowrap text-[11px] text-[--color-error]">
+          {error}
+        </div>
+      )}
     </div>
   );
 }
