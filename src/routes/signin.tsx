@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   AuthShell, Heading, SocialButtons, Divider, Field, PrimaryButton,
   MailIcon, LockIcon,
 } from "@/components/auth/AuthLayout";
 import { getAccount } from "@/lib/account-store";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
@@ -16,11 +18,21 @@ export const Route = createFileRoute("/signin")({
 });
 
 function SignInPage() {
-  const submit = (e: React.FormEvent) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    if (!email || !password) { setError("Enter your email and password."); return; }
+    setLoading(true);
+    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (err) { setError(err.message); return; }
     const acc = getAccount();
-    if (acc.onboardingComplete) window.location.href = "/";
-    else window.location.href = "/onboarding";
+    window.location.href = acc.onboardingComplete ? "/app/dashboard" : "/onboarding";
   };
 
   return (
@@ -38,6 +50,8 @@ function SignInPage() {
           placeholder="you@yourcompany.com"
           autoComplete="email"
           icon={<MailIcon />}
+          value={email}
+          onChange={setEmail}
         />
         <Field
           label="Password"
