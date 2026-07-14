@@ -153,7 +153,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       to={it.to}
                       title={collapsed ? it.label : undefined}
                       aria-label={it.label}
-                      className={`relative my-[1px] rounded-lg text-[13px] font-medium transition flex items-center ${
+                      className={`relative my-[1px] rounded-lg text-[13px] font-medium transition-all duration-150 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--color-primary]/40 ${
                         collapsed ? "mx-2 h-10 w-10 justify-center" : "mx-2 h-[38px] px-2.5 gap-2.5"
                       } ${
                         active
@@ -162,13 +162,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       }`}
                       style={active ? { background: "var(--color-sidebar-active)", color: "var(--color-sidebar-active-text)" } : undefined}
                     >
+                      {active && !collapsed && (
+                        <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full" style={{ background: "var(--color-brand-gradient-2)" }} />
+                      )}
                       <I size={17} className="shrink-0" />
                       {!collapsed && <span className="flex-1 truncate">{it.label}</span>}
                       {it.badge && !collapsed && (
                         <span
                           className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
                             it.badgeTone === "new"
-                              ? "bg-emerald-500 text-white"
+                              ? "bg-emerald-500 text-white shadow-[0_0_0_2px_rgba(16,185,129,0.15)]"
                               : active ? "bg-[--color-primary] text-white" : "bg-[--color-primary-subdued] text-[--color-primary-deep]"
                           }`}
                         >
