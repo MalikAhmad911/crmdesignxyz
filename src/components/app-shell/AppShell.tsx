@@ -355,13 +355,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
    Shared UI Primitives
 ============================================================ */
 export function PageHeader({
-  title, subtitle, actions,
-}: { title: string; subtitle?: string; actions?: React.ReactNode }) {
+  title, subtitle, actions, eyebrow,
+}: { title: string; subtitle?: string; actions?: React.ReactNode; eyebrow?: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+    <div className="flex items-start justify-between gap-4 mb-6 sm:mb-7 flex-wrap animate-in fade-in slide-in-from-bottom-1 duration-300">
       <div className="min-w-0">
-        <h1 className="text-[24px] sm:text-[26px] font-semibold tracking-tight text-[--color-ink]">{title}</h1>
-        {subtitle && <p className="text-[13px] text-[--color-muted] mt-1">{subtitle}</p>}
+        {eyebrow && (
+          <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[--color-primary-deep] mb-1.5">
+            {eyebrow}
+          </div>
+        )}
+        <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-[--color-ink] leading-[1.15]">{title}</h1>
+        {subtitle && <p className="text-[13.5px] text-[--color-muted] mt-1.5 max-w-2xl">{subtitle}</p>}
       </div>
       {actions && <div className="flex items-center gap-2 shrink-0 flex-wrap">{actions}</div>}
     </div>
@@ -369,11 +374,15 @@ export function PageHeader({
 }
 
 export function Card({
-  children, className = "", padded = true,
-}: { children: React.ReactNode; className?: string; padded?: boolean }) {
+  children, className = "", padded = true, interactive = false, onClick,
+}: { children: React.ReactNode; className?: string; padded?: boolean; interactive?: boolean; onClick?: () => void }) {
+  const isInteractive = interactive || !!onClick;
   return (
     <div
-      className={`bg-white rounded-2xl border border-[--color-hairline] transition hover:-translate-y-[1px] ${padded ? "p-5" : ""} ${className}`}
+      onClick={onClick}
+      className={`bg-white rounded-2xl border border-[--color-hairline] transition-all duration-200 ${
+        isInteractive ? "cursor-pointer hover:-translate-y-[2px] hover:border-[--color-primary]/30 hover:shadow-[var(--shadow-elev)]" : ""
+      } ${padded ? "p-5" : ""} ${className}`}
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       {children}
@@ -386,13 +395,13 @@ export function Tag({
   children, tone = "neutral",
 }: { children: React.ReactNode; tone?: "primary" | "success" | "warning" | "danger" | "neutral" | "info" | "ai" }) {
   const tones: Record<string, string> = {
-    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
-    success: "bg-[--color-success-subtle] text-[--color-success]",
-    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
-    danger:  "bg-[--color-error-subtle] text-[--color-error]",
-    info:    "bg-[--color-info-subtle] text-[--color-info]",
-    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
-    neutral: "bg-[--color-surface-strong] text-[--color-body]",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep] ring-1 ring-inset ring-[--color-primary]/10",
+    success: "bg-[--color-success-subtle] text-[--color-success] ring-1 ring-inset ring-[--color-success]/15",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning] ring-1 ring-inset ring-[--color-warning]/15",
+    danger:  "bg-[--color-error-subtle] text-[--color-error] ring-1 ring-inset ring-[--color-error]/15",
+    info:    "bg-[--color-info-subtle] text-[--color-info] ring-1 ring-inset ring-[--color-info]/15",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai] ring-1 ring-inset ring-[--color-ai]/15",
+    neutral: "bg-[--color-surface-strong] text-[--color-body] ring-1 ring-inset ring-[--color-hairline]",
   };
   return (
     <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${tones[tone]}`}>
@@ -403,7 +412,7 @@ export function Tag({
 
 export function Btn({
   children, variant = "primary", size = "md", icon,
-  onClick, className = "",
+  onClick, className = "", type = "button", disabled,
 }: {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "ghost" | "danger" | "gradient";
@@ -411,21 +420,25 @@ export function Btn({
   icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }) {
   const v: Record<string, string> = {
-    primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep]",
-    gradient: "text-white hover:opacity-90",
-    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong]",
-    ghost: "text-[--color-body] hover:bg-[--color-surface-strong]",
-    danger: "bg-[--color-error] text-white hover:opacity-90",
+    primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep] shadow-sm hover:shadow-[var(--shadow-glow)]",
+    gradient: "text-white hover:brightness-110",
+    secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong] hover:border-[--color-primary]/30",
+    ghost: "text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink]",
+    danger: "bg-[--color-error] text-white hover:brightness-110 shadow-sm",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : size === "lg" ? "h-11 px-5 text-[14px]" : "h-9 px-4 text-[13px]";
   const style = variant === "gradient" ? { background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" } : undefined;
   return (
     <button
+      type={type}
       onClick={onClick}
+      disabled={disabled}
       style={style}
-      className={`inline-flex items-center justify-center gap-1.5 font-medium rounded-lg transition active:scale-[0.97] ${v[variant]} ${s} ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 font-medium rounded-lg transition-all duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--color-primary]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[--color-canvas] disabled:opacity-50 disabled:pointer-events-none ${v[variant]} ${s} ${className}`}
     >
       {icon}
       {children}
@@ -436,11 +449,12 @@ export function Btn({
 export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
   const init = name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase();
   const palette = ["#EEF2FF", "#F5F3FF", "#EFF6FF", "#F0FDF4", "#FFFBEB"];
-  const bg = palette[name.charCodeAt(0) % palette.length];
+  const fg = ["#4F46E5", "#7C3AED", "#2563EB", "#059669", "#B45309"];
+  const idx = name.charCodeAt(0) % palette.length;
   return (
     <div
-      className="rounded-full grid place-items-center font-semibold shrink-0 text-[--color-primary-deep]"
-      style={{ width: size, height: size, background: bg, fontSize: size * 0.38 }}
+      className="rounded-full grid place-items-center font-semibold shrink-0 ring-1 ring-inset ring-black/[0.04]"
+      style={{ width: size, height: size, background: palette[idx], color: fg[idx], fontSize: size * 0.38 }}
     >
       {init}
     </div>
@@ -468,20 +482,24 @@ export function StatCard({
     ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
   };
   return (
-    <Card>
+    <div
+      className="relative bg-white rounded-2xl border border-[--color-hairline] p-5 overflow-hidden transition-all duration-200 hover:-translate-y-[2px] hover:border-[--color-primary]/30 hover:shadow-[var(--shadow-elev)] group"
+      style={{ boxShadow: "var(--shadow-card)" }}
+    >
+      <div className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "var(--color-brand-gradient-2)" }} />
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{label}</div>
-          <div className="text-[24px] sm:text-[26px] font-semibold tracking-tight mt-1 text-[--color-ink]">{value}</div>
-          {trend && <div className={`text-[12px] font-medium mt-1 ${toneColor[trendTone]}`}>{trend}</div>}
+          <div className="text-[11px] uppercase tracking-[0.12em] font-bold text-[--color-muted]">{label}</div>
+          <div className="text-[24px] sm:text-[28px] font-semibold tracking-tight mt-1.5 text-[--color-ink] tabular-nums leading-none">{value}</div>
+          {trend && <div className={`text-[12px] font-semibold mt-2 ${toneColor[trendTone]}`}>{trend}</div>}
         </div>
         {icon && (
-          <div className={`w-10 h-10 rounded-lg grid place-items-center shrink-0 ${iconBg[iconTone]}`}>
+          <div className={`w-10 h-10 rounded-xl grid place-items-center shrink-0 transition-transform duration-200 group-hover:scale-105 ${iconBg[iconTone]}`}>
             {icon}
           </div>
         )}
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -489,19 +507,19 @@ export function DataTable({
   headers, rows,
 }: { headers: React.ReactNode[]; rows: React.ReactNode[][] }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto -mx-5 sm:mx-0">
       <table className="w-full text-[13px]">
-        <thead>
+        <thead className="bg-[--color-surface-strong]/40">
           <tr className="border-b border-[--color-hairline]">
             {headers.map((h, i) => (
-              <th key={i} className="text-left px-5 py-3 text-[11px] uppercase tracking-widest font-semibold text-[--color-muted]">{h}</th>
+              <th key={i} className="text-left px-5 py-3 text-[11px] uppercase tracking-[0.12em] font-bold text-[--color-muted] whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className="border-b border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition">
-              {r.map((c, j) => <td key={j} className="px-5 py-3 text-[--color-ink] align-middle">{c}</td>)}
+            <tr key={i} className="border-b border-[--color-hairline-soft] hover:bg-[--color-primary-subdued]/25 transition-colors">
+              {r.map((c, j) => <td key={j} className="px-5 py-3.5 text-[--color-ink] align-middle">{c}</td>)}
             </tr>
           ))}
         </tbody>
