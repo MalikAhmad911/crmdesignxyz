@@ -6,6 +6,7 @@ import {
   MailIcon, LockIcon, UserIcon, BuildingIcon,
 } from "@/components/auth/AuthLayout";
 import { setAccount } from "@/lib/account-store";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -23,11 +24,28 @@ function SignUpPage() {
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!firstName || !email || password.length < 8) return;
-    setAccount({ firstName, lastName, company, plan: "trial", trialDaysLeft: 14 });
+    setError(null);
+    if (!firstName || !email || password.length < 8) {
+      setError("Enter your name, email, and a password of at least 8 characters.");
+      return;
+    }
+    setLoading(true);
+    const { error: err } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/app/dashboard`,
+        data: { first_name: firstName, last_name: lastName, company },
+      },
+    });
+    setLoading(false);
+    if (err) { setError(err.message); return; }
+    setAccount({ firstName, lastName, company, email, plan: "trial", trialDaysLeft: 14 });
     window.location.href = "/onboarding";
   };
 
