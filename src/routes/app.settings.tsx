@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { LucideIcon } from "lucide-react";
+import { z } from "zod";
 import {
   UserCircle2, KeyRound, Bell, Globe, Info, Sun, Calendar as CalIcon,
   LifeBuoy, Phone, ChevronRight, Camera, LogOut, CreditCard, Users,
-  Link2, Bot, Shield, Palette, Building2,
+  Link2, Bot, Shield, Palette, Building2, Check, Loader2,
 } from "lucide-react";
 import { PageHeader, Btn, Tag } from "@/components/app-shell/AppShell";
 import { BUSINESS } from "@/lib/rs-mocks";
+import { getAccount, setAccount, useAccount } from "@/lib/account-store";
 
 export const Route = createFileRoute("/app/settings")({ component: SettingsPage });
 
@@ -125,6 +127,18 @@ function SettingsPage() {
 /* ---------------- Profile hero ---------------- */
 
 function ProfileCard() {
+  const acc = useAccount();
+  const fullName =
+    [acc.firstName, acc.lastName].filter(Boolean).join(" ") || BUSINESS.owner;
+  const email = acc.email || "mike@abcplumbing.com";
+  const role = acc.role || BUSINESS.role;
+  const initials = fullName
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   return (
     <div
       className="relative overflow-hidden bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5"
@@ -140,7 +154,7 @@ function ProfileCard() {
             className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full grid place-items-center text-white text-[22px] font-bold ring-4 ring-white"
             style={{ background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" }}
           >
-            MW
+            {initials}
           </div>
           <button
             aria-label="Change photo"
@@ -153,23 +167,19 @@ function ProfileCard() {
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
-              {BUSINESS.owner}
+              {fullName}
             </h2>
-            <Tag tone="primary">{BUSINESS.role}</Tag>
+            <Tag tone="primary">{role}</Tag>
           </div>
           <div className="text-[12.5px] text-[--color-muted] truncate mt-0.5">
-            mike@abcplumbing.com · {BUSINESS.name}
+            {email} · {acc.company || BUSINESS.name}
           </div>
-        </div>
-
-        <div className="hidden sm:flex items-center gap-2 shrink-0">
-          <Btn variant="secondary" size="sm">View Profile</Btn>
-          <Btn variant="gradient" size="sm">Edit</Btn>
         </div>
       </div>
     </div>
   );
 }
+
 
 /* ---------------- Grouped list ---------------- */
 
@@ -265,17 +275,8 @@ function DetailPanel({ id }: { id: string }) {
         <h3 className="text-[15px] font-semibold text-[--color-ink]">{row.label}</h3>
       </div>
 
-      {id === "profile" && (
-        <div className="space-y-3.5 max-w-lg">
-          <Field label="Full Name" defaultValue="Mike Walker" />
-          <Field label="Email" defaultValue="mike@abcplumbing.com" />
-          <Field label="Phone" defaultValue="+1 214-555-0100" />
-          <div className="flex gap-2 pt-1">
-            <Btn variant="gradient">Save Changes</Btn>
-            <Btn variant="ghost">Cancel</Btn>
-          </div>
-        </div>
-      )}
+      {id === "profile" && <ProfileForm />}
+
 
       {id === "billing" && (
         <div className="space-y-3">
@@ -341,17 +342,233 @@ function DetailPanel({ id }: { id: string }) {
   );
 }
 
-function Field({ label, defaultValue }: { label: string; defaultValue?: string }) {
+/* ---------------- Profile form (editable + validated + persisted) ---------------- */
+
+const profileSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required").max(50, "Max 50 characters"),
+  lastName: z.string().trim().max(50, "Max 50 characters").optional().or(z.literal("")),
+  email: z.string().trim().email("Invalid email address").max(255, "Max 255 characters"),
+  phone: z
+    .string()
+    .trim()
+    .max(30, "Max 30 characters")
+    .regex(/^[+()\-.\s\d]*$/, "Only digits, spaces, and + ( ) - .")
+    .optional()
+    .or(z.literal("")),
+  role: z.string().trim().max(50, "Max 50 characters").optional().or(z.literal("")),
+  company: z.string().trim().max(100, "Max 100 characters").optional().or(z.literal("")),
+});
+
+type ProfileValues = z.infer<typeof profileSchema>;
+type ProfileErrors = Partial<Record<keyof ProfileValues, string>>;
+
+function defaultsFromAccount(): ProfileValues {
+  const acc = getAccount();
+  return {
+    firstName: acc.firstName ?? "Mike",
+    lastName: acc.lastName ?? "Walker",
+    email: acc.email ?? "mike@abcplumbing.com",
+    phone: acc.phone ?? "+1 214-555-0100",
+    role: acc.role ?? BUSINESS.role,
+    company: acc.company ?? BUSINESS.name,
+  };
+}
+
+function ProfileForm() {
+  const [values, setValues] = useState<ProfileValues>(() => defaultsFromAccount());
+  const [initial, setInitial] = useState<ProfileValues>(values);
+  const [errors, setErrors] = useState<ProfileErrors>({});
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  const dirty = useMemo(
+    () => JSON.stringify(values) !== JSON.stringify(initial),
+    [values, initial],
+  );
+
+  useEffect(() => {
+    if (status !== "saved") return;
+    const t = setTimeout(() => setStatus("idle"), 2200);
+    return () => clearTimeout(t);
+  }, [status]);
+
+  const set = <K extends keyof ProfileValues>(key: K, v: ProfileValues[K]) => {
+    setValues((prev) => ({ ...prev, [key]: v }));
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+  };
+
+  const onSave = () => {
+    const parsed = profileSchema.safeParse(values);
+    if (!parsed.success) {
+      const fieldErrors: ProfileErrors = {};
+      for (const issue of parsed.error.issues) {
+        const k = issue.path[0] as keyof ProfileValues;
+        if (!fieldErrors[k]) fieldErrors[k] = issue.message;
+      }
+      setErrors(fieldErrors);
+      setStatus("error");
+      return;
+    }
+    setStatus("saving");
+    // Simulate a save round-trip while persisting locally.
+    setTimeout(() => {
+      setAccount({
+        firstName: parsed.data.firstName,
+        lastName: parsed.data.lastName || undefined,
+        email: parsed.data.email,
+        phone: parsed.data.phone || undefined,
+        role: parsed.data.role || undefined,
+        company: parsed.data.company || undefined,
+      });
+      setInitial(values);
+      setErrors({});
+      setStatus("saved");
+    }, 450);
+  };
+
+  const onReset = () => {
+    setValues(initial);
+    setErrors({});
+    setStatus("idle");
+  };
+
+  return (
+    <form
+      onSubmit={(e) => { e.preventDefault(); onSave(); }}
+      className="space-y-4 max-w-xl"
+      noValidate
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <Field
+          label="First Name"
+          value={values.firstName}
+          onChange={(v) => set("firstName", v)}
+          error={errors.firstName}
+          autoComplete="given-name"
+          maxLength={50}
+          required
+        />
+        <Field
+          label="Last Name"
+          value={values.lastName ?? ""}
+          onChange={(v) => set("lastName", v)}
+          error={errors.lastName}
+          autoComplete="family-name"
+          maxLength={50}
+        />
+      </div>
+
+      <Field
+        label="Email"
+        type="email"
+        value={values.email}
+        onChange={(v) => set("email", v)}
+        error={errors.email}
+        autoComplete="email"
+        maxLength={255}
+        required
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <Field
+          label="Phone"
+          type="tel"
+          value={values.phone ?? ""}
+          onChange={(v) => set("phone", v)}
+          error={errors.phone}
+          autoComplete="tel"
+          maxLength={30}
+          placeholder="+1 555 555 0100"
+        />
+        <Field
+          label="Role"
+          value={values.role ?? ""}
+          onChange={(v) => set("role", v)}
+          error={errors.role}
+          maxLength={50}
+          placeholder="Owner"
+        />
+      </div>
+
+      <Field
+        label="Company"
+        value={values.company ?? ""}
+        onChange={(v) => set("company", v)}
+        error={errors.company}
+        maxLength={100}
+      />
+
+      <div className="flex items-center gap-2 pt-1 flex-wrap">
+        <Btn
+          type="submit"
+          variant="gradient"
+          disabled={!dirty || status === "saving"}
+          icon={status === "saving" ? <Loader2 size={14} className="animate-spin" /> : undefined}
+        >
+          {status === "saving" ? "Saving…" : "Save Changes"}
+        </Btn>
+        <Btn variant="ghost" onClick={onReset} disabled={!dirty || status === "saving"}>
+          Cancel
+        </Btn>
+
+        {status === "saved" && (
+          <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[--color-success]">
+            <Check size={14} /> Changes saved
+          </span>
+        )}
+        {status === "error" && (
+          <span className="text-[12.5px] font-semibold text-[--color-error]">
+            Please fix the highlighted fields
+          </span>
+        )}
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label, value, onChange, error, type = "text",
+  autoComplete, maxLength, placeholder, required,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  type?: "text" | "email" | "tel";
+  autoComplete?: string;
+  maxLength?: number;
+  placeholder?: string;
+  required?: boolean;
+}) {
+  const invalid = !!error;
   return (
     <div>
-      <label className="block text-[12px] font-semibold text-[--color-body-strong] mb-1.5">{label}</label>
+      <label className="flex items-center justify-between text-[12px] font-semibold text-[--color-body-strong] mb-1.5">
+        <span>
+          {label}
+          {required && <span className="text-[--color-error] ml-0.5">*</span>}
+        </span>
+      </label>
       <input
-        defaultValue={defaultValue}
-        className="w-full h-10 px-3 rounded-lg bg-white border border-[--color-hairline] text-[13.5px] text-[--color-ink] focus:outline-none focus:border-[--color-primary]"
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        autoComplete={autoComplete}
+        maxLength={maxLength}
+        placeholder={placeholder}
+        aria-invalid={invalid}
+        className={`w-full h-10 px-3 rounded-lg bg-white border text-[13.5px] text-[--color-ink] transition focus:outline-none ${
+          invalid
+            ? "border-[--color-error] focus:border-[--color-error] focus:ring-2 focus:ring-[--color-error]/20"
+            : "border-[--color-hairline] focus:border-[--color-primary]"
+        }`}
       />
+      {invalid && (
+        <div className="text-[11.5px] text-[--color-error] mt-1 font-medium">{error}</div>
+      )}
     </div>
   );
 }
+
 
 function Toggle({ defaultOn = false }: { defaultOn?: boolean }) {
   const [on, setOn] = useState(defaultOn);

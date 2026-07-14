@@ -10,7 +10,9 @@ export type Account = {
   trialDaysLeft: number;
   firstName?: string;
   lastName?: string;
+  email?: string;
   phone?: string;
+  role?: string;
   company?: string;
   address?: string;
   industry?: string;
