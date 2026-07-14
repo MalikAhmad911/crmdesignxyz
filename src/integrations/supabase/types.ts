@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      user_preferences: {
+        Row: {
+          ai_suggestions: boolean
+          auto_reply_enabled: boolean
+          compact_mode: boolean
+          created_at: string
+          email_notifications: boolean
+          language: string
+          marketing_emails: boolean
+          push_notifications: boolean
+          sms_alerts: boolean
+          sound_effects: boolean
+          theme: string
+          updated_at: string
+          user_id: string
+          weekly_digest: boolean
+        }
+        Insert: {
+          ai_suggestions?: boolean
+          auto_reply_enabled?: boolean
+          compact_mode?: boolean
+          created_at?: string
+          email_notifications?: boolean
+          language?: string
+          marketing_emails?: boolean
+          push_notifications?: boolean
+          sms_alerts?: boolean
+          sound_effects?: boolean
+          theme?: string
+          updated_at?: string
+          user_id: string
+          weekly_digest?: boolean
+        }
+        Update: {
+          ai_suggestions?: boolean
+          auto_reply_enabled?: boolean
+          compact_mode?: boolean
+          created_at?: string
+          email_notifications?: boolean
+          language?: string
+          marketing_emails?: boolean
+          push_notifications?: boolean
+          sms_alerts?: boolean
+          sound_effects?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+          weekly_digest?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
