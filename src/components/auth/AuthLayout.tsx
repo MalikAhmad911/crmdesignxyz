@@ -320,11 +320,12 @@ export function Field({
   );
 }
 
-export function PrimaryButton({ children }: { children: ReactNode }) {
+export function PrimaryButton({ children, disabled }: { children: ReactNode; disabled?: boolean }) {
   return (
     <button
       type="submit"
-      className="group w-full h-12 rounded-xl bg-[color:var(--color-brand)] text-white font-medium text-sm hover:bg-[color:var(--color-brand-hover)] active:translate-y-px transition shadow-[0_12px_30px_-12px_rgba(0,0,0,0.5)] inline-flex items-center justify-center gap-2"
+      disabled={disabled}
+      className="group w-full h-12 rounded-xl bg-[color:var(--color-brand)] text-white font-medium text-sm hover:bg-[color:var(--color-brand-hover)] active:translate-y-px transition shadow-[0_12px_30px_-12px_rgba(0,0,0,0.5)] inline-flex items-center justify-center gap-2 disabled:opacity-60 disabled:pointer-events-none"
     >
       {children}
       <span className="transition-transform group-hover:translate-x-0.5">→</span>

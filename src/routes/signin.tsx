@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   AuthShell, Heading, SocialButtons, Divider, Field, PrimaryButton,
   MailIcon, LockIcon,
 } from "@/components/auth/AuthLayout";
 import { getAccount } from "@/lib/account-store";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/signin")({
   head: () => ({
@@ -16,11 +18,21 @@ export const Route = createFileRoute("/signin")({
 });
 
 function SignInPage() {
-  const submit = (e: React.FormEvent) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    if (!email || !password) { setError("Enter your email and password."); return; }
+    setLoading(true);
+    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (err) { setError(err.message); return; }
     const acc = getAccount();
-    if (acc.onboardingComplete) window.location.href = "/";
-    else window.location.href = "/onboarding";
+    window.location.href = acc.onboardingComplete ? "/app/dashboard" : "/onboarding";
   };
 
   return (
@@ -38,6 +50,8 @@ function SignInPage() {
           placeholder="you@yourcompany.com"
           autoComplete="email"
           icon={<MailIcon />}
+          value={email}
+          onChange={setEmail}
         />
         <Field
           label="Password"
@@ -45,21 +59,18 @@ function SignInPage() {
           placeholder="Enter your password"
           icon={<LockIcon />}
           reveal
+          value={password}
+          onChange={setPassword}
           rightSlot={
             <a href="#" className="text-[11px] text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]">
               Forgot password?
             </a>
           }
         />
-        <label className="flex items-center gap-2 text-[13px] text-[color:var(--color-body)]">
-          <input
-            type="checkbox"
-            defaultChecked
-            className="h-4 w-4 rounded border-[color:var(--color-border-soft)] accent-[color:var(--color-brand)]"
-          />
-          Keep me signed in on this device
-        </label>
-        <PrimaryButton>Log in</PrimaryButton>
+        {error && (
+          <div className="text-[12.5px] font-medium text-red-600">{error}</div>
+        )}
+        <PrimaryButton disabled={loading}>{loading ? "Signing in…" : "Log in"}</PrimaryButton>
       </form>
       <p className="mt-6 text-center text-sm text-[color:var(--color-body)]">
         Don't have an account?{" "}
