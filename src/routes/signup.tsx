@@ -76,7 +76,8 @@ function SignUpPage() {
           />
           <PasswordStrength value={password} />
         </div>
-        <PrimaryButton>Create my account</PrimaryButton>
+        {error && <div className="text-[12.5px] font-medium text-red-600">{error}</div>}
+        <PrimaryButton disabled={loading}>{loading ? "Creating…" : "Create my account"}</PrimaryButton>
         <TrustRow />
       </form>
       <p className="mt-6 text-center text-sm text-[color:var(--color-body)]">
