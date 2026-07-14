@@ -53,10 +53,11 @@ const GROUPS: Group[] = [
   {
     title: "Preferences",
     rows: [
-      { id: "about",        label: "About Us",     icon: Info },
-      { id: "theme",        label: "Theme",        icon: Sun, meta: "Light" },
-      { id: "appointments", label: "Appointments", icon: CalIcon },
-      { id: "appearance",   label: "Appearance",   icon: Palette },
+      { id: "preferences", label: "App Preferences", icon: Sparkles },
+      { id: "about",       label: "About Us",       icon: Info },
+      { id: "theme",       label: "Theme",          icon: Sun, meta: "Light" },
+      { id: "appointments",label: "Appointments",   icon: CalIcon },
+      { id: "appearance",  label: "Appearance",     icon: Palette },
     ],
   },
   {
