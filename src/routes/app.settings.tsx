@@ -127,6 +127,18 @@ function SettingsPage() {
 /* ---------------- Profile hero ---------------- */
 
 function ProfileCard() {
+  const acc = useAccount();
+  const fullName =
+    [acc.firstName, acc.lastName].filter(Boolean).join(" ") || BUSINESS.owner;
+  const email = acc.email || "mike@abcplumbing.com";
+  const role = acc.role || BUSINESS.role;
+  const initials = fullName
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   return (
     <div
       className="relative overflow-hidden bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5"
@@ -142,7 +154,7 @@ function ProfileCard() {
             className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full grid place-items-center text-white text-[22px] font-bold ring-4 ring-white"
             style={{ background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" }}
           >
-            MW
+            {initials}
           </div>
           <button
             aria-label="Change photo"
@@ -155,23 +167,19 @@ function ProfileCard() {
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
-              {BUSINESS.owner}
+              {fullName}
             </h2>
-            <Tag tone="primary">{BUSINESS.role}</Tag>
+            <Tag tone="primary">{role}</Tag>
           </div>
           <div className="text-[12.5px] text-[--color-muted] truncate mt-0.5">
-            mike@abcplumbing.com · {BUSINESS.name}
+            {email} · {acc.company || BUSINESS.name}
           </div>
-        </div>
-
-        <div className="hidden sm:flex items-center gap-2 shrink-0">
-          <Btn variant="secondary" size="sm">View Profile</Btn>
-          <Btn variant="gradient" size="sm">Edit</Btn>
         </div>
       </div>
     </div>
   );
 }
+
 
 /* ---------------- Grouped list ---------------- */
 
