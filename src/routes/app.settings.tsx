@@ -275,17 +275,8 @@ function DetailPanel({ id }: { id: string }) {
         <h3 className="text-[15px] font-semibold text-[--color-ink]">{row.label}</h3>
       </div>
 
-      {id === "profile" && (
-        <div className="space-y-3.5 max-w-lg">
-          <Field label="Full Name" defaultValue="Mike Walker" />
-          <Field label="Email" defaultValue="mike@abcplumbing.com" />
-          <Field label="Phone" defaultValue="+1 214-555-0100" />
-          <div className="flex gap-2 pt-1">
-            <Btn variant="gradient">Save Changes</Btn>
-            <Btn variant="ghost">Cancel</Btn>
-          </div>
-        </div>
-      )}
+      {id === "profile" && <ProfileForm />}
+
 
       {id === "billing" && (
         <div className="space-y-3">
