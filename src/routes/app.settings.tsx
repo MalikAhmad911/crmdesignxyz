@@ -2,16 +2,25 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { z } from "zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   UserCircle2, KeyRound, Bell, Globe, Info, Sun, Calendar as CalIcon,
   LifeBuoy, Phone, ChevronRight, Camera, LogOut, CreditCard, Users,
-  Link2, Bot, Shield, Palette, Building2, Check, Loader2,
+  Link2, Bot, Shield, Palette, Building2, Check, Loader2, Sparkles,
 } from "lucide-react";
 import { PageHeader, Btn, Tag } from "@/components/app-shell/AppShell";
 import { BUSINESS } from "@/lib/rs-mocks";
 import { getAccount, setAccount, useAccount } from "@/lib/account-store";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  getMyPreferences, savePreferences,
+  DEFAULT_PREFERENCES, type Preferences,
+} from "@/lib/preferences.functions";
+import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/app/settings")({ component: SettingsPage });
+
 
 type Row = {
   id: string;
