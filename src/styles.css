@@ -282,3 +282,63 @@
 .app-scope :has(> .animate-spin) {
   color: var(--color-body);
 }
+
+/* ---- Global polish ---- */
+
+/* Refined selection color inside the app shell */
+.app-scope ::selection {
+  background: color-mix(in oklab, var(--color-primary) 22%, transparent);
+  color: var(--color-ink);
+}
+
+/* Custom thin scrollbars for a premium feel (webkit + firefox) */
+.app-scope,
+.app-scope * {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-muted-soft) 40%, transparent) transparent;
+}
+.app-scope *::-webkit-scrollbar { width: 10px; height: 10px; }
+.app-scope *::-webkit-scrollbar-track { background: transparent; }
+.app-scope *::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-muted-soft) 35%, transparent);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+.app-scope *::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-muted) 50%, transparent);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* Universal focus-visible ring for interactive elements without one */
+.app-scope button:focus-visible,
+.app-scope [role="button"]:focus-visible,
+.app-scope a:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-primary) 55%, transparent);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* Inputs — refined focus */
+.app-scope input:focus,
+.app-scope textarea:focus,
+.app-scope select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+/* Smooth scroll for anchor jumps */
+html { scroll-behavior: smooth; }
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  .app-scope *,
+  .app-scope *::before,
+  .app-scope *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
