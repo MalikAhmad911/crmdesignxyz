@@ -24,6 +24,7 @@ export type Account = {
   focusAreas?: string[];
   referralSource?: string;
   onboardingComplete?: boolean;
+  avatarUrl?: string;
 };
 
 const DEFAULT: Account = { plan: "trial", trialDaysLeft: 14 };
