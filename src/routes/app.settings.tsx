@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { LucideIcon } from "lucide-react";
+import { z } from "zod";
 import {
   UserCircle2, KeyRound, Bell, Globe, Info, Sun, Calendar as CalIcon,
   LifeBuoy, Phone, ChevronRight, Camera, LogOut, CreditCard, Users,
-  Link2, Bot, Shield, Palette, Building2,
+  Link2, Bot, Shield, Palette, Building2, Check, Loader2,
 } from "lucide-react";
 import { PageHeader, Btn, Tag } from "@/components/app-shell/AppShell";
 import { BUSINESS } from "@/lib/rs-mocks";
+import { getAccount, setAccount, useAccount } from "@/lib/account-store";
 
 export const Route = createFileRoute("/app/settings")({ component: SettingsPage });
 
