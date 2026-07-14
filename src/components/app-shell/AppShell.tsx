@@ -338,13 +338,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Mobile bottom tabs */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 h-16 bg-white border-t border-[--color-hairline] grid grid-cols-5">
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 h-16 bg-white/95 backdrop-blur-md border-t border-[--color-hairline] grid grid-cols-5" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
         {MOBILE_TABS.map(t => {
           const active = pathname === t.to || pathname.startsWith(t.to + "/");
           const I = t.icon;
           return (
-            <Link key={t.to} to={t.to} className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition ${active ? "text-[--color-primary]" : "text-[--color-muted]"}`}>
-              <I size={20} />
+            <Link key={t.to} to={t.to} className={`relative flex flex-col items-center justify-center gap-0.5 text-[10px] font-semibold transition-colors ${active ? "text-[--color-primary-deep]" : "text-[--color-muted]"}`}>
+              {active && <span className="absolute top-0 h-[3px] w-8 rounded-b-full" style={{ background: "var(--color-brand-gradient-2)" }} />}
+              <I size={20} strokeWidth={active ? 2.4 : 2} />
               {t.label}
             </Link>
           );
