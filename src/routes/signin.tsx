@@ -59,21 +59,18 @@ function SignInPage() {
           placeholder="Enter your password"
           icon={<LockIcon />}
           reveal
+          value={password}
+          onChange={setPassword}
           rightSlot={
             <a href="#" className="text-[11px] text-[color:var(--color-muted)] hover:text-[color:var(--color-heading)]">
               Forgot password?
             </a>
           }
         />
-        <label className="flex items-center gap-2 text-[13px] text-[color:var(--color-body)]">
-          <input
-            type="checkbox"
-            defaultChecked
-            className="h-4 w-4 rounded border-[color:var(--color-border-soft)] accent-[color:var(--color-brand)]"
-          />
-          Keep me signed in on this device
-        </label>
-        <PrimaryButton>Log in</PrimaryButton>
+        {error && (
+          <div className="text-[12.5px] font-medium text-red-600">{error}</div>
+        )}
+        <PrimaryButton disabled={loading}>{loading ? "Signing in…" : "Log in"}</PrimaryButton>
       </form>
       <p className="mt-6 text-center text-sm text-[color:var(--color-body)]">
         Don't have an account?{" "}
