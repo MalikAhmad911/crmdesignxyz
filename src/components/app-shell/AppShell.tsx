@@ -320,11 +320,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                       <div className="text-[13px] font-semibold text-[--color-ink]">{BUSINESS.owner}</div>
                       <div className="text-[11px] text-[--color-muted]">mike@abcplumbing.com</div>
                     </div>
-                    {["Profile", "Settings", "Billing", "Help", "Sign Out"].map(l => (
-                      <button key={l} className="w-full text-left px-3 py-2 text-[13px] text-[--color-ink] hover:bg-[--color-surface-strong] transition">
+                    {[
+                      { l: "Profile", href: "/app/settings" },
+                      { l: "Settings", href: "/app/settings" },
+                      { l: "Billing", href: "/app/settings" },
+                      { l: "Help", href: "#" },
+                    ].map(({ l, href }) => (
+                      <a key={l} href={href} className="block w-full text-left px-3 py-2 text-[13px] text-[--color-ink] hover:bg-[--color-surface-strong] transition">
                         {l}
-                      </button>
+                      </a>
                     ))}
+                    <button
+                      onClick={async () => {
+                        const { supabase } = await import("@/integrations/supabase/client");
+                        await supabase.auth.signOut();
+                        window.location.href = "/signin";
+                      }}
+                      className="w-full text-left px-3 py-2 text-[13px] text-[--color-error] hover:bg-[--color-error-subtle] transition border-t border-[--color-hairline] mt-1"
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 )}
               </div>
