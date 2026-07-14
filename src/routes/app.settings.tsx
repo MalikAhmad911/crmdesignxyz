@@ -324,26 +324,9 @@ function DetailPanel({ id }: { id: string }) {
         </div>
       )}
 
-      {id === "notifications" && (
-        <div className="space-y-2.5">
-          {[
-            { l: "Email notifications", d: "New leads, replies, invoices", on: true },
-            { l: "Push notifications", d: "Live call & job updates", on: true },
-            { l: "SMS alerts", d: "Only for urgent AI escalations", on: false },
-            { l: "Weekly digest", d: "Every Monday, 8am", on: true },
-          ].map((n) => (
-            <label key={n.l} className="flex items-center justify-between gap-3 p-3 rounded-xl border border-[--color-hairline] hover:bg-[--color-surface-strong]/50 transition cursor-pointer">
-              <div className="min-w-0">
-                <div className="text-[13px] font-semibold text-[--color-ink]">{n.l}</div>
-                <div className="text-[12px] text-[--color-muted] truncate">{n.d}</div>
-              </div>
-              <Toggle defaultOn={n.on} />
-            </label>
-          ))}
-        </div>
-      )}
+      {(id === "notifications" || id === "preferences") && <PreferencesPanel focus={id} />}
 
-      {!["profile", "billing", "integrations", "notifications"].includes(id) && (
+      {!["profile", "billing", "integrations", "notifications", "preferences"].includes(id) && (
         <div className="py-10 text-center text-[13px] text-[--color-muted]">
           {row.label} settings coming soon.
         </div>
@@ -351,6 +334,202 @@ function DetailPanel({ id }: { id: string }) {
     </div>
   );
 }
+
+/* ---------------- Preferences panel (real toggles, server-persisted) ---------------- */
+
+type Section = "notifications" | "appearance" | "ai";
+
+function PreferencesPanel({ focus }: { focus: string }) {
+  const [session, setSession] = useState<{ userId: string } | null | undefined>(undefined);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setSession(data.user ? { userId: data.user.id } : null);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setSession(s?.user ? { userId: s.user.id } : null);
+    });
+    return () => { sub.subscription.unsubscribe(); };
+  }, []);
+
+  if (session === undefined) {
+    return (
+      <div className="py-10 flex items-center justify-center gap-2 text-[13px] text-[--color-muted]">
+        <Loader2 size={14} className="animate-spin" /> Loading preferences…
+      </div>
+    );
+  }
+
+  if (session === null) {
+    return (
+      <div className="rounded-xl border border-dashed border-[--color-hairline] p-6 text-center">
+        <div className="text-[14px] font-semibold text-[--color-ink] mb-1">Sign in to sync your preferences</div>
+        <p className="text-[12.5px] text-[--color-muted] mb-4 max-w-sm mx-auto">
+          Your notification, appearance, and AI toggles are saved to your account so they follow you across devices.
+        </p>
+        <a href="/signin" className="inline-flex">
+          <Btn variant="gradient" size="sm">Sign in</Btn>
+        </a>
+      </div>
+    );
+  }
+
+  return <PreferencesForm focus={focus === "preferences" ? "notifications" : "notifications"} />;
+}
+
+type ToggleRow = { key: keyof Preferences; label: string; hint: string };
+const SECTIONS: Record<Section, { title: string; rows: ToggleRow[] }> = {
+  notifications: {
+    title: "Notifications",
+    rows: [
+      { key: "email_notifications", label: "Email notifications", hint: "New leads, replies, invoices" },
+      { key: "push_notifications",  label: "Push notifications",  hint: "Live call & job updates on your devices" },
+      { key: "sms_alerts",          label: "SMS alerts",          hint: "Only for urgent AI escalations" },
+      { key: "weekly_digest",       label: "Weekly digest",       hint: "Every Monday, 8am" },
+      { key: "marketing_emails",    label: "Product & marketing", hint: "Occasional product news" },
+    ],
+  },
+  appearance: {
+    title: "Appearance",
+    rows: [
+      { key: "compact_mode",  label: "Compact mode",  hint: "Tighter spacing across the app" },
+      { key: "sound_effects", label: "Sound effects", hint: "Play sounds for new messages" },
+    ],
+  },
+  ai: {
+    title: "AI & Automation",
+    rows: [
+      { key: "auto_reply_enabled", label: "Auto-reply", hint: "Let AI respond to first-touch messages" },
+      { key: "ai_suggestions",     label: "AI suggestions", hint: "Show AI-drafted replies in the inbox" },
+    ],
+  },
+};
+
+function PreferencesForm({ focus: _focus }: { focus: Section }) {
+  const qc = useQueryClient();
+  const getFn = useServerFn(getMyPreferences);
+  const saveFn = useServerFn(savePreferences);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["preferences"],
+    queryFn: () => getFn(),
+  });
+
+  const mutation = useMutation({
+    mutationFn: (patch: Partial<Preferences>) => saveFn({ data: patch }),
+    onMutate: async (patch) => {
+      await qc.cancelQueries({ queryKey: ["preferences"] });
+      const prev = qc.getQueryData<Preferences>(["preferences"]);
+      if (prev) qc.setQueryData<Preferences>(["preferences"], { ...prev, ...patch });
+      return { prev };
+    },
+    onError: (_err, _patch, ctx) => {
+      if (ctx?.prev) qc.setQueryData(["preferences"], ctx.prev);
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: ["preferences"] });
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="py-10 flex items-center justify-center gap-2 text-[13px] text-[--color-muted]">
+        <Loader2 size={14} className="animate-spin" /> Loading preferences…
+      </div>
+    );
+  }
+  if (error) {
+    return <div className="py-4 text-[13px] text-[--color-error]">Couldn't load preferences. Try again.</div>;
+  }
+
+  const prefs: Preferences = data ?? DEFAULT_PREFERENCES;
+
+  return (
+    <div className="space-y-6">
+      {(Object.keys(SECTIONS) as Section[]).map((sec) => (
+        <section key={sec}>
+          <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[--color-muted] mb-2">
+            {SECTIONS[sec].title}
+          </div>
+          <div className="rounded-xl border border-[--color-hairline] overflow-hidden">
+            {SECTIONS[sec].rows.map((r, i) => (
+              <div
+                key={r.key}
+                className={`flex items-center justify-between gap-3 px-4 py-3 ${
+                  i > 0 ? "border-t border-[--color-hairline-soft]" : ""
+                }`}
+              >
+                <div className="min-w-0">
+                  <div className="text-[13.5px] font-semibold text-[--color-ink]">{r.label}</div>
+                  <div className="text-[12px] text-[--color-muted] truncate">{r.hint}</div>
+                </div>
+                <Switch
+                  checked={Boolean(prefs[r.key])}
+                  onCheckedChange={(v) => mutation.mutate({ [r.key]: v } as Partial<Preferences>)}
+                  aria-label={r.label}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      {/* Theme + language selects */}
+      <section>
+        <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[--color-muted] mb-2">
+          Display
+        </div>
+        <div className="rounded-xl border border-[--color-hairline] overflow-hidden">
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <div>
+              <div className="text-[13.5px] font-semibold text-[--color-ink]">Theme</div>
+              <div className="text-[12px] text-[--color-muted]">Match your system or pick manually</div>
+            </div>
+            <select
+              value={prefs.theme}
+              onChange={(e) => mutation.mutate({ theme: e.target.value as Preferences["theme"] })}
+              className="h-9 px-2.5 rounded-lg border border-[--color-hairline] bg-white text-[13px] text-[--color-ink] focus:outline-none focus:border-[--color-primary]"
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
+          </div>
+          <div className="flex items-center justify-between gap-3 px-4 py-3 border-t border-[--color-hairline-soft]">
+            <div>
+              <div className="text-[13.5px] font-semibold text-[--color-ink]">Language</div>
+              <div className="text-[12px] text-[--color-muted]">Interface language</div>
+            </div>
+            <select
+              value={prefs.language}
+              onChange={(e) => mutation.mutate({ language: e.target.value })}
+              className="h-9 px-2.5 rounded-lg border border-[--color-hairline] bg-white text-[13px] text-[--color-ink] focus:outline-none focus:border-[--color-primary]"
+            >
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <div className="flex items-center gap-2 text-[12px] text-[--color-muted]">
+        {mutation.isPending ? (
+          <><Loader2 size={12} className="animate-spin" /> Saving…</>
+        ) : mutation.isSuccess ? (
+          <><Check size={12} className="text-[--color-success]" /> All changes saved</>
+        ) : mutation.isError ? (
+          <span className="text-[--color-error]">Failed to save — try again.</span>
+        ) : (
+          <>Changes save automatically to your account.</>
+        )}
+      </div>
+    </div>
+  );
+}
+
 
 /* ---------------- Profile form (editable + validated + persisted) ---------------- */
 
