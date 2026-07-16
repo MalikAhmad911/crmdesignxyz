@@ -125,12 +125,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }}
         >
           <div className={`h-[60px] flex items-center gap-2.5 shrink-0 border-b border-[--color-sidebar-border] ${collapsed ? "px-0 justify-center" : "px-4"}`}>
-            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)] shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
-              ⚡
+            <div className="w-9 h-9 rounded-xl overflow-hidden ring-1 ring-[--color-hairline] bg-white shrink-0 grid place-items-center" style={{ boxShadow: "0 4px 14px -4px rgba(119,56,212,0.35)" }}>
+              <img src={brandLogo.url} alt="Infinite Rankers" className="w-full h-full object-cover" />
             </div>
             {!collapsed && (
               <div className="min-w-0 flex-1 overflow-hidden">
-                <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
+                <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight" style={{ fontFamily: "var(--font-display)" }}>Infinite Rankers</div>
                 <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
               </div>
             )}
