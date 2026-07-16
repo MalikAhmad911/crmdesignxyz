@@ -127,10 +127,10 @@ function DashboardPage() {
             <Tile>
               <div className="flex items-center gap-2.5 mb-4">
                 <div
-                  className="grid h-9 w-9 place-items-center rounded-xl text-white shadow-[0_6px_18px_-6px_rgba(99,91,255,0.55)]"
-                  style={{ background: "linear-gradient(135deg,#635BFF 0%,#8B85FF 100%)" }}
+                  className="grid h-9 w-9 place-items-center rounded-xl overflow-hidden ring-1 ring-white/40 shadow-[0_6px_18px_-6px_rgba(119,56,212,0.55)]"
+                  style={{ background: "var(--dx-gradient)" }}
                 >
-                  <Zap className="h-4.5 w-4.5" strokeWidth={2.2} />
+                  <img src={brandLogo.url} alt="Infinite Rankers" className="h-full w-full object-cover" />
                 </div>
                 <h2 style={display} className="text-[17px] font-bold text-[var(--dx-ink)]">Infinite Agent</h2>
                 <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[var(--dx-success)]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--dx-success)]">
