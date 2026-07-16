@@ -297,7 +297,7 @@ function ChannelDonut() {
           </div>
         </div>
       </div>
-      <div className="flex-1 min-w-0 space-y-2">
+      <div className="flex-1 min-w-0 w-full space-y-2">
         {CHANNELS.map(s => (
           <div key={s.name} className="flex items-center gap-2.5 min-w-0">
             <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
