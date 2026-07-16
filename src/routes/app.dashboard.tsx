@@ -91,8 +91,8 @@ function DashboardPage() {
 
         {/* ============ Today overview strip ============ */}
         <section className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
-          {HERO_STATS.map(s => (
-            <TodayStat key={s.key} {...s} />
+          {HERO_STATS.map(({ key, ...rest }) => (
+            <TodayStat key={key} {...rest} />
           ))}
         </section>
 
