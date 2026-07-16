@@ -79,66 +79,67 @@
   scrollbar-width: none;
 }
 
-/* Stripe.com-inspired SaaS palette — scoped to authenticated app shell only. */
+/* RevenueSol — AI-powered operating system for home service businesses.
+   Palette inspired by Stripe / Linear / Vercel / Mercury. Scoped to the app shell. */
 .app-scope {
-  --color-canvas: #F6F9FC;
+  --color-canvas: #F7F9FC;
   --color-surface-soft: #FFFFFF;
   --color-surface-card: #FFFFFF;
-  --color-surface-strong: #EFF4FA;
+  --color-surface-strong: #F3F5F8;
   --color-surface-dark: #0A2540;
-  --color-surface-dark-elevated: #10305C;
-  --color-hairline: #E3E8EE;
-  --color-hairline-soft: #EDF1F6;
+  --color-surface-dark-elevated: #0F2E52;
+  --color-hairline: #E6EBF1;
+  --color-hairline-soft: #EEF1F5;
 
   --color-ink: #0A2540;
   --color-body-strong: #0A2540;
-  --color-body: #2A3B5B;
-  --color-muted: #425A7C;
-  --color-muted-soft: #5B6E88;
+  --color-body: #425466;
+  --color-muted: #697386;
+  --color-muted-soft: #8792A2;
 
+  /* RevenueSol brand — Stripe indigo → deep indigo */
+  --color-primary: #635BFF;
+  --color-primary-deep: #4F46E5;
+  --color-primary-hover: #4F46E5;
+  --color-primary-subdued: #EEF0FF;
+  --color-primary-glow: rgba(99, 91, 255, 0.18);
+  --color-accent-subtle: #EEF0FF;
 
-
-  /* Infinite Rankers brand — sampled from logo (azure → violet) */
-  --color-primary: #408FDF;
-  --color-primary-deep: #7738D4;
-  --color-primary-hover: #2B7CD1;
-  --color-primary-subdued: #EEF4FC;
-  --color-primary-glow: rgba(64, 143, 223, 0.18);
-  --color-accent-subtle: #F4EEFC;
-
-  /* Signature blue → violet brand gradient */
-  --color-brand-gradient: linear-gradient(135deg, #B4E4F2 0%, #408FDF 35%, #7738D4 100%);
-  --color-brand-gradient-2: linear-gradient(135deg, #408FDF 0%, #7738D4 100%);
-  --color-brand-gradient-subtle: linear-gradient(135deg, #EEF4FC 0%, #F4EEFC 100%);
-  --color-brand-gradient-dark: linear-gradient(150deg, #0A1A3A 0%, #2B4E9E 45%, #7738D4 100%);
+  /* Signature brand gradients */
+  --color-brand-gradient: linear-gradient(135deg, #7A72FF 0%, #635BFF 45%, #4F46E5 100%);
+  --color-brand-gradient-2: linear-gradient(135deg, #635BFF 0%, #4F46E5 100%);
+  --color-brand-gradient-subtle: linear-gradient(135deg, #EEF0FF 0%, #F5F0FF 100%);
+  --color-brand-gradient-dark: linear-gradient(150deg, #0A0F2C 0%, #1E1B4B 45%, #4F46E5 100%);
+  --color-brand-glass: linear-gradient(135deg, rgba(99,91,255,0.10) 0%, rgba(79,70,229,0.04) 100%);
 
   /* Layered elevation */
-  --shadow-card: 0 1px 3px rgba(28,42,80,.06), 0 1px 2px rgba(0,0,0,.03);
-  --shadow-elev: 0 15px 35px rgba(28,42,80,.10), 0 5px 15px rgba(0,0,0,.06);
-  --shadow-glow: 0 8px 24px rgba(119,56,212,.28);
+  --shadow-card: 0 1px 2px rgba(10,37,64,.06), 0 1px 1px rgba(10,37,64,.03);
+  --shadow-elev: 0 12px 28px -8px rgba(10,37,64,.10), 0 4px 12px -4px rgba(10,37,64,.06);
+  --shadow-glow: 0 10px 30px -8px rgba(99,91,255,.42);
 
   /* Semantic */
-  --color-link: #408FDF;
-  --color-link-active: #7738D4;
-  --color-success: #00D924;
-  --color-success-subtle: #E6F9EA;
-  --color-warning: #F5A623;
-  --color-warning-subtle: #FFF7E6;
-  --color-error: #CD3D64;
-  --color-error-subtle: #FCE9EF;
-  --color-info: #3297FD;
-  --color-info-subtle: #E6F2FE;
-  --color-ai: #7738D4;
-  --color-ai-subtle: #F4EEFC;
+  --color-link: #635BFF;
+  --color-link-active: #4F46E5;
+  --color-success: #22C55E;
+  --color-success-subtle: #E7F9EE;
+  --color-warning: #F59E0B;
+  --color-warning-subtle: #FEF4E1;
+  --color-error: #EF4444;
+  --color-error-subtle: #FDECEC;
+  --color-info: #3B82F6;
+  --color-info-subtle: #E8F1FE;
+  --color-ai: #635BFF;
+  --color-ai-subtle: #EEF0FF;
 
   --color-sidebar-bg: #FFFFFF;
-  --color-sidebar-border: #E3E8EE;
-  --color-sidebar-active: #EEF4FC;
-  --color-sidebar-active-text: #7738D4;
+  --color-sidebar-border: #E6EBF1;
+  --color-sidebar-active: #EEF0FF;
+  --color-sidebar-active-text: #4F46E5;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
 }
+
 
 
 
