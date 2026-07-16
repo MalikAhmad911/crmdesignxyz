@@ -487,9 +487,10 @@ function DashboardPage() {
       </header>
 
       {/* KPI row */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+      <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))" }}>
         {KPIS.map(k => <KpiCard key={k.label} k={k} />)}
       </div>
+
 
       {/* AI Callout */}
       <AiCallout />
