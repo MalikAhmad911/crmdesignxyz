@@ -173,7 +173,7 @@ function KpiCard({ k }: { k: typeof KPIS[number] }) {
   const Trend = k.positive ? TrendingUp : TrendingDown;
   return (
     <div
-      className="bg-white rounded-2xl border border-[--color-hairline] p-5 min-w-0 relative overflow-hidden transition hover:shadow-[var(--shadow-elev)] hover:-translate-y-0.5"
+      className="bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5 min-w-0 relative overflow-hidden transition hover:shadow-[var(--shadow-elev)] hover:-translate-y-0.5"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <div className="flex items-start justify-between gap-3">
