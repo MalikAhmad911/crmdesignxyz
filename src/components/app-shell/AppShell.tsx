@@ -443,14 +443,20 @@ export function Btn({
   disabled?: boolean;
 }) {
   const v: Record<string, string> = {
-    primary: "bg-[--color-primary] text-white hover:bg-[--color-primary-deep] shadow-sm hover:shadow-[var(--shadow-glow)]",
+    primary: "text-white shadow-sm hover:brightness-110",
     gradient: "text-white hover:brightness-110",
     secondary: "bg-white border border-[--color-hairline] text-[--color-ink] hover:bg-[--color-surface-strong] hover:border-[--color-primary]/30",
     ghost: "text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink]",
-    danger: "bg-[--color-error] text-white hover:brightness-110 shadow-sm",
+    danger: "text-white hover:brightness-110 shadow-sm",
   };
   const s = size === "sm" ? "h-8 px-3 text-[12px]" : size === "lg" ? "h-11 px-5 text-[14px]" : "h-9 px-4 text-[13px]";
-  const style = variant === "gradient" ? { background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" } : undefined;
+  const style = variant === "gradient"
+    ? { background: "var(--color-brand-gradient-2)", boxShadow: "var(--shadow-glow)" }
+    : variant === "primary"
+    ? { background: "var(--color-primary)" }
+    : variant === "danger"
+    ? { background: "var(--color-error)" }
+    : undefined;
   return (
     <button
       type={type}
