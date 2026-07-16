@@ -263,8 +263,9 @@ function ChannelDonut() {
   let acc = 0;
   const total = CHANNELS.reduce((s, x) => s + x.value, 0);
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-5">
       <div className="relative shrink-0" style={{ width: size, height: size }}>
+
         <svg width={size} height={size} className="-rotate-90">
           <circle cx={size / 2} cy={size / 2} r={r} stroke="var(--color-surface-strong)" strokeWidth={stroke} fill="none" />
           {CHANNELS.map((s, i) => {
