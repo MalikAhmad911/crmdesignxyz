@@ -173,7 +173,7 @@ function KpiCard({ k }: { k: typeof KPIS[number] }) {
   const Trend = k.positive ? TrendingUp : TrendingDown;
   return (
     <div
-      className="bg-white rounded-2xl border border-[--color-hairline] p-5 min-w-0 relative overflow-hidden transition hover:shadow-[var(--shadow-elev)] hover:-translate-y-0.5"
+      className="bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5 min-w-0 relative overflow-hidden transition hover:shadow-[var(--shadow-elev)] hover:-translate-y-0.5"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <div className="flex items-start justify-between gap-3">
@@ -210,8 +210,10 @@ function RevenueChart() {
   const yTicks = 4;
 
   return (
-    <div className="w-full overflow-x-auto">
-      <svg viewBox={`0 0 ${w} ${h}`} className="w-full min-w-[520px] h-[220px]">
+    <div className="w-full">
+      <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" style={{ aspectRatio: `${w} / ${h}` }}>
+
+
         {/* grid */}
         {Array.from({ length: yTicks + 1 }).map((_, i) => {
           const y = padT + (ih / yTicks) * i;
@@ -261,8 +263,9 @@ function ChannelDonut() {
   let acc = 0;
   const total = CHANNELS.reduce((s, x) => s + x.value, 0);
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex flex-col sm:flex-row items-center sm:items-center gap-5">
       <div className="relative shrink-0" style={{ width: size, height: size }}>
+
         <svg width={size} height={size} className="-rotate-90">
           <circle cx={size / 2} cy={size / 2} r={r} stroke="var(--color-surface-strong)" strokeWidth={stroke} fill="none" />
           {CHANNELS.map((s, i) => {
@@ -294,7 +297,7 @@ function ChannelDonut() {
           </div>
         </div>
       </div>
-      <div className="flex-1 min-w-0 space-y-2">
+      <div className="flex-1 min-w-0 w-full space-y-2">
         {CHANNELS.map(s => (
           <div key={s.name} className="flex items-center gap-2.5 min-w-0">
             <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
@@ -463,38 +466,41 @@ function PipelineBar() {
 
 function DashboardPage() {
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto space-y-6">
+    <div className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1400px] mx-auto space-y-5 sm:space-y-6">
       {/* Header */}
-      <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+      <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <div className="min-w-0">
-          <div className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[--color-primary-deep]">{today()}</div>
-          <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-tight text-[--color-ink] truncate mt-1">
+          <div className="text-[11px] sm:text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[--color-primary-deep] truncate">{today()}</div>
+          <h1 className="text-[20px] sm:text-[24px] lg:text-[28px] font-semibold tracking-tight text-[--color-ink] truncate mt-1">
             {greeting()}, Alex 👋
           </h1>
-          <p className="text-[13px] text-[--color-muted] mt-1 truncate">
+          <p className="hidden sm:block text-[13px] text-[--color-muted] mt-1 truncate">
             Here's what's happening across your business today.
           </p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 shrink-0">
-          <Btn variant="secondary" size="sm" icon={<Filter size={13} />}>Last 30 days</Btn>
-          <Btn variant="secondary" size="sm" icon={<Download size={13} />}>Export</Btn>
+        <div className="flex items-center gap-2 shrink-0">
+          <Btn variant="secondary" size="sm" icon={<Filter size={13} />} className="hidden md:inline-flex">Last 30 days</Btn>
+          <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden lg:inline-flex">Export</Btn>
+          <Btn variant="secondary" size="sm" className="md:hidden !px-2" aria-label="Filter"><Filter size={14} /></Btn>
           <Btn variant="primary"   size="sm" icon={<Plus size={13} />}>New</Btn>
         </div>
       </header>
 
       {/* KPI row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))" }}>
         {KPIS.map(k => <KpiCard key={k.label} k={k} />)}
       </div>
+
 
       {/* AI Callout */}
       <AiCallout />
 
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
         {/* Revenue chart — 2 cols */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className="min-w-0">
                 <h2 className="text-[15px] font-semibold text-[--color-ink] tracking-tight truncate">Revenue overview</h2>
@@ -520,7 +526,7 @@ function DashboardPage() {
 
         {/* Pipeline */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Sales pipeline" subtitle="$51.2K in play" action="View" to="/app/contacts" />
             <PipelineBar />
             <div className="mt-4 pt-4 border-t border-[--color-hairline] flex items-center justify-between gap-2 min-w-0">
@@ -537,7 +543,7 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Fresh leads */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Fresh leads" subtitle="4 new in the last hour" action="See all" to="/app/contacts" />
             <div>
               {LEADS.map(l => <LeadRow key={l.id} l={l} />)}
@@ -547,7 +553,7 @@ function DashboardPage() {
 
         {/* Lead sources */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Lead sources" subtitle="This month" />
             <ChannelDonut />
           </div>
@@ -558,7 +564,7 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Recent activity */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Recent activity" subtitle="Across your team and AI agents" action="Open feed" to="/app/inbox" />
             <div>
               {ACTIVITY.map(a => <ActivityRow key={a.id} a={a} />)}
@@ -568,7 +574,7 @@ function DashboardPage() {
 
         {/* Tasks */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Your tasks" subtitle="5 today" action="View all" to="/app/inbox" />
             <div>
               {TASKS.map(t => <TaskRow key={t.id} t={t} />)}
@@ -580,7 +586,7 @@ function DashboardPage() {
 
       {/* Quick actions */}
       <Card padded={false}>
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           <SectionHeader title="Quick actions" subtitle="Jump back in" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {QUICK.map(q => <QuickAction key={q.label} label={q.label} icon={q.icon} to={q.to} />)}
