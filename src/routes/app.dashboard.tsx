@@ -268,15 +268,15 @@ function DashboardPage() {
           {ATTENTION.filter(a => a.count > 0).map(a => {
             const I = a.icon;
             return (
-              <Link key={a.key} to={a.to}>
-                <Card className="!p-3.5 h-full">
+              <Link key={a.key} to={a.to} className="group">
+                <Card className="!p-3.5 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40">
                   <div className="flex items-center gap-2.5">
                     <IconTile icon={I} tone={a.tone} size="sm" />
                     <div className="min-w-0 flex-1">
                       <div className="text-[13px] font-semibold text-[--color-ink] leading-tight">{a.count} {a.label}</div>
                       <div className="text-[11.5px] font-medium text-[--color-muted] mt-0.5">Tap to review</div>
-
                     </div>
+                    <ChevronRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:translate-x-0.5" />
                   </div>
                 </Card>
               </Link>
