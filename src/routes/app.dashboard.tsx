@@ -211,7 +211,8 @@ function RevenueChart() {
 
   return (
     <div className="w-full">
-      <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-[180px] sm:h-[220px]">
+      <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" style={{ aspectRatio: `${w} / ${h}` }}>
+
 
         {/* grid */}
         {Array.from({ length: yTicks + 1 }).map((_, i) => {
