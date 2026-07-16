@@ -463,3 +463,197 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+/* ============================================================
+ * Shared UI primitives used across app.* routes.
+ * ============================================================ */
+
+export function PageHeader({
+  title, subtitle, actions, eyebrow,
+}: { title: string; subtitle?: string; actions?: React.ReactNode; eyebrow?: string }) {
+  return (
+    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 mb-6 sm:flex sm:flex-wrap sm:items-end sm:justify-between">
+      <div className="min-w-0">
+        {eyebrow && (
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[--color-primary-deep] mb-1.5" style={{ fontFamily: "var(--font-display)" }}>
+            {eyebrow}
+          </p>
+        )}
+        <h1 className="truncate text-2xl sm:text-[28px] font-bold tracking-tight text-[--color-ink] leading-[1.1]" style={{ fontFamily: "var(--font-display)" }}>
+          {title}
+        </h1>
+        {subtitle && <p className="mt-1.5 text-[13.5px] text-[--color-muted]">{subtitle}</p>}
+      </div>
+      {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+    </header>
+  );
+}
+
+export function Card({
+  children, className = "", padding = "p-5", as: As = "div",
+}: { children: React.ReactNode; className?: string; padding?: string; as?: "div" | "section" | "article" }) {
+  return (
+    <As
+      data-tile
+      className={`rounded-2xl bg-white border border-[--color-hairline] ${padding} transition ${className}`}
+      style={{ boxShadow: "var(--shadow-card)" }}
+    >
+      {children}
+    </As>
+  );
+}
+
+export function Btn({
+  children, variant = "secondary", size = "md", className = "", type = "button", onClick, disabled, asChild,
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+  disabled?: boolean;
+  asChild?: boolean;
+}) {
+  const sizes: Record<string, string> = {
+    sm: "h-8 px-2.5 text-[12px]",
+    md: "h-9 px-3.5 text-[13px]",
+    lg: "h-10 px-4 text-[13.5px]",
+  };
+  const base = `${sizes[size]} inline-flex items-center gap-1.5 rounded-lg font-semibold transition ${className}`;
+  const variants: Record<string, string> = {
+    primary: "text-white hover:brightness-110",
+    secondary: "bg-white text-[--color-ink] border border-[--color-hairline] hover:border-[--color-primary]/40 hover:text-[--color-primary-deep]",
+    ghost: "text-[--color-body] hover:bg-[--color-surface-strong] hover:text-[--color-ink]",
+    danger: "bg-[--color-error-subtle] text-[--color-error] hover:bg-[--color-error]/15",
+  };
+  const style: React.CSSProperties | undefined =
+    variant === "primary"
+      ? { background: "var(--color-brand-gradient-2)", boxShadow: "0 4px 14px -4px rgba(99,91,255,0.55)" }
+      : undefined;
+
+  if (asChild) {
+    return <span className={`${base} ${variants[variant]}`} style={style}>{children}</span>;
+  }
+  return (
+    <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variants[variant]}`} style={style}>
+      {children}
+    </button>
+  );
+}
+
+export function Tag({
+  children, tone = "neutral", className = "",
+}: {
+  children: React.ReactNode;
+  tone?: "neutral" | "primary" | "success" | "warning" | "danger" | "info" | "ai";
+  className?: string;
+}) {
+  const tones: Record<string, string> = {
+    neutral: "bg-[--color-surface-strong] text-[--color-body]",
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    danger:  "bg-[--color-error-subtle] text-[--color-error]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
+  };
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-bold uppercase tracking-wider ${tones[tone]} ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+export function Avatar({
+  name, size = 36, src,
+}: { name: string; size?: number; src?: string }) {
+  const initials = name.split(" ").map(p => p[0]).slice(0, 2).join("").toUpperCase();
+  if (src) {
+    return <img src={src} alt={name} className="rounded-full object-cover" style={{ width: size, height: size }} />;
+  }
+  return (
+    <div
+      className="grid place-items-center rounded-full text-white font-bold shrink-0"
+      style={{
+        width: size, height: size,
+        fontSize: size * 0.36,
+        background: "var(--color-brand-gradient-2)",
+      }}
+    >
+      {initials || "•"}
+    </div>
+  );
+}
+
+export function StatCard({
+  label, value, delta, meta, tone = "neutral",
+}: {
+  label: string;
+  value: string | number;
+  delta?: string;
+  meta?: string;
+  tone?: "success" | "danger" | "neutral" | "primary";
+}) {
+  const deltaCls =
+    tone === "success" ? "text-[--color-success] bg-[--color-success-subtle]"
+    : tone === "danger" ? "text-[--color-error] bg-[--color-error-subtle]"
+    : tone === "primary" ? "text-[--color-primary-deep] bg-[--color-primary-subdued]"
+    : "text-[--color-muted] bg-[--color-surface-strong]";
+  return (
+    <Card padding="p-4">
+      <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[--color-muted]">{label}</p>
+      <div className="mt-1.5 flex items-baseline justify-between gap-1">
+        <span className="text-[22px] font-bold tabular-nums leading-none text-[--color-ink]" style={{ fontFamily: "var(--font-display)" }}>
+          {value}
+        </span>
+        {delta && <span className={`text-[10.5px] font-bold px-1.5 py-0.5 rounded-md ${deltaCls}`}>{delta}</span>}
+      </div>
+      {meta && <p className="mt-1.5 text-[11px] text-[--color-muted] truncate">{meta}</p>}
+    </Card>
+  );
+}
+
+export function DataTable<T extends Record<string, unknown>>({
+  columns, rows, empty,
+}: {
+  columns: { key: keyof T | string; header: string; render?: (row: T) => React.ReactNode; className?: string }[];
+  rows: T[];
+  empty?: React.ReactNode;
+}) {
+  if (!rows.length) {
+    return (
+      <Card padding="p-8">
+        <div className="text-center text-[13px] text-[--color-muted]">{empty ?? "No data yet."}</div>
+      </Card>
+    );
+  }
+  return (
+    <Card padding="p-0" className="overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full text-[13px]">
+          <thead className="bg-[--color-surface-strong]">
+            <tr>
+              {columns.map(c => (
+                <th key={String(c.key)} className={`text-left font-semibold text-[11px] uppercase tracking-wider text-[--color-muted] px-4 py-2.5 ${c.className ?? ""}`}>
+                  {c.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr key={i} className="border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition">
+                {columns.map(c => (
+                  <td key={String(c.key)} className={`px-4 py-3 text-[--color-body] ${c.className ?? ""}`}>
+                    {c.render ? c.render(row) : String(row[c.key as keyof T] ?? "")}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+}
