@@ -126,7 +126,7 @@ function DashboardPage() {
   const pipeTotal = PIPE.reduce((s, p) => s + p.n, 0);
 
   return (
-    <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto">
+    <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto dash-fade">
       {/* 1. Aurora hero band */}
       <div
         className="relative overflow-hidden rounded-2xl mb-5 p-5 sm:p-7 lg:p-8"
@@ -136,8 +136,8 @@ function DashboardPage() {
         }}
       >
         {/* mesh orbs for depth */}
-        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
         {/* subtle grain */}
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")" }} />
 
@@ -246,11 +246,11 @@ function DashboardPage() {
         <SectionTitle title="Workspace shortcuts" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {SHORTCUTS.map(s => (
-            <Link key={s.to} to={s.to}>
-              <Card className="!p-4 h-full">
+            <Link key={s.to} to={s.to} className="group">
+              <Card className="!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40" >
                 <div className="flex items-start justify-between mb-3">
                   <IconTile icon={s.icon} tone={s.tone} />
-                  <ArrowUpRight size={14} className="text-[--color-muted]" />
+                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </div>
                 <div className="text-[15px] font-semibold text-[--color-ink]">{s.label}</div>
                 <div className="text-[12px] text-[--color-muted]">{s.desc}</div>
@@ -268,15 +268,15 @@ function DashboardPage() {
           {ATTENTION.filter(a => a.count > 0).map(a => {
             const I = a.icon;
             return (
-              <Link key={a.key} to={a.to}>
-                <Card className="!p-3.5 h-full">
+              <Link key={a.key} to={a.to} className="group">
+                <Card className="!p-3.5 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40">
                   <div className="flex items-center gap-2.5">
                     <IconTile icon={I} tone={a.tone} size="sm" />
                     <div className="min-w-0 flex-1">
                       <div className="text-[13px] font-semibold text-[--color-ink] leading-tight">{a.count} {a.label}</div>
                       <div className="text-[11.5px] font-medium text-[--color-muted] mt-0.5">Tap to review</div>
-
                     </div>
+                    <ChevronRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:translate-x-0.5" />
                   </div>
                 </Card>
               </Link>
@@ -296,10 +296,10 @@ function DashboardPage() {
               const pH = (w.p / (w.m + w.p)) * totalH;
               const mH = totalH - pH;
               return (
-                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0">
-                  <div className="w-full flex flex-col justify-end" style={{ height: H }}>
-                    <div className="w-full rounded-t-md" style={{ height: pH, background: "var(--color-success)" }} />
-                    <div className="w-full" style={{ height: mH, background: "var(--color-primary)" }} />
+                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0 group">
+                  <div className="w-full flex flex-col justify-end gap-0.5" style={{ height: H }}>
+                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: pH, background: "var(--color-success)" }} />
+                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: mH, background: "var(--color-primary)" }} />
                   </div>
                   <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
@@ -641,6 +641,36 @@ function DashboardPage() {
         }
         textarea.input { height: auto; padding: 10px 12px; }
         .input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-glow); }
+
+        @keyframes dashFadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .dash-fade { animation: dashFadeIn .45s ease-out both; }
+        .dash-fade > * { animation: dashFadeIn .5s ease-out both; }
+        .dash-fade > *:nth-child(1) { animation-delay: .00s; }
+        .dash-fade > *:nth-child(2) { animation-delay: .04s; }
+        .dash-fade > *:nth-child(3) { animation-delay: .08s; }
+        .dash-fade > *:nth-child(4) { animation-delay: .12s; }
+        .dash-fade > *:nth-child(5) { animation-delay: .16s; }
+        .dash-fade > *:nth-child(6) { animation-delay: .20s; }
+        .dash-fade > *:nth-child(7) { animation-delay: .24s; }
+        .dash-fade > *:nth-child(8) { animation-delay: .28s; }
+
+        @keyframes dashOrbA {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50%     { transform: translate(-14px, 10px) scale(1.06); }
+        }
+        @keyframes dashOrbB {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50%     { transform: translate(18px, -12px) scale(1.08); }
+        }
+        .dash-orb-a { animation: dashOrbA 14s ease-in-out infinite; }
+        .dash-orb-b { animation: dashOrbB 18s ease-in-out infinite; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .dash-fade, .dash-fade > *, .dash-orb-a, .dash-orb-b { animation: none !important; }
+        }
       `}</style>
     </div>
   );
