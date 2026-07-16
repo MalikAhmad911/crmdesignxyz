@@ -479,10 +479,10 @@ function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0 flex-wrap">
-          <Btn variant="secondary" size="sm" icon={<Filter size={13} />} className="hidden md:inline-flex">Last 30 days</Btn>
-          <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden md:inline-flex">Export</Btn>
-          <Btn variant="secondary" size="sm" className="md:hidden" icon={<Filter size={13} />}>30d</Btn>
-          <Btn variant="secondary" size="sm" className="md:hidden" icon={<Download size={13} />}>Export</Btn>
+          <Btn variant="secondary" size="sm" icon={<Filter size={13} />}>
+            <span className="hidden md:inline">Last 30 days</span><span className="md:hidden">30d</span>
+          </Btn>
+          <Btn variant="secondary" size="sm" icon={<Download size={13} />}>Export</Btn>
           <Btn variant="primary"   size="sm" icon={<Plus size={13} />}>New</Btn>
         </div>
       </header>
