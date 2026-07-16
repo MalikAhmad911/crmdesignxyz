@@ -296,10 +296,10 @@ function DashboardPage() {
               const pH = (w.p / (w.m + w.p)) * totalH;
               const mH = totalH - pH;
               return (
-                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0">
-                  <div className="w-full flex flex-col justify-end" style={{ height: H }}>
-                    <div className="w-full rounded-t-md" style={{ height: pH, background: "var(--color-success)" }} />
-                    <div className="w-full" style={{ height: mH, background: "var(--color-primary)" }} />
+                <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0 group">
+                  <div className="w-full flex flex-col justify-end gap-0.5" style={{ height: H }}>
+                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: pH, background: "var(--color-success)" }} />
+                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: mH, background: "var(--color-primary)" }} />
                   </div>
                   <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
