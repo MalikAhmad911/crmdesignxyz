@@ -246,11 +246,11 @@ function DashboardPage() {
         <SectionTitle title="Workspace shortcuts" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {SHORTCUTS.map(s => (
-            <Link key={s.to} to={s.to}>
-              <Card className="!p-4 h-full">
+            <Link key={s.to} to={s.to} className="group">
+              <Card className="!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40" >
                 <div className="flex items-start justify-between mb-3">
                   <IconTile icon={s.icon} tone={s.tone} />
-                  <ArrowUpRight size={14} className="text-[--color-muted]" />
+                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </div>
                 <div className="text-[15px] font-semibold text-[--color-ink]">{s.label}</div>
                 <div className="text-[12px] text-[--color-muted]">{s.desc}</div>
