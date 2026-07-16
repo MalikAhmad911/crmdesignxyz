@@ -210,8 +210,9 @@ function RevenueChart() {
   const yTicks = 4;
 
   return (
-    <div className="w-full overflow-x-auto">
-      <svg viewBox={`0 0 ${w} ${h}`} className="w-full min-w-[520px] h-[220px]">
+    <div className="w-full">
+      <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-[180px] sm:h-[220px]">
+
         {/* grid */}
         {Array.from({ length: yTicks + 1 }).map((_, i) => {
           const y = padT + (ih / yTicks) * i;
