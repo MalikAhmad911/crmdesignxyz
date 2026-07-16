@@ -126,7 +126,7 @@ function DashboardPage() {
   const pipeTotal = PIPE.reduce((s, p) => s + p.n, 0);
 
   return (
-    <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto">
+    <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto dash-fade">
       {/* 1. Aurora hero band */}
       <div
         className="relative overflow-hidden rounded-2xl mb-5 p-5 sm:p-7 lg:p-8"
