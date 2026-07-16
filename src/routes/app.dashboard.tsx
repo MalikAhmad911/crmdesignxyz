@@ -641,6 +641,36 @@ function DashboardPage() {
         }
         textarea.input { height: auto; padding: 10px 12px; }
         .input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-glow); }
+
+        @keyframes dashFadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .dash-fade { animation: dashFadeIn .45s ease-out both; }
+        .dash-fade > * { animation: dashFadeIn .5s ease-out both; }
+        .dash-fade > *:nth-child(1) { animation-delay: .00s; }
+        .dash-fade > *:nth-child(2) { animation-delay: .04s; }
+        .dash-fade > *:nth-child(3) { animation-delay: .08s; }
+        .dash-fade > *:nth-child(4) { animation-delay: .12s; }
+        .dash-fade > *:nth-child(5) { animation-delay: .16s; }
+        .dash-fade > *:nth-child(6) { animation-delay: .20s; }
+        .dash-fade > *:nth-child(7) { animation-delay: .24s; }
+        .dash-fade > *:nth-child(8) { animation-delay: .28s; }
+
+        @keyframes dashOrbA {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50%     { transform: translate(-14px, 10px) scale(1.06); }
+        }
+        @keyframes dashOrbB {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50%     { transform: translate(18px, -12px) scale(1.08); }
+        }
+        .dash-orb-a { animation: dashOrbA 14s ease-in-out infinite; }
+        .dash-orb-b { animation: dashOrbB 18s ease-in-out infinite; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .dash-fade, .dash-fade > *, .dash-orb-a, .dash-orb-b { animation: none !important; }
+        }
       `}</style>
     </div>
   );
