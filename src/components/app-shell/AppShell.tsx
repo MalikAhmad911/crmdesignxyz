@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
+import brandLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 
 type NavItem = { to: string; label: string; icon: LucideIcon; badge?: string; badgeTone?: "primary" | "new" };
 
