@@ -490,12 +490,20 @@ export function PageHeader({
 }
 
 export function Card({
-  children, className = "", padding = "p-5", as: As = "div",
-}: { children: React.ReactNode; className?: string; padding?: string; as?: "div" | "section" | "article" }) {
+  children, className = "", padding = "p-5", padded, as: As = "div",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  padding?: string;
+  /** Legacy alias — false switches to p-0 */
+  padded?: boolean;
+  as?: "div" | "section" | "article";
+}) {
+  const p = padded === false ? "p-0" : padded === true ? "p-5" : padding;
   return (
     <As
       data-tile
-      className={`rounded-2xl bg-white border border-[--color-hairline] ${padding} transition ${className}`}
+      className={`rounded-2xl bg-white border border-[--color-hairline] ${p} transition ${className}`}
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       {children}
@@ -507,7 +515,8 @@ export function Btn({
   children, variant = "secondary", size = "md", className = "", type = "button", onClick, disabled, asChild,
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  /** "gradient" is a legacy alias for "primary" */
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "gradient";
   size?: "sm" | "md" | "lg";
   className?: string;
   type?: "button" | "submit" | "reset";
@@ -515,6 +524,7 @@ export function Btn({
   disabled?: boolean;
   asChild?: boolean;
 }) {
+  const v = variant === "gradient" ? "primary" : variant;
   const sizes: Record<string, string> = {
     sm: "h-8 px-2.5 text-[12px]",
     md: "h-9 px-3.5 text-[13px]",
@@ -528,15 +538,15 @@ export function Btn({
     danger: "bg-[--color-error-subtle] text-[--color-error] hover:bg-[--color-error]/15",
   };
   const style: React.CSSProperties | undefined =
-    variant === "primary"
+    v === "primary"
       ? { background: "var(--color-brand-gradient-2)", boxShadow: "0 4px 14px -4px rgba(99,91,255,0.55)" }
       : undefined;
 
   if (asChild) {
-    return <span className={`${base} ${variants[variant]}`} style={style}>{children}</span>;
+    return <span className={`${base} ${variants[v]}`} style={style}>{children}</span>;
   }
   return (
-    <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variants[variant]}`} style={style}>
+    <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variants[v]}`} style={style}>
       {children}
     </button>
   );
@@ -586,39 +596,70 @@ export function Avatar({
   );
 }
 
+type StatTone = "success" | "danger" | "neutral" | "primary" | "warning" | "info" | "ai";
+
 export function StatCard({
   label, value, delta, meta, tone = "neutral",
+  /** Legacy props */
+  trend, trendTone, icon, iconTone,
 }: {
   label: string;
   value: string | number;
   delta?: string;
   meta?: string;
-  tone?: "success" | "danger" | "neutral" | "primary";
+  tone?: StatTone;
+  trend?: string;
+  trendTone?: StatTone;
+  icon?: React.ReactNode;
+  iconTone?: StatTone;
 }) {
-  const deltaCls =
-    tone === "success" ? "text-[--color-success] bg-[--color-success-subtle]"
-    : tone === "danger" ? "text-[--color-error] bg-[--color-error-subtle]"
-    : tone === "primary" ? "text-[--color-primary-deep] bg-[--color-primary-subdued]"
-    : "text-[--color-muted] bg-[--color-surface-strong]";
+  const finalDelta = delta ?? trend;
+  const finalTone: StatTone = tone !== "neutral" ? tone : (trendTone ?? "neutral");
+  const deltaCls: Record<StatTone, string> = {
+    success: "text-[--color-success] bg-[--color-success-subtle]",
+    danger:  "text-[--color-error] bg-[--color-error-subtle]",
+    warning: "text-[--color-warning] bg-[--color-warning-subtle]",
+    info:    "text-[--color-info] bg-[--color-info-subtle]",
+    ai:      "text-[--color-ai] bg-[--color-ai-subtle]",
+    primary: "text-[--color-primary-deep] bg-[--color-primary-subdued]",
+    neutral: "text-[--color-muted] bg-[--color-surface-strong]",
+  };
+  const iconBg: Record<StatTone, string> = {
+    success:  "bg-[--color-success-subtle] text-[--color-success]",
+    danger:   "bg-[--color-error-subtle] text-[--color-error]",
+    warning:  "bg-[--color-warning-subtle] text-[--color-warning]",
+    info:     "bg-[--color-info-subtle] text-[--color-info]",
+    ai:       "bg-[--color-ai-subtle] text-[--color-ai]",
+    primary:  "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    neutral:  "bg-[--color-surface-strong] text-[--color-body]",
+  };
   return (
     <Card padding="p-4">
-      <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[--color-muted]">{label}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[--color-muted]">{label}</p>
+        {icon && (
+          <span className={`h-7 w-7 grid place-items-center rounded-lg ${iconBg[iconTone ?? "primary"]}`}>
+            {icon}
+          </span>
+        )}
+      </div>
       <div className="mt-1.5 flex items-baseline justify-between gap-1">
         <span className="text-[22px] font-bold tabular-nums leading-none text-[--color-ink]" style={{ fontFamily: "var(--font-display)" }}>
           {value}
         </span>
-        {delta && <span className={`text-[10.5px] font-bold px-1.5 py-0.5 rounded-md ${deltaCls}`}>{delta}</span>}
+        {finalDelta && <span className={`text-[10.5px] font-bold px-1.5 py-0.5 rounded-md ${deltaCls[finalTone]}`}>{finalDelta}</span>}
       </div>
       {meta && <p className="mt-1.5 text-[11px] text-[--color-muted] truncate">{meta}</p>}
     </Card>
   );
 }
 
-export function DataTable<T extends Record<string, unknown>>({
-  columns, rows, empty,
+/** Simple DataTable — `headers` + `rows` (array-of-arrays) for legacy call sites. */
+export function DataTable({
+  headers, rows, empty,
 }: {
-  columns: { key: keyof T | string; header: string; render?: (row: T) => React.ReactNode; className?: string }[];
-  rows: T[];
+  headers: React.ReactNode[];
+  rows: React.ReactNode[][];
   empty?: React.ReactNode;
 }) {
   if (!rows.length) {
@@ -634,9 +675,9 @@ export function DataTable<T extends Record<string, unknown>>({
         <table className="w-full text-[13px]">
           <thead className="bg-[--color-surface-strong]">
             <tr>
-              {columns.map(c => (
-                <th key={String(c.key)} className={`text-left font-semibold text-[11px] uppercase tracking-wider text-[--color-muted] px-4 py-2.5 ${c.className ?? ""}`}>
-                  {c.header}
+              {headers.map((h, i) => (
+                <th key={i} className="text-left font-semibold text-[11px] uppercase tracking-wider text-[--color-muted] px-4 py-2.5">
+                  {h}
                 </th>
               ))}
             </tr>
@@ -644,9 +685,9 @@ export function DataTable<T extends Record<string, unknown>>({
           <tbody>
             {rows.map((row, i) => (
               <tr key={i} className="border-t border-[--color-hairline-soft] hover:bg-[--color-surface-strong]/60 transition">
-                {columns.map(c => (
-                  <td key={String(c.key)} className={`px-4 py-3 text-[--color-body] ${c.className ?? ""}`}>
-                    {c.render ? c.render(row) : String(row[c.key as keyof T] ?? "")}
+                {row.map((cell, j) => (
+                  <td key={j} className="px-4 py-3 text-[--color-body]">
+                    {cell}
                   </td>
                 ))}
               </tr>
@@ -657,3 +698,4 @@ export function DataTable<T extends Record<string, unknown>>({
     </Card>
   );
 }
+
