@@ -94,8 +94,8 @@ function DashboardPage() {
               <DollarSign className="h-4 w-4" /> Request payment
             </button>
             <button
-              style={{ background: "var(--dx-primary)" }}
-              className="inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-semibold text-white shadow-[0_4px_14px_-4px_rgba(99,91,255,0.55)] hover:brightness-110 transition"
+              style={{ background: "var(--dx-gradient)" }}
+              className="inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-semibold text-white shadow-[0_4px_14px_-4px_rgba(119,56,212,0.55)] hover:brightness-110 transition"
             >
               <Plus className="h-4 w-4" /> New message
             </button>
