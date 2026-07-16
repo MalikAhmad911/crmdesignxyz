@@ -1,30 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Zap, MessageSquare, DollarSign, Star, Bot, Send, ArrowRight, ChevronRight,
-  Inbox as InboxIcon, Users as UsersIcon, Calendar as CalendarIcon, Megaphone,
-  Sparkles, Plus, FileText, TrendingDown, Activity, Wifi, WifiOff,
+  Zap, DollarSign, Send, ChevronRight,
+  Calendar as CalendarIcon, Plus, Activity, Wifi, WifiOff,
 } from "lucide-react";
+import brandLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/app/dashboard")({ component: DashboardPage });
 
-/* ============================================================ tokens (scoped) */
+/* ============================================================ tokens (scoped, inherit brand) */
 const scope: React.CSSProperties = {
-  // Stripe Indigo palette — locally scoped so the rest of the app is untouched
+  // Alias local dashboard tokens to the app-wide Infinite Rankers brand
   ["--dx-canvas" as string]: "#F6F9FC",
   ["--dx-ink" as string]: "#0A2540",
   ["--dx-muted" as string]: "rgba(10,37,64,0.62)",
   ["--dx-soft" as string]: "rgba(10,37,64,0.40)",
   ["--dx-hairline" as string]: "#E3E8EE",
-  ["--dx-primary" as string]: "#635BFF",
-  ["--dx-success" as string]: "#00D924",
-  ["--dx-accent" as string]: "#EC4899",
-  ["--dx-warn" as string]: "#F59E0B",
-  fontFamily: "'DM Sans', ui-sans-serif, system-ui, sans-serif",
+  ["--dx-primary" as string]: "var(--color-primary)",       // #408FDF azure
+  ["--dx-primary-deep" as string]: "var(--color-primary-deep)", // #7738D4 violet
+  ["--dx-success" as string]: "var(--color-success)",
+  ["--dx-accent" as string]: "var(--color-primary-deep)",   // brand violet as accent
+  ["--dx-warn" as string]: "var(--color-warning)",
+  ["--dx-gradient" as string]: "var(--color-brand-gradient-2)",
+  fontFamily: "var(--font-sans)",
   color: "var(--dx-ink)",
 };
 
 const display: React.CSSProperties = {
-  fontFamily: "'Space Grotesk', ui-sans-serif, system-ui, sans-serif",
+  fontFamily: "var(--font-display)",
 };
 
 /* ============================================================ data */
@@ -92,8 +94,8 @@ function DashboardPage() {
               <DollarSign className="h-4 w-4" /> Request payment
             </button>
             <button
-              style={{ background: "var(--dx-primary)" }}
-              className="inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-semibold text-white shadow-[0_4px_14px_-4px_rgba(99,91,255,0.55)] hover:brightness-110 transition"
+              style={{ background: "var(--dx-gradient)" }}
+              className="inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-semibold text-white shadow-[0_4px_14px_-4px_rgba(119,56,212,0.55)] hover:brightness-110 transition"
             >
               <Plus className="h-4 w-4" /> New message
             </button>
@@ -125,10 +127,10 @@ function DashboardPage() {
             <Tile>
               <div className="flex items-center gap-2.5 mb-4">
                 <div
-                  className="grid h-9 w-9 place-items-center rounded-xl text-white shadow-[0_6px_18px_-6px_rgba(99,91,255,0.55)]"
-                  style={{ background: "linear-gradient(135deg,#635BFF 0%,#8B85FF 100%)" }}
+                  className="grid h-9 w-9 place-items-center rounded-xl overflow-hidden ring-1 ring-white/40 shadow-[0_6px_18px_-6px_rgba(119,56,212,0.55)]"
+                  style={{ background: "var(--dx-gradient)" }}
                 >
-                  <Zap className="h-4.5 w-4.5" strokeWidth={2.2} />
+                  <img src={brandLogo.url} alt="Infinite Rankers" className="h-full w-full object-cover" />
                 </div>
                 <h2 style={display} className="text-[17px] font-bold text-[var(--dx-ink)]">Infinite Agent</h2>
                 <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[var(--dx-success)]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--dx-success)]">
@@ -141,7 +143,7 @@ function DashboardPage() {
                   placeholder="Tell the AI what to do — you'll preview every action first…"
                 />
                 <button
-                  style={{ background: "var(--dx-primary)" }}
+                  style={{ background: "var(--dx-gradient)" }}
                   className="absolute right-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-xl text-white hover:brightness-110 transition"
                   aria-label="Send"
                 >

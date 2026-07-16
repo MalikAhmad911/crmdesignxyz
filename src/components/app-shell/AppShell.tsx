@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS, NOTIFICATIONS } from "@/lib/rs-mocks";
+import brandLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 
 type NavItem = { to: string; label: string; icon: LucideIcon; badge?: string; badgeTone?: "primary" | "new" };
 
@@ -124,12 +125,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }}
         >
           <div className={`h-[60px] flex items-center gap-2.5 shrink-0 border-b border-[--color-sidebar-border] ${collapsed ? "px-0 justify-center" : "px-4"}`}>
-            <div className="w-8 h-8 rounded-lg grid place-items-center text-white text-[15px] font-bold shadow-[0_2px_8px_rgba(99,102,241,0.35)] shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
-              ⚡
+            <div className="w-9 h-9 rounded-xl overflow-hidden ring-1 ring-[--color-hairline] bg-white shrink-0 grid place-items-center" style={{ boxShadow: "0 4px 14px -4px rgba(119,56,212,0.35)" }}>
+              <img src={brandLogo.url} alt="Infinite Rankers" className="w-full h-full object-cover" />
             </div>
             {!collapsed && (
               <div className="min-w-0 flex-1 overflow-hidden">
-                <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight">Revenue Sol</div>
+                <div className="text-[15px] font-bold text-[--color-ink] truncate leading-tight" style={{ fontFamily: "var(--font-display)" }}>Infinite Rankers</div>
                 <div className="text-[11px] text-[--color-muted] truncate">{BUSINESS.name}</div>
               </div>
             )}
@@ -232,8 +233,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
-            <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
-              ⚡
+            <div className="lg:hidden w-8 h-8 rounded-lg overflow-hidden ring-1 ring-[--color-hairline] bg-white shrink-0">
+              <img src={brandLogo.url} alt="Infinite Rankers" className="w-full h-full object-cover" />
             </div>
             <div className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
               {pageTitle(pathname)}

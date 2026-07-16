@@ -11,9 +11,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-hero: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-hero: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
 
   /* Clay-style cream canvas system */
   --color-canvas: #fffaf0;
@@ -98,28 +98,28 @@
 
 
 
-  /* Stripe indigo primary */
-  --color-primary: #635BFF;
-  --color-primary-deep: #4F46E5;
-  --color-primary-hover: #0A46E4;
-  --color-primary-subdued: #EFEFFE;
-  --color-primary-glow: rgba(99, 91, 255, 0.14);
-  --color-accent-subtle: #F5F6FF;
+  /* Infinite Rankers brand — sampled from logo (azure → violet) */
+  --color-primary: #408FDF;
+  --color-primary-deep: #7738D4;
+  --color-primary-hover: #2B7CD1;
+  --color-primary-subdued: #EEF4FC;
+  --color-primary-glow: rgba(64, 143, 223, 0.18);
+  --color-accent-subtle: #F4EEFC;
 
-  /* Stripe signature aurora mesh */
-  --color-brand-gradient: linear-gradient(150deg, #A5B4FC 0%, #635BFF 25%, #7C3AED 55%, #EC4899 80%, #F59E0B 100%);
-  --color-brand-gradient-2: linear-gradient(135deg, #635BFF 0%, #4F46E5 100%);
-  --color-brand-gradient-subtle: linear-gradient(135deg, #EFEFFE 0%, #F5F6FF 100%);
-  --color-brand-gradient-dark: linear-gradient(150deg, #0A2540 0%, #1E3A8A 45%, #635BFF 100%);
+  /* Signature blue → violet brand gradient */
+  --color-brand-gradient: linear-gradient(135deg, #B4E4F2 0%, #408FDF 35%, #7738D4 100%);
+  --color-brand-gradient-2: linear-gradient(135deg, #408FDF 0%, #7738D4 100%);
+  --color-brand-gradient-subtle: linear-gradient(135deg, #EEF4FC 0%, #F4EEFC 100%);
+  --color-brand-gradient-dark: linear-gradient(150deg, #0A1A3A 0%, #2B4E9E 45%, #7738D4 100%);
 
-  /* Stripe layered elevation */
-  --shadow-card: 0 1px 3px rgba(50,50,93,.05), 0 1px 2px rgba(0,0,0,.03);
-  --shadow-elev: 0 15px 35px rgba(50,50,93,.10), 0 5px 15px rgba(0,0,0,.06);
-  --shadow-glow: 0 8px 24px rgba(99,91,255,.28);
+  /* Layered elevation */
+  --shadow-card: 0 1px 3px rgba(28,42,80,.06), 0 1px 2px rgba(0,0,0,.03);
+  --shadow-elev: 0 15px 35px rgba(28,42,80,.10), 0 5px 15px rgba(0,0,0,.06);
+  --shadow-glow: 0 8px 24px rgba(119,56,212,.28);
 
   /* Semantic */
-  --color-link: #635BFF;
-  --color-link-active: #4F46E5;
+  --color-link: #408FDF;
+  --color-link-active: #7738D4;
   --color-success: #00D924;
   --color-success-subtle: #E6F9EA;
   --color-warning: #F5A623;
@@ -128,13 +128,13 @@
   --color-error-subtle: #FCE9EF;
   --color-info: #3297FD;
   --color-info-subtle: #E6F2FE;
-  --color-ai: #7C3AED;
-  --color-ai-subtle: #F3EEFE;
+  --color-ai: #7738D4;
+  --color-ai-subtle: #F4EEFC;
 
   --color-sidebar-bg: #FFFFFF;
   --color-sidebar-border: #E3E8EE;
-  --color-sidebar-active: #EFEFFE;
-  --color-sidebar-active-text: #4F46E5;
+  --color-sidebar-active: #EEF4FC;
+  --color-sidebar-active-text: #7738D4;
 
   background-color: var(--color-canvas);
   color: var(--color-body);
@@ -249,9 +249,9 @@
   --color-muted-soft: #5B6E88;
   --color-hairline: #E3E8EE;
   --color-surface-strong: #EFF4FA;
-  --color-primary: #635BFF;
-  --color-primary-deep: #4F46E5;
-  --color-primary-subdued: #EFEFFE;
+  --color-primary: #408FDF;
+  --color-primary-deep: #7738D4;
+  --color-primary-subdued: #EEF4FC;
   color: var(--color-body);
   font-weight: 450;
 }
