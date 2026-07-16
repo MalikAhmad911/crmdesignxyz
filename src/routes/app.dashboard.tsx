@@ -499,7 +499,7 @@ function DashboardPage() {
 
         {/* Revenue chart — 2 cols */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className="min-w-0">
                 <h2 className="text-[15px] font-semibold text-[--color-ink] tracking-tight truncate">Revenue overview</h2>
@@ -525,7 +525,7 @@ function DashboardPage() {
 
         {/* Pipeline */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Sales pipeline" subtitle="$51.2K in play" action="View" to="/app/contacts" />
             <PipelineBar />
             <div className="mt-4 pt-4 border-t border-[--color-hairline] flex items-center justify-between gap-2 min-w-0">
@@ -542,7 +542,7 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Fresh leads */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Fresh leads" subtitle="4 new in the last hour" action="See all" to="/app/contacts" />
             <div>
               {LEADS.map(l => <LeadRow key={l.id} l={l} />)}
@@ -552,7 +552,7 @@ function DashboardPage() {
 
         {/* Lead sources */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Lead sources" subtitle="This month" />
             <ChannelDonut />
           </div>
@@ -563,7 +563,7 @@ function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Recent activity */}
         <Card className="lg:col-span-2" padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Recent activity" subtitle="Across your team and AI agents" action="Open feed" to="/app/inbox" />
             <div>
               {ACTIVITY.map(a => <ActivityRow key={a.id} a={a} />)}
@@ -573,7 +573,7 @@ function DashboardPage() {
 
         {/* Tasks */}
         <Card padded={false}>
-          <div className="p-5">
+          <div className="p-4 sm:p-5">
             <SectionHeader title="Your tasks" subtitle="5 today" action="View all" to="/app/inbox" />
             <div>
               {TASKS.map(t => <TaskRow key={t.id} t={t} />)}
@@ -585,7 +585,7 @@ function DashboardPage() {
 
       {/* Quick actions */}
       <Card padded={false}>
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           <SectionHeader title="Quick actions" subtitle="Jump back in" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {QUICK.map(q => <QuickAction key={q.label} label={q.label} icon={q.icon} to={q.to} />)}
