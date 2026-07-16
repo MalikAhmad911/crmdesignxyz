@@ -249,9 +249,9 @@
   --color-muted-soft: #5B6E88;
   --color-hairline: #E3E8EE;
   --color-surface-strong: #EFF4FA;
-  --color-primary: #635BFF;
-  --color-primary-deep: #4F46E5;
-  --color-primary-subdued: #EFEFFE;
+  --color-primary: #408FDF;
+  --color-primary-deep: #7738D4;
+  --color-primary-subdued: #EEF4FC;
   color: var(--color-body);
   font-weight: 450;
 }
