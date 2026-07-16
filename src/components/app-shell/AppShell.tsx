@@ -512,7 +512,7 @@ export function Card({
 }
 
 export function Btn({
-  children, variant = "secondary", size = "md", className = "", type = "button", onClick, disabled, asChild,
+  children, variant = "secondary", size = "md", className = "", type = "button", onClick, disabled, asChild, icon,
 }: {
   children: React.ReactNode;
   /** "gradient" is a legacy alias for "primary" */
@@ -523,6 +523,8 @@ export function Btn({
   onClick?: () => void;
   disabled?: boolean;
   asChild?: boolean;
+  /** Optional leading icon (legacy) */
+  icon?: React.ReactNode;
 }) {
   const v = variant === "gradient" ? "primary" : variant;
   const sizes: Record<string, string> = {
@@ -542,12 +544,13 @@ export function Btn({
       ? { background: "var(--color-brand-gradient-2)", boxShadow: "0 4px 14px -4px rgba(99,91,255,0.55)" }
       : undefined;
 
+  const inner = <>{icon}{children}</>;
   if (asChild) {
-    return <span className={`${base} ${variants[v]}`} style={style}>{children}</span>;
+    return <span className={`${base} ${variants[v]}`} style={style}>{inner}</span>;
   }
   return (
     <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variants[v]}`} style={style}>
-      {children}
+      {inner}
     </button>
   );
 }
