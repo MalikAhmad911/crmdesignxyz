@@ -311,22 +311,101 @@
   border: 2px solid transparent;
 }
 
-/* Universal focus-visible ring for interactive elements without one */
-.app-scope button:focus-visible,
-.app-scope [role="button"]:focus-visible,
-.app-scope a:focus-visible {
-  outline: 2px solid color-mix(in oklab, var(--color-primary) 55%, transparent);
+/* ---- Interaction states: hover, active, focus ---- */
+
+/* Universal focus-visible ring — brand violet (#7738D4) hits WCAG AA (~7:1)
+   against the canvas and white surfaces. Doubled ring keeps contrast on any
+   background, including brand-gradient buttons. */
+.app-scope :focus-visible {
+  outline: 2px solid var(--color-primary-deep);
   outline-offset: 2px;
   border-radius: inherit;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-primary-deep) 22%, transparent);
+  transition: box-shadow 120ms ease, outline-color 120ms ease;
+}
+.app-scope :focus:not(:focus-visible) { outline: none; box-shadow: none; }
+
+/* Buttons — hover lift + active press. Non-brand buttons pick up a subtle
+   brand-tinted surface so the accent color feels consistent app-wide. */
+.app-scope button,
+.app-scope [role="button"],
+.app-scope a {
+  transition: background-color 140ms ease, color 140ms ease,
+              border-color 140ms ease, box-shadow 160ms ease,
+              transform 120ms ease, opacity 140ms ease;
+}
+.app-scope button:not(:disabled):active,
+.app-scope [role="button"]:not([aria-disabled="true"]):active {
+  transform: translateY(1px);
+}
+.app-scope button:disabled,
+.app-scope [aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-/* Inputs — refined focus */
+/* Text links — brand color + underline on hover, deeper violet on active */
+.app-scope a:not([role="button"]):not(.no-link-style) {
+  color: var(--color-link);
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+}
+.app-scope a:not([role="button"]):not(.no-link-style):hover {
+  color: var(--color-link-active);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1.5px;
+}
+.app-scope a:not([role="button"]):not(.no-link-style):active {
+  color: var(--color-primary-deep);
+}
+
+/* Inputs — refined focus (brand primary border + soft glow) */
 .app-scope input:focus,
 .app-scope textarea:focus,
 .app-scope select:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+.app-scope input:hover:not(:focus):not(:disabled),
+.app-scope textarea:hover:not(:focus):not(:disabled),
+.app-scope select:hover:not(:focus):not(:disabled) {
+  border-color: color-mix(in oklab, var(--color-primary) 45%, var(--color-hairline));
+}
+
+/* Checkbox / radio focus + checked — brand primary at AA contrast */
+.app-scope input[type="checkbox"]:focus-visible,
+.app-scope input[type="radio"]:focus-visible {
+  outline: 2px solid var(--color-primary-deep);
+  outline-offset: 2px;
+}
+.app-scope input[type="checkbox"]:checked,
+.app-scope input[type="radio"]:checked {
+  accent-color: var(--color-primary-deep);
+}
+
+/* Cards / tiles — subtle brand-tinted hover elevation */
+.app-scope [data-tile]:hover,
+.app-scope .hover-lift:hover {
+  border-color: color-mix(in oklab, var(--color-primary) 25%, var(--color-hairline));
+  box-shadow: var(--shadow-elev);
+  transform: translateY(-2px);
+}
+
+/* Nav / sidebar items — hover fill and active-page pill */
+.app-scope [data-nav-item]:hover:not([data-active="true"]) {
+  background-color: color-mix(in oklab, var(--color-primary-subdued) 70%, transparent);
+  color: var(--color-primary-deep);
+}
+.app-scope [data-nav-item][data-active="true"] {
+  background-color: var(--color-sidebar-active);
+  color: var(--color-sidebar-active-text);
+  font-weight: 600;
+}
+.app-scope [data-nav-item]:focus-visible {
+  outline: 2px solid var(--color-primary-deep);
+  outline-offset: 2px;
 }
 
 /* Smooth scroll for anchor jumps */
