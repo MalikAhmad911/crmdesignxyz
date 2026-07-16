@@ -468,26 +468,27 @@ function DashboardPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1400px] mx-auto space-y-5 sm:space-y-6">
       {/* Header */}
-      <header className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+      <header className="flex flex-col gap-3 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
         <div className="min-w-0">
           <div className="text-[11px] sm:text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[--color-primary-deep] truncate">{today()}</div>
-          <h1 className="text-[20px] sm:text-[24px] lg:text-[28px] font-semibold tracking-tight text-[--color-ink] truncate mt-1">
-            {greeting()}, Alex 👋
+          <h1 className="text-[22px] sm:text-[24px] lg:text-[28px] font-semibold tracking-tight text-[--color-ink] truncate mt-1">
+            {greeting()}, Alex
           </h1>
           <p className="hidden sm:block text-[13px] text-[--color-muted] mt-1 truncate">
             Here's what's happening across your business today.
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
           <Btn variant="secondary" size="sm" icon={<Filter size={13} />} className="hidden md:inline-flex">Last 30 days</Btn>
-          <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden lg:inline-flex">Export</Btn>
-          <Btn variant="secondary" size="sm" className="md:hidden !px-2" aria-label="Filter"><Filter size={14} /></Btn>
+          <Btn variant="secondary" size="sm" icon={<Download size={13} />} className="hidden md:inline-flex">Export</Btn>
+          <Btn variant="secondary" size="sm" className="md:hidden" icon={<Filter size={13} />}>30d</Btn>
+          <Btn variant="secondary" size="sm" className="md:hidden" icon={<Download size={13} />}>Export</Btn>
           <Btn variant="primary"   size="sm" icon={<Plus size={13} />}>New</Btn>
         </div>
       </header>
 
       {/* KPI row */}
-      <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {KPIS.map(k => <KpiCard key={k.label} k={k} />)}
       </div>
 
