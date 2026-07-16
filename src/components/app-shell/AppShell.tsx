@@ -233,8 +233,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           {/* Topbar */}
           <header className="h-14 border-b border-[--color-hairline] bg-white sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6">
-            <div className="lg:hidden w-8 h-8 rounded-lg grid place-items-center text-white text-[13px] font-bold shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
-              ⚡
+            <div className="lg:hidden w-8 h-8 rounded-lg overflow-hidden ring-1 ring-[--color-hairline] bg-white shrink-0">
+              <img src={brandLogo.url} alt="Infinite Rankers" className="w-full h-full object-cover" />
             </div>
             <div className="text-[16px] sm:text-[18px] font-semibold text-[--color-ink] truncate">
               {pageTitle(pathname)}
