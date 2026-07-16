@@ -136,8 +136,8 @@ function DashboardPage() {
         }}
       >
         {/* mesh orbs for depth */}
-        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
         {/* subtle grain */}
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")" }} />
 
