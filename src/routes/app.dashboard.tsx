@@ -1,30 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Zap, MessageSquare, DollarSign, Star, Bot, Send, ArrowRight, ChevronRight,
-  Inbox as InboxIcon, Users as UsersIcon, Calendar as CalendarIcon, Megaphone,
-  Sparkles, Plus, FileText, TrendingDown, Activity, Wifi, WifiOff,
+  Zap, DollarSign, Send, ChevronRight,
+  Calendar as CalendarIcon, Plus, Activity, Wifi, WifiOff,
 } from "lucide-react";
+import brandLogo from "@/assets/infinite-rankers-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/app/dashboard")({ component: DashboardPage });
 
-/* ============================================================ tokens (scoped) */
+/* ============================================================ tokens (scoped, inherit brand) */
 const scope: React.CSSProperties = {
-  // Stripe Indigo palette — locally scoped so the rest of the app is untouched
+  // Alias local dashboard tokens to the app-wide Infinite Rankers brand
   ["--dx-canvas" as string]: "#F6F9FC",
   ["--dx-ink" as string]: "#0A2540",
   ["--dx-muted" as string]: "rgba(10,37,64,0.62)",
   ["--dx-soft" as string]: "rgba(10,37,64,0.40)",
   ["--dx-hairline" as string]: "#E3E8EE",
-  ["--dx-primary" as string]: "#635BFF",
-  ["--dx-success" as string]: "#00D924",
-  ["--dx-accent" as string]: "#EC4899",
-  ["--dx-warn" as string]: "#F59E0B",
-  fontFamily: "'DM Sans', ui-sans-serif, system-ui, sans-serif",
+  ["--dx-primary" as string]: "var(--color-primary)",       // #408FDF azure
+  ["--dx-primary-deep" as string]: "var(--color-primary-deep)", // #7738D4 violet
+  ["--dx-success" as string]: "var(--color-success)",
+  ["--dx-accent" as string]: "var(--color-primary-deep)",   // brand violet as accent
+  ["--dx-warn" as string]: "var(--color-warning)",
+  ["--dx-gradient" as string]: "var(--color-brand-gradient-2)",
+  fontFamily: "var(--font-sans)",
   color: "var(--dx-ink)",
 };
 
 const display: React.CSSProperties = {
-  fontFamily: "'Space Grotesk', ui-sans-serif, system-ui, sans-serif",
+  fontFamily: "var(--font-display)",
 };
 
 /* ============================================================ data */
