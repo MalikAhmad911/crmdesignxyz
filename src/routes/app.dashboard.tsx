@@ -143,7 +143,7 @@ function DashboardPage() {
                   placeholder="Tell the AI what to do — you'll preview every action first…"
                 />
                 <button
-                  style={{ background: "var(--dx-primary)" }}
+                  style={{ background: "var(--dx-gradient)" }}
                   className="absolute right-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-xl text-white hover:brightness-110 transition"
                   aria-label="Send"
                 >
