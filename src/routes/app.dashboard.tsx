@@ -501,14 +501,18 @@ function DashboardPage() {
         {/* Right column */}
         <div className="space-y-4">
           {/* Quick actions */}
-          <Card>
-            <SectionTitle title="Quick actions" inline />
-            <div className="space-y-1.5 mt-3">
-              <QuickAction icon={Star} label="Send review request" onClick={() => setDlg("review")} tone="warning" />
-              <QuickAction icon={CreditCard} label="Request payment" onClick={() => setDlg("payment")} tone="success" />
-              <QuickAction icon={Megaphone} label="Launch campaign" onClick={() => {}} tone="ai" />
+          <Card className="!p-4 sm:!p-5">
+            <div className="flex items-center justify-between mb-3">
+              <SectionTitle title="Quick actions" inline />
+              <span className="text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full bg-[--color-primary-subdued] text-[--color-primary-deep] uppercase tracking-wide">Shortcuts</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2">
+              <QuickAction icon={Star} label="Send review request" hint="Ask happy customers for a review" onClick={() => setDlg("review")} tone="warning" />
+              <QuickAction icon={CreditCard} label="Request payment" hint="Send a secure pay link" onClick={() => setDlg("payment")} tone="success" />
+              <QuickAction icon={Megaphone} label="Launch campaign" hint="Blast to a segment in minutes" onClick={() => {}} tone="ai" />
             </div>
           </Card>
+
 
           {/* AI Autopilot */}
           <Card>
@@ -815,15 +819,22 @@ function LegendDot({ color, label }: { color: string; label: string }) {
   );
 }
 
-function QuickAction({ icon: I, label, tone, onClick }: { icon: any; label: string; tone: "warning" | "success" | "ai"; onClick: () => void }) {
+function QuickAction({ icon: I, label, hint, tone, onClick }: { icon: any; label: string; hint?: string; tone: "warning" | "success" | "ai"; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="w-full flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-[--color-surface-strong] transition text-left">
+    <button
+      onClick={onClick}
+      className="group w-full flex items-center gap-3 p-3 rounded-xl border border-[--color-hairline] bg-[--color-surface] hover:bg-[--color-surface-strong] hover:border-[--color-primary]/40 hover:-translate-y-[1px] hover:shadow-sm active:scale-[.98] transition text-left"
+    >
       <IconTile icon={I} tone={tone} size="sm" />
-      <span className="flex-1 text-[13px] font-medium text-[--color-ink]">{label}</span>
-      <ChevronRight size={14} className="text-[--color-muted]" />
+      <div className="flex-1 min-w-0">
+        <div className="text-[13px] font-semibold text-[--color-ink] truncate leading-tight">{label}</div>
+        {hint && <div className="text-[11px] text-[--color-muted] truncate mt-0.5">{hint}</div>}
+      </div>
+      <ChevronRight size={14} className="text-[--color-muted] shrink-0 transition group-hover:text-[--color-primary] group-hover:translate-x-0.5" />
     </button>
   );
 }
+
 
 function ActivityRow({ label, value }: { label: string; value: number }) {
   return (
