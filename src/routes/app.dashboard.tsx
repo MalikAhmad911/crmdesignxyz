@@ -245,11 +245,12 @@ function DashboardPage() {
       </Card>
 
       {/* 4. Performance metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-5">
         {METRICS.map(({ key, ...m }) => (
           <MetricCard key={key} {...m} />
         ))}
       </div>
+
 
       {/* 5. Workspace shortcuts */}
       <div className="mb-5">
@@ -751,28 +752,27 @@ function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
   icon: any; tone: "info" | "success" | "warning" | "ai"; hint: string;
 }) {
   return (
-    <div className="relative bg-white rounded-2xl border border-[--color-hairline] p-4 transition hover:-translate-y-[1px]" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className="flex items-start justify-between gap-2 mb-3">
+    <div className="group relative bg-white rounded-xl sm:rounded-2xl border border-[--color-hairline] p-3 sm:p-4 transition hover:-translate-y-[1px] hover:border-[--color-primary]/30 overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+      <div className="flex items-start justify-between gap-2 mb-2 sm:mb-3">
         <IconTile icon={I} tone={tone} size="sm" />
-        <span className={`inline-flex items-center gap-1 text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
-          {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}{delta}
+        <span className={`inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
+          {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}<span className="tabular-nums">{delta}</span>
         </span>
       </div>
-      <div className="text-[10.5px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[--color-body-strong] leading-snug">{label}</div>
+      <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-[--color-body-strong] leading-snug line-clamp-1">{label}</div>
       <div className="flex items-end justify-between gap-2 mt-1">
         <div className="min-w-0 flex-1">
-          <div className="text-[20px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate">{value}</div>
-          <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5">{hint}</div>
-
+          <div className="text-[19px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate tabular-nums">{value}</div>
+          <div className="text-[10.5px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5 truncate">{hint}</div>
         </div>
-        <div className="hidden sm:block shrink-0 opacity-90">
+        <div className="hidden sm:block shrink-0 opacity-90 group-hover:opacity-100 transition">
           <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
         </div>
       </div>
-
     </div>
   );
 }
+
 
 
 function LegendDot({ color, label }: { color: string; label: string }) {
