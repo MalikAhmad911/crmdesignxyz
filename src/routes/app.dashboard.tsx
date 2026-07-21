@@ -646,20 +646,28 @@ function DashboardPage() {
           </Card>
 
           {/* AI Search */}
-          <Link to="/app/ai-search">
-            <Card className="!p-4 hover:border-[--color-primary] transition">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-lg grid place-items-center text-white shrink-0" style={{ background: "var(--color-brand-gradient-2)" }}>
-                  <Sparkles size={15} />
+          <Link to="/app/ai-search" className="block group">
+            <Card className="relative overflow-hidden !p-4 sm:!p-5 border-[--color-hairline] hover:border-[--color-ai]/40 hover:shadow-lg transition-all duration-300">
+              <div aria-hidden className="pointer-events-none absolute -top-12 -right-10 h-28 w-28 rounded-full blur-3xl opacity-25 transition-opacity duration-500 group-hover:opacity-50" style={{ background: "var(--color-ai)" }} />
+              <div aria-hidden className="pointer-events-none absolute -bottom-12 -left-10 h-24 w-24 rounded-full blur-3xl opacity-20 transition-opacity duration-500 group-hover:opacity-40" style={{ background: "var(--color-primary)" }} />
+
+              <div className="relative flex items-center gap-3">
+                <div className="relative w-11 h-11 rounded-xl grid place-items-center text-white shrink-0 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3" style={{ background: "var(--color-brand-gradient-2)" }}>
+                  <Sparkles size={18} />
+                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[--color-ai] ring-2 ring-[--color-surface] animate-pulse" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-[13.5px] font-semibold text-[--color-ink]">AI Search</div>
-                  <div className="text-[11.5px] text-[--color-muted]">Ask anything about your business</div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="text-[14px] font-semibold text-[--color-ink] truncate leading-tight">AI Search</div>
+                    <span className="shrink-0 inline-flex items-center text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full bg-[--color-ai-subtle] text-[--color-ai] uppercase tracking-wide">New</span>
+                  </div>
+                  <div className="text-[11.5px] text-[--color-muted] truncate mt-0.5">Ask anything about your business</div>
                 </div>
-                <ChevronRight size={16} className="text-[--color-muted]" />
+                <ChevronRight size={16} className="text-[--color-muted] shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[--color-ai]" />
               </div>
             </Card>
           </Link>
+
 
           {/* Integrations health */}
           <Card>
