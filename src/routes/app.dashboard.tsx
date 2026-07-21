@@ -354,40 +354,67 @@ function DashboardPage() {
         {/* Left column */}
         <div className="lg:col-span-2 space-y-4">
           {/* Infinite Agent */}
-          <Card>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg grid place-items-center text-white" style={{ background: "var(--color-brand-gradient-2)" }}>
-                <Sparkles size={15} />
+          <Card className="relative overflow-hidden !p-4 sm:!p-5">
+            {/* aurora glow backdrop */}
+            <div aria-hidden className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full blur-3xl opacity-40" style={{ background: "var(--color-brand-gradient-2)" }} />
+            <div aria-hidden className="pointer-events-none absolute -bottom-20 -left-10 h-40 w-40 rounded-full blur-3xl opacity-20" style={{ background: "var(--color-primary)" }} />
+
+            <div className="relative flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="relative w-9 h-9 rounded-xl grid place-items-center text-white shrink-0 shadow-md" style={{ background: "var(--color-brand-gradient-2)" }}>
+                  <Sparkles size={16} />
+                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[--color-success] ring-2 ring-[--color-surface] animate-pulse" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <div className="text-[14px] font-semibold text-[--color-ink] truncate">Infinite Agent</div>
+                    <span className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[--color-primary-subdued] text-[--color-primary-deep] uppercase tracking-wide">Beta</span>
+                  </div>
+                  <div className="text-[11.5px] text-[--color-muted] truncate">Ask anything or trigger an action</div>
+                </div>
               </div>
-              <div>
-                <div className="text-[14px] font-semibold text-[--color-ink]">Infinite Agent</div>
-                <div className="text-[11.5px] text-[--color-muted]">Ask anything or trigger an action</div>
+              <div className="hidden sm:flex items-center gap-1 text-[10.5px] font-medium text-[--color-muted] shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-[--color-success] animate-pulse" />
+                Online
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-lg border border-[--color-hairline] bg-[--color-surface-strong] px-3 h-11">
-              <Search size={15} className="text-[--color-muted]" />
+
+            <form
+              onSubmit={e => e.preventDefault()}
+              className="relative flex items-center gap-2 rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 h-11 sm:h-12 focus-within:border-[--color-primary] focus-within:ring-2 focus-within:ring-[--color-primary-subdued] transition"
+            >
+              <Search size={15} className="text-[--color-muted] shrink-0" />
               <input
                 value={aiCommand}
                 onChange={e => setAiCommand(e.target.value)}
-                placeholder="e.g. Send review requests to last week's paid customers"
-                className="flex-1 h-full bg-transparent focus:outline-none text-[13px] text-[--color-ink] placeholder:text-[--color-muted]"
+                placeholder="Send review requests to last week's paid customers…"
+                className="flex-1 min-w-0 h-full bg-transparent focus:outline-none text-[13px] text-[--color-ink] placeholder:text-[--color-muted]"
               />
-              <button className="h-8 px-3 rounded-md text-white text-[12px] font-semibold" style={{ background: "var(--color-brand-gradient-2)" }}>
+              <kbd className="hidden md:inline-flex items-center h-6 px-1.5 rounded border border-[--color-hairline] bg-[--color-surface-strong] text-[10px] font-mono text-[--color-muted] shrink-0">⌘K</kbd>
+              <button
+                type="submit"
+                className="h-8 sm:h-9 px-3 sm:px-4 rounded-lg text-white text-[12px] font-semibold shrink-0 shadow-sm hover:shadow-md active:scale-95 transition flex items-center gap-1"
+                style={{ background: "var(--color-brand-gradient-2)" }}
+              >
+                <Sparkles size={12} className="hidden sm:block" />
                 Run
               </button>
-            </div>
-            <div className="flex flex-wrap gap-1.5 mt-3">
+            </form>
+
+            <div className="relative flex items-center gap-1.5 mt-3 -mx-1 px-1 overflow-x-auto scrollbar-none sm:flex-wrap sm:overflow-visible sm:mx-0 sm:px-0">
+              <span className="hidden sm:inline text-[11px] font-medium text-[--color-muted] mr-0.5">Try:</span>
               {AI_CHIPS.map(c => (
                 <button
                   key={c}
                   onClick={() => setAiCommand(c)}
-                  className="text-[11.5px] font-medium px-2.5 py-1 rounded-full border border-[--color-hairline] text-[--color-body] hover:bg-[--color-primary-subdued] hover:border-[--color-primary] hover:text-[--color-primary-deep] transition"
+                  className="shrink-0 text-[11.5px] font-medium px-2.5 py-1.5 rounded-full border border-[--color-hairline] bg-[--color-surface] text-[--color-body] hover:bg-[--color-primary-subdued] hover:border-[--color-primary] hover:text-[--color-primary-deep] active:scale-95 transition whitespace-nowrap"
                 >
                   {c}
                 </button>
               ))}
             </div>
           </Card>
+
 
           {/* Needs your reply */}
           <Card padded={false}>
