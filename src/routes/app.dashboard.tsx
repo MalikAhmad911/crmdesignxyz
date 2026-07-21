@@ -305,16 +305,21 @@ function DashboardPage() {
         <Card className="!p-3.5 sm:!p-5">
           <SectionTitle title="Weekly Pulse" hint="Messages & payments · last 7 days" inline />
           <div className="flex items-end gap-1.5 sm:gap-3 h-32 sm:h-40 mt-3 sm:mt-4">
-            {WEEK.map(w => {
-              const H = 140;
-              const totalH = ((w.m + w.p) / maxWeek) * H;
-              const pH = (w.p / (w.m + w.p)) * totalH;
-              const mH = totalH - pH;
+            {WEEK.map((w, idx) => {
+              const totalPct = ((w.m + w.p) / maxWeek) * 100;
+              const pPct = (w.p / (w.m + w.p)) * totalPct;
+              const mPct = totalPct - pPct;
               return (
                 <div key={w.d} className="flex-1 flex flex-col items-center gap-1.5 min-w-0 group">
-                  <div className="w-full flex flex-col justify-end gap-0.5" style={{ height: H }}>
-                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: pH, background: "var(--color-success)" }} />
-                    <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: mH, background: "var(--color-primary)" }} />
+                  <div className="relative w-full flex-1 flex flex-col justify-end gap-0.5 min-w-0">
+                    <div
+                      className="w-full rounded-md transition-all duration-500 group-hover:opacity-90 origin-bottom"
+                      style={{ height: `${pPct}%`, background: "var(--color-success)", animation: `fade-in .5s ease-out ${idx * 50}ms both` }}
+                    />
+                    <div
+                      className="w-full rounded-md transition-all duration-500 group-hover:opacity-90 origin-bottom"
+                      style={{ height: `${mPct}%`, background: "var(--color-primary)", animation: `fade-in .5s ease-out ${idx * 50 + 40}ms both` }}
+                    />
                   </div>
                   <div className="text-[10px] sm:text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
