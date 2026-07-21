@@ -128,47 +128,60 @@ function DashboardPage() {
 
   return (
     <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto dash-fade">
-      {/* 1. Aurora hero band */}
+      {/* 1. Premium hero — Attio spacing · Stripe restraint · AI daily brief */}
       <div
-        className="relative overflow-hidden rounded-2xl mb-5 p-4 sm:p-6 lg:p-8"
+        className="relative overflow-hidden rounded-2xl mb-5"
         style={{
-          background: "var(--color-brand-gradient)",
+          background: "linear-gradient(135deg, #4F46E5 0%, #635BFF 45%, #8B5CF6 100%)",
           boxShadow: "var(--shadow-elev)",
         }}
       >
-        {/* mesh orbs for depth */}
-        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-56 sm:w-72 h-56 sm:h-72 rounded-full opacity-40 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-64 sm:w-80 h-64 sm:h-80 rounded-full opacity-40 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
-        {/* subtle grain */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")" }} />
+        {/* soft orbs */}
+        <div aria-hidden className="pointer-events-none absolute -top-32 -right-20 w-72 h-72 rounded-full opacity-45 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #A855F7 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-16 w-80 h-80 rounded-full opacity-30 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #635BFF 0%, transparent 60%)" }} />
+        {/* fine grid overlay for enterprise texture */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6">
-          <div className="min-w-0 flex-1">
-            <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-widest text-white/85 bg-white/12 border border-white/20 rounded-full px-2.5 py-1 mb-2.5 sm:mb-3 backdrop-blur-sm">
-              <Sparkles size={11} className="shrink-0" /> <span className="truncate">{formatDate()}</span>
+        <div className="relative p-4 sm:p-6 lg:p-8">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-8">
+            <div className="min-w-0 flex-1">
+              <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/90 bg-white/10 border border-white/20 rounded-full pl-1.5 pr-2.5 py-1 mb-3 backdrop-blur-sm">
+                <span className="inline-flex items-center gap-1 bg-white/20 rounded-full pl-1 pr-1.5 py-0.5">
+                  <Sparkles size={10} className="shrink-0" /> AI Brief
+                </span>
+                <span className="truncate">{formatDate()}</span>
+              </div>
+              <h1 className="text-[22px] sm:text-[28px] lg:text-[34px] font-bold tracking-[-0.02em] text-white leading-[1.1]">
+                Welcome back, <span className="text-white/95">{BUSINESS.name}</span>
+              </h1>
+              <p className="text-[13px] sm:text-[14px] text-white/75 mt-2 max-w-xl leading-relaxed">
+                You have <b className="font-semibold text-white">6 replies</b>, <b className="font-semibold text-white">4 appointments</b>, and <b className="font-semibold text-white">5 AI approvals</b> waiting. Autopilot is handling the rest.
+              </p>
             </div>
-            <h1 className="text-[20px] sm:text-[26px] lg:text-[32px] font-semibold tracking-tight text-white leading-[1.15] break-words">
-              {greeting()}, {BUSINESS.name}
-            </h1>
-            <p className="text-[12.5px] sm:text-[13.5px] lg:text-[14px] text-white/75 mt-1.5 max-w-xl">
-              Your workspace overview — metrics, activity, and AI tools in one place.
-            </p>
+            <div className="grid grid-cols-2 lg:flex lg:items-center gap-2 lg:shrink-0 w-full lg:w-auto">
+              <button
+                onClick={() => setDlg("payment")}
+                className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-white bg-white/10 hover:bg-white/20 active:scale-[0.98] border border-white/25 backdrop-blur-sm inline-flex items-center justify-center gap-1.5 transition"
+              >
+                <CreditCard size={14} className="shrink-0" />
+                <span className="truncate">Request payment</span>
+              </button>
+              <button
+                onClick={() => setDlg("message")}
+                className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-[--color-ink] bg-white hover:bg-white active:scale-[0.98] inline-flex items-center justify-center gap-1.5 transition shadow-md"
+              >
+                <Send size={14} className="shrink-0" />
+                <span className="truncate">New message</span>
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-2 lg:flex lg:items-center gap-2 lg:gap-2 lg:shrink-0 w-full lg:w-auto">
-            <button
-              onClick={() => setDlg("payment")}
-              className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-white bg-white/12 hover:bg-white/20 active:scale-[0.98] border border-white/25 backdrop-blur-sm inline-flex items-center justify-center gap-1.5 transition"
-            >
-              <CreditCard size={14} className="shrink-0" />
-              <span className="truncate">Request payment</span>
-            </button>
-            <button
-              onClick={() => setDlg("message")}
-              className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-[--color-ink] bg-white hover:bg-white/95 active:scale-[0.98] inline-flex items-center justify-center gap-1.5 transition shadow-sm"
-            >
-              <Send size={14} className="shrink-0" />
-              <span className="truncate">New message</span>
-            </button>
+
+          {/* Daily Brief KPI strip */}
+          <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-5 sm:mt-6">
+            <HeroStat icon={DollarSign} label="Today's revenue" value="$3,240" trend="+18%" up />
+            <HeroStat icon={CalendarCheck} label="Bookings" value="9" trend="+2" up />
+            <HeroStat icon={Phone} label="Calls" value="24" trend="+11%" up />
+            <HeroStat icon={ShieldCheck} label="Health score" value="92" trend="Excellent" up />
           </div>
         </div>
       </div>
