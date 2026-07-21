@@ -1209,7 +1209,7 @@ function VoiceAICard() {
           [style*="voiceBar"] { animation: none !important; }
         }
       `}</style>
-    </Card>
+    </div>
   );
 }
 
