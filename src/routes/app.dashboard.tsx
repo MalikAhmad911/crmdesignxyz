@@ -277,10 +277,10 @@ function DashboardPage() {
       <div className="mb-5">
         <SectionTitle title="Needs your attention" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
-          {ATTENTION.filter(a => a.count > 0).map(a => {
+          {ATTENTION.filter(a => a.count > 0).map((a, i) => {
             const I = a.icon;
             return (
-              <Link key={a.key} to={a.to} className="group">
+              <Link key={a.key} to={a.to} className={`group ${i >= 4 ? 'hidden md:block' : ''}`}>
                 <Card className="!p-3 sm:!p-3.5 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
                   <div className="flex items-center gap-2.5">
                     <IconTile icon={I} tone={a.tone} size="sm" />
@@ -296,6 +296,7 @@ function DashboardPage() {
               </Link>
             );
           })}
+
         </div>
 
       </div>
