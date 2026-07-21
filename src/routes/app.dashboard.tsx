@@ -1158,7 +1158,7 @@ function HealthRow({ label, pct, tone }: { label: string; pct: number; tone: "su
 function VoiceAICard() {
   const bars = [40, 65, 30, 80, 55, 90, 45, 70, 35, 60, 85, 50, 75, 40, 65, 30, 55, 80, 45, 70];
   return (
-    <Card className="relative overflow-hidden !p-4 sm:!p-5" style={{ background: "linear-gradient(135deg, #4F46E5 0%, #635BFF 50%, #8B5CF6 100%)" }}>
+    <div className="relative overflow-hidden rounded-2xl p-4 sm:p-5 text-white" style={{ background: "linear-gradient(135deg, #4F46E5 0%, #635BFF 50%, #8B5CF6 100%)", boxShadow: "var(--shadow-elev)" }}>
       <div aria-hidden className="pointer-events-none absolute -top-16 -right-14 h-40 w-40 rounded-full blur-3xl opacity-40" style={{ background: "#A855F7" }} />
       <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full blur-3xl opacity-25" style={{ background: "#635BFF" }} />
 
