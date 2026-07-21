@@ -575,36 +575,73 @@ function DashboardPage() {
 
 
           {/* Reviews */}
-          <Card>
-            <SectionTitle title="Reviews" inline />
-            <div className="flex items-baseline gap-2 mt-3">
-              <div className="text-[28px] font-semibold text-[--color-ink] leading-none">{avgRating}</div>
-              <div className="text-[11.5px] text-[--color-muted]">avg · {REVIEWS.length} total</div>
+          <Card className="relative overflow-hidden !p-4 sm:!p-5 group">
+            <div aria-hidden className="pointer-events-none absolute -top-14 -right-10 h-32 w-32 rounded-full blur-3xl opacity-25 transition-opacity duration-500 group-hover:opacity-40" style={{ background: "var(--color-warning)" }} />
+
+            <div className="relative flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-9 h-9 rounded-xl grid place-items-center bg-[--color-warning-subtle] text-[--color-warning] shrink-0">
+                  <Star size={16} className="fill-[--color-warning]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[14px] font-semibold text-[--color-ink] truncate leading-tight">Reviews</div>
+                  <div className="text-[11.5px] text-[--color-muted] truncate">Reputation at a glance</div>
+                </div>
+              </div>
+              <Link to="/app/reviews" className="shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold text-[--color-primary] hover:gap-1.5 transition-all">
+                View <ChevronRight size={12} />
+              </Link>
             </div>
-            <div className="flex gap-0.5 mt-1.5 mb-3">
-              {[1,2,3,4,5].map(i => (
-                <Star key={i} size={14} className={i <= Math.round(Number(avgRating)) ? "text-[--color-warning] fill-[--color-warning]" : "text-[--color-hairline]"} />
-              ))}
+
+            <div className="relative rounded-xl border border-[--color-hairline] bg-[--color-surface-strong] p-3.5 mb-3 flex items-center gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-1.5">
+                  <div className="text-[26px] sm:text-[28px] font-semibold text-[--color-ink] leading-none tabular-nums">{avgRating}</div>
+                  <div className="text-[11px] text-[--color-muted]">/ 5.0</div>
+                </div>
+                <div className="flex gap-0.5 mt-1.5">
+                  {[1,2,3,4,5].map(i => (
+                    <Star
+                      key={i}
+                      size={12}
+                      className={i <= Math.round(Number(avgRating)) ? "text-[--color-warning] fill-[--color-warning]" : "text-[--color-hairline]"}
+                      style={{ animation: `fade-in .4s ease-out ${i * 60}ms both` }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-[16px] font-semibold text-[--color-ink] tabular-nums leading-none">{REVIEWS.length}</div>
+                <div className="text-[10.5px] text-[--color-muted] mt-1">total</div>
+              </div>
             </div>
-            <div className="space-y-1 mb-3">
-              {ratingDist.map(r => {
+
+            <div className="relative space-y-1.5 mb-3">
+              {ratingDist.map((r, idx) => {
                 const pct = (r.n / REVIEWS.length) * 100;
                 return (
                   <div key={r.star} className="flex items-center gap-2 text-[11px]">
-                    <span className="w-3 text-[--color-muted]">{r.star}</span>
+                    <span className="w-5 text-[--color-muted] tabular-nums inline-flex items-center gap-0.5">
+                      {r.star}<Star size={8} className="fill-[--color-warning] text-[--color-warning]" />
+                    </span>
                     <div className="flex-1 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
-                      <div className="h-full rounded-full bg-[--color-warning]" style={{ width: `${pct}%` }} />
+                      <div
+                        className="h-full rounded-full bg-[--color-warning] origin-left"
+                        style={{ width: `${pct}%`, transition: `width .8s cubic-bezier(.4,0,.2,1) ${idx * 80}ms` }}
+                      />
                     </div>
-                    <span className="w-4 text-right text-[--color-muted]">{r.n}</span>
+                    <span className="w-5 text-right text-[--color-muted] tabular-nums">{r.n}</span>
                   </div>
                 );
               })}
             </div>
+
             {unanswered > 0 && (
-              <div className="flex items-center gap-2 rounded-lg bg-[--color-warning-subtle] p-2.5 text-[12px]">
-                <AlertTriangle size={14} className="text-[--color-warning] shrink-0" />
-                <span className="text-[--color-ink]">{unanswered} reviews awaiting reply</span>
-              </div>
+              <Link to="/app/reviews" className="relative flex items-center gap-2 rounded-lg bg-[--color-warning-subtle] px-2.5 py-2 text-[11.5px] animate-fade-in hover:bg-[--color-warning-subtle]/80 transition">
+                <AlertTriangle size={13} className="text-[--color-warning] shrink-0" />
+                <span className="text-[--color-ink] flex-1 min-w-0 truncate"><span className="font-semibold tabular-nums">{unanswered}</span> awaiting reply</span>
+                <ChevronRight size={12} className="text-[--color-warning] shrink-0" />
+              </Link>
             )}
           </Card>
 
