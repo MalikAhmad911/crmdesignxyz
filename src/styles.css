@@ -81,21 +81,21 @@
 
 /* RevenueSol Design System — scoped to authenticated app shell only. */
 .app-scope {
-  --color-canvas: #FAFBFC;
+  --color-canvas: #F3F4FA;
   --color-surface-soft: #FFFFFF;
   --color-surface-card: #FFFFFF;
-  --color-surface-strong: #F5F6F8;
-  --color-surface-tertiary: #F9FAFB;
-  --color-surface-dark: #111827;
-  --color-surface-dark-elevated: #1F2937;
-  --color-hairline: #E5E7EB;
-  --color-hairline-soft: #ECEEF2;
+  --color-surface-strong: #EDEFF6;
+  --color-surface-tertiary: #F6F7FC;
+  --color-surface-dark: #0B1120;
+  --color-surface-dark-elevated: #111827;
+  --color-hairline: #D6DAE4;
+  --color-hairline-soft: #E2E5ED;
 
-  --color-ink: #111827;
+  --color-ink: #0B1120;
   --color-body-strong: #111827;
-  --color-body: #4B5563;
-  --color-muted: #6B7280;
-  --color-muted-soft: #9CA3AF;
+  --color-body: #374151;
+  --color-muted: #4B5563;
+  --color-muted-soft: #6B7280;
 
   /* Brand */
   --color-primary: #635BFF;
