@@ -1036,3 +1036,188 @@ function DialogFooter({ onClose, primary }: { onClose: () => void; primary: stri
     </div>
   );
 }
+
+/* -------------------------------------------------- premium extras */
+
+function HeroStat({ icon: I, label, value, trend, up }: { icon: any; label: string; value: string; trend: string; up: boolean }) {
+  return (
+    <div className="relative rounded-xl bg-white/10 border border-white/15 backdrop-blur-md p-2.5 sm:p-3 hover:bg-white/15 transition group">
+      <div className="flex items-center gap-2 mb-1.5">
+        <div className="w-6 h-6 rounded-md grid place-items-center bg-white/15 text-white shrink-0">
+          <I size={12} />
+        </div>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/70 truncate">{label}</div>
+      </div>
+      <div className="flex items-baseline justify-between gap-2">
+        <div className="text-[18px] sm:text-[22px] font-bold text-white tabular-nums leading-none tracking-tight">{value}</div>
+        <span className={`text-[10px] font-semibold tabular-nums shrink-0 ${up ? "text-[#86EFAC]" : "text-[#FCA5A5]"}`}>
+          {up ? "↑" : "↓"} {trend}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function QuickTile({ icon: I, label, tone, onClick }: { icon: any; label: string; tone: "primary" | "info" | "success" | "warning" | "ai"; onClick: () => void }) {
+  const map: Record<string, string> = {
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    info:    "bg-[--color-info-subtle] text-[--color-info]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
+  };
+  return (
+    <button
+      onClick={onClick}
+      className="group flex flex-col items-start gap-2 p-3 rounded-xl border border-[--color-hairline] bg-white hover:border-[--color-primary]/40 hover:-translate-y-[1px] hover:shadow-[var(--shadow-elev)] active:scale-[.98] transition text-left"
+    >
+      <div className={`w-9 h-9 rounded-lg grid place-items-center shrink-0 transition group-hover:scale-105 ${map[tone]}`}>
+        <I size={16} />
+      </div>
+      <div className="text-[12.5px] font-semibold text-[--color-ink] leading-tight truncate w-full">{label}</div>
+    </button>
+  );
+}
+
+function HealthScoreCard() {
+  const score = 92;
+  const circumference = 2 * Math.PI * 42;
+  const dash = (score / 100) * circumference;
+  return (
+    <Card className="relative overflow-hidden !p-4 sm:!p-5 group">
+      <div aria-hidden className="pointer-events-none absolute -top-14 -right-10 h-32 w-32 rounded-full blur-3xl opacity-25 transition-opacity duration-500 group-hover:opacity-45" style={{ background: "var(--color-success)" }} />
+      <div className="relative flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-9 h-9 rounded-xl grid place-items-center bg-[--color-success-subtle] text-[--color-success] shrink-0">
+            <ShieldCheck size={16} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-[14px] font-semibold text-[--color-ink] truncate leading-tight">Business Health</div>
+            <div className="text-[11.5px] text-[--color-muted] truncate">Live composite score</div>
+          </div>
+        </div>
+        <span className="shrink-0 inline-flex items-center gap-1 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-[--color-success-subtle] text-[--color-success]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[--color-success] animate-pulse" />
+          Live
+        </span>
+      </div>
+
+      <div className="relative flex items-center gap-4">
+        <div className="relative w-[104px] h-[104px] shrink-0">
+          <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="var(--color-hairline)" strokeWidth="8" />
+            <circle
+              cx="50" cy="50" r="42" fill="none"
+              stroke="url(#healthGrad)" strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={`${dash} ${circumference}`}
+              style={{ transition: "stroke-dasharray 1.2s cubic-bezier(.4,0,.2,1)" }}
+            />
+            <defs>
+              <linearGradient id="healthGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#22C55E" />
+                <stop offset="100%" stopColor="#635BFF" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="absolute inset-0 grid place-items-center">
+            <div className="text-center">
+              <div className="text-[24px] font-bold text-[--color-ink] tabular-nums leading-none">{score}</div>
+              <div className="text-[9px] font-semibold uppercase tracking-wider text-[--color-muted] mt-1">Score</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 min-w-0 space-y-1.5">
+          <HealthRow label="Response time" pct={94} tone="success" />
+          <HealthRow label="Conversion" pct={82} tone="primary" />
+          <HealthRow label="Retention" pct={96} tone="ai" />
+          <HealthRow label="Reviews" pct={88} tone="warning" />
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function HealthRow({ label, pct, tone }: { label: string; pct: number; tone: "success" | "primary" | "warning" | "ai" }) {
+  const color: Record<string, string> = {
+    success: "var(--color-success)",
+    primary: "var(--color-primary)",
+    warning: "var(--color-warning)",
+    ai: "var(--color-ai)",
+  };
+  return (
+    <div className="flex items-center gap-2 text-[11px]">
+      <span className="text-[--color-muted] truncate w-[86px]">{label}</span>
+      <div className="flex-1 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
+        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color[tone], transition: "width 1s cubic-bezier(.4,0,.2,1)" }} />
+      </div>
+      <span className="text-[--color-ink] font-semibold tabular-nums w-8 text-right">{pct}</span>
+    </div>
+  );
+}
+
+function VoiceAICard() {
+  const bars = [40, 65, 30, 80, 55, 90, 45, 70, 35, 60, 85, 50, 75, 40, 65, 30, 55, 80, 45, 70];
+  return (
+    <Card className="relative overflow-hidden !p-4 sm:!p-5" style={{ background: "linear-gradient(135deg, #4F46E5 0%, #635BFF 50%, #8B5CF6 100%)" }}>
+      <div aria-hidden className="pointer-events-none absolute -top-16 -right-14 h-40 w-40 rounded-full blur-3xl opacity-40" style={{ background: "#A855F7" }} />
+      <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full blur-3xl opacity-25" style={{ background: "#635BFF" }} />
+
+      <div className="relative flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="relative w-9 h-9 rounded-xl grid place-items-center bg-white/15 text-white shrink-0 backdrop-blur-sm border border-white/20">
+            <Phone size={16} />
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#22C55E] ring-2 ring-[#4F46E5] animate-pulse" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-[14px] font-semibold text-white truncate leading-tight">Voice AI</div>
+            <div className="text-[11.5px] text-white/70 truncate">Live call activity</div>
+          </div>
+        </div>
+        <Link to="/app/voice-agent" className="shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold text-white/90 hover:text-white transition">
+          Open <ChevronRight size={12} />
+        </Link>
+      </div>
+
+      {/* Waveform */}
+      <div className="relative rounded-xl bg-white/10 border border-white/15 backdrop-blur-sm p-3 mb-3">
+        <div className="flex items-center justify-center gap-[3px] h-12">
+          {bars.map((h, i) => (
+            <span
+              key={i}
+              className="w-[3px] rounded-full bg-white/90"
+              style={{
+                height: `${h}%`,
+                animation: `voiceBar 1.2s ease-in-out ${i * 60}ms infinite alternate`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="relative grid grid-cols-3 gap-2">
+        <VoiceStat label="Today" value="24" />
+        <VoiceStat label="Avg dur" value="2:14" />
+        <VoiceStat label="Missed" value="2" />
+      </div>
+
+      <style>{`
+        @keyframes voiceBar {
+          from { transform: scaleY(0.4); opacity: 0.6; }
+          to   { transform: scaleY(1); opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="voiceBar"] { animation: none !important; }
+        }
+      `}</style>
+    </Card>
+  );
+}
+
+function VoiceStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-white/10 border border-white/15 backdrop-blur-sm px-2.5 py-2 text-center">
+      <div className="text-[15px] font-bold text-white tabular-nums leading-none">{value}</div>
+      <div className="text-[10px] font-semibold uppercase tracking-wider text-white/70 mt-1">{label}</div>
+    </div>
+  );
+}
