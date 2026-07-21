@@ -276,7 +276,7 @@ function DashboardPage() {
       {/* 6. Needs your attention */}
       <div className="mb-5">
         <SectionTitle title="Needs your attention" />
-        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
           {ATTENTION.filter(a => a.count > 0).map(a => {
             const I = a.icon;
             return (
