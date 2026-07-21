@@ -5,8 +5,8 @@ import {
   Inbox, Users, Calendar, Megaphone, PhoneMissed, CheckCircle2, Circle,
   Sparkles, Send, CreditCard, Zap, X, ArrowUpRight, Clock, Phone,
   Reply, ChevronRight, Search, Plug, AlertTriangle, CheckCircle,
-  ShieldCheck, Activity, Rocket,
-
+  ShieldCheck, Activity, Rocket, Pause, Play, MessageCircleReply,
+  CalendarCheck, BellRing,
 } from "lucide-react";
 import { PageHeader, Card, Tag, Btn } from "@/components/app-shell/AppShell";
 import { BUSINESS, THREADS, CONTACTS, REVIEWS, PAYMENTS, CALLS } from "@/lib/rs-mocks";
@@ -515,39 +515,64 @@ function DashboardPage() {
 
 
           {/* AI Autopilot */}
-          <Card>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg grid place-items-center bg-[--color-ai-subtle] text-[--color-ai]">
-                  <Bot size={15} />
+          <Card className="relative overflow-hidden !p-4 sm:!p-5">
+            {/* aurora backdrop */}
+            <div aria-hidden className="pointer-events-none absolute -top-16 -right-14 h-40 w-40 rounded-full blur-3xl opacity-30" style={{ background: "var(--color-ai)" }} />
+            <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full blur-3xl opacity-20" style={{ background: "var(--color-primary)" }} />
+
+            <div className="relative flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="relative w-9 h-9 rounded-xl grid place-items-center bg-[--color-ai-subtle] text-[--color-ai] shrink-0">
+                  <Bot size={16} />
+                  {autopilot && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[--color-success] ring-2 ring-[--color-surface] animate-pulse" />}
                 </div>
-                <div>
-                  <div className="text-[14px] font-semibold text-[--color-ink]">AI Autopilot</div>
-                  <div className="text-[11.5px] text-[--color-muted]">Handles inbound while you work</div>
+                <div className="min-w-0">
+                  <div className="text-[14px] font-semibold text-[--color-ink] truncate leading-tight">AI Autopilot</div>
+                  <div className="text-[11.5px] text-[--color-muted] truncate">Handles inbound while you work</div>
                 </div>
               </div>
-              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${autopilot ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>
+              <span className={`shrink-0 inline-flex items-center gap-1 text-[10.5px] font-semibold px-2 py-0.5 rounded-full ${autopilot ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-surface-strong] text-[--color-muted]"}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${autopilot ? "bg-[--color-success] animate-pulse" : "bg-[--color-muted]"}`} />
                 {autopilot ? "Active" : "Paused"}
               </span>
             </div>
-            <div className="rounded-lg bg-[--color-surface-strong] p-3 mb-3">
-              <div className="text-[22px] font-semibold text-[--color-ink]">42</div>
-              <div className="text-[11.5px] text-[--color-muted]">actions today</div>
+
+            {/* headline number */}
+            <div className="relative rounded-xl border border-[--color-hairline] bg-[--color-surface-strong] p-3.5 mb-3 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg grid place-items-center bg-[--color-ai-subtle] text-[--color-ai] shrink-0">
+                <Activity size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[24px] sm:text-[26px] font-semibold text-[--color-ink] leading-none tabular-nums">42</div>
+                <div className="text-[11.5px] text-[--color-muted] mt-1">actions today · +12% vs yesterday</div>
+              </div>
+              <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-[--color-success]">
+                <TrendingUp size={12} /> 12%
+              </div>
             </div>
-            <div className="space-y-1.5 text-[12px]">
-              <ActivityRow label="Replies sent" value={18} />
-              <ActivityRow label="Bookings" value={9} />
-              <ActivityRow label="Review asks" value={7} />
-              <ActivityRow label="Payment nudges" value={8} />
+
+            {/* activity grid */}
+            <div className="relative grid grid-cols-2 gap-2 mb-3">
+              <AutopilotStat icon={MessageCircleReply} label="Replies sent" value={18} tone="primary" />
+              <AutopilotStat icon={CalendarCheck}    label="Bookings"      value={9}  tone="success" />
+              <AutopilotStat icon={Star}             label="Review asks"   value={7}  tone="warning" />
+              <AutopilotStat icon={BellRing}         label="Payment nudges" value={8}  tone="ai" />
             </div>
+
             <button
               onClick={() => setAutopilot(v => !v)}
-              className={`mt-3 w-full h-9 rounded-lg text-[12.5px] font-semibold transition ${autopilot ? "border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong]" : "text-white"}`}
+              className={`relative w-full h-10 rounded-xl text-[12.5px] font-semibold transition active:scale-[.98] flex items-center justify-center gap-1.5 ${
+                autopilot
+                  ? "border border-[--color-hairline] text-[--color-body] hover:bg-[--color-surface-strong] hover:border-[--color-error]/40 hover:text-[--color-error]"
+                  : "text-white shadow-md hover:shadow-lg"
+              }`}
               style={autopilot ? undefined : { background: "var(--color-brand-gradient-2)" }}
             >
+              {autopilot ? <Pause size={13} /> : <Play size={13} />}
               {autopilot ? "Pause autopilot" : "Activate autopilot"}
             </button>
           </Card>
+
 
           {/* Reviews */}
           <Card>
@@ -832,6 +857,26 @@ function QuickAction({ icon: I, label, hint, tone, onClick }: { icon: any; label
       </div>
       <ChevronRight size={14} className="text-[--color-muted] shrink-0 transition group-hover:text-[--color-primary] group-hover:translate-x-0.5" />
     </button>
+  );
+}
+
+function AutopilotStat({ icon: I, label, value, tone }: { icon: any; label: string; value: number; tone: "primary" | "success" | "warning" | "ai" }) {
+  const toneMap: Record<string, string> = {
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
+  };
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-[--color-hairline] bg-[--color-surface] p-2 hover:border-[--color-primary]/40 transition">
+      <div className={`w-7 h-7 rounded-md grid place-items-center shrink-0 ${toneMap[tone]}`}>
+        <I size={13} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[13.5px] font-semibold text-[--color-ink] tabular-nums leading-none">{value}</div>
+        <div className="text-[10.5px] text-[--color-muted] truncate mt-0.5">{label}</div>
+      </div>
+    </div>
   );
 }
 
