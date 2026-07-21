@@ -129,55 +129,49 @@ function DashboardPage() {
     <div className="px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto dash-fade">
       {/* 1. Aurora hero band */}
       <div
-        className="relative overflow-hidden rounded-2xl mb-5 p-5 sm:p-7 lg:p-8"
+        className="relative overflow-hidden rounded-2xl mb-5 p-4 sm:p-6 lg:p-8"
         style={{
           background: "var(--color-brand-gradient)",
           boxShadow: "var(--shadow-elev)",
         }}
       >
         {/* mesh orbs for depth */}
-        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full opacity-40 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-80 h-80 rounded-full opacity-40 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -top-24 -right-16 w-56 sm:w-72 h-56 sm:h-72 rounded-full opacity-40 blur-3xl dash-orb-a" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-10 w-64 sm:w-80 h-64 sm:h-80 rounded-full opacity-40 blur-3xl dash-orb-b" style={{ background: "radial-gradient(circle, #EC4899 0%, transparent 60%)" }} />
         {/* subtle grain */}
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>\")" }} />
 
-        <div className="relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:gap-6">
-          <div className="min-w-0">
-            <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-widest text-white/80 bg-white/12 border border-white/20 rounded-full px-2.5 py-1 mb-3 backdrop-blur-sm">
-              <Sparkles size={11} /> <span className="truncate">{formatDate()}</span>
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6">
+          <div className="min-w-0 flex-1">
+            <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-widest text-white/85 bg-white/12 border border-white/20 rounded-full px-2.5 py-1 mb-2.5 sm:mb-3 backdrop-blur-sm">
+              <Sparkles size={11} className="shrink-0" /> <span className="truncate">{formatDate()}</span>
             </div>
-            <h1 className="text-[22px] sm:text-[28px] lg:text-[32px] font-semibold tracking-tight text-white leading-tight truncate">
+            <h1 className="text-[20px] sm:text-[26px] lg:text-[32px] font-semibold tracking-tight text-white leading-[1.15] break-words">
               {greeting()}, {BUSINESS.name}
             </h1>
-            <p className="text-[13px] sm:text-[14px] text-white/75 mt-1.5 max-w-lg">
+            <p className="text-[12.5px] sm:text-[13.5px] lg:text-[14px] text-white/75 mt-1.5 max-w-xl">
               Your workspace overview — metrics, activity, and AI tools in one place.
             </p>
           </div>
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
+          <div className="grid grid-cols-2 lg:flex lg:items-center gap-2 lg:gap-2 lg:shrink-0 w-full lg:w-auto">
             <button
               onClick={() => setDlg("payment")}
-              className="h-10 px-4 rounded-lg text-[13px] font-semibold text-white bg-white/12 hover:bg-white/20 border border-white/25 backdrop-blur-sm inline-flex items-center gap-1.5 transition"
+              className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-white bg-white/12 hover:bg-white/20 active:scale-[0.98] border border-white/25 backdrop-blur-sm inline-flex items-center justify-center gap-1.5 transition"
             >
-              <CreditCard size={14} /> Request payment
+              <CreditCard size={14} className="shrink-0" />
+              <span className="truncate">Request payment</span>
             </button>
             <button
               onClick={() => setDlg("message")}
-              className="h-10 px-4 rounded-lg text-[13px] font-semibold text-[--color-ink] bg-white hover:bg-white/95 inline-flex items-center gap-1.5 transition shadow-sm"
+              className="h-10 sm:h-11 px-3 sm:px-4 rounded-lg text-[12.5px] sm:text-[13px] font-semibold text-[--color-ink] bg-white hover:bg-white/95 active:scale-[0.98] inline-flex items-center justify-center gap-1.5 transition shadow-sm"
             >
-              <Send size={14} /> New message
+              <Send size={14} className="shrink-0" />
+              <span className="truncate">New message</span>
             </button>
           </div>
         </div>
-        {/* mobile CTAs */}
-        <div className="relative sm:hidden grid grid-cols-2 gap-2 mt-4">
-          <button onClick={() => setDlg("payment")} className="h-10 rounded-lg text-[12.5px] font-semibold text-white bg-white/12 border border-white/25 inline-flex items-center justify-center gap-1.5 backdrop-blur-sm">
-            <CreditCard size={13} /> Payment
-          </button>
-          <button onClick={() => setDlg("message")} className="h-10 rounded-lg text-[12.5px] font-semibold text-[--color-ink] bg-white inline-flex items-center justify-center gap-1.5 shadow-sm">
-            <Send size={13} /> Message
-          </button>
-        </div>
       </div>
+
 
 
 
