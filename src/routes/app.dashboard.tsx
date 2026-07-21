@@ -83,11 +83,11 @@ const AI_CHIPS = [
 ];
 
 const INTEGRATIONS = [
-  { name: "Twilio",      status: "Healthy"  as const, desc: "SMS + Voice" },
-  { name: "RingCentral", status: "Healthy"  as const, desc: "Phone system" },
-  { name: "Retell",      status: "Degraded" as const, desc: "Voice AI" },
-  { name: "Trigger",     status: "Healthy"  as const, desc: "Workflows" },
-  { name: "Supabase",    status: "Healthy"  as const, desc: "Database" },
+  { name: "Twilio",      status: "Healthy"  as const, desc: "SMS + Voice",   domain: "twilio.com" },
+  { name: "RingCentral", status: "Healthy"  as const, desc: "Phone system",  domain: "ringcentral.com" },
+  { name: "Retell",      status: "Degraded" as const, desc: "Voice AI",      domain: "retellai.com" },
+  { name: "Trigger",     status: "Healthy"  as const, desc: "Workflows",     domain: "trigger.dev" },
+  { name: "Supabase",    status: "Healthy"  as const, desc: "Database",      domain: "supabase.com" },
 ];
 
 /* -------------------------------------------------- component */
