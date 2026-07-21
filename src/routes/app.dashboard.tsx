@@ -301,10 +301,10 @@ function DashboardPage() {
       </div>
 
       {/* 7. Business overview row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
-        <Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-5">
+        <Card className="!p-3.5 sm:!p-5">
           <SectionTitle title="Weekly Pulse" hint="Messages & payments · last 7 days" inline />
-          <div className="flex items-end gap-2 sm:gap-3 h-40 mt-4">
+          <div className="flex items-end gap-1.5 sm:gap-3 h-32 sm:h-40 mt-3 sm:mt-4">
             {WEEK.map(w => {
               const H = 140;
               const totalH = ((w.m + w.p) / maxWeek) * H;
@@ -316,33 +316,33 @@ function DashboardPage() {
                     <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: pH, background: "var(--color-success)" }} />
                     <div className="w-full rounded-md transition group-hover:opacity-90" style={{ height: mH, background: "var(--color-primary)" }} />
                   </div>
-                  <div className="text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
+                  <div className="text-[10px] sm:text-[10.5px] text-[--color-muted] font-medium">{w.d}</div>
                 </div>
               );
             })}
           </div>
 
-          <div className="flex items-center gap-4 mt-3 text-[11.5px]">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-[11px] sm:text-[11.5px]">
             <LegendDot color="var(--color-primary)" label="Messages" />
             <LegendDot color="var(--color-success)" label="Payments" />
           </div>
         </Card>
 
-        <Card>
+        <Card className="!p-3.5 sm:!p-5">
           <SectionTitle title="Pipeline Snapshot" hint={`${pipeTotal} total leads`} inline />
-          <div className="flex h-2.5 rounded-full overflow-hidden mt-4 bg-[--color-surface-strong]">
+          <div className="flex h-2.5 rounded-full overflow-hidden mt-3 sm:mt-4 bg-[--color-surface-strong]">
             {PIPE.map(p => (
               <div key={p.k} style={{ width: `${(p.n / pipeTotal) * 100}%`, background: p.color }} />
             ))}
           </div>
-          <div className="grid grid-cols-5 gap-2 mt-4">
+          <div className="grid grid-cols-5 gap-1.5 sm:gap-2 mt-3 sm:mt-4">
             {PIPE.map(p => (
               <div key={p.k} className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full shrink-0" style={{ background: p.color }} />
-                  <span className="text-[11px] text-[--color-muted] truncate">{p.k}</span>
+                <div className="flex items-center gap-1 sm:gap-1.5">
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0" style={{ background: p.color }} />
+                  <span className="text-[10.5px] sm:text-[11px] text-[--color-muted] truncate">{p.k}</span>
                 </div>
-                <div className="text-[18px] font-semibold text-[--color-ink] mt-0.5">{p.n}</div>
+                <div className="text-[15px] sm:text-[18px] font-semibold text-[--color-ink] mt-0.5 tabular-nums">{p.n}</div>
               </div>
             ))}
           </div>
