@@ -501,14 +501,18 @@ function DashboardPage() {
         {/* Right column */}
         <div className="space-y-4">
           {/* Quick actions */}
-          <Card>
-            <SectionTitle title="Quick actions" inline />
-            <div className="space-y-1.5 mt-3">
-              <QuickAction icon={Star} label="Send review request" onClick={() => setDlg("review")} tone="warning" />
-              <QuickAction icon={CreditCard} label="Request payment" onClick={() => setDlg("payment")} tone="success" />
-              <QuickAction icon={Megaphone} label="Launch campaign" onClick={() => {}} tone="ai" />
+          <Card className="!p-4 sm:!p-5">
+            <div className="flex items-center justify-between mb-3">
+              <SectionTitle title="Quick actions" inline />
+              <span className="text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full bg-[--color-primary-subdued] text-[--color-primary-deep] uppercase tracking-wide">Shortcuts</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2">
+              <QuickAction icon={Star} label="Send review request" hint="Ask happy customers for a review" onClick={() => setDlg("review")} tone="warning" />
+              <QuickAction icon={CreditCard} label="Request payment" hint="Send a secure pay link" onClick={() => setDlg("payment")} tone="success" />
+              <QuickAction icon={Megaphone} label="Launch campaign" hint="Blast to a segment in minutes" onClick={() => {}} tone="ai" />
             </div>
           </Card>
+
 
           {/* AI Autopilot */}
           <Card>
