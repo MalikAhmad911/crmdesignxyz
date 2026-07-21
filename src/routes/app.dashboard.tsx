@@ -627,7 +627,7 @@ function DashboardPage() {
                     <div className="flex-1 h-1.5 rounded-full bg-[--color-surface-strong] overflow-hidden">
                       <div
                         className="h-full rounded-full bg-[--color-warning] origin-left"
-                        style={{ width: `${pct}%`, animation: `slide-in-left .6s cubic-bezier(.4,0,.2,1) ${idx * 80}ms both` }}
+                        style={{ width: `${pct}%`, transition: `width .8s cubic-bezier(.4,0,.2,1) ${idx * 80}ms` }}
                       />
                     </div>
                     <span className="w-5 text-right text-[--color-muted] tabular-nums">{r.n}</span>
