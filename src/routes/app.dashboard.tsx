@@ -83,11 +83,11 @@ const AI_CHIPS = [
 ];
 
 const INTEGRATIONS = [
-  { name: "Twilio",      status: "Healthy"  as const, desc: "SMS + Voice" },
-  { name: "RingCentral", status: "Healthy"  as const, desc: "Phone system" },
-  { name: "Retell",      status: "Degraded" as const, desc: "Voice AI" },
-  { name: "Trigger",     status: "Healthy"  as const, desc: "Workflows" },
-  { name: "Supabase",    status: "Healthy"  as const, desc: "Database" },
+  { name: "Twilio",      status: "Healthy"  as const, desc: "SMS + Voice",   domain: "twilio.com" },
+  { name: "RingCentral", status: "Healthy"  as const, desc: "Phone system",  domain: "ringcentral.com" },
+  { name: "Retell",      status: "Degraded" as const, desc: "Voice AI",      domain: "retellai.com" },
+  { name: "Trigger",     status: "Healthy"  as const, desc: "Workflows",     domain: "trigger.dev" },
+  { name: "Supabase",    status: "Healthy"  as const, desc: "Database",      domain: "supabase.com" },
 ];
 
 /* -------------------------------------------------- component */
@@ -670,17 +670,44 @@ function DashboardPage() {
 
 
           {/* Integrations health */}
-          <Card>
-            <SectionTitle title="Integrations" inline />
-            <div className="mt-3 space-y-2">
-              {INTEGRATIONS.map(i => (
-                <div key={i.name} className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-md grid place-items-center bg-[--color-surface-strong] text-[--color-body] shrink-0">
-                    <Plug size={13} />
+          <Card className="relative overflow-hidden !p-4 sm:!p-5 group">
+            <div aria-hidden className="pointer-events-none absolute -top-14 -right-10 h-32 w-32 rounded-full blur-3xl opacity-20 transition-opacity duration-500 group-hover:opacity-35" style={{ background: "var(--color-primary)" }} />
+
+            <div className="relative flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-9 h-9 rounded-xl grid place-items-center bg-[--color-primary-subtle] text-[--color-primary] shrink-0">
+                  <Plug size={16} />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[14px] font-semibold text-[--color-ink] truncate leading-tight">Integrations</div>
+                  <div className="text-[11.5px] text-[--color-muted] truncate">{INTEGRATIONS.filter(i => i.status === "Healthy").length}/{INTEGRATIONS.length} services healthy</div>
+                </div>
+              </div>
+              <span className="shrink-0 inline-flex items-center gap-1 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-[--color-success-subtle] text-[--color-success]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[--color-success] animate-pulse" />
+                Live
+              </span>
+            </div>
+
+            <div className="relative space-y-1.5">
+              {INTEGRATIONS.map((i, idx) => (
+                <div
+                  key={i.name}
+                  className="flex items-center gap-2.5 rounded-lg border border-transparent px-2 py-2 hover:border-[--color-hairline] hover:bg-[--color-surface-strong]/60 transition-all"
+                  style={{ animation: `fade-in .4s ease-out ${idx * 60}ms both` }}
+                >
+                  <div className="w-8 h-8 rounded-lg grid place-items-center bg-white ring-1 ring-[--color-hairline] shrink-0 overflow-hidden">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${i.domain}&sz=64`}
+                      alt={`${i.name} logo`}
+                      loading="lazy"
+                      className="w-4 h-4 object-contain"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[12.5px] font-semibold text-[--color-ink]">{i.name}</div>
-                    <div className="text-[11px] text-[--color-muted]">{i.desc}</div>
+                    <div className="text-[12.5px] font-semibold text-[--color-ink] truncate">{i.name}</div>
+                    <div className="text-[11px] text-[--color-muted] truncate">{i.desc}</div>
                   </div>
                   <StatusPill status={i.status} />
                 </div>
