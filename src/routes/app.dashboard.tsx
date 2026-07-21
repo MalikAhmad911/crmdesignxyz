@@ -255,21 +255,22 @@ function DashboardPage() {
       {/* 5. Workspace shortcuts */}
       <div className="mb-5">
         <SectionTitle title="Workspace shortcuts" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           {SHORTCUTS.map(s => (
             <Link key={s.to} to={s.to} className="group">
-              <Card className="!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40" >
-                <div className="flex items-start justify-between mb-3">
-                  <IconTile icon={s.icon} tone={s.tone} />
-                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <Card className="!p-3 sm:!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
+                <div className="flex items-start justify-between mb-2 sm:mb-3">
+                  <IconTile icon={s.icon} tone={s.tone} size="sm" />
+                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0" />
                 </div>
-                <div className="text-[15px] font-semibold text-[--color-ink]">{s.label}</div>
-                <div className="text-[12px] text-[--color-muted]">{s.desc}</div>
-                <div className="text-[11px] font-semibold mt-2 text-[--color-primary-deep]">{s.count}</div>
+                <div className="text-[13.5px] sm:text-[15px] font-semibold text-[--color-ink] leading-tight truncate">{s.label}</div>
+                <div className="text-[11.5px] sm:text-[12px] text-[--color-muted] mt-0.5 line-clamp-1">{s.desc}</div>
+                <div className="text-[10.5px] sm:text-[11px] font-semibold mt-1.5 sm:mt-2 text-[--color-primary-deep] tabular-nums truncate">{s.count}</div>
               </Card>
             </Link>
           ))}
         </div>
+
       </div>
 
       {/* 6. Needs your attention */}
