@@ -268,51 +268,53 @@ function DashboardPage() {
       {/* 5. Workspace shortcuts */}
       <div className="mb-5">
         <SectionTitle title="Workspace shortcuts" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {SHORTCUTS.map(s => (
             <Link key={s.to} to={s.to} className="group">
-              <Card className="!p-3 sm:!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
-                <div className="flex items-start justify-between mb-2 sm:mb-3">
-                  <IconTile icon={s.icon} tone={s.tone} size="sm" />
-                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0" />
+              <div
+                className="relative bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[--color-primary]/40 overflow-hidden"
+                style={{ boxShadow: "0 4px 16px rgba(15,23,42,0.05)" }}
+              >
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <IconTile icon={s.icon} tone={s.tone} size="md" solid />
+                  <ArrowUpRight size={16} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0" strokeWidth={2.25} />
                 </div>
-                <div className="text-[13.5px] sm:text-[15px] font-semibold text-[--color-ink] leading-tight truncate">{s.label}</div>
-                <div className="text-[11.5px] sm:text-[12px] text-[--color-muted] mt-0.5 line-clamp-1">{s.desc}</div>
-                <div className="text-[10.5px] sm:text-[11px] font-semibold mt-1.5 sm:mt-2 text-[--color-primary-deep] tabular-nums truncate">{s.count}</div>
-              </Card>
+                <div className="text-[15px] sm:text-[17px] font-bold text-[--color-ink] leading-tight truncate tracking-[-0.01em]">{s.label}</div>
+                <div className="text-[12px] sm:text-[12.5px] text-[--color-muted] mt-1 line-clamp-1">{s.desc}</div>
+                <div className="text-[11.5px] sm:text-[12px] font-semibold mt-2 sm:mt-3 text-[--color-primary-deep] tabular-nums truncate">{s.count}</div>
+              </div>
             </Link>
           ))}
         </div>
-
       </div>
 
       {/* 6. Needs your attention */}
       <div className="mb-5">
         <SectionTitle title="Needs your attention" />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {ATTENTION.filter(a => a.count > 0).map((a, i) => {
             const I = a.icon;
             return (
               <Link key={a.key} to={a.to} className={`group ${i >= 4 ? 'hidden md:block' : ''}`}>
-                <Card className="!p-3 sm:!p-3.5 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
-                  <div className="flex items-center gap-2.5">
-                    <IconTile icon={I} tone={a.tone} size="sm" />
+                <div
+                  className="relative bg-white rounded-2xl border border-[--color-hairline] p-3.5 sm:p-4 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[--color-primary]/40"
+                  style={{ boxShadow: "0 4px 16px rgba(15,23,42,0.05)" }}
+                >
+                  <div className="flex items-center gap-3">
+                    <IconTile icon={I} tone={a.tone} size="sm" solid />
                     <div className="min-w-0 flex-1">
-                      <div className="text-[12.5px] sm:text-[13px] font-semibold text-[--color-ink] leading-tight truncate">
-                        <span className="tabular-nums">{a.count}</span> {a.label}
-                      </div>
-                      <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5 truncate">Tap to review</div>
+                      <div className="text-[18px] sm:text-[20px] font-bold text-[--color-ink] leading-none tabular-nums">{a.count}</div>
+                      <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-1 truncate">{a.label}</div>
                     </div>
                     <ChevronRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:translate-x-0.5 shrink-0" />
                   </div>
-                </Card>
+                </div>
               </Link>
             );
           })}
-
         </div>
-
       </div>
+
 
       {/* 7. Business overview row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-5">
