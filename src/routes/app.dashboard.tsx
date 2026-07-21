@@ -5,7 +5,8 @@ import {
   Inbox, Users, Calendar, Megaphone, PhoneMissed, CheckCircle2, Circle,
   Sparkles, Send, CreditCard, Zap, X, ArrowUpRight, Clock, Phone,
   Reply, ChevronRight, Search, Plug, AlertTriangle, CheckCircle,
-  ShieldCheck, Activity,
+  ShieldCheck, Activity, Rocket,
+
 } from "lucide-react";
 import { PageHeader, Card, Tag, Btn } from "@/components/app-shell/AppShell";
 import { BUSINESS, THREADS, CONTACTS, REVIEWS, PAYMENTS, CALLS } from "@/lib/rs-mocks";
@@ -177,31 +178,46 @@ function DashboardPage() {
 
       {/* 2. Trial banner */}
       {trialOpen && (
-        <div className="mb-5 rounded-[14px] border border-[--color-warning]/30 bg-[--color-warning-subtle] p-4 flex items-center gap-3 flex-wrap">
-          <div className="w-9 h-9 rounded-lg grid place-items-center bg-white text-[--color-warning] shrink-0">
-            <Zap size={16} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="text-[13.5px] font-semibold text-[--color-ink]">
-              {BUSINESS.trialDaysLeft > 0
-                ? `${BUSINESS.trialDaysLeft} days left in your free trial`
-                : "Your free trial has expired"}
+        <div className="mb-5 relative overflow-hidden rounded-[14px] border border-[--color-warning]/30 bg-gradient-to-r from-[--color-warning-subtle] via-[--color-warning-subtle] to-white p-3 sm:p-4">
+          <div aria-hidden className="pointer-events-none absolute -top-10 -right-8 w-40 h-40 rounded-full opacity-30 blur-3xl" style={{ background: "radial-gradient(circle, var(--color-warning) 0%, transparent 60%)" }} />
+          <div className="relative flex items-center gap-3 flex-wrap sm:flex-nowrap">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl grid place-items-center bg-white text-[--color-warning] shrink-0 shadow-sm ring-1 ring-[--color-warning]/20">
+              <Sparkles size={18} strokeWidth={2.25} />
             </div>
-            <div className="text-[12px] text-[--color-body]">
-              Unlock unlimited AI conversations, advanced automations, and priority support.
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[13.5px] sm:text-[14px] font-semibold text-[--color-ink] truncate">
+                  {BUSINESS.trialDaysLeft > 0
+                    ? `${BUSINESS.trialDaysLeft} days left in your free trial`
+                    : "Your free trial has expired"}
+                </span>
+                {BUSINESS.trialDaysLeft > 0 && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[--color-warning] bg-white border border-[--color-warning]/30 rounded-full px-1.5 py-0.5">
+                    <Clock size={10} strokeWidth={2.5} /> Trial
+                  </span>
+                )}
+              </div>
+              <div className="text-[12px] text-[--color-body] mt-0.5 line-clamp-2 sm:line-clamp-1">
+                Unlock unlimited AI conversations, advanced automations, and priority support.
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+              <Btn variant="gradient" size="sm" className="gap-1.5">
+                <Rocket size={14} strokeWidth={2.25} />
+                <span className="hidden xs:inline">{BUSINESS.trialDaysLeft > 0 ? "Upgrade" : "Choose plan"}</span>
+                <span className="xs:hidden">{BUSINESS.trialDaysLeft > 0 ? "Upgrade" : "Plans"}</span>
+              </Btn>
+              <button
+                onClick={() => setTrialOpen(false)}
+                className="w-8 h-8 grid place-items-center rounded-lg hover:bg-white/70 text-[--color-body] transition"
+                aria-label="Dismiss"
+              >
+                <X size={14} />
+              </button>
             </div>
           </div>
-          <Btn variant="gradient" size="sm">
-            {BUSINESS.trialDaysLeft > 0 ? "Upgrade now" : "Choose plan"}
-          </Btn>
-          <button
-            onClick={() => setTrialOpen(false)}
-            className="w-8 h-8 grid place-items-center rounded-lg hover:bg-white/60 text-[--color-body]"
-            aria-label="Dismiss"
-          >
-            <X size={14} />
-          </button>
         </div>
+
       )}
 
       {/* 3. Getting started */}
