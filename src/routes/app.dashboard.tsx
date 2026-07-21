@@ -860,6 +860,26 @@ function QuickAction({ icon: I, label, hint, tone, onClick }: { icon: any; label
   );
 }
 
+function AutopilotStat({ icon: I, label, value, tone }: { icon: any; label: string; value: number; tone: "primary" | "success" | "warning" | "ai" }) {
+  const toneMap: Record<string, string> = {
+    primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
+    success: "bg-[--color-success-subtle] text-[--color-success]",
+    warning: "bg-[--color-warning-subtle] text-[--color-warning]",
+    ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
+  };
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-[--color-hairline] bg-[--color-surface] p-2 hover:border-[--color-primary]/40 transition">
+      <div className={`w-7 h-7 rounded-md grid place-items-center shrink-0 ${toneMap[tone]}`}>
+        <I size={13} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[13.5px] font-semibold text-[--color-ink] tabular-nums leading-none">{value}</div>
+        <div className="text-[10.5px] text-[--color-muted] truncate mt-0.5">{label}</div>
+      </div>
+    </div>
+  );
+}
+
 
 function ActivityRow({ label, value }: { label: string; value: number }) {
   return (
