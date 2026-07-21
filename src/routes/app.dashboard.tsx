@@ -268,51 +268,53 @@ function DashboardPage() {
       {/* 5. Workspace shortcuts */}
       <div className="mb-5">
         <SectionTitle title="Workspace shortcuts" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {SHORTCUTS.map(s => (
             <Link key={s.to} to={s.to} className="group">
-              <Card className="!p-3 sm:!p-4 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
-                <div className="flex items-start justify-between mb-2 sm:mb-3">
-                  <IconTile icon={s.icon} tone={s.tone} size="sm" />
-                  <ArrowUpRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0" />
+              <div
+                className="relative bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[--color-primary]/40 overflow-hidden"
+                style={{ boxShadow: "0 4px 16px rgba(15,23,42,0.05)" }}
+              >
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <IconTile icon={s.icon} tone={s.tone} size="md" solid />
+                  <ArrowUpRight size={16} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0" strokeWidth={2.25} />
                 </div>
-                <div className="text-[13.5px] sm:text-[15px] font-semibold text-[--color-ink] leading-tight truncate">{s.label}</div>
-                <div className="text-[11.5px] sm:text-[12px] text-[--color-muted] mt-0.5 line-clamp-1">{s.desc}</div>
-                <div className="text-[10.5px] sm:text-[11px] font-semibold mt-1.5 sm:mt-2 text-[--color-primary-deep] tabular-nums truncate">{s.count}</div>
-              </Card>
+                <div className="text-[15px] sm:text-[17px] font-bold text-[--color-ink] leading-tight truncate tracking-[-0.01em]">{s.label}</div>
+                <div className="text-[12px] sm:text-[12.5px] text-[--color-muted] mt-1 line-clamp-1">{s.desc}</div>
+                <div className="text-[11.5px] sm:text-[12px] font-semibold mt-2 sm:mt-3 text-[--color-primary-deep] tabular-nums truncate">{s.count}</div>
+              </div>
             </Link>
           ))}
         </div>
-
       </div>
 
       {/* 6. Needs your attention */}
       <div className="mb-5">
         <SectionTitle title="Needs your attention" />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {ATTENTION.filter(a => a.count > 0).map((a, i) => {
             const I = a.icon;
             return (
               <Link key={a.key} to={a.to} className={`group ${i >= 4 ? 'hidden md:block' : ''}`}>
-                <Card className="!p-3 sm:!p-3.5 h-full transition group-hover:-translate-y-[2px] group-hover:border-[--color-primary]/40 group-hover:shadow-md">
-                  <div className="flex items-center gap-2.5">
-                    <IconTile icon={I} tone={a.tone} size="sm" />
+                <div
+                  className="relative bg-white rounded-2xl border border-[--color-hairline] p-3.5 sm:p-4 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[--color-primary]/40"
+                  style={{ boxShadow: "0 4px 16px rgba(15,23,42,0.05)" }}
+                >
+                  <div className="flex items-center gap-3">
+                    <IconTile icon={I} tone={a.tone} size="sm" solid />
                     <div className="min-w-0 flex-1">
-                      <div className="text-[12.5px] sm:text-[13px] font-semibold text-[--color-ink] leading-tight truncate">
-                        <span className="tabular-nums">{a.count}</span> {a.label}
-                      </div>
-                      <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5 truncate">Tap to review</div>
+                      <div className="text-[18px] sm:text-[20px] font-bold text-[--color-ink] leading-none tabular-nums">{a.count}</div>
+                      <div className="text-[11px] sm:text-[11.5px] font-medium text-[--color-muted] mt-1 truncate">{a.label}</div>
                     </div>
                     <ChevronRight size={14} className="text-[--color-muted] transition group-hover:text-[--color-primary] group-hover:translate-x-0.5 shrink-0" />
                   </div>
-                </Card>
+                </div>
               </Link>
             );
           })}
-
         </div>
-
       </div>
+
 
       {/* 7. Business overview row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-5">
@@ -858,8 +860,8 @@ function SectionTitle({ title, hint, inline }: { title: string; hint?: string; i
   );
 }
 
-function IconTile({ icon: I, tone, size = "md" }: { icon: any; tone: "primary" | "info" | "success" | "warning" | "danger" | "ai"; size?: "sm" | "md" }) {
-  const map: Record<string, string> = {
+function IconTile({ icon: I, tone, size = "md", solid = false }: { icon: any; tone: "primary" | "info" | "success" | "warning" | "danger" | "ai"; size?: "sm" | "md" | "lg"; solid?: boolean }) {
+  const softMap: Record<string, string> = {
     primary: "bg-[--color-primary-subdued] text-[--color-primary-deep]",
     info:    "bg-[--color-info-subtle] text-[--color-info]",
     success: "bg-[--color-success-subtle] text-[--color-success]",
@@ -867,9 +869,19 @@ function IconTile({ icon: I, tone, size = "md" }: { icon: any; tone: "primary" |
     danger:  "bg-[--color-error-subtle] text-[--color-error]",
     ai:      "bg-[--color-ai-subtle] text-[--color-ai]",
   };
-  const s = size === "sm" ? "w-8 h-8" : "w-10 h-10";
-  const isize = size === "sm" ? 14 : 17;
-  return <div className={`${s} rounded-lg grid place-items-center shrink-0 ${map[tone]}`}><I size={isize} /></div>;
+  const solidMap: Record<string, string> = {
+    primary: "bg-[--color-primary] text-white",
+    info:    "bg-[--color-info] text-white",
+    success: "bg-[--color-success] text-white",
+    warning: "bg-[--color-warning] text-white",
+    danger:  "bg-[--color-error] text-white",
+    ai:      "bg-[--color-ai] text-white",
+  };
+  const map = solid ? solidMap : softMap;
+  const s = size === "sm" ? "w-9 h-9" : size === "lg" ? "w-12 h-12" : "w-11 h-11";
+  const isize = size === "sm" ? 16 : size === "lg" ? 22 : 19;
+  const shadow = solid ? { boxShadow: `0 6px 16px -4px color-mix(in oklab, currentColor 35%, transparent)` } : undefined;
+  return <div className={`${s} rounded-xl grid place-items-center shrink-0 ${map[tone]} transition-transform group-hover:scale-[1.05]`} style={shadow}><I size={isize} strokeWidth={2.25} /></div>;
 }
 
 const SPARK: Record<string, number[]> = {
@@ -879,30 +891,29 @@ const SPARK: Record<string, number[]> = {
   ai:      [70, 72, 74, 73, 76, 75, 82, 85, 88, 87],
 };
 const TONE_STROKE: Record<string, string> = {
-  info: "var(--color-primary)",
+  info: "var(--color-info)",
   warning: "var(--color-warning)",
   success: "var(--color-success)",
   ai: "var(--color-ai)",
 };
 
-function Sparkline({ data, color }: { data: number[]; color: string }) {
-  const w = 68, h = 26, pad = 2;
+function Sparkline({ data, color, width = 96, height = 40 }: { data: number[]; color: string; width?: number; height?: number }) {
+  const w = width, h = height, pad = 3;
   const min = Math.min(...data), max = Math.max(...data);
   const range = max - min || 1;
   const step = (w - pad * 2) / (data.length - 1);
   const pts = data.map((v, i) => `${pad + i * step},${pad + (h - pad * 2) * (1 - (v - min) / range)}`).join(" ");
-  const areaPts = `${pad},${h - pad} ${pts} ${w - pad},${h - pad}`;
-  const gid = `sg-${color.replace(/[^a-z0-9]/gi, "")}`;
+  const gid = `sg-${color.replace(/[^a-z0-9]/gi, "")}-${width}`;
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
       <defs>
         <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.28" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.42" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <polyline points={areaPts} fill={`url(#${gid})`} stroke="none" />
-      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <polyline points={`${pad},${h - pad} ${pts} ${w - pad},${h - pad}`} fill={`url(#${gid})`} stroke="none" />
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: `drop-shadow(0 2px 4px ${color}55)` }} />
     </svg>
   );
 }
@@ -911,27 +922,34 @@ function MetricCard({ label, value, delta, up, icon: I, tone, hint }: {
   label: string; value: string; delta: string; up: boolean;
   icon: any; tone: "info" | "success" | "warning" | "ai"; hint: string;
 }) {
+  const accent = TONE_STROKE[tone];
   return (
-    <div className="group relative bg-white rounded-xl sm:rounded-2xl border border-[--color-hairline] p-3 sm:p-4 transition hover:-translate-y-[1px] hover:border-[--color-primary]/30 overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className="flex items-start justify-between gap-2 mb-2 sm:mb-3">
-        <IconTile icon={I} tone={tone} size="sm" />
-        <span className={`inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[10.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
-          {up ? <TrendingUp size={10} /> : <TrendingDown size={10} />}<span className="tabular-nums">{delta}</span>
+    <div
+      className="group relative bg-white rounded-2xl border border-[--color-hairline] p-4 sm:p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[--color-primary]/40 overflow-hidden"
+      style={{ boxShadow: "0 4px 16px rgba(15,23,42,0.05)" }}
+      onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 12px 30px rgba(15,23,42,0.10)")}
+      onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 4px 16px rgba(15,23,42,0.05)")}
+    >
+      {/* colored top accent */}
+      <div aria-hidden className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: accent }} />
+      <div className="flex items-start justify-between gap-2 mb-3 sm:mb-4">
+        <IconTile icon={I} tone={tone} size="md" solid />
+        <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded-full shrink-0 ${up ? "bg-[--color-success-subtle] text-[--color-success]" : "bg-[--color-error-subtle] text-[--color-error]"}`}>
+          {up ? <TrendingUp size={11} strokeWidth={2.5} /> : <TrendingDown size={11} strokeWidth={2.5} />}<span className="tabular-nums">{delta}</span>
         </span>
       </div>
-      <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-[--color-body-strong] leading-snug line-clamp-1">{label}</div>
-      <div className="flex items-end justify-between gap-2 mt-1">
-        <div className="min-w-0 flex-1">
-          <div className="text-[19px] sm:text-[24px] font-semibold text-[--color-ink] leading-tight truncate tabular-nums">{value}</div>
-          <div className="text-[10.5px] sm:text-[11.5px] font-medium text-[--color-muted] mt-0.5 truncate">{hint}</div>
-        </div>
-        <div className="hidden sm:block shrink-0 opacity-90 group-hover:opacity-100 transition">
-          <Sparkline data={SPARK[tone]} color={TONE_STROKE[tone]} />
+      <div className="text-[10.5px] sm:text-[11px] font-bold uppercase tracking-[0.12em] text-[--color-muted] leading-snug line-clamp-1">{label}</div>
+      <div className="text-[26px] sm:text-[32px] font-bold text-[--color-ink] leading-[1.1] mt-1 tabular-nums tracking-[-0.02em]">{value}</div>
+      <div className="flex items-end justify-between gap-2 mt-2">
+        <div className="text-[11px] sm:text-[12px] font-medium text-[--color-muted] truncate">{hint}</div>
+        <div className="shrink-0 opacity-95">
+          <Sparkline data={SPARK[tone]} color={accent} width={80} height={32} />
         </div>
       </div>
     </div>
   );
 }
+
 
 
 
